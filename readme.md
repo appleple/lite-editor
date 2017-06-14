@@ -1,16 +1,10 @@
-# SmartPhoto
+# MiniEditor
 
 ## Feature
 
 ## Installation
 
 ## Usage
-
-### Basic Standalone Usage
-
-### Option
-
-### SCSS
 
 ## Download
 [Download ZIP](https://github.com/appleple/miniedietor/archive/master.zip)
