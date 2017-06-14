@@ -16,7 +16,7 @@
 [Download ZIP](https://github.com/appleple/miniedietor/archive/master.zip)
 
 ## Github
-[https://github.com/appleple/SmartPhoto](https://github.com/appleple/minieditor)
+[https://github.com/appleple/minieditor](https://github.com/appleple/minieditor)
 
 ## Contributor
 [@steelydylan](https://github.com/steelydylan)
