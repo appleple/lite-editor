@@ -94,3 +94,7 @@ module.exports.removeClass = (element,className) => {
     element.className = element.className.replace(new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
   }
 }
+
+module.exports.before = (el, html) => {
+  el.insertAdjacentHTML('beforebegin', html);
+}
