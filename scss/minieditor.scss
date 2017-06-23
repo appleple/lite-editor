@@ -1,9 +1,11 @@
-.minieditor {
-    min-height: 100px;
-    border: 1px solid #CCC;
-    border-radius: 5px;
+.minieditor,
+.minieditor-source {
+  min-height: 100px;
+  width: 100%;
+  border: 1px solid #CCC;
+  border-radius: 5px;
+  display: block;
 }
-
 
 .minieditor-btn-group {
 	display: table;

@@ -4884,7 +4884,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var template = '<div class="\\{classNames.MiniEditor\\}" contenteditable data-action-input="onInput" data-action-paste="onPaste">\n</div>\n<!-- BEGIN showSource:exist -->\n<textarea class="\\{classNames.MiniEditor\\}"></textarea>\n<!-- END showSource:exist -->\n<div class="\\{classNames.MiniEditorBtnGroup\\}">\n    <button class="\\{classNames.MiniEditorBtn\\}<!-- BEGIN showSource:exist -->\\{classNames.MiniEditorBtnActive\\}<!-- END showSource:exist -->" data-action-click="toggleSource">\\{message.sourceBtn\\}</button>\n    <!-- BEGIN useLink:exist -->\n    <button class="\\{classNames.MiniEditorBtn\\}" data-action-click="addLink">\\{message.addLinkBtn\\}</button>\n    <!-- END useLink:exist --> \n    <!-- BEGIN btnOptions:loop -->\n    <button class="\\\\{classNames.MiniEditorBtn\\\\}" data-action-click="insertTag({tag},{className})">{label}</button>\n    <!-- END btnOptions:loop -->\n</div>';
+var template = '\n<div class="\\{classNames.MiniEditor\\}" contenteditable data-action-input="onInput" data-action-paste="onPaste"<!-- BEGIN showSource:exist --> style="display:none;"<!-- END showSource:exist -->>\n</div>\n<textarea class="\\{classNames.MiniEditorSource\\}"<!-- BEGIN showSource:empty --> style="display:none;"<!-- END showSource:empty -->>{value}</textarea>\n<div class="\\{classNames.MiniEditorBtnGroup\\}">\n    <button class="\\{classNames.MiniEditorBtn\\}<!-- BEGIN showSource:exist -->\\{classNames.MiniEditorBtnActive\\}<!-- END showSource:exist -->" data-action-click="toggleSource">\\{message.sourceBtn\\}</button>\n    <!-- BEGIN useLink:exist -->\n    <button class="\\{classNames.MiniEditorBtn\\}" data-action-click="addLink">\\{message.addLinkBtn\\}</button>\n    <!-- END useLink:exist --> \n    <!-- BEGIN btnOptions:loop -->\n    <button class="\\\\{classNames.MiniEditorBtn\\\\}" data-action-click="insertTag({tag},{className})">{label}</button>\n    <!-- END btnOptions:loop -->\n</div>';
 
 
 var Entities = require('html-entities').XmlEntities;
@@ -4895,6 +4895,7 @@ var defaults = {
   mode: 'html',
   classNames: {
     MiniEditor: 'minieditor',
+    MiniEditorSource: 'minieditor-source',
     MiniEditorBtn: 'minieditor-btn',
     MiniEditorBtnGroup: 'minieditor-btn-group'
   },
@@ -4995,6 +4996,13 @@ var MiniEditor = function (_aTemplate) {
     key: 'changeMode',
     value: function changeMode(mode) {
       this.data.mode = mode;
+    }
+  }, {
+    key: 'toggleSource',
+    value: function toggleSource() {
+      var source = this.data.showSource;
+      this.data.showSource = !source;
+      this.update();
     }
   }]);
 

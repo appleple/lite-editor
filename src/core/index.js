@@ -12,6 +12,7 @@ const defaults = {
   mode: 'html',
   classNames: {
     MiniEditor: 'minieditor',
+    MiniEditorSource: 'minieditor-source',
     MiniEditorBtn: 'minieditor-btn',
     MiniEditorBtnGroup: 'minieditor-btn-group'
   },
@@ -97,6 +98,12 @@ class MiniEditor extends aTemplate {
 
   changeMode(mode) {
     this.data.mode = mode;
+  }
+
+  toggleSource() {
+    const source = this.data.showSource;
+    this.data.showSource = !source;
+    this.update();
   }
 }
 
