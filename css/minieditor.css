@@ -5,6 +5,7 @@
   border: 1px solid #CCC;
   border-radius: 5px;
   display: inline-block;
+  font-size: 16px;
 }
 
 .minieditor-btn-group {
@@ -39,6 +40,13 @@
   display: table-cell;
   height: 28px;
   border-right: none;
+}
+
+.minieditor-btn:disabled {
+  pointer-events: none;
+  opacity: .65;
+  filter: alpha(opacity=65);
+  box-shadow: none;
 }
 
 .minieditor-btn-active {
