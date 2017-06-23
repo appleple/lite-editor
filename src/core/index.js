@@ -42,12 +42,24 @@ class MiniEditor extends aTemplate {
   }
 
 	addLink() {
-		const url = prompt(this.data.message.addLinkTitle, 'http://');
-		document.execCommand('createlink', true, url);
+		const data = this.data;
+		const mode = data.mode;
+		const url = prompt(data.message.addLinkTitle, 'http://');
+		if (mode === 'html') {
+		 	document.execCommand('createlink', true, url);
+		} else if (mode === 'markdown') {
+			const selection = document.getSelection();
+			const insertText = `[${selection}](${url}]`;
+			document.execCommand('insertText', false, insertText);
+		}
 	}
 
 	addItalic() {
 		document.execCommand('italic');
+	}
+
+	addBold() {
+		document.execCommand('bold');
 	}
 
 	unlink() {
@@ -61,11 +73,7 @@ class MiniEditor extends aTemplate {
 	onInput() {
 		const editor = this._getElementByQuery(`.${this.data.classNames.MiniEditor}`);
 		this.data.value = entities.decode(editor.innerHTML);
-		if (this.data.mode === 'markdown') {
-			this.selector.value = toMarkdown(this.data.value);
-		} else {
-			this.selector.value = this.data.value;
-		}
+		this.selector.value = this.data.value;
 	}
 
 	changeMode(mode) {
