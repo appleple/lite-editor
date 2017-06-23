@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<link rel="stylesheet" href="../css/minieditor.css">
+	<title>MiniEditor</title>
+</head>
+<body>
+	<textarea class='js-minieditor'></textarea>
+	<script src="../js/minieditor.js"></script>
+	<script>
+	window.addEventListener('DOMContentLoaded',function(){
+		new MiniEditor('.js-minieditor',{
+      message: {
+        addLinkTitle: 'リンク先URLを入力してください。',
+        addLinkBtn: 'リンクの挿入',
+        addItalicBtn: 'イタリック',
+        addEmBtn: '強調1',
+        addStrongBtn: '強調2'
+      }
+		});
+	});
+	</script>
+</body>
+</html>
