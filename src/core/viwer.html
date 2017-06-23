@@ -1,6 +1,16 @@
-<div class="\{classNames.MiniEditor\}" contenteditable data-action-input="onInput">
+<div class="\{classNames.MiniEditor\}" contenteditable data-action-input="onInput" data-action-paste="onPaste">
 </div>
 <div class="\{classNames.MiniEditorBtnGroup\}">
+    <!-- BEGIN useLink:exist -->
     <button class="\{classNames.MiniEditorBtn\}" data-action-click="addLink">\{message.addLinkBtn\}</button>
+    <!-- END useLink:exist -->
+    <!-- BEGIN useEm:exist -->
+    <button class="\{classNames.MiniEditorBtn\}" data-action-click="insertTag(em)">\{message.addEmBtn\}</button>
+    <!-- END useEm:exist -->
+    <!-- BEGIN useStrong:exist -->
+    <button class="\{classNames.MiniEditorBtn\}" data-action-click="insertTag(strong)">\{message.addStrongBtn\}</button>
+    <!-- END useStrong:exist -->
+    <!-- BEGIN useItalic:exist -->
     <button class="\{classNames.MiniEditorBtn\}" data-action-click="addItalic">\{message.addItalicBtn\}</button>
+    <!-- END useItalic:exist -->
 </div>
