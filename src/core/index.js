@@ -95,7 +95,10 @@ class MiniEditor extends aTemplate {
   }
 
   onPaste() {
-    
+    const e = this.e;
+    e.preventDefault();
+    const insertText = e.clipboardData.getData('text/plain');
+    document.execCommand('insertText', false, insertText);
   }
 
   changeMode(mode) {

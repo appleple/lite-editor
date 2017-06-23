@@ -2828,7 +2828,12 @@ var MiniEditor = function (_aTemplate) {
     }
   }, {
     key: 'onPaste',
-    value: function onPaste() {}
+    value: function onPaste() {
+      var e = this.e;
+      e.preventDefault();
+      var insertText = e.clipboardData.getData('text/plain');
+      document.execCommand('insertText', false, insertText);
+    }
   }, {
     key: 'changeMode',
     value: function changeMode(mode) {
