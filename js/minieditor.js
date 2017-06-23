@@ -4897,6 +4897,7 @@ var defaults = {
     MiniEditor: 'minieditor',
     MiniEditorSource: 'minieditor-source',
     MiniEditorBtn: 'minieditor-btn',
+    MiniEditorBtnActive: 'minieditor-btn-active',
     MiniEditorBtnGroup: 'minieditor-btn-group'
   },
   message: {
