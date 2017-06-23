@@ -1,4 +1,4 @@
-module.exports.isSmartPhone = () => {
+export const isSmartPhone = () => {
   const agent = navigator.userAgent
   if (agent.indexOf('iPhone') > 0 || agent.indexOf('iPad') > 0
       || agent.indexOf('ipod') > 0 || agent.indexOf('Android') > 0) {
@@ -8,31 +8,7 @@ module.exports.isSmartPhone = () => {
   }
 }
 
-function deepExtend(out){
-  out = out || {};
-
-  for (var i = 1; i < arguments.length; i++) {
-    var obj = arguments[i];
-    if (!obj) {
-      continue;
-    }
-
-    for (var key in obj) {
-      if (obj.hasOwnProperty(key)) {
-        if (typeof obj[key] === 'object')
-          out[key] = deepExtend(out[key], obj[key]);
-        else
-          out[key] = obj[key];
-      }
-    }
-  }
-
-  return out;
-};
-
-module.exports.extend = deepExtend;
-
-module.exports.triggerEvent = (el, eventName, options) => {
+export const triggerEvent = (el, eventName, options) => {
   let event;
   if (window.CustomEvent) {
     event = new CustomEvent(eventName, {cancelable:true});
@@ -43,7 +19,7 @@ module.exports.triggerEvent = (el, eventName, options) => {
   el.dispatchEvent(event);
 }
 
-module.exports.parseQuery = (query) => {    
+export const parseQuery = (query) => {    
   var s = query.split('&'),
       data = {},
       i = 0,
@@ -60,26 +36,26 @@ module.exports.parseQuery = (query) => {
   return data;
 }
 
-module.exports.getViewPos = (element) => {
+export const getViewPos = (element) => {
   return {
     left: element.getBoundingClientRect().left,
     top: element.getBoundingClientRect().top,
   }
 }
 
-module.exports.removeElement = (element) => {
+export const removeElement = (element) => {
   if(element && element.parentNode) {
     element.parentNode.removeChild(element);
   }
 }
 
-module.exports.append = (element,string) => {
+export const append = (element,string) => {
   const parser = new DOMParser();
   const doc = parser.parseFromString(string, 'text/html');
   element.appendChild(doc.querySelector('body').childNodes[0]);
 }
 
-module.exports.addClass = (element,className) => {
+export const addClass = (element,className) => {
   if (element.classList) {
     element.classList.add(className);
   } else {
@@ -87,7 +63,7 @@ module.exports.addClass = (element,className) => {
   }
 }
 
-module.exports.removeClass = (element,className) => {
+export const removeClass = (element,className) => {
   if (element.classList) {
     element.classList.remove(className);
   } else {
@@ -95,6 +71,6 @@ module.exports.removeClass = (element,className) => {
   }
 }
 
-module.exports.before = (el, html) => {
+export const before = (el, html) => {
   el.insertAdjacentHTML('beforebegin', html);
 }

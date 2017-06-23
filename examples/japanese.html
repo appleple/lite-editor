@@ -5,6 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<link rel="stylesheet" href="../css/minieditor.css">
+  <link rel="stylesheet" href="./style.css">
 	<title>MiniEditor</title>
 </head>
 <body>
@@ -16,10 +17,15 @@
       message: {
         addLinkTitle: 'リンク先URLを入力してください。',
         addLinkBtn: 'リンクの挿入',
-        addItalicBtn: 'イタリック',
-        addEmBtn: '強調1',
-        addStrongBtn: '強調2'
-      }
+        sourceBtn: 'ソース'
+      },
+      btnOptions: [
+        { label: '強調1', tag: 'em', className: ''},
+        { label: '強調2', tag: 'strong', className: ''},
+        { label: '赤', tag: 'span', className: 'red'},
+        { label: '青', tag: 'span', className: 'blue'},
+        { label: '黄', tag: 'span', className: 'yellow'}
+      ]
 		});
 	});
 	</script>

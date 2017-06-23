@@ -1,7 +1,9 @@
 import aTemplate from 'a-template';
 import template from './viwer.html';
+import extend from 'deep-extend';
 
-const util = require('../lib/util');
+import * as util from '../lib/util';
+
 const Entities = require('html-entities').XmlEntities;
 const entities = new Entities();
 const toMarkdown = require('to-markdown');
@@ -16,21 +18,17 @@ const defaults = {
   message: {
     addLinkTitle: 'Add Link',
     addLinkBtn: 'add link',
-    addItalicBtn: 'add italic',
-    addEmBtn: 'emphasis1',
-    addStrongBtn: 'emphasis2'
   },
+  btnOptions: [],
   useLink: true,
-  useEm: true,
-  useStrong: true,
-  useItalic: false
+  showSource: false
 }
 
 class MiniEditor extends aTemplate {
 
   constructor(ele, settings) {
     super();
-    this.data = util.extend({}, defaults, settings);
+    this.data = extend({}, defaults, settings);
     this.id = this._getUniqId();
     this.addTemplate(this.id, template);
     const selector = typeof ele === 'string' ? document.querySelector(ele) : ele;
@@ -62,24 +60,20 @@ class MiniEditor extends aTemplate {
     }
   }
 
-  addItalic() {
-    document.execCommand('italic');
-  }
-
-  addBold() {
-    document.execCommand('bold');
-  }
-
   unlink() {
     document.execCommand('unlink');
   }
 
-  insertTag(tag) {
+  insertTag(tag, className) {
     const data = this.data;
     const mode = data.mode;
+    let classAttr = '';
+    if (className) {
+      classAttr = ` class="${className}"`;
+    }
     if (mode === 'html') {
       const selection = document.getSelection();
-      const insertHtml = `<${tag}>${selection}</${tag}>`;
+      const insertHtml = `<${tag}${classAttr}>${selection}</${tag}>`;
       document.execCommand('insertHtml', false, insertHtml);
     }
   }
