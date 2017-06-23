@@ -55,7 +55,7 @@ class MiniEditor extends aTemplate {
       document.execCommand('createlink', true, url);
     } else if (mode === 'markdown') {
       const selection = document.getSelection();
-      const insertText = `[${selection}](${url}]`;
+      const insertText = `[${selection}](${url})`;
       document.execCommand('insertText', false, insertText);
     }
   }

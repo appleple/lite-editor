@@ -4972,7 +4972,7 @@ var MiniEditor = function (_aTemplate) {
         document.execCommand('createlink', true, url);
       } else if (mode === 'markdown') {
         var selection = document.getSelection();
-        var insertText = '[' + selection + '](' + url + ']';
+        var insertText = '[' + selection + '](' + url + ')';
         document.execCommand('insertText', false, insertText);
       }
     }
