@@ -20,7 +20,8 @@ const defaults = {
   message: {
     addLinkTitle: 'Add Link',
     addLinkBtn: 'add link',
-    sourceBtn: 'source'
+    sourceBtn: 'source',
+    resetStyleBtn: 'reset'
   },
   btnOptions: [],
   useLink: true,

@@ -4909,7 +4909,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var template = '\n<div class="\\{classNames.MiniEditor\\}" contenteditable data-action-input="onInput" data-action-paste="onPaste"<!-- BEGIN showSource:exist --> style="display:none;"<!-- END showSource:exist -->>{value}</div>\n<textarea class="\\{classNames.MiniEditorSource\\}"<!-- BEGIN showSource:empty --> style="display:none;"<!-- END showSource:empty -->>{value}[format]</textarea>\n<div class="\\{classNames.MiniEditorBtnGroup\\}">\n    <button class="\\{classNames.MiniEditorBtn\\}<!-- BEGIN showSource:exist --> \\{classNames.MiniEditorBtnActive\\}<!-- END showSource:exist -->" data-action-click="toggleSource">\\{message.sourceBtn\\}</button>\n    <!-- BEGIN useLink:exist -->\n    <button class="\\{classNames.MiniEditorBtn\\}" data-action-click="addLink"<!-- BEGIN showSource:exist --> disabled<!-- END showSource:exist -->>\\{message.addLinkBtn\\}</button>\n    <!-- END useLink:exist --> \n    <!-- BEGIN btnOptions:loop -->\n    <button class="\\\\{classNames.MiniEditorBtn\\\\}" data-action-click="insertTag({tag},{className})" <!-- \\BEGIN showSource:exist --> disabled<!-- \\END showSource:exist -->>{label}</button>\n    <!-- END btnOptions:loop -->\n</div>';
+var template = '\n<div class="\\{classNames.MiniEditor\\}" contenteditable data-action-input="onInput" data-action-paste="onPaste"<!-- BEGIN showSource:exist --> style="display:none;"<!-- END showSource:exist -->>{value}</div>\n<textarea class="\\{classNames.MiniEditorSource\\}"<!-- BEGIN showSource:empty --> style="display:none;"<!-- END showSource:empty -->>{value}[format]</textarea>\n<div class="\\{classNames.MiniEditorBtnGroup\\}">\n    <button class="\\{classNames.MiniEditorBtn\\}<!-- BEGIN showSource:exist --> \\{classNames.MiniEditorBtnActive\\}<!-- END showSource:exist -->" data-action-click="toggleSource">\\{message.sourceBtn\\}</button>\n    <button class="\\{classNames.MiniEditorBtn\\}" data-action-click="resetStyle<!-- BEGIN showSource:exist --> disabled<!-- END showSource:exist -->">\\{message.resetStyleBtn\\}</button>\n    <!-- BEGIN useLink:exist -->\n    <button class="\\{classNames.MiniEditorBtn\\}" data-action-click="addLink"<!-- BEGIN showSource:exist --> disabled<!-- END showSource:exist -->>\\{message.addLinkBtn\\}</button>\n    <!-- END useLink:exist --> \n    <!-- BEGIN btnOptions:loop -->\n    <button class="\\\\{classNames.MiniEditorBtn\\\\}" data-action-click="insertTag({tag},{className})" <!-- \\BEGIN showSource:exist --> disabled<!-- \\END showSource:exist -->>{label}</button>\n    <!-- END btnOptions:loop -->\n</div>';
 
 
 var Entities = require('html-entities').XmlEntities;
@@ -4928,7 +4928,8 @@ var defaults = {
   message: {
     addLinkTitle: 'Add Link',
     addLinkBtn: 'add link',
-    sourceBtn: 'source'
+    sourceBtn: 'source',
+    resetStyleBtn: 'reset'
   },
   btnOptions: [],
   useLink: true,
