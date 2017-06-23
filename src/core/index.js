@@ -19,6 +19,7 @@ const defaults = {
   message: {
     addLinkTitle: 'Add Link',
     addLinkBtn: 'add link',
+    sourceBtn: 'source'
   },
   btnOptions: [],
   useLink: true,
@@ -34,6 +35,9 @@ class MiniEditor extends aTemplate {
     this.addTemplate(this.id, template);
     const selector = typeof ele === 'string' ? document.querySelector(ele) : ele;
     this.selector = selector;
+    this.convert = {
+      format:this.format
+    }
     const html = `<div data-id='${this.id}'></div>`;
     selector.style.display = 'none';
     util.before(selector, html);
@@ -85,8 +89,8 @@ class MiniEditor extends aTemplate {
 
   onInput() {
     const editor = this._getElementByQuery(`.${this.data.classNames.MiniEditor}`);
-    this.data.value = entities.decode(editor.innerHTML);
-    this.selector.value = this.data.value;
+    this.data.value = editor.innerHTML;
+    this.selector.value = this.format(this.data.value);
   }
 
   onPaste() {
@@ -104,6 +108,11 @@ class MiniEditor extends aTemplate {
     const source = this.data.showSource;
     this.data.showSource = !source;
     this.update();
+  }
+
+  format(txt) {
+    const decoded = entities.decode(txt);
+    return decoded.replace(/<br>/g,'\n');
   }
 }
 

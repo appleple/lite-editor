@@ -4884,7 +4884,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var template = '\n<div class="\\{classNames.MiniEditor\\}" contenteditable data-action-input="onInput" data-action-paste="onPaste"<!-- BEGIN showSource:exist --> style="display:none;"<!-- END showSource:exist -->>\n</div>\n<textarea class="\\{classNames.MiniEditorSource\\}"<!-- BEGIN showSource:empty --> style="display:none;"<!-- END showSource:empty -->>{value}</textarea>\n<div class="\\{classNames.MiniEditorBtnGroup\\}">\n    <button class="\\{classNames.MiniEditorBtn\\}<!-- BEGIN showSource:exist -->\\{classNames.MiniEditorBtnActive\\}<!-- END showSource:exist -->" data-action-click="toggleSource">\\{message.sourceBtn\\}</button>\n    <!-- BEGIN useLink:exist -->\n    <button class="\\{classNames.MiniEditorBtn\\}" data-action-click="addLink">\\{message.addLinkBtn\\}</button>\n    <!-- END useLink:exist --> \n    <!-- BEGIN btnOptions:loop -->\n    <button class="\\\\{classNames.MiniEditorBtn\\\\}" data-action-click="insertTag({tag},{className})">{label}</button>\n    <!-- END btnOptions:loop -->\n</div>';
+var template = '\n<div class="\\{classNames.MiniEditor\\}" contenteditable data-action-input="onInput" data-action-paste="onPaste"<!-- BEGIN showSource:exist --> style="display:none;"<!-- END showSource:exist -->>{value}</div>\n<textarea class="\\{classNames.MiniEditorSource\\}"<!-- BEGIN showSource:empty --> style="display:none;"<!-- END showSource:empty -->>{value}[format]</textarea>\n<div class="\\{classNames.MiniEditorBtnGroup\\}">\n    <button class="\\{classNames.MiniEditorBtn\\}<!-- BEGIN showSource:exist --> \\{classNames.MiniEditorBtnActive\\}<!-- END showSource:exist -->" data-action-click="toggleSource">\\{message.sourceBtn\\}</button>\n    <!-- BEGIN useLink:exist -->\n    <button class="\\{classNames.MiniEditorBtn\\}" data-action-click="addLink">\\{message.addLinkBtn\\}</button>\n    <!-- END useLink:exist --> \n    <!-- BEGIN btnOptions:loop -->\n    <button class="\\\\{classNames.MiniEditorBtn\\\\}" data-action-click="insertTag({tag},{className})">{label}</button>\n    <!-- END btnOptions:loop -->\n</div>';
 
 
 var Entities = require('html-entities').XmlEntities;
@@ -4901,7 +4901,8 @@ var defaults = {
   },
   message: {
     addLinkTitle: 'Add Link',
-    addLinkBtn: 'add link'
+    addLinkBtn: 'add link',
+    sourceBtn: 'source'
   },
   btnOptions: [],
   useLink: true,
@@ -4921,6 +4922,9 @@ var MiniEditor = function (_aTemplate) {
     _this.addTemplate(_this.id, template);
     var selector = typeof ele === 'string' ? document.querySelector(ele) : ele;
     _this.selector = selector;
+    _this.convert = {
+      format: _this.format
+    };
     var html = '<div data-id=\'' + _this.id + '\'></div>';
     selector.style.display = 'none';
     util.before(selector, html);
@@ -4981,8 +4985,8 @@ var MiniEditor = function (_aTemplate) {
     key: 'onInput',
     value: function onInput() {
       var editor = this._getElementByQuery('.' + this.data.classNames.MiniEditor);
-      this.data.value = entities.decode(editor.innerHTML);
-      this.selector.value = this.data.value;
+      this.data.value = editor.innerHTML;
+      this.selector.value = this.format(this.data.value);
     }
   }, {
     key: 'onPaste',
@@ -5003,6 +5007,12 @@ var MiniEditor = function (_aTemplate) {
       var source = this.data.showSource;
       this.data.showSource = !source;
       this.update();
+    }
+  }, {
+    key: 'format',
+    value: function format(txt) {
+      var decoded = entities.decode(txt);
+      return decoded.replace(/<br>/g, '\n');
     }
   }]);
 
