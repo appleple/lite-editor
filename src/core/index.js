@@ -40,6 +40,7 @@ export default class MiniEditor extends aTemplate {
     this.convert = {
       format:this.format
     }
+    this.data.value = selector.value;
     const html = `<div data-id='${this.id}'></div>`;
     selector.style.display = 'none';
     util.before(selector, html);
