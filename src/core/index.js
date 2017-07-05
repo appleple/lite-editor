@@ -40,7 +40,9 @@ export default class MiniEditor extends aTemplate {
     this.convert = {
       format:this.format
     }
-    this.data.value = selector.value;
+    if(selector.value) {
+      this.data.value = selector.value.replace(/\r\n|\r|\n/g,'<br/>');
+    }
     const html = `<div data-id='${this.id}'></div>`;
     selector.style.display = 'none';
     util.before(selector, html);
