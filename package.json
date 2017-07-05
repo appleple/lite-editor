@@ -19,7 +19,7 @@
     "sass:min": "node-sass ./scss/minieditor.scss ./css/minieditor.min.css --output-style compressed",
     "watch:js": "onchange \"src/\" -- npm run build:js",
     "watch:sass": "onchange \"scss\" -- npm run build:sass",
-    "sync": "browser-sync start --server './' --files './js/*.js' './css/*.css' --startPath '/examples/jquery.html'",
+    "sync": "browser-sync start --server './' --files './js/*.js' './css/*.css' --startPath '/examples/japanese.html'",
     "start": "npm-run-all -p watch:js watch:sass sync",
     "patch": "npm run test && npm version patch && npm run build:js && node ./tools/index.js",
     "minor": "npm run test && npm version minor && npm run build:js && node ./tools/index.js",
@@ -33,6 +33,7 @@
   "license": "MIT",
   "devDependencies": {
     "babel-cli": "^6.18.0",
+    "babel-plugin-add-module-exports": "^0.2.1",
     "babel-plugin-transform-html-import-to-string": "^0.0.1",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-es2015": "^6.18.0",
@@ -58,7 +59,7 @@
     "watchify": "^3.9.0"
   },
   "dependencies": {
-    "a-template": "^0.2.4",
+    "a-template": "^0.3.0",
     "deep-extend": "^0.5.0",
     "es6-promise-polyfill": "^1.2.0",
     "field-selection": "^0.2.2",

@@ -74,3 +74,26 @@ export const removeClass = (element,className) => {
 export const before = (el, html) => {
   el.insertAdjacentHTML('beforebegin', html);
 }
+
+export const getSelection = () => {
+  let text = "";
+  if (window.getSelection && window.getSelection().toString()) {
+    text = window.getSelection();
+    return text;
+  }
+  else if (document.getSelection && document.getSelection().toString()) {
+    text = document.getSelection();
+    return text;
+  }
+  else {
+    const selection = document.selection && document.selection.createRange();
+
+    if (!(typeof selection === "undefined")
+    && selection.text
+    && selection.text.toString()) {
+        text = selection.text;
+        return text;
+    }
+  }
+  return false;
+}

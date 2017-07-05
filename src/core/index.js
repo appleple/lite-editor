@@ -28,7 +28,7 @@ const defaults = {
   showSource: false
 }
 
-class MiniEditor extends aTemplate {
+export default class MiniEditor extends aTemplate {
 
   constructor(ele, settings) {
     super();
@@ -67,8 +67,14 @@ class MiniEditor extends aTemplate {
     }
   }
 
-  unlink() {
-    document.execCommand('unlink');
+  resetStyle() {
+    const data = this.data;
+    const mode = data.mode;
+    if (mode === 'html') {
+      const selection = util.getSelection();
+      const insertText = `${selection}`.replace(/<[^>]*>/g, "");
+      document.execCommand('insertText', false, insertText);
+    }
   }
 
   insertTag(tag, className) {
@@ -79,9 +85,9 @@ class MiniEditor extends aTemplate {
       classAttr = ` class="${className}"`;
     }
     if (mode === 'html') {
-      const selection = document.getSelection();
+      const selection = util.getSelection();
       const insertHtml = `<${tag}${classAttr}>${selection}</${tag}>`;
-      document.execCommand('insertHtml', false, insertHtml);
+      document.execCommand('insertHtml', false, insertHtml.replace(/\r\n|\r|\n/g,'<br/>'));
     }
   }
 
@@ -117,5 +123,3 @@ class MiniEditor extends aTemplate {
     return decoded.replace(/<br>/g,'\n');
   }
 }
-
-module.exports = MiniEditor;
