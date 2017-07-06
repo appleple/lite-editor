@@ -162,6 +162,10 @@ export default class MiniEditor extends aTemplate {
     this.update();
   }
 
+  directInput() {
+    this.data.value = this.e.value;
+  }
+
   format(txt) {
     const decoded = entities.decode(txt);
     return decoded.replace(/<br>/g,'\n').replace(/^([\t ])*\n/gm,"");
