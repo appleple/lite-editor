@@ -6060,7 +6060,6 @@ var MiniEditor = function (_aTemplate) {
     _this.id = _this._getUniqId();
     _this.addTemplate(_this.id, template);
     var selector = typeof ele === 'string' ? document.querySelector(ele) : ele;
-    _this.selector = selector;
     _this.convert = {
       format: _this.format
     };
@@ -6082,6 +6081,13 @@ var MiniEditor = function (_aTemplate) {
     util.before(selector, html);
     util.removeElement(selector);
     _this.update();
+    _this.selector = _this._getElementByQuery('.' + _this.data.classNames.MiniEditorSource);
+    var item = _this.data.selectOptions.find(function (item) {
+      return item.value === _this.data.selectedOption;
+    });
+    if (item.onSelect) {
+      item.onSelect.apply(_this);
+    }
     return _this;
   }
 
@@ -6163,7 +6169,9 @@ var MiniEditor = function (_aTemplate) {
     value: function onInput() {
       var editor = this._getElementByQuery('.' + this.data.classNames.MiniEditor);
       this.data.value = editor.innerHTML;
-      this.selector.value = this.format(this.data.value);
+      if (this.selector) {
+        this.selector.value = this.format(this.data.value);
+      }
     }
   }, {
     key: 'onPaste',

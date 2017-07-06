@@ -42,7 +42,6 @@ export default class MiniEditor extends aTemplate {
     this.id = this._getUniqId();
     this.addTemplate(this.id, template);
     const selector = typeof ele === 'string' ? document.querySelector(ele) : ele;
-    this.selector = selector;
     this.convert = {
       format:this.format
     }
@@ -64,6 +63,11 @@ export default class MiniEditor extends aTemplate {
     util.before(selector, html);
     util.removeElement(selector);
     this.update();
+    this.selector = this._getElementByQuery(`.${this.data.classNames.MiniEditorSource}`);
+    const item = this.data.selectOptions.find((item => item.value === this.data.selectedOption));
+    if (item.onSelect) {
+      item.onSelect.apply(this);
+    }
   }
 
   _getSelf() {
@@ -132,7 +136,9 @@ export default class MiniEditor extends aTemplate {
   onInput() {
     const editor = this._getElementByQuery(`.${this.data.classNames.MiniEditor}`);
     this.data.value = editor.innerHTML;
-    this.selector.value = this.format(this.data.value);
+    if(this.selector) {
+      this.selector.value = this.format(this.data.value);
+    }
   }
 
   onPaste() {
