@@ -32,6 +32,7 @@ const defaults = {
   useLink: true,
   showSource: false,
   hideEditor: false,
+  mode: 'direct',
   markdownOption: {
     converters: [
       {
@@ -75,6 +76,9 @@ export default class MiniEditor extends aTemplate {
     const item = this.data.selectOptions.find((item => item.value === this.data.selectedOption));
     if (item.onSelect) {
       item.onSelect.apply(this);
+    }
+    if(this.data.afterInit) {
+      this.data.afterInit.apply(this);
     }
   }
 
