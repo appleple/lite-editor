@@ -30,7 +30,8 @@ const defaults = {
   btnOptions: [],
   selectName: '',
   useLink: true,
-  showSource: false
+  showSource: false,
+  hideEditor: false
 }
 
 export default class MiniEditor extends aTemplate {
@@ -48,9 +49,20 @@ export default class MiniEditor extends aTemplate {
     if(selector.value) {
       this.data.value = selector.value.replace(/\r\n|\r|\n/g,'<br/>');
     }
+    let attrStr = '';
+    if (selector.attributes){
+      [].forEach.call(selector.attributes, attr => {
+        attrStr += ` ${attr.nodeName}="${attr.nodeValue}"`;
+      });
+    }
+    if (!this.data.selectedOption && this.data.selectOptions && this.data.selectOptions[0] && this.data.selectOptions[0].value) {
+      this.data.selectedOption = this.data.selectOptions[0].value;
+    }
+    this.data.attr = attrStr;
     const html = `<div data-id='${this.id}'></div>`;
     selector.style.display = 'none';
     util.before(selector, html);
+    util.removeElement(selector);
     this.update();
   }
 
@@ -72,6 +84,16 @@ export default class MiniEditor extends aTemplate {
 
   _getElementByQuery(query) {
     return document.querySelector(`[data-id='${this.id}'] ${query}`);
+  }
+
+  hideEditor() {
+    this.data.hideEditor = true;
+    this.update();
+  }
+
+  showEditor() {
+    this.data.hideEditor = false;
+    this.update();
   }
 
   addLink() {
