@@ -6199,7 +6199,7 @@ var MiniEditor = function (_aTemplate) {
   }, {
     key: 'directInput',
     value: function directInput() {
-      this.data.value = this.e.value;
+      this.data.value = this.e.target.value;
     }
   }, {
     key: 'format',

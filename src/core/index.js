@@ -163,7 +163,7 @@ export default class MiniEditor extends aTemplate {
   }
 
   directInput() {
-    this.data.value = this.e.value;
+    this.data.value = this.e.target.value;
   }
 
   format(txt) {
