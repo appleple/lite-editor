@@ -1,13 +1,23 @@
 
 <div class="\{classNames.MiniEditor\}" contenteditable data-action-input="onInput" data-action-paste="onPaste"<!-- BEGIN showSource:exist --> style="display:none;"<!-- END showSource:exist -->>{value}</div>
 <textarea class="\{classNames.MiniEditorSource\}"<!-- BEGIN showSource:empty --> style="display:none;"<!-- END showSource:empty -->>{value}[format]</textarea>
-<div class="\{classNames.MiniEditorBtnGroup\}">
-    <button class="\{classNames.MiniEditorBtn\}<!-- BEGIN showSource:exist --> \{classNames.MiniEditorBtnActive\}<!-- END showSource:exist -->" data-action-click="toggleSource" type="button">\{message.sourceBtn\}</button>
-    <button class="\{classNames.MiniEditorBtn\}" data-action-click="resetStyle"<!-- BEGIN showSource:exist --> disabled<!-- END showSource:exist --> type="button">\{message.resetStyleBtn\}</button>
-    <!-- BEGIN useLink:exist -->
-    <button class="\{classNames.MiniEditorBtn\}" data-action-click="addLink"<!-- BEGIN showSource:exist --> disabled<!-- END showSource:exist --> type="button">\{message.addLinkBtn\}</button>
-    <!-- END useLink:exist --> 
-    <!-- BEGIN btnOptions:loop -->
-    <button class="\\{classNames.MiniEditorBtn\\}" data-action-click="insertTag({tag},{className})" <!-- \BEGIN showSource:exist --> disabled<!-- \END showSource:exist --> type="button">{label}</button>
-    <!-- END btnOptions:loop -->
+<!-- \BEGIN selectOptions.0:exist -->
+<select class="\{classNames.MiniEditorSelect\}" data-action-change="changeOption">
+    <!-- BEGIN selectOptions:loop -->
+    <option value="{value}" data-tag_extend>{label}</option>
+    <!-- END selectOptions:loop -->
+</select>
+<!-- \END selectOptions.0:exist -->
+
+<div class="\{classNames.MiniEditorBtnGroupWrap\}">
+    <div class="\{classNames.MiniEditorBtnGroup\}">
+        <button class="\{classNames.MiniEditorBtn\}<!-- BEGIN showSource:exist --> \{classNames.MiniEditorBtnActive\}<!-- END showSource:exist -->" data-action-click="toggleSource" type="button">\{message.sourceBtn\}</button>
+        <button class="\{classNames.MiniEditorBtn\}" data-action-click="resetStyle"<!-- BEGIN showSource:exist --> disabled<!-- END showSource:exist --> type="button">\{message.resetStyleBtn\}</button>
+        <!-- BEGIN useLink:exist -->
+        <button class="\{classNames.MiniEditorBtn\}" data-action-click="addLink"<!-- BEGIN showSource:exist --> disabled<!-- END showSource:exist --> type="button">\{message.addLinkBtn\}</button>
+        <!-- END useLink:exist --> 
+        <!-- BEGIN btnOptions:loop -->
+        <button class="\\{classNames.MiniEditorBtn\\}" data-action-click="insertTag({tag},{className})" <!-- \BEGIN showSource:exist --> disabled<!-- \END showSource:exist --> type="button">{label}</button>
+        <!-- END btnOptions:loop -->
+    </div>
 </div>

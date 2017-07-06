@@ -6,13 +6,18 @@
   border-radius: 5px;
   display: inline-block;
   font-size: 16px;
+  padding: 5px;
 }
 
 .minieditor-btn-group {
 	display: table;
-	float: left;
 	padding: 7px 10px;
 	padding-left: 0;
+}
+
+.minieditor-btn-group-wrap {
+	display: inline-block;
+	vertical-align: middle;
 }
 
 .minieditor-btn,
@@ -66,4 +71,24 @@
 	border-top-right-radius: 3px;
 	border-bottom-right-radius: 3px;
 	border-right: 1px solid #a7a7aa;
+}
+
+.minieditor-select {
+    -webkit-appearance: button;
+    display: inline-block;
+    border: 1px solid #a7a7aa;
+    border-radius: 3px;
+    background-color: #ccc;
+    text-decoration: none;
+    text-align: center;
+    background-color: #e1e1e1;
+    background-repeat: no-repeat;
+    color: #333;
+    padding-right: 20px\9;
+    background-color: #f0f0f0;
+    text-align: left;
+	min-height: 27px;
+    padding: 5px 30px 5px 10px;
+    font-size: 11px;
+    line-height: 1.2;
 }

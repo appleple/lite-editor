@@ -15,7 +15,9 @@ const defaults = {
     MiniEditorSource: 'minieditor-source',
     MiniEditorBtn: 'minieditor-btn',
     MiniEditorBtnActive: 'minieditor-btn-active',
-    MiniEditorBtnGroup: 'minieditor-btn-group'
+    MiniEditorBtnGroup: 'minieditor-btn-group',
+    MiniEditorBtnGroupWrap: 'minieditor-btn-group-wrap',
+    MiniEditorSelect: 'minieditor-select'
   },
   message: {
     addLinkTitle: 'Add Link',
@@ -23,6 +25,7 @@ const defaults = {
     sourceBtn: 'source',
     resetStyleBtn: 'reset'
   },
+  selectOptions: [],
   btnOptions: [],
   useLink: true,
   showSource: false
@@ -123,6 +126,17 @@ export default class MiniEditor extends aTemplate {
 
   format(txt) {
     const decoded = entities.decode(txt);
-    return decoded.replace(/<br>/g,'\n');
+    return decoded.replace(/<br>/g,'\n').replace(/^([\t ])*\n/gm,"");
+  }
+
+  changeOption() {
+    const value = this.e.target.value;
+    if (!value) {
+      return;
+    }
+    const item = this.data.selectOptions.find((item => item.value === value));
+    if (item.onSelect) {
+      item.onSelect();
+    }
   }
 }

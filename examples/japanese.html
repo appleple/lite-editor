@@ -20,6 +20,15 @@
         resetStyleBtn: 'リセット',
         sourceBtn: 'ソース'
       },
+      selectOptions: [
+        { label: '本文', value: 'p'},
+        { 
+          label: 'ソース', 
+          value: 'pre', 
+          onSelect: function(){
+            alert('hoge');
+          }}
+      ],
       btnOptions: [
         { label: '強調1', tag: 'em', className: ''},
         { label: '強調2', tag: 'strong', className: ''},
