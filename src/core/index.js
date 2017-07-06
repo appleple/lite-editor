@@ -70,14 +70,6 @@ export default class MiniEditor extends aTemplate {
     return document.querySelector(`[data-id='${this.id}']`);
   }
 
-  hide() {
-    this._getSelf().style.display = 'none';
-  }
-
-  show() {
-    this._getSelf().style.display = 'block';
-  }
-
   _getUniqId() {
     return (Date.now().toString(36) + Math.random().toString(36).substr(2, 5)).toUpperCase();
   }

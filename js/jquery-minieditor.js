@@ -6116,16 +6116,6 @@ var MiniEditor = function (_aTemplate) {
       return document.querySelector('[data-id=\'' + this.id + '\']');
     }
   }, {
-    key: 'hide',
-    value: function hide() {
-      this._getSelf().style.display = 'none';
-    }
-  }, {
-    key: 'show',
-    value: function show() {
-      this._getSelf().style.display = 'block';
-    }
-  }, {
     key: '_getUniqId',
     value: function _getUniqId() {
       return (Date.now().toString(36) + Math.random().toString(36).substr(2, 5)).toUpperCase();
