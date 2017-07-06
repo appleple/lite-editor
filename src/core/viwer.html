@@ -2,11 +2,13 @@
 <div class="\{classNames.MiniEditor\}" contenteditable data-action-input="onInput" data-action-paste="onPaste"<!-- BEGIN showSource:exist --> style="display:none;"<!-- END showSource:exist -->>{value}</div>
 <textarea class="\{classNames.MiniEditorSource\}"<!-- BEGIN showSource:empty --> style="display:none;"<!-- END showSource:empty -->>{value}[format]</textarea>
 <!-- \BEGIN selectOptions.0:exist -->
-<select class="\{classNames.MiniEditorSelect\}" data-action-change="changeOption">
-    <!-- BEGIN selectOptions:loop -->
-    <option value="{value}" data-tag_extend>{label}</option>
-    <!-- END selectOptions:loop -->
-</select>
+<div class="\{classNames.MiniEditorSelectWrap\}">
+    <select class="\{classNames.MiniEditorSelect\}"<!-- BEGIN selectName:exist --> name="{selectName}"<!-- END selectName:exist --> data-action-change="changeOption">
+        <!-- BEGIN selectOptions:loop -->
+        <option value="{value}" data-tag_extend>{label}</option>
+        <!-- END selectOptions:loop -->
+    </select>
+</div>
 <!-- \END selectOptions.0:exist -->
 
 <div class="\{classNames.MiniEditorBtnGroupWrap\}">

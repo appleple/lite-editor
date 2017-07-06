@@ -17,7 +17,8 @@ const defaults = {
     MiniEditorBtnActive: 'minieditor-btn-active',
     MiniEditorBtnGroup: 'minieditor-btn-group',
     MiniEditorBtnGroupWrap: 'minieditor-btn-group-wrap',
-    MiniEditorSelect: 'minieditor-select'
+    MiniEditorSelect: 'minieditor-select',
+    MiniEditorSelectWrap: 'minieditor-select-wrap'
   },
   message: {
     addLinkTitle: 'Add Link',
@@ -27,6 +28,7 @@ const defaults = {
   },
   selectOptions: [],
   btnOptions: [],
+  selectName: '',
   useLink: true,
   showSource: false
 }
