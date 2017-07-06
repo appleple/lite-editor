@@ -31,7 +31,15 @@ const defaults = {
   selectName: '',
   useLink: true,
   showSource: false,
-  hideEditor: false
+  hideEditor: false,
+  markdownOption: {
+    converters: [
+      {
+        filter:'em',
+        replacement: (content => `*${content}*`)
+      }
+    ]
+  }
 }
 
 export default class MiniEditor extends aTemplate {
@@ -124,7 +132,7 @@ export default class MiniEditor extends aTemplate {
     const selection = util.getSelection();
     let insertHtml = `<${tag}${link}${classAttr}>${selection}</${tag}>`;
     if(this.data.mode === 'markdown') {
-      insertHtml = toMarkdown(insertHtml);
+      insertHtml = toMarkdown(insertHtml,this.data.markdownOption);
     }
     document.execCommand('insertHtml', false, insertHtml.replace(/\r\n|\r|\n/g,'<br/>'));
   }
@@ -169,7 +177,7 @@ export default class MiniEditor extends aTemplate {
 
   toMarkdown() {
     this.data.mode = 'markdown';
-    this.data.value = toMarkdown(this.data.value);
+    this.data.value = toMarkdown(this.data.value,this.data.markdownOption);
     this.update();
   }
 

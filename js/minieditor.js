@@ -6045,7 +6045,15 @@ var defaults = {
   selectName: '',
   useLink: true,
   showSource: false,
-  hideEditor: false
+  hideEditor: false,
+  markdownOption: {
+    converters: [{
+      filter: 'em',
+      replacement: function replacement(content) {
+        return '*' + content + '*';
+      }
+    }]
+  }
 };
 
 var MiniEditor = function (_aTemplate) {
@@ -6155,7 +6163,7 @@ var MiniEditor = function (_aTemplate) {
       var selection = util.getSelection();
       var insertHtml = '<' + tag + link + classAttr + '>' + selection + '</' + tag + '>';
       if (this.data.mode === 'markdown') {
-        insertHtml = _toMarkdown(insertHtml);
+        insertHtml = _toMarkdown(insertHtml, this.data.markdownOption);
       }
       document.execCommand('insertHtml', false, insertHtml.replace(/\r\n|\r|\n/g, '<br/>'));
     }
@@ -6208,7 +6216,7 @@ var MiniEditor = function (_aTemplate) {
     key: 'toMarkdown',
     value: function toMarkdown() {
       this.data.mode = 'markdown';
-      this.data.value = _toMarkdown(this.data.value);
+      this.data.value = _toMarkdown(this.data.value, this.data.markdownOption);
       this.update();
     }
   }, {
