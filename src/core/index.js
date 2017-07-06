@@ -98,41 +98,31 @@ export default class MiniEditor extends aTemplate {
     this.update();
   }
 
-  addLink() {
-    const data = this.data;
-    const mode = data.mode;
-    const url = prompt(data.message.addLinkTitle, 'http://');
-    if (mode === 'html') {
-      document.execCommand('createlink', true, url);
-    } else if (mode === 'markdown') {
-      const selection = document.getSelection();
-      const insertText = `[${selection}](${url})`;
-      document.execCommand('insertText', false, insertText);
-    }
-  }
-
   resetStyle() {
     const data = this.data;
     const mode = data.mode;
-    if (mode === 'html') {
-      const selection = util.getSelection();
-      const insertText = `${selection}`.replace(/<[^>]*>/g, "");
-      document.execCommand('insertText', false, insertText);
-    }
+    const selection = util.getSelection();
+    const insertText = `${selection}`.replace(/<[^>]*>/g, "");
+    document.execCommand('insertText', false, insertText);
   }
 
   insertTag(tag, className) {
     const data = this.data;
     const mode = data.mode;
     let classAttr = '';
+    let link = '';
     if (className) {
       classAttr = ` class="${className}"`;
     }
-    if (mode === 'html') {
-      const selection = util.getSelection();
-      const insertHtml = `<${tag}${classAttr}>${selection}</${tag}>`;
-      document.execCommand('insertHtml', false, insertHtml.replace(/\r\n|\r|\n/g,'<br/>'));
+    if (tag === 'a') {
+      link = ` href="${prompt(data.message.addLinkTitle, 'http://')}"`;
     }
+    const selection = util.getSelection();
+    let insertHtml = `<${tag}${link}${classAttr}>${selection}</${tag}>`;
+    if(this.data.mode === 'markdown') {
+      insertHtml = toMarkdown(insertHtml);
+    }
+    document.execCommand('insertHtml', false, insertHtml.replace(/\r\n|\r|\n/g,'<br/>'));
   }
 
   onUpdated() {
@@ -169,6 +159,12 @@ export default class MiniEditor extends aTemplate {
   format(txt) {
     const decoded = entities.decode(txt);
     return decoded.replace(/<br>/g,'\n').replace(/^([\t ])*\n/gm,"");
+  }
+
+  toMarkdown() {
+    this.data.mode = 'markdown';
+    this.data.value = toMarkdown(this.data.value);
+    this.update();
   }
 
   changeOption() {

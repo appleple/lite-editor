@@ -23,13 +23,15 @@
       selectOptions: [
         { label: '本文', value: 'p'},
         { 
-          label: 'ソース', 
-          value: 'pre', 
+          label: 'マークダウン', 
+          value: 'markdown', 
           onSelect: function(){
-            alert('hoge');
+            this.toMarkdown();
           }}
       ],
+      selectedOption: 'p',
       btnOptions: [
+        { label: 'リンクを挿入', tag: 'a', className: ''},
         { label: '強調1', tag: 'em', className: ''},
         { label: '強調2', tag: 'strong', className: ''},
         { label: '赤', tag: 'span', className: 'red'},

@@ -6040,12 +6040,12 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var template = '\n<div class="\\{classNames.MiniEditor\\}" contenteditable data-action-input="onInput" data-action-paste="onPaste"<!-- BEGIN showSource:exist --> style="display:none;"<!-- END showSource:exist --><!-- BEGIN hideEditor:exist --> style="display:none;"<!-- END hideEditor:exist -->>{value}</div>\n<textarea class="\\{classNames.MiniEditorSource\\}"<!-- BEGIN showSource:empty --> style="display:none;"<!-- END showSource:empty -->{attr} data-action="directInput">{value}[format]</textarea>\n\n\n<!-- BEGIN selectOptions.0:exist -->\n<div class="\\{classNames.MiniEditorSelectWrap\\}">\n    <select class="\\{classNames.MiniEditorSelect\\}"<!-- BEGIN selectName:exist --> name="{selectName}"<!-- END selectName:exist --> data-action-change="changeOption" data-bind="selectedOption">\n        <!-- BEGIN selectOptions:loop -->\n        <option value="{value}" data-tag_extend>{label}</option>\n        <!-- END selectOptions:loop -->\n    </select>\n</div>\n<!-- END selectOptions.0:exist -->\n\n\n<div class="\\{classNames.MiniEditorBtnGroupWrap\\}" <!-- BEGIN hideBtns:exist --> style="display:none;"<!-- END hideBtns:exist -->>\n    <div class="\\{classNames.MiniEditorBtnGroup\\}">\n        <button class="\\{classNames.MiniEditorBtn\\}<!-- BEGIN showSource:exist --> \\{classNames.MiniEditorBtnActive\\}<!-- END showSource:exist -->" data-action-click="toggleSource" type="button">\\{message.sourceBtn\\}</button>\n        <button class="\\{classNames.MiniEditorBtn\\}" data-action-click="resetStyle"<!-- BEGIN showSource:exist --> disabled<!-- END showSource:exist --> type="button">\\{message.resetStyleBtn\\}</button>\n        <!-- BEGIN useLink:exist -->\n        <button class="\\{classNames.MiniEditorBtn\\}" data-action-click="addLink"<!-- BEGIN showSource:exist --> disabled<!-- END showSource:exist --> type="button">\\{message.addLinkBtn\\}</button>\n        <!-- END useLink:exist --> \n        <!-- BEGIN btnOptions:loop -->\n        <button class="\\\\{classNames.MiniEditorBtn\\\\}" data-action-click="insertTag({tag},{className})" <!-- \\BEGIN showSource:exist --> disabled<!-- \\END showSource:exist --> type="button">{label}</button>\n        <!-- END btnOptions:loop -->\n    </div>\n</div>';
+var template = '\n<div class="\\{classNames.MiniEditor\\}" contenteditable data-action-input="onInput" data-action-paste="onPaste"<!-- BEGIN showSource:exist --> style="display:none;"<!-- END showSource:exist --><!-- BEGIN hideEditor:exist --> style="display:none;"<!-- END hideEditor:exist -->>{value}</div>\n<textarea class="\\{classNames.MiniEditorSource\\}"<!-- BEGIN showSource:empty --> style="display:none;"<!-- END showSource:empty -->{attr} data-action="directInput">{value}[format]</textarea>\n\n\n<!-- BEGIN selectOptions.0:exist -->\n<div class="\\{classNames.MiniEditorSelectWrap\\}">\n    <select class="\\{classNames.MiniEditorSelect\\}"<!-- BEGIN selectName:exist --> name="{selectName}"<!-- END selectName:exist --> data-action-change="changeOption" data-bind="selectedOption">\n        <!-- BEGIN selectOptions:loop -->\n        <option value="{value}" data-tag_extend>{label}</option>\n        <!-- END selectOptions:loop -->\n    </select>\n</div>\n<!-- END selectOptions.0:exist -->\n\n\n<div class="\\{classNames.MiniEditorBtnGroupWrap\\}" <!-- BEGIN hideBtns:exist --> style="display:none;"<!-- END hideBtns:exist -->>\n    <div class="\\{classNames.MiniEditorBtnGroup\\}">\n        <button class="\\{classNames.MiniEditorBtn\\}<!-- BEGIN showSource:exist --> \\{classNames.MiniEditorBtnActive\\}<!-- END showSource:exist -->" data-action-click="toggleSource" type="button">\\{message.sourceBtn\\}</button>\n        <button class="\\{classNames.MiniEditorBtn\\}" data-action-click="resetStyle"<!-- BEGIN showSource:exist --> disabled<!-- END showSource:exist --> type="button">\\{message.resetStyleBtn\\}</button>\n        <!-- BEGIN btnOptions:loop -->\n        <button class="\\\\{classNames.MiniEditorBtn\\\\}" data-action-click="insertTag({tag},{className})" <!-- \\BEGIN showSource:exist --> disabled<!-- \\END showSource:exist --> type="button">{label}</button>\n        <!-- END btnOptions:loop -->\n    </div>\n</div>';
 
 
 var Entities = require('html-entities').XmlEntities;
 var entities = new Entities();
-var toMarkdown = require('to-markdown');
+var _toMarkdown = require('to-markdown');
 
 var defaults = {
   mode: 'html',
@@ -6150,29 +6150,13 @@ var MiniEditor = function (_aTemplate) {
       this.update();
     }
   }, {
-    key: 'addLink',
-    value: function addLink() {
-      var data = this.data;
-      var mode = data.mode;
-      var url = prompt(data.message.addLinkTitle, 'http://');
-      if (mode === 'html') {
-        document.execCommand('createlink', true, url);
-      } else if (mode === 'markdown') {
-        var selection = document.getSelection();
-        var insertText = '[' + selection + '](' + url + ')';
-        document.execCommand('insertText', false, insertText);
-      }
-    }
-  }, {
     key: 'resetStyle',
     value: function resetStyle() {
       var data = this.data;
       var mode = data.mode;
-      if (mode === 'html') {
-        var selection = util.getSelection();
-        var insertText = ('' + selection).replace(/<[^>]*>/g, "");
-        document.execCommand('insertText', false, insertText);
-      }
+      var selection = util.getSelection();
+      var insertText = ('' + selection).replace(/<[^>]*>/g, "");
+      document.execCommand('insertText', false, insertText);
     }
   }, {
     key: 'insertTag',
@@ -6180,14 +6164,19 @@ var MiniEditor = function (_aTemplate) {
       var data = this.data;
       var mode = data.mode;
       var classAttr = '';
+      var link = '';
       if (className) {
         classAttr = ' class="' + className + '"';
       }
-      if (mode === 'html') {
-        var selection = util.getSelection();
-        var insertHtml = '<' + tag + classAttr + '>' + selection + '</' + tag + '>';
-        document.execCommand('insertHtml', false, insertHtml.replace(/\r\n|\r|\n/g, '<br/>'));
+      if (tag === 'a') {
+        link = ' href="' + prompt(data.message.addLinkTitle, 'http://') + '"';
       }
+      var selection = util.getSelection();
+      var insertHtml = '<' + tag + link + classAttr + '>' + selection + '</' + tag + '>';
+      if (this.data.mode === 'markdown') {
+        insertHtml = _toMarkdown(insertHtml);
+      }
+      document.execCommand('insertHtml', false, insertHtml.replace(/\r\n|\r|\n/g, '<br/>'));
     }
   }, {
     key: 'onUpdated',
@@ -6231,6 +6220,13 @@ var MiniEditor = function (_aTemplate) {
     value: function format(txt) {
       var decoded = entities.decode(txt);
       return decoded.replace(/<br>/g, '\n').replace(/^([\t ])*\n/gm, "");
+    }
+  }, {
+    key: 'toMarkdown',
+    value: function toMarkdown() {
+      this.data.mode = 'markdown';
+      this.data.value = _toMarkdown(this.data.value);
+      this.update();
     }
   }, {
     key: 'changeOption',
