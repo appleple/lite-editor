@@ -96,6 +96,16 @@ export default class MiniEditor extends aTemplate {
     this.update();
   }
 
+  hideBtns() {
+    this.data.hideBtns = true;
+    this.update();
+  }
+
+  showBtns() {
+    this.data.hideBtns = false;
+    this.update();
+  }
+
   addLink() {
     const data = this.data;
     const mode = data.mode;

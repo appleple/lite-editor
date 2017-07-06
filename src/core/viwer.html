@@ -13,7 +13,8 @@
 </div>
 <!-- END selectOptions.0:exist -->
 
-<div class="\{classNames.MiniEditorBtnGroupWrap\}">
+
+<div class="\{classNames.MiniEditorBtnGroupWrap\}" <!-- BEGIN hideBtns:exist --> style="display:none;"<!-- END hideBtns:exist -->>
     <div class="\{classNames.MiniEditorBtnGroup\}">
         <button class="\{classNames.MiniEditorBtn\}<!-- BEGIN showSource:exist --> \{classNames.MiniEditorBtnActive\}<!-- END showSource:exist -->" data-action-click="toggleSource" type="button">\{message.sourceBtn\}</button>
         <button class="\{classNames.MiniEditorBtn\}" data-action-click="resetStyle"<!-- BEGIN showSource:exist --> disabled<!-- END showSource:exist --> type="button">\{message.resetStyleBtn\}</button>
