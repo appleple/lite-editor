@@ -11,10 +11,10 @@ window.addEventListener('DOMContentLoaded',function(){
   new SimpleWysiwyg('.js-simple-wysiwyg',{
     mode:'direct',
     message: {
-    addLinkTitle: 'リンク先URLを入力してください。',
-    addLinkBtn: 'リンクの挿入',
-    resetStyleBtn: 'リセット',
-    sourceBtn: 'ソース'
+      addLinkTitle: 'リンク先URLを入力してください。',
+      addLinkBtn: 'リンクの挿入',
+      resetStyleBtn: 'リセット',
+      sourceBtn: 'ソース'
     },
     selectOptions: [
       { 
