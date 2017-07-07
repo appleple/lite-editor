@@ -140,6 +140,13 @@ export default class SimpleWysiwyg extends aTemplate {
     document.execCommand('insertHtml', false, insertHtml.replace(/\r\n|\r|\n/g,'<br/>'));
   }
 
+  onClick(i) {
+    const number = parseInt(i, 10);
+    if(this.data.btnOptions[number].onClick) {
+      this.data.btnOptions[number].onClick.apply(this);
+    }
+  }
+
   onUpdated() {
     this.onInput();
   }

@@ -19,7 +19,7 @@
     
     <div class="\{classNames.SimpleWysiwygBtnGroup\}">
       <!-- BEGIN btnOptions:loop -->
-      <button class="\\{classNames.SimpleWysiwygBtn\\}<!-- BEGIN selfClassName:exist --> {selfClassName}<!-- END selfClassName:exist -->" data-action-click="insertTag({tag},{className})" <!-- \BEGIN showSource:exist --> disabled<!-- \END showSource:exist --> type="button">{label}</button>
+      <button class="\\{classNames.SimpleWysiwygBtn\\}<!-- BEGIN selfClassName:exist --> {selfClassName}<!-- END selfClassName:exist -->"<!-- BEGIN tag:exist --> data-action-click="insertTag({tag},{className})"<!-- END tag:exist --><!-- BEGIN tag:empty --> data-action-click="onClick({i})"<!-- END tag:empty --><!-- \BEGIN showSource:exist --> disabled<!-- \END showSource:exist --> type="button">{label}</button>
       <!-- END btnOptions:loop -->
     </div>
 </div>
