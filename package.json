@@ -1,6 +1,6 @@
 {
   "name": "simple-wysiwyg",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "simple-wysiwyg",
   "homepage": "http://developer.a-blogcms.jp",
   "main": "lib/index.js",
