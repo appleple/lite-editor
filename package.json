@@ -1,6 +1,6 @@
 {
   "name": "simple-wysiwyg",
-  "version": "0.0.1",
+  "version": "0.0.0",
   "description": "simple-wysiwyg",
   "homepage": "http://developer.a-blogcms.jp",
   "main": "lib/index.js",
@@ -21,9 +21,9 @@
     "watch:sass": "onchange \"scss\" -- npm run build:sass",
     "sync": "browser-sync start --server './' --files './js/*.js' './css/*.css' --startPath '/examples/japanese.html'",
     "start": "npm-run-all -p watch:js watch:sass sync",
-    "patch": "npm run test && npm version patch && npm run build:js && node ./tools/index.js",
-    "minor": "npm run test && npm version minor && npm run build:js && node ./tools/index.js",
-    "major": "npm run test && npm version major && npm run build:js && node ./tools/index.js"
+    "patch": "npm version patch && npm run build:js && node ./tools/index.js",
+    "minor": "npm version minor && npm run build:js && node ./tools/index.js",
+    "major": "npm version major && npm run build:js && node ./tools/index.js"
   },
   "repository": {
     "type": "git",
