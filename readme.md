@@ -1,4 +1,4 @@
-# MiniEditor
+# simple-wysiwyg
 
 ## Feature
 
