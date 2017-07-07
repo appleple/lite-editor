@@ -71,7 +71,7 @@ export default class SimpleWysiwyg extends aTemplate {
     util.before(selector, html);
     util.removeElement(selector);
     this.update();
-    this.selector = this._getElementByQuery(`.${this.data.classNames.SimpleWysiwygSource}`);
+    this.selector = this._getElementByQuery(`[data-selector="simple-wysiwyg-source"]`);
     const item = this.data.selectOptions.find((item => item.value === this.data.selectedOption));
     if (item.onSelect) {
       item.onSelect.apply(this);
@@ -145,7 +145,7 @@ export default class SimpleWysiwyg extends aTemplate {
   }
 
   onInput() {
-    const editor = this._getElementByQuery(`.${this.data.classNames.SimpleWysiwyg}`);
+    const editor = this._getElementByQuery(`[data-selector="simple-wysiwyg"]`);
     this.data.value = editor.innerHTML;
     if(this.selector) {
       this.selector.value = this.format(this.data.value);

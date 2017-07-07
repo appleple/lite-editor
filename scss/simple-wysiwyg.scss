@@ -8,10 +8,11 @@
   display: inline-block;
   font-size: 16px;
   padding: 5px;
+  margin-bottom: 10px;
 }
 
 .simple-wysiwyg-btn-group {
-	display: table;
+	display: inline-table;
 	padding: 7px 10px;
 	padding-left: 0;
 }
@@ -90,6 +91,7 @@
     text-align: left;
 	min-height: 27px;
     padding: 5px 30px 5px 10px;
+	margin-right: 10px;
     font-size: 11px;
     line-height: 1.2;
 }
