@@ -11,14 +11,14 @@ const toMarkdown = require('to-markdown');
 const defaults = {
   mode: 'html',
   classNames: {
-    MiniEditor: 'minieditor',
-    MiniEditorSource: 'minieditor-source',
-    MiniEditorBtn: 'minieditor-btn',
-    MiniEditorBtnActive: 'minieditor-btn-active',
-    MiniEditorBtnGroup: 'minieditor-btn-group',
-    MiniEditorBtnGroupWrap: 'minieditor-btn-group-wrap',
-    MiniEditorSelect: 'minieditor-select',
-    MiniEditorSelectWrap: 'minieditor-select-wrap'
+    SimpleWysiwyg: 'simple-wysiwyg',
+    SimpleWysiwygSource: 'simple-wysiwyg-source',
+    SimpleWysiwygBtn: 'simple-wysiwyg-btn',
+    SimpleWysiwygBtnActive: 'simple-wysiwyg-btn-active',
+    SimpleWysiwygBtnGroup: 'simple-wysiwyg-btn-group',
+    SimpleWysiwygBtnGroupWrap: 'simple-wysiwyg-btn-group-wrap',
+    SimpleWysiwygSelect: 'simple-wysiwyg-select',
+    SimpleWysiwygSelectWrap: 'simple-wysiwyg-select-wrap'
   },
   message: {
     addLinkTitle: 'Add Link',
@@ -32,7 +32,6 @@ const defaults = {
   useLink: true,
   showSource: false,
   hideEditor: false,
-  mode: 'direct',
   markdownOption: {
     converters: [
       {
@@ -43,7 +42,7 @@ const defaults = {
   }
 }
 
-export default class MiniEditor extends aTemplate {
+export default class SimpleWysiwyg extends aTemplate {
 
   constructor(ele, settings) {
     super();
@@ -72,7 +71,7 @@ export default class MiniEditor extends aTemplate {
     util.before(selector, html);
     util.removeElement(selector);
     this.update();
-    this.selector = this._getElementByQuery(`.${this.data.classNames.MiniEditorSource}`);
+    this.selector = this._getElementByQuery(`.${this.data.classNames.SimpleWysiwygSource}`);
     const item = this.data.selectOptions.find((item => item.value === this.data.selectedOption));
     if (item.onSelect) {
       item.onSelect.apply(this);
@@ -146,7 +145,7 @@ export default class MiniEditor extends aTemplate {
   }
 
   onInput() {
-    const editor = this._getElementByQuery(`.${this.data.classNames.MiniEditor}`);
+    const editor = this._getElementByQuery(`.${this.data.classNames.SimpleWysiwyg}`);
     this.data.value = editor.innerHTML;
     if(this.selector) {
       this.selector.value = this.format(this.data.value);

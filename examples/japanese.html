@@ -4,16 +4,17 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<link rel="stylesheet" href="../css/minieditor.css">
+	<link rel="stylesheet" href="../css/simple-wysiwyg.css">
   <link rel="stylesheet" href="./style.css">
-	<title>MiniEditor</title>
+	<title>SimpleWysiwyg</title>
 </head>
 <body>
-	<textarea class='js-minieditor' name="hoge">aaaa</textarea>
-	<script src="../js/minieditor.js"></script>
+	<textarea class='js-simple-wysiwyg' name="hoge">aaaa</textarea>
+	<script src="../js/simple-wysiwyg.js"></script>
 	<script>
 	window.addEventListener('DOMContentLoaded',function(){
-		new MiniEditor('.js-minieditor',{
+		new SimpleWysiwyg('.js-simple-wysiwyg',{
+      mode:'direct',
       message: {
         addLinkTitle: 'リンク先URLを入力してください。',
         addLinkBtn: 'リンクの挿入',

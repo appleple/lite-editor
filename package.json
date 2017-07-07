@@ -1,7 +1,7 @@
 {
-  "name": "minieditor",
+  "name": "simple-wysiwyg",
   "version": "0.0.1",
-  "description": "minieditor",
+  "description": "simple-wysiwyg",
   "homepage": "http://developer.a-blogcms.jp",
   "main": "lib/index.js",
   "scripts": {
@@ -9,14 +9,14 @@
     "lint": "eslint ./src/core/index.js --fix",
     "build:js": "npm-run-all -p build:lib build:jquery build:global",
     "build:lib": "npm run babel",
-    "build:jquery": "browserify ./src/adaptor/jquery.js -t babelify -p licensify -o ./js/jquery-minieditor.js && npm run build:jquery:min",
-    "build:global": "browserify ./src/index.js -t babelify -p licensify --standalone MiniEditor -o ./js/minieditor.js && npm run build:global:min",
-    "build:jquery:min": "uglifyjs ./js/jquery-minieditor.js -m -c --comments -o ./js/jquery-minieditor.min.js",
-    "build:global:min": "uglifyjs ./js/minieditor.js -m -c --comments -o ./js/minieditor.min.js",
+    "build:jquery": "browserify ./src/adaptor/jquery.js -t babelify -p licensify -o ./js/jquery-simple-wysiwyg.js && npm run build:jquery:min",
+    "build:global": "browserify ./src/index.js -t babelify -p licensify --standalone SimpleWysiwyg -o ./js/simple-wysiwyg.js && npm run build:global:min",
+    "build:jquery:min": "uglifyjs ./js/jquery-simple-wysiwyg.js -m -c --comments -o ./js/jquery-simple-wysiwyg.min.js",
+    "build:global:min": "uglifyjs ./js/simple-wysiwyg.js -m -c --comments -o ./js/simple-wysiwyg.min.js",
     "build:sass": "npm-run-all -p sass sass:min",
     "babel": "babel src --out-dir lib",
-    "sass": "node-sass ./scss/minieditor.scss ./css/minieditor.css --output-style expanded",
-    "sass:min": "node-sass ./scss/minieditor.scss ./css/minieditor.min.css --output-style compressed",
+    "sass": "node-sass ./scss/simple-wysiwyg.scss ./css/simple-wysiwyg.css --output-style expanded",
+    "sass:min": "node-sass ./scss/simple-wysiwyg.scss ./css/simple-wysiwyg.min.css --output-style compressed",
     "watch:js": "onchange \"src/\" -- npm run build:js",
     "watch:sass": "onchange \"scss\" -- npm run build:sass",
     "sync": "browser-sync start --server './' --files './js/*.js' './css/*.css' --startPath '/examples/japanese.html'",
@@ -27,7 +27,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/appleple/minieditor/"
+    "url": "https://github.com/appleple/simple-wysiwyg/"
   },
   "author": "appleple",
   "license": "MIT",

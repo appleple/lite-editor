@@ -1,11 +1,11 @@
 
-<div class="\{classNames.MiniEditor\}" contenteditable data-action-input="onInput" data-action-paste="onPaste"<!-- BEGIN showSource:exist --> style="display:none;"<!-- END showSource:exist --><!-- BEGIN hideEditor:exist --> style="display:none;"<!-- END hideEditor:exist -->>{value}</div>
-<textarea class="\{classNames.MiniEditorSource\}"<!-- BEGIN showSource:empty --> style="display:none;"<!-- END showSource:empty -->{attr} data-action="directInput">{value}[format]</textarea>
+<div class="\{classNames.SimpleWysiwyg\}" contenteditable data-action-input="onInput" data-action-paste="onPaste"<!-- BEGIN showSource:exist --> style="display:none;"<!-- END showSource:exist --><!-- BEGIN hideEditor:exist --> style="display:none;"<!-- END hideEditor:exist -->>{value}</div>
+<textarea class="\{classNames.SimpleWysiwygSource\}"<!-- BEGIN showSource:empty --> style="display:none;"<!-- END showSource:empty -->{attr} data-action="directInput">{value}[format]</textarea>
 
 
 <!-- BEGIN selectOptions.0:exist -->
-<div class="\{classNames.MiniEditorSelectWrap\}">
-    <select class="\{classNames.MiniEditorSelect\}"<!-- BEGIN selectName:exist --> name="{selectName}"<!-- END selectName:exist --> data-action-change="changeOption" data-bind="selectedOption">
+<div class="\{classNames.SimpleWysiwygSelectWrap\}">
+    <select class="\{classNames.SimpleWysiwygSelect\}"<!-- BEGIN selectName:exist --> name="{selectName}"<!-- END selectName:exist --> data-action-change="changeOption" data-bind="selectedOption">
         <!-- BEGIN selectOptions:loop -->
         <option value="{value}" data-tag_extend>{label}</option>
         <!-- END selectOptions:loop -->
@@ -14,12 +14,12 @@
 <!-- END selectOptions.0:exist -->
 
 
-<div class="\{classNames.MiniEditorBtnGroupWrap\}" <!-- BEGIN hideBtns:exist --> style="display:none;"<!-- END hideBtns:exist -->>
-    <div class="\{classNames.MiniEditorBtnGroup\}">
-        <button class="\{classNames.MiniEditorBtn\}<!-- BEGIN showSource:exist --> \{classNames.MiniEditorBtnActive\}<!-- END showSource:exist -->" data-action-click="toggleSource" type="button">\{message.sourceBtn\}</button>
-        <button class="\{classNames.MiniEditorBtn\}" data-action-click="resetStyle"<!-- BEGIN showSource:exist --> disabled<!-- END showSource:exist --> type="button">\{message.resetStyleBtn\}</button>
+<div class="\{classNames.SimpleWysiwygBtnGroupWrap\}" <!-- BEGIN hideBtns:exist --> style="display:none;"<!-- END hideBtns:exist -->>
+    <div class="\{classNames.SimpleWysiwygBtnGroup\}">
+        <button class="\{classNames.SimpleWysiwygBtn\}<!-- BEGIN showSource:exist --> \{classNames.SimpleWysiwygBtnActive\}<!-- END showSource:exist -->" data-action-click="toggleSource" type="button">\{message.sourceBtn\}</button>
+        <button class="\{classNames.SimpleWysiwygBtn\}" data-action-click="resetStyle"<!-- BEGIN showSource:exist --> disabled<!-- END showSource:exist --> type="button">\{message.resetStyleBtn\}</button>
         <!-- BEGIN btnOptions:loop -->
-        <button class="\\{classNames.MiniEditorBtn\\}" data-action-click="insertTag({tag},{className})" <!-- \BEGIN showSource:exist --> disabled<!-- \END showSource:exist --> type="button">{label}</button>
+        <button class="\\{classNames.SimpleWysiwygBtn\\}" data-action-click="insertTag({tag},{className})" <!-- \BEGIN showSource:exist --> disabled<!-- \END showSource:exist --> type="button">{label}</button>
         <!-- END btnOptions:loop -->
     </div>
 </div>
