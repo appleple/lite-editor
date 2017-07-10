@@ -9174,6 +9174,7 @@ var SimpleWysiwyg = function (_aTemplate) {
     value: function toHtml() {
       this.data.mode = 'html';
       this.data.value = converter.makeHtml(this.data.value);
+      this.data.value = this.data.value.replace(/^<p>|<\/p>$/g, '');
       this.update();
     }
   }, {
