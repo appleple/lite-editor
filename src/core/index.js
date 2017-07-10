@@ -7,6 +7,8 @@ import * as util from '../lib/util';
 const Entities = require('html-entities').XmlEntities;
 const entities = new Entities();
 const toMarkdown = require('to-markdown');
+const showdown = require('showdown');
+const converter = new showdown.Converter();
 
 const defaults = {
   mode: 'html',
@@ -188,6 +190,12 @@ export default class SimpleWysiwyg extends aTemplate {
   toMarkdown() {
     this.data.mode = 'markdown';
     this.data.value = toMarkdown(this.data.value,this.data.markdownOption);
+    this.update();
+  }
+
+  toHtml() {
+    this.data.mode = 'html';
+    this.data.value = converter.makeHtml(this.data.value);
     this.update();
   }
 

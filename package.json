@@ -64,6 +64,7 @@
     "es6-promise-polyfill": "^1.2.0",
     "field-selection": "^0.2.2",
     "html-entities": "^1.2.1",
+    "showdown": "^1.7.1",
     "to-markdown": "^3.0.4"
   }
 }

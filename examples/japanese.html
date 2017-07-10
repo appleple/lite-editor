@@ -24,14 +24,18 @@
       selectOptions: [
         { 
           label: '本文', 
-          value: 'p'
+          value: 'html',
+          onSelect: function() {
+            this.toHtml();
+          }
         },
         { 
           label: 'マークダウン', 
           value: 'markdown', 
           onSelect: function(){
             this.toMarkdown();
-          }}
+          }
+        }
       ],
       selectedOption: 'p',
       btnOptions: [
