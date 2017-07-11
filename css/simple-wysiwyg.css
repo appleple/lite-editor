@@ -12,8 +12,8 @@
 }
 
 .simple-wysiwyg img {
-  width: 15px;
-  height: 15px;
+  max-width: 100%;
+  height: auto;
 }
 
 .simple-wysiwyg-btn-group {
