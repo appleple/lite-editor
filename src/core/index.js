@@ -123,6 +123,10 @@ export default class SimpleWysiwyg extends aTemplate {
     document.execCommand('insertText', false, insertText);
   }
 
+  insertHtml(html) {
+    document.execCommand('insertHtml', false, html);
+  }
+
   insertTag(tag, className) {
     const data = this.data;
     const mode = data.mode;

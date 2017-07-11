@@ -9115,6 +9115,11 @@ var SimpleWysiwyg = function (_aTemplate) {
       document.execCommand('insertText', false, insertText);
     }
   }, {
+    key: 'insertHtml',
+    value: function insertHtml(html) {
+      document.execCommand('insertHtml', false, html);
+    }
+  }, {
     key: 'insertTag',
     value: function insertTag(tag, className) {
       var data = this.data;
