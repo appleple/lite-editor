@@ -75,7 +75,7 @@ export default class SimpleWysiwyg extends aTemplate {
     this.update();
     this.selector = this._getElementByQuery(`[data-selector="simple-wysiwyg-source"]`);
     const item = this.data.selectOptions.find((item => item.value === this.data.selectedOption));
-    if (item.onSelect) {
+    if (item && item.onSelect) {
       item.onSelect.apply(this);
     }
     if(this.data.afterInit) {
@@ -125,6 +125,14 @@ export default class SimpleWysiwyg extends aTemplate {
 
   insertHtml(html) {
     document.execCommand('insertHtml', false, html);
+  }
+
+  saveSelection() {
+    this.selection = util.saveSelection();
+  }
+
+  restoreSelection() {
+    util.restoreSelection(this.selection);
   }
 
   insertTag(tag, className) {
@@ -210,7 +218,7 @@ export default class SimpleWysiwyg extends aTemplate {
       return;
     }
     const item = this.data.selectOptions.find((item => item.value === value));
-    if (item.onSelect) {
+    if (item && item.onSelect) {
       item.onSelect.apply(this);
     }
   }

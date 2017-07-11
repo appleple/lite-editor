@@ -9057,7 +9057,7 @@ var SimpleWysiwyg = function (_aTemplate) {
     var item = _this.data.selectOptions.find(function (item) {
       return item.value === _this.data.selectedOption;
     });
-    if (item.onSelect) {
+    if (item && item.onSelect) {
       item.onSelect.apply(_this);
     }
     if (_this.data.afterInit) {
@@ -9118,6 +9118,16 @@ var SimpleWysiwyg = function (_aTemplate) {
     key: 'insertHtml',
     value: function insertHtml(html) {
       document.execCommand('insertHtml', false, html);
+    }
+  }, {
+    key: 'saveSelection',
+    value: function saveSelection() {
+      this.selection = util.saveSelection();
+    }
+  }, {
+    key: 'restoreSelection',
+    value: function restoreSelection() {
+      util.restoreSelection(this.selection);
     }
   }, {
     key: 'insertTag',
@@ -9217,7 +9227,7 @@ var SimpleWysiwyg = function (_aTemplate) {
       var item = this.data.selectOptions.find(function (item) {
         return item.value === value;
       });
-      if (item.onSelect) {
+      if (item && item.onSelect) {
         item.onSelect.apply(this);
       }
     }
@@ -9335,6 +9345,28 @@ var getSelection = exports.getSelection = function getSelection() {
     }
   }
   return false;
+};
+
+var saveSelection = exports.saveSelection = function saveSelection() {
+  if (window.getSelection) {
+    var sel = window.getSelection();
+    if (sel.getRangeAt && sel.rangeCount) {
+      return sel.getRangeAt(0);
+    }
+  } else if (document.selection && document.selection.createRange) {
+    return document.selection.createRange();
+  }
+  return null;
+};
+
+var restoreSelection = exports.restoreSelection = function restoreSelection(range) {
+  if (window.getSelection) {
+    var sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+  } else if (document.selection && range.select) {
+    range.select();
+  }
 };
 
 },{}]},{},[48]);
