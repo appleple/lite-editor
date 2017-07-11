@@ -5,11 +5,12 @@ import extend from 'deep-extend';
 import * as util from '../lib/util';
 
 const Entities = require('html-entities').XmlEntities;
-const toMarkdown = require('to-markdown');
+const upndown = require('upndown');
 const showdown = require('showdown');
 
 const entities = new Entities();
 const converter = new showdown.Converter();
+const und = new upndown({decodeEntities: false});
 
 const defaults = {
   mode: 'html',
@@ -34,15 +35,7 @@ const defaults = {
   selectName: '',
   useLink: true,
   showSource: false,
-  hideEditor: false,
-  markdownOption: {
-    converters: [
-      {
-        filter:'em',
-        replacement: (content => `*${content}*`)
-      }
-    ]
-  }
+  hideEditor: false
 }
 
 export default class SimpleWysiwyg extends aTemplate {
@@ -151,11 +144,14 @@ export default class SimpleWysiwyg extends aTemplate {
       link = ` href="${prompt(data.message.addLinkTitle, 'http://')}"`;
     }
     const selection = util.getSelection();
-    let insertHtml = `<${tag}${link}${classAttr}>${selection}</${tag}>`;
+    const insertHtml = `<${tag}${link}${classAttr}>${selection}</${tag}>`;
     if(this.data.mode === 'markdown') {
-      insertHtml = toMarkdown(insertHtml,this.data.markdownOption);
+      und.convert(insertHtml, (err, markdown) => {
+        document.execCommand('insertHtml', false, markdown.replace(/\r\n|\r|\n/g,'<br/>'));
+      });
+    } else {
+      document.execCommand('insertHtml', false, insertHtml.replace(/\r\n|\r|\n/g,'<br/>'));
     }
-    document.execCommand('insertHtml', false, insertHtml.replace(/\r\n|\r|\n/g,'<br/>'));
   }
 
   onClick(i) {
@@ -205,8 +201,10 @@ export default class SimpleWysiwyg extends aTemplate {
 
   toMarkdown() {
     this.data.mode = 'markdown';
-    this.data.value = toMarkdown(this.data.value,this.data.markdownOption);
-    this.update();
+    und.convert(this.data.value, (err, markdown) => {
+      this.data.value = markdown;
+      this.update();
+    });    
   }
 
   toHtml() {
