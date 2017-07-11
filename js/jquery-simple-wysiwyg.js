@@ -14846,7 +14846,7 @@ var SimpleWysiwyg = function (_aTemplate) {
       format: _this.format
     };
     if (selector.value) {
-      _this.data.value = entities.encode(selector.value.replace(/\r\n|\r|\n/g, '<br/>'));
+      _this.data.value = entities.encode(selector.value).replace(/\r\n|\r|\n/g, '<br/>');
     }
     var attrStr = '';
     if (selector.attributes) {
