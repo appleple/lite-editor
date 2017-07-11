@@ -132,6 +132,9 @@ export default class SimpleWysiwyg extends aTemplate {
   }
 
   restoreSelection() {
+    if (!this.selection) {
+      return;
+    }
     util.restoreSelection(this.selection);
   }
 

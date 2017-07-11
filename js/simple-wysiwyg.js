@@ -9102,6 +9102,9 @@ var SimpleWysiwyg = function (_aTemplate) {
   }, {
     key: 'restoreSelection',
     value: function restoreSelection() {
+      if (!this.selection) {
+        return;
+      }
       util.restoreSelection(this.selection);
     }
   }, {
