@@ -50,7 +50,7 @@ export default class SimpleWysiwyg extends aTemplate {
       format:this.format
     }
     if(selector.value) {
-      this.data.value = entities.encode(selector.value).replace(/\r\n|\r|\n/g,'<br/>');
+      this.data.value = selector.value.replace(/\r\n|\r|\n/g,'<br/>');
     }
     let attrStr = '';
     if (selector.attributes){
@@ -87,6 +87,16 @@ export default class SimpleWysiwyg extends aTemplate {
 
   _getElementByQuery(query) {
     return document.querySelector(`[data-id='${this.id}'] ${query}`);
+  }
+
+  encodeValue() {
+    this.data.value = entities.encode(this.data.value);
+    this.update();
+  }
+
+  decodeValue() {
+    this.data.value = entities.decode(this.data.value);
+    this.update();    
   }
 
   hideEditor() {

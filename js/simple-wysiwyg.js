@@ -14821,7 +14821,7 @@ var SimpleWysiwyg = function (_aTemplate) {
       format: _this.format
     };
     if (selector.value) {
-      _this.data.value = entities.encode(selector.value).replace(/\r\n|\r|\n/g, '<br/>');
+      _this.data.value = selector.value.replace(/\r\n|\r|\n/g, '<br/>');
     }
     var attrStr = '';
     if (selector.attributes) {
@@ -14865,6 +14865,18 @@ var SimpleWysiwyg = function (_aTemplate) {
     key: '_getElementByQuery',
     value: function _getElementByQuery(query) {
       return document.querySelector('[data-id=\'' + this.id + '\'] ' + query);
+    }
+  }, {
+    key: 'encodeValue',
+    value: function encodeValue() {
+      this.data.value = entities.encode(this.data.value);
+      this.update();
+    }
+  }, {
+    key: 'decodeValue',
+    value: function decodeValue() {
+      this.data.value = entities.decode(this.data.value);
+      this.update();
     }
   }, {
     key: 'hideEditor',
