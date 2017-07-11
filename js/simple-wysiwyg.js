@@ -8956,9 +8956,10 @@ var template = '<div class="\\{classNames.SimpleWysiwyg\\}" data-selector="simpl
 
 
 var Entities = require('html-entities').XmlEntities;
-var entities = new Entities();
 var _toMarkdown = require('to-markdown');
 var showdown = require('showdown');
+
+var entities = new Entities();
 var converter = new showdown.Converter();
 
 var defaults = {

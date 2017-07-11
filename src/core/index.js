@@ -5,9 +5,10 @@ import extend from 'deep-extend';
 import * as util from '../lib/util';
 
 const Entities = require('html-entities').XmlEntities;
-const entities = new Entities();
 const toMarkdown = require('to-markdown');
 const showdown = require('showdown');
+
+const entities = new Entities();
 const converter = new showdown.Converter();
 
 const defaults = {
