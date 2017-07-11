@@ -50,7 +50,7 @@ export default class SimpleWysiwyg extends aTemplate {
       format:this.format
     }
     if(selector.value) {
-      this.data.value = selector.value.replace(/\r\n|\r|\n/g,'<br/>');
+      this.data.value = entities.encode(selector.value.replace(/\r\n|\r|\n/g,'<br/>'));
     }
     let attrStr = '';
     if (selector.attributes){
