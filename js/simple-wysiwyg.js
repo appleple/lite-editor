@@ -14795,7 +14795,8 @@ var defaults = {
     addLinkTitle: 'Add Link',
     addLinkBtn: 'add link',
     sourceBtn: 'source',
-    resetStyleBtn: 'reset'
+    resetStyleBtn: 'reset',
+    noRangeSelected: 'please select the range'
   },
   selectOptions: [],
   btnOptions: [],
@@ -14943,6 +14944,10 @@ var SimpleWysiwyg = function (_aTemplate) {
         link = ' href="' + prompt(data.message.addLinkTitle, 'http://') + '"';
       }
       var selection = util.getSelection();
+      if (!selection) {
+        alert(data.message.noRangeSelected);
+        return;
+      }
       var insertHtml = '<' + tag + link + classAttr + '>' + selection + '</' + tag + '>';
       if (this.data.mode === 'markdown') {
         und.convert(insertHtml, function (err, markdown) {
