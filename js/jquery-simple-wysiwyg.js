@@ -14953,10 +14953,9 @@ var SimpleWysiwyg = function (_aTemplate) {
     key: 'insertHtml',
     value: function insertHtml(html) {
       if (this._isFocused()) {
-        if (!document.execCommand('insertHtml', false, html)) {
-          // for IE
-          this.restoreSelection();
-        }
+        util.replaceSelectionWithHtml(html);
+        var editor = this._getElementByQuery('[data-selector="simple-wysiwyg"]');
+        this.data.value = editor.innerHTML;
       }
     }
   }, {
@@ -15044,7 +15043,10 @@ var SimpleWysiwyg = function (_aTemplate) {
     }
   }, {
     key: 'onPutCaret',
-    value: function onPutCaret() {}
+    value: function onPutCaret() {
+      var btnOptions = this.data.btnOptions;
+      btnOptions.forEach(function (btn) {});
+    }
   }, {
     key: 'redo',
     value: function redo() {
@@ -15246,6 +15248,25 @@ var restoreSelection = exports.restoreSelection = function restoreSelection(rang
     sel.addRange(range);
   } else if (document.selection && range.select) {
     range.select();
+  }
+};
+
+var replaceSelectionWithHtml = exports.replaceSelectionWithHtml = function replaceSelectionWithHtml(html) {
+  var range = void 0;
+  if (window.getSelection && window.getSelection().getRangeAt) {
+    range = window.getSelection().getRangeAt(0);
+    range.deleteContents();
+    var div = document.createElement("div");
+    div.innerHTML = html;
+    var frag = document.createDocumentFragment(),
+        child = void 0;
+    while (child = div.firstChild) {
+      frag.appendChild(child);
+    }
+    range.insertNode(frag);
+  } else if (document.selection && document.selection.createRange) {
+    range = document.selection.createRange();
+    range.pasteHTML(html);
   }
 };
 

@@ -142,11 +142,9 @@ export default class SimpleWysiwyg extends aTemplate {
 
   insertHtml(html) {
     if (this._isFocused()) {
-      if(!document.execCommand('insertHtml', false, html)){
-        // for IE
-        this.restoreSelection();
-
-      }
+      util.replaceSelectionWithHtml(html);
+      const editor = this._getElementByQuery(`[data-selector="simple-wysiwyg"]`);
+      this.data.value = editor.innerHTML;
     }
   }
 
@@ -224,7 +222,10 @@ export default class SimpleWysiwyg extends aTemplate {
   }
 
   onPutCaret() {
-
+    const btnOptions = this.data.btnOptions;
+    btnOptions.forEach(btn => {
+      
+    });
   }
 
   redo() {
