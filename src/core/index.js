@@ -248,7 +248,6 @@ export default class SimpleWysiwyg extends aTemplate {
     util.before(node,node.innerHTML);
     util.removeElement(node);
     this.data.value = editor.innerHTML;
-
     const newNode = util.getSelectionNode();
     this.updateToolBox(newNode.localName);
   }
