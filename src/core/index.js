@@ -173,7 +173,6 @@ export default class SimpleWysiwyg extends aTemplate {
       alert(data.message.noRangeSelected);
       return;
     }
-    console.log(`${selection}`, selection);
     const insertHtml = `<${tag}${link}${classAttr}>${selection}</${tag}>`;
     if(this.data.mode === 'markdown') {
       und.convert(insertHtml, (err, markdown) => {
@@ -210,6 +209,10 @@ export default class SimpleWysiwyg extends aTemplate {
     if (this._isFocused()) {
       document.execCommand('insertText', false, insertText);
     }
+  }
+
+  onPutCaret() {
+
   }
 
   redo() {
