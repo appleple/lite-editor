@@ -11,7 +11,7 @@
  * a-template:
  *   license: MIT (http://opensource.org/licenses/MIT)
  *   author: steelydylan
- *   version: 0.3.0
+ *   version: 0.4.2
  *
  * array.prototype.find:
  *   license: MIT (http://opensource.org/licenses/MIT)
@@ -233,7 +233,7 @@ var _util = require('./util');
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var morphdom = require('morphdom');
-var eventType = 'input paste copy click change keydown keyup contextmenu mouseup mousedown mousemove touchstart touchend touchmove compositionstart compositionend';
+var eventType = 'input paste copy click change keydown keyup contextmenu mouseup mousedown mousemove touchstart touchend touchmove compositionstart compositionend focus';
 var bindType = 'input change click';
 var dataAction = eventType.replace(/([a-z]+)/g, "[data-action-$1],") + "[data-action]";
 var find = require('array.prototype.find');
@@ -397,7 +397,7 @@ var aTemplate = function () {
   }, {
     key: 'getDataFromObj',
     value: function getDataFromObj(s, o) {
-      s = s.replace(/\[([a-zA-Z0-9._-]+)\]/g, '.$1'); // convert indexes to properties
+      s = s.replace(/\[([\w\-\.ぁ-んァ-ヶ亜-熙]+)\]/g, '.$1'); // convert indexes to properties
       s = s.replace(/^\./, ''); // strip leading dot
       var a = s.split('.');
       while (a.length) {
@@ -445,15 +445,15 @@ var aTemplate = function () {
     key: 'resolveBlock',
     value: function resolveBlock(html, item, i) {
       var that = this;
-      var touchs = html.match(/<!-- BEGIN ([a-zA-Z0-9._-]+):touch#([a-zA-Z0-9._-]+) -->/g);
-      var touchnots = html.match(/<!-- BEGIN ([a-zA-Z0-9._-]+):touchnot#([a-zA-Z0-9._-]+) -->/g);
-      var exists = html.match(/<!-- BEGIN ([a-zA-Z0-9._-]+):exist -->/g);
-      var empties = html.match(/<!-- BEGIN ([a-zA-Z0-9._-]+):empty -->/g);
+      var touchs = html.match(/<!-- BEGIN ([\w\-\.ぁ-んァ-ヶ亜-熙]+):touch#([\w\-\.ぁ-んァ-ヶ亜-熙]+) -->/g);
+      var touchnots = html.match(/<!-- BEGIN ([\w\-\.ぁ-んァ-ヶ亜-熙]+):touchnot#([\w\-\.ぁ-んァ-ヶ亜-熙]+) -->/g);
+      var exists = html.match(/<!-- BEGIN ([\w\-\.ぁ-んァ-ヶ亜-熙]+):exist -->/g);
+      var empties = html.match(/<!-- BEGIN ([\w\-\.ぁ-んァ-ヶ亜-熙]+):empty -->/g);
       /*タッチブロック解決*/
       if (touchs) {
         for (var k = 0, n = touchs.length; k < n; k++) {
           var start = touchs[k];
-          start = start.replace(/([a-zA-Z0-9._-]+):touch#([a-zA-Z0-9._-]+)/, "($1):touch#($2)");
+          start = start.replace(/([\w\-\.ぁ-んァ-ヶ亜-熙]+):touch#([\w\-\.ぁ-んァ-ヶ亜-熙]+)/, "($1):touch#($2)");
           var end = start.replace(/BEGIN/, "END");
           var reg = new RegExp(start + "(([\\n\\r\\t]|.)*?)" + end, "g");
           html = html.replace(reg, function (m, key2, val, next) {
@@ -470,7 +470,7 @@ var aTemplate = function () {
       if (touchnots) {
         for (var _k = 0, _n = touchnots.length; _k < _n; _k++) {
           var _start = touchnots[_k];
-          _start = _start.replace(/([a-zA-Z0-9._-]+):touchnot#([a-zA-Z0-9._-]+)/, "($1):touchnot#($2)");
+          _start = _start.replace(/([\w\-\.ぁ-んァ-ヶ亜-熙]+):touchnot#([\w\-\.ぁ-んァ-ヶ亜-熙]+)/, "($1):touchnot#($2)");
           var _end = _start.replace(/BEGIN/, "END");
           var _reg = new RegExp(_start + "(([\\n\\r\\t]|.)*?)" + _end, "g");
           html = html.replace(_reg, function (m, key2, val, next) {
@@ -487,7 +487,7 @@ var aTemplate = function () {
       if (exists) {
         for (var _k2 = 0, _n2 = exists.length; _k2 < _n2; _k2++) {
           var _start2 = exists[_k2];
-          _start2 = _start2.replace(/([a-zA-Z0-9._-]+):exist/, "($1):exist");
+          _start2 = _start2.replace(/([\w\-\.ぁ-んァ-ヶ亜-熙]+):exist/, "($1):exist");
           var _end2 = _start2.replace(/BEGIN/, "END");
           var _reg2 = new RegExp(_start2 + "(([\\n\\r\\t]|.)*?)" + _end2, "g");
           html = html.replace(_reg2, function (m, key2, next) {
@@ -504,7 +504,7 @@ var aTemplate = function () {
       if (empties) {
         for (var _k3 = 0, _n3 = empties.length; _k3 < _n3; _k3++) {
           var _start3 = empties[_k3];
-          _start3 = _start3.replace(/([a-zA-Z0-9._-]+):empty/, "($1):empty");
+          _start3 = _start3.replace(/([\w\-\.ぁ-んァ-ヶ亜-熙]+):empty/, "($1):empty");
           var _end3 = _start3.replace(/BEGIN/, "END");
           var empty = new RegExp(_start3 + "(([\\n\\r\\t]|.)*?)" + _end3, "g");
           html = html.replace(empty, function (m, key2, next) {
@@ -518,7 +518,7 @@ var aTemplate = function () {
         }
       }
       /*変数解決*/
-      html = html.replace(/{([a-zA-Z0-9._-]+)}(\[([a-zA-Z0-9._-]+)\])*/g, function (n, key3, key4, converter) {
+      html = html.replace(/{([\w\-\.ぁ-んァ-ヶ亜-熙]+)}(\[([\w\-\.ぁ-んァ-ヶ亜-熙]+)\])*/g, function (n, key3, key4, converter) {
         var data = void 0;
         if (key3 == "i") {
           data = i;
@@ -577,7 +577,7 @@ var aTemplate = function () {
   }, {
     key: 'resolveWith',
     value: function resolveWith(html) {
-      var width = /<!-- BEGIN ([a-zA-Z0-9._-]+):with -->(([\n\r\t]|.)*?)<!-- END ([a-zA-Z0-9._-]+):with -->/g;
+      var width = /<!-- BEGIN ([\w\-\.ぁ-んァ-ヶ亜-熙]+):with -->(([\n\r\t]|.)*?)<!-- END ([\w\-\.ぁ-んァ-ヶ亜-熙]+):with -->/g;
       html = html.replace(width, function (m, key, val) {
         m = m.replace(/data\-bind=['"](.*?)['"]/g, "data-bind='" + key + ".$1'");
         return m;
@@ -587,7 +587,7 @@ var aTemplate = function () {
   }, {
     key: 'resolveLoop',
     value: function resolveLoop(html) {
-      var loop = /<!-- BEGIN (.+?):loop -->(([\n\r\t]|.)*?)<!-- END (.+?):loop -->/g;
+      var loop = /<!-- BEGIN ([\w\-\.ぁ-んァ-ヶ亜-熙]+?):loop -->(([\n\r\t]|.)*?)<!-- END ([\w\-\.ぁ-んァ-ヶ亜-熙]+?):loop -->/g;
       var that = this;
       /*ループ文解決*/
       html = html.replace(loop, function (m, key, val) {
@@ -626,7 +626,7 @@ var aTemplate = function () {
   }, {
     key: 'hasLoop',
     value: function hasLoop(txt) {
-      var loop = /<!-- BEGIN (.+?):loop -->(([\n\r\t]|.)*?)<!-- END (.+?):loop -->/g;
+      var loop = /<!-- BEGIN ([\w\-\.ぁ-んァ-ヶ亜-熙]+?):loop -->(([\n\r\t]|.)*?)<!-- END ([\w\-\.ぁ-んァ-ヶ亜-熙]+?):loop -->/g;
       if (txt.match(loop)) {
         return true;
       } else {
@@ -686,39 +686,39 @@ var aTemplate = function () {
         var query = "#" + tem;
         var html = _this3.getHtml(tem);
         var target = (0, _util.selector)('[data-id=\'' + tem + '\']');
-        if (!part || part == tem) {
-          if (!target) {
-            (0, _util.selector)(query).insertAdjacentHTML('afterend', '<div data-id="' + tem + '"></div>');
-            if (renderWay === 'text') {
-              (0, _util.selector)('[data-id=\'' + tem + '\']').innerText = html;
-            } else {
-              (0, _util.selector)('[data-id=\'' + tem + '\']').innerHTML = html;
-            }
+        if (!target) {
+          (0, _util.selector)(query).insertAdjacentHTML('afterend', '<div data-id="' + tem + '"></div>');
+          if (renderWay === 'text') {
+            (0, _util.selector)('[data-id=\'' + tem + '\']').innerText = html;
           } else {
-            if (renderWay === 'text') {
-              target.innerText = html;
+            (0, _util.selector)('[data-id=\'' + tem + '\']').innerHTML = html;
+          }
+        } else {
+          if (renderWay === 'text') {
+            target.innerText = html;
+          } else {
+            if (part) {
+              var parser = new DOMParser();
+              var doc = parser.parseFromString(html, "text/html");
+              var partHtml = doc.querySelector(part).outerHTML;
+              morphdom(target.querySelector(part), partHtml);
             } else {
               morphdom(target, '<div data-id=\'' + tem + '\'>' + html + '</div>');
             }
           }
-          var template = find(_this3.atemplate, function (item) {
-            return item.id === tem;
-          });
-          if (!template.binded) {
-            template.binded = true;
-            _this3.addDataBind((0, _util.selector)('[data-id=\'' + tem + '\']'));
-            _this3.addActionBind((0, _util.selector)('[data-id=\'' + tem + '\']'));
-          }
-          if (part) {
-            return 'break';
-          }
+        }
+        var template = find(_this3.atemplate, function (item) {
+          return item.id === tem;
+        });
+        if (!template.binded) {
+          template.binded = true;
+          _this3.addDataBind((0, _util.selector)('[data-id=\'' + tem + '\']'));
+          _this3.addActionBind((0, _util.selector)('[data-id=\'' + tem + '\']'));
         }
       };
 
       for (var i = 0, n = templates.length; i < n; i++) {
-        var _ret2 = _loop(i, n);
-
-        if (_ret2 === 'break') break;
+        _loop(i, n);
       }
       this.updateBindingData(part);
       if (this.onUpdated) {
@@ -735,8 +735,8 @@ var aTemplate = function () {
       for (var i = 0, n = templates.length; i < n; i++) {
         var temp = templates[i];
         if (!part || part == temp) {
-          var template = (0, _util.selector)('[data-id=\'' + temp + '\']');
-          var binds = template.querySelectorAll('[data-bind]');
+          var _template = (0, _util.selector)('[data-id=\'' + temp + '\']');
+          var binds = _template.querySelectorAll('[data-bind]');
           [].forEach.call(binds, function (item) {
             var data = _this4.getDataByString(item.getAttribute("data-bind"));
             if (item.getAttribute("type") === "checkbox" || item.getAttribute("type") === "radio") {
@@ -14793,8 +14793,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var editorHtml = '<div class="\\{classNames.SimpleWysiwyg\\}" data-action-click="onPutCaret" data-selector="simple-wysiwyg" contenteditable data-action-input="onInput" data-action-paste="onPaste"<!-- BEGIN showSource:exist --> style="display:none;"<!-- END showSource:exist --><!-- BEGIN hideEditor:exist --> style="display:none;"<!-- END hideEditor:exist -->>{value}</div>\n<textarea class="\\{classNames.SimpleWysiwygSource\\}" data-selector="simple-wysiwyg-source" <!-- BEGIN showSource:empty --> style="display:none;"<!-- END showSource:empty -->{attr} data-action="directInput">{value}[format]</textarea>';
-var btnHtml = '<div class="\\{classNames.SimpleWysiwygToolBox\\}">\n    <!-- BEGIN selectOptions.0:exist -->\n    <div class="\\{classNames.SimpleWysiwygSelectWrap\\}">\n        <select class="\\{classNames.SimpleWysiwygSelect\\}"<!-- BEGIN selectName:exist --> name="{selectName}"<!-- END selectName:exist --> data-action-change="changeOption" data-bind="selectedOption">\n        <!-- BEGIN selectOptions:loop -->\n        <option value="{value}" data-tag_extend>{label}</option>\n        <!-- END selectOptions:loop -->\n        </select>\n    </div>\n    <!-- END selectOptions.0:exist -->\n\n    <div class="\\{classNames.SimpleWysiwygBtnGroupWrap\\}" <!-- BEGIN hideBtns:exist --> style="display:none;"<!-- END hideBtns:exist -->>\n        <div class="\\{classNames.SimpleWysiwygBtnGroup\\}">\n        <button class="\\{classNames.SimpleWysiwygBtn\\}<!-- BEGIN showSource:exist --> \\{classNames.SimpleWysiwygBtnActive\\}<!-- END showSource:exist -->" data-action-click="toggleSource" type="button">\\{message.sourceBtn\\}</button>\n        <button class="\\{classNames.SimpleWysiwygBtn\\}" data-action-click="redo"<!-- BEGIN showSource:exist --> disabled<!-- END showSource:exist --> type="button">\\{message.redoBtn\\}</button>\n        <button class="\\{classNames.SimpleWysiwygBtn\\}" data-action-click="undo"<!-- BEGIN showSource:exist --> disabled<!-- END showSource:exist --> type="button">\\{message.undoBtn\\}</button>\n        <button class="\\{classNames.SimpleWysiwygBtn\\}" data-action-click="resetStyle"<!-- BEGIN showSource:exist --> disabled<!-- END showSource:exist --> type="button">\\{message.resetStyleBtn\\}</button>\n        </div>\n        \n        <div class="\\{classNames.SimpleWysiwygBtnGroup\\}">\n        <!-- BEGIN btnOptions:loop -->\n        <button class="\\\\{classNames.SimpleWysiwygBtn\\\\}<!-- BEGIN selfClassName:exist --> {selfClassName}<!-- END selfClassName:exist -->"<!-- BEGIN tag:exist --> data-action-click="insertTag({tag},{className})"<!-- END tag:exist --><!-- BEGIN tag:empty --> data-action-click="onClick({i})"<!-- END tag:empty --><!-- \\BEGIN showSource:exist --> disabled<!-- \\END showSource:exist --> type="button">{label}</button>\n        <!-- END btnOptions:loop -->\n        </div>\n    </div>\n</div>';
+var editorHtml = '<div class="\\{classNames.SimpleWysiwyg\\}" data-action-mouseup="onPutCaret" data-selector="simple-wysiwyg" contenteditable data-action-input="onInput" data-action-paste="onPaste"<!-- BEGIN showSource:exist --> style="display:none;"<!-- END showSource:exist --><!-- BEGIN hideEditor:exist --> style="display:none;"<!-- END hideEditor:exist -->>{value}</div>\n<textarea class="\\{classNames.SimpleWysiwygSource\\}" data-selector="simple-wysiwyg-source" <!-- BEGIN showSource:empty --> style="display:none;"<!-- END showSource:empty -->{attr} data-action="directInput">{value}[format]</textarea>';
+var btnHtml = '<div class="\\{classNames.SimpleWysiwygToolBox\\}">\n    <!-- BEGIN selectOptions.0:exist -->\n    <div class="\\{classNames.SimpleWysiwygSelectWrap\\}">\n        <select class="\\{classNames.SimpleWysiwygSelect\\}"<!-- BEGIN selectName:exist --> name="{selectName}"<!-- END selectName:exist --> data-action-change="changeOption" data-bind="selectedOption">\n        <!-- BEGIN selectOptions:loop -->\n        <option value="{value}" data-tag_extend>{label}</option>\n        <!-- END selectOptions:loop -->\n        </select>\n    </div>\n    <!-- END selectOptions.0:exist -->\n\n    <div class="\\{classNames.SimpleWysiwygBtnGroupWrap\\}" <!-- BEGIN hideBtns:exist --> style="display:none;"<!-- END hideBtns:exist -->>\n        <div class="\\{classNames.SimpleWysiwygBtnGroup\\}">\n        <button class="\\{classNames.SimpleWysiwygBtn\\}<!-- BEGIN showSource:exist --> \\{classNames.SimpleWysiwygBtnActive\\}<!-- END showSource:exist -->" data-action-click="toggleSource" type="button">\\{message.sourceBtn\\}</button>\n        <button class="\\{classNames.SimpleWysiwygBtn\\}" data-action-click="redo"<!-- BEGIN showSource:exist --> disabled<!-- END showSource:exist --> type="button">\\{message.redoBtn\\}</button>\n        <button class="\\{classNames.SimpleWysiwygBtn\\}" data-action-click="undo"<!-- BEGIN showSource:exist --> disabled<!-- END showSource:exist --> type="button">\\{message.undoBtn\\}</button>\n        <button class="\\{classNames.SimpleWysiwygBtn\\}" data-action-click="resetStyle"<!-- BEGIN showSource:exist --> disabled<!-- END showSource:exist --> type="button">\\{message.resetStyleBtn\\}</button>\n        </div>\n        \n        <div class="\\{classNames.SimpleWysiwygBtnGroup\\}" data-selector="btn-group">\n        <!-- BEGIN btnOptions:loop -->\n        <button class="\\\\{classNames.SimpleWysiwygBtn\\\\}<!-- BEGIN selfClassName:exist --> {selfClassName}<!-- END selfClassName:exist --><!-- BEGIN selected:exist --> \\\\{classNames.SimpleWysiwygBtnActive\\\\}<!-- END selected:exist -->" data-tag="{tag}" data-class="{className}"<!-- BEGIN tag:exist --> data-action-click="insertTag({tag},{className})"<!-- END tag:exist --><!-- BEGIN tag:empty --> data-action-click="onClick({i})"<!-- END tag:empty --><!-- \\BEGIN showSource:exist --> disabled<!-- \\END showSource:exist --> type="button">{label}</button>\n        <!-- END btnOptions:loop -->\n        </div>\n    </div>\n</div>';
 
 
 var Entities = require('html-entities').XmlEntities;
@@ -15045,8 +15045,16 @@ var SimpleWysiwyg = function (_aTemplate) {
   }, {
     key: 'onPutCaret',
     value: function onPutCaret() {
+      var tagName = this.e.target.localName;
       var btnOptions = this.data.btnOptions;
-      btnOptions.forEach(function (btn) {});
+      btnOptions.forEach(function (btn) {
+        if (btn.tag === tagName) {
+          btn.selected = true;
+        } else {
+          btn.selected = false;
+        }
+      });
+      this.update('html', '.' + this.data.classNames.SimpleWysiwygToolBox);
     }
   }, {
     key: 'redo',

@@ -122,19 +122,19 @@ export const restoreSelection = (range) => {
 }
 
 export const replaceSelectionWithHtml = (html) => {
-    let range;
-    if (window.getSelection && window.getSelection().getRangeAt) {
-      range = window.getSelection().getRangeAt(0);
-      range.deleteContents();
-      const div = document.createElement("div");
-      div.innerHTML = html;
-      let frag = document.createDocumentFragment(), child;
-      while ( (child = div.firstChild) ) {
-        frag.appendChild(child);
-      }
-      range.insertNode(frag);
-    } else if (document.selection && document.selection.createRange) {
-      range = document.selection.createRange();
-      range.pasteHTML(html);
+  let range;
+  if (window.getSelection && window.getSelection().getRangeAt) {
+    range = window.getSelection().getRangeAt(0);
+    range.deleteContents();
+    const div = document.createElement("div");
+    div.innerHTML = html;
+    let frag = document.createDocumentFragment(), child;
+    while ( (child = div.firstChild) ) {
+      frag.appendChild(child);
     }
+    range.insertNode(frag);
+  } else if (document.selection && document.selection.createRange) {
+    range = document.selection.createRange();
+    range.pasteHTML(html);
+  }
 }

@@ -223,10 +223,16 @@ export default class SimpleWysiwyg extends aTemplate {
   }
 
   onPutCaret() {
+    const tagName = this.e.target.localName;
     const btnOptions = this.data.btnOptions;
     btnOptions.forEach(btn => {
-      
+      if (btn.tag === tagName) {
+        btn.selected = true;
+      } else {
+        btn.selected = false;
+      }
     });
+    this.update('html',`.${this.data.classNames.SimpleWysiwygToolBox}`);
   }
 
   redo() {

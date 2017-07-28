@@ -1,5 +1,7 @@
 # simple-wysiwyg
 
+inline-only-wysiwyg
+
 ## Feature
 
 ## Installation
