@@ -5,6 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<link rel="stylesheet" href="../css/simple-wysiwyg.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="./style.css">
 	<title>SimpleWysiwyg</title>
 </head>
@@ -22,7 +23,9 @@
         addLinkTitle: 'リンク先URLを入力してください。',
         addLinkBtn: 'リンクの挿入',
         resetStyleBtn: 'Reset',
-        sourceBtn: 'HTML'
+        sourceBtn: '<i class="fa fa-code"></i>',
+        redoBtn: '<i class="fa fa-repeat"></i>',
+        undoBtn: '<i class="fa fa-undo"></i>'
       },
       selectOptions: [
         { 
@@ -43,53 +46,19 @@
       selectedOption: 'p',
       btnOptions: [
         { 
-          label: 'リンクを挿入', 
+          label: '<i class="fa fa-link"></i>', 
           tag: 'a', 
           className: ''
         },
         { 
-          label: '強調1', 
-          tag: 'em', 
-          className: ''
-        },
-        { 
-          label: '強調2', 
+          label: '<i class="fa fa-bold"></i>', 
           tag: 'strong', 
           className: ''
         },
         {
-          label: 'イタリック',
+          label: '<i class="fa fa-italic"></i>',
           tag: 'i',
           className: ''
-        },
-        { 
-          label: '赤', 
-          tag: 'span', 
-          className: 'red', 
-          selfClassName: 'red'
-        },
-        { 
-          label: '青', 
-          tag: 'span', 
-          className: 'blue', 
-          selfClassName: 'blue'
-        },
-        { 
-          label: '黄', 
-          tag: 'span', 
-          className: 'yellow', 
-          selfClassName: 'yellow'
-        },
-        {
-          label: 'test',
-          tag: 'span',
-          className: 'hogehoge'
-        },
-        { 
-          label: 'メディアを挿入', 
-          onClick: function(){ 
-            alert('clicked!')
-          }
         }
       ]
 		});

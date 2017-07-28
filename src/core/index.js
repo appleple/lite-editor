@@ -23,7 +23,8 @@ const defaults = {
     SimpleWysiwygBtnGroup: 'simple-wysiwyg-btn-group',
     SimpleWysiwygBtnGroupWrap: 'simple-wysiwyg-btn-group-wrap',
     SimpleWysiwygSelect: 'simple-wysiwyg-select',
-    SimpleWysiwygSelectWrap: 'simple-wysiwyg-select-wrap'
+    SimpleWysiwygSelectWrap: 'simple-wysiwyg-select-wrap',
+    SimpleWysiwygToolBox: 'simple-wysiwyg-toolbox'
   },
   message: {
     addLinkTitle: 'Add Link',
