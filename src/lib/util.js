@@ -138,3 +138,13 @@ export const replaceSelectionWithHtml = (html) => {
     range.pasteHTML(html);
   }
 }
+
+export const getSelectionNode = (html) => {
+  const node = document.getSelection().anchorNode;
+  return (node.nodeType == 3 ? node.parentNode : node);
+}
+
+export const unwrapTag = (node) => {
+  const html = node.innerHTML;
+  node.parentNode.insertBefore(node, document.createTextNode(html));
+}

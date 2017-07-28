@@ -207,6 +207,7 @@ export default class SimpleWysiwyg extends aTemplate {
 
   onInput() {
     const editor = this._getElementByQuery(`[data-selector="simple-wysiwyg"]`);
+    this.saveSelection();
     this.data.value = editor.innerHTML;
     if(this.selector) {
       this.selector.value = this.format(this.data.value);
@@ -232,7 +233,18 @@ export default class SimpleWysiwyg extends aTemplate {
         btn.selected = false;
       }
     });
+    this.saveSelection();
     this.update('html',`.${this.data.classNames.SimpleWysiwygToolBox}`);
+  }
+
+  removeParentTag() {
+    this.restoreSelection();
+    const selection = util.getSelection();
+    const node = util.getSelectionNode();
+    const editor = this._getElementByQuery(`[data-selector="simple-wysiwyg"]`);
+    util.before(node,node.innerHTML);
+    util.removeElement(node);
+    this.data.value = editor.innerHTML;
   }
 
   redo() {
