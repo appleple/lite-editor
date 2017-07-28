@@ -14920,7 +14920,10 @@ var SimpleWysiwyg = function (_aTemplate) {
     key: 'insertHtml',
     value: function insertHtml(html) {
       if (this._isFocused()) {
-        document.execCommand('insertHtml', false, html);
+        if (!document.execCommand('insertHtml', false, html)) {
+          // for IE
+          this.restoreSelection();
+        }
       }
     }
   }, {
@@ -14945,6 +14948,8 @@ var SimpleWysiwyg = function (_aTemplate) {
   }, {
     key: 'insertTag',
     value: function insertTag(tag, className) {
+      var _this2 = this;
+
       var data = this.data;
       var mode = data.mode;
       var classAttr = '';
@@ -14966,10 +14971,10 @@ var SimpleWysiwyg = function (_aTemplate) {
       var insertHtml = '<' + tag + link + classAttr + '>' + selection + '</' + tag + '>';
       if (this.data.mode === 'markdown') {
         und.convert(insertHtml, function (err, markdown) {
-          document.execCommand('insertHtml', false, markdown.replace(/\r\n|\r|\n/g, '<br/>'));
+          _this2.insertHtml(markdown.replace(/\r\n|\r|\n/g, '<br/>'));
         });
       } else {
-        document.execCommand('insertHtml', false, insertHtml.replace(/\r\n|\r|\n/g, '<br/>'));
+        this.insertHtml(insertHtml.replace(/\r\n|\r|\n/g, '<br/>'));
       }
     }
   }, {
@@ -15043,12 +15048,12 @@ var SimpleWysiwyg = function (_aTemplate) {
   }, {
     key: 'toMarkdown',
     value: function toMarkdown() {
-      var _this2 = this;
+      var _this3 = this;
 
       this.data.mode = 'markdown';
       und.convert(this.data.value, function (err, markdown) {
-        _this2.data.value = markdown;
-        _this2.update();
+        _this3.data.value = markdown;
+        _this3.update();
       });
     }
   }, {

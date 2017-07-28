@@ -134,7 +134,11 @@ export default class SimpleWysiwyg extends aTemplate {
 
   insertHtml(html) {
     if (this._isFocused()) {
-      document.execCommand('insertHtml', false, html);
+      if(!document.execCommand('insertHtml', false, html)){
+        // for IE
+        this.restoreSelection();
+
+      }
     }
   }
 
@@ -176,10 +180,10 @@ export default class SimpleWysiwyg extends aTemplate {
     const insertHtml = `<${tag}${link}${classAttr}>${selection}</${tag}>`;
     if(this.data.mode === 'markdown') {
       und.convert(insertHtml, (err, markdown) => {
-        document.execCommand('insertHtml', false, markdown.replace(/\r\n|\r|\n/g,'<br/>'));
+        this.insertHtml(markdown.replace(/\r\n|\r|\n/g,'<br/>'));
       });
     } else {
-      document.execCommand('insertHtml', false, insertHtml.replace(/\r\n|\r|\n/g,'<br/>'));
+      this.insertHtml(insertHtml.replace(/\r\n|\r|\n/g,'<br/>'));
     }
   }
 
