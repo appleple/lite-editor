@@ -225,6 +225,10 @@ export default class SimpleWysiwyg extends aTemplate {
 
   onPutCaret() {
     const tagName = this.e.target.localName;
+    this.updateToolBox(tagName);
+  }
+
+  updateToolBox(tagName, classname) {
     const btnOptions = this.data.btnOptions;
     btnOptions.forEach(btn => {
       if (btn.tag === tagName) {
@@ -239,12 +243,14 @@ export default class SimpleWysiwyg extends aTemplate {
 
   removeParentTag() {
     this.restoreSelection();
-    const selection = util.getSelection();
     const node = util.getSelectionNode();
     const editor = this._getElementByQuery(`[data-selector="simple-wysiwyg"]`);
     util.before(node,node.innerHTML);
     util.removeElement(node);
     this.data.value = editor.innerHTML;
+
+    const newNode = util.getSelectionNode();
+    this.updateToolBox(newNode.localName);
   }
 
   redo() {

@@ -15022,6 +15022,11 @@ var SimpleWysiwyg = function (_aTemplate) {
     key: 'onPutCaret',
     value: function onPutCaret() {
       var tagName = this.e.target.localName;
+      this.updateToolBox(tagName);
+    }
+  }, {
+    key: 'updateToolBox',
+    value: function updateToolBox(tagName, classname) {
       var btnOptions = this.data.btnOptions;
       btnOptions.forEach(function (btn) {
         if (btn.tag === tagName) {
@@ -15037,12 +15042,14 @@ var SimpleWysiwyg = function (_aTemplate) {
     key: 'removeParentTag',
     value: function removeParentTag() {
       this.restoreSelection();
-      var selection = util.getSelection();
       var node = util.getSelectionNode();
       var editor = this._getElementByQuery('[data-selector="simple-wysiwyg"]');
       util.before(node, node.innerHTML);
       util.removeElement(node);
       this.data.value = editor.innerHTML;
+
+      var newNode = util.getSelectionNode();
+      this.updateToolBox(newNode.localName);
     }
   }, {
     key: 'redo',
