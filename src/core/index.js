@@ -1,5 +1,6 @@
 import aTemplate from 'a-template';
-import template from './viwer.html';
+import editorHtml from './editor.html';
+import btnHtml from './btn.html';
 import extend from 'deep-extend';
 
 import * as util from '../lib/util';
@@ -38,7 +39,8 @@ const defaults = {
   selectName: '',
   useLink: true,
   showSource: false,
-  hideEditor: false
+  hideEditor: false,
+  btnPosition: 'top'
 }
 
 export default class SimpleWysiwyg extends aTemplate {
@@ -47,6 +49,12 @@ export default class SimpleWysiwyg extends aTemplate {
     super();
     this.data = extend({}, defaults, settings);
     this.id = this._getUniqId();
+    let template = ``;
+    if (this.data.btnPosition === 'bottom') {
+      template = `${editorHtml}${btnHtml}`;
+    } else {
+      template = `${btnHtml}${editorHtml}`;
+    }
     this.addTemplate(this.id, template);
     const selector = typeof ele === 'string' ? document.querySelector(ele) : ele;
     this.convert = {
