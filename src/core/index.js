@@ -228,6 +228,10 @@ export default class SimpleWysiwyg extends aTemplate {
     this.updateToolBox(tagName);
   }
 
+  _getAllParentNodes() {
+    
+  }
+
   updateToolBox(tagName, classname) {
     const btnOptions = this.data.btnOptions;
     btnOptions.forEach(btn => {
@@ -294,7 +298,6 @@ export default class SimpleWysiwyg extends aTemplate {
     this.update();
   }
   
-
   changeOption() {
     const value = this.e.target.value;
     if (!value) {

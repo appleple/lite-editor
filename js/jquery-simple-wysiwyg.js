@@ -15050,6 +15050,9 @@ var SimpleWysiwyg = function (_aTemplate) {
       this.updateToolBox(tagName);
     }
   }, {
+    key: '_getAllParentNodes',
+    value: function _getAllParentNodes() {}
+  }, {
     key: 'updateToolBox',
     value: function updateToolBox(tagName, classname) {
       var btnOptions = this.data.btnOptions;
