@@ -29,7 +29,9 @@ const defaults = {
     addLinkBtn: 'add link',
     sourceBtn: 'source',
     resetStyleBtn: 'reset',
-    noRangeSelected: 'please select the range'
+    noRangeSelected: 'please select the range',
+    redoBtn: 'redo',
+    undoBtn: 'undo'
   },
   selectOptions: [],
   btnOptions: [],
@@ -171,6 +173,7 @@ export default class SimpleWysiwyg extends aTemplate {
       alert(data.message.noRangeSelected);
       return;
     }
+    console.log(`${selection}`, selection);
     const insertHtml = `<${tag}${link}${classAttr}>${selection}</${tag}>`;
     if(this.data.mode === 'markdown') {
       und.convert(insertHtml, (err, markdown) => {
@@ -209,6 +212,14 @@ export default class SimpleWysiwyg extends aTemplate {
     }
   }
 
+  redo() {
+    document.execCommand('redo', false);
+  }
+
+  undo() {
+    document.execCommand('undo', false);
+  }
+
   changeMode(mode) {
     this.data.mode = mode;
   }
@@ -242,6 +253,7 @@ export default class SimpleWysiwyg extends aTemplate {
     this.data.value = this.data.value.replace(/^<p>|<\/p>$/g, '');
     this.update();
   }
+  
 
   changeOption() {
     const value = this.e.target.value;
