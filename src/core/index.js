@@ -215,12 +215,12 @@ export default class SimpleWysiwyg extends aTemplate {
   }
 
   onPaste() {
-    const e = this.e;
-    e.preventDefault();
-    const insertText = e.clipboardData.getData('text/plain');
-    if (this._isFocused()) {
-      document.execCommand('insertText', false, insertText);
-    }
+    // const e = this.e;
+    // e.preventDefault();
+    // const insertText = e.clipboardData.getData('text/plain');
+    // if (this._isFocused()) {
+    //   document.execCommand('insertText', false, insertText);
+    // }
   }
 
   onPutCaret() {
@@ -229,7 +229,7 @@ export default class SimpleWysiwyg extends aTemplate {
   }
 
   _getAllParentNodes() {
-    
+
   }
 
   updateToolBox(tagName, classname) {
