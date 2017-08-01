@@ -15002,6 +15002,9 @@ var SimpleWysiwyg = function (_aTemplate) {
     key: 'onInput',
     value: function onInput() {
       var editor = this._getElementByQuery('[data-selector="simple-wysiwyg"]');
+      if (!editor) {
+        return;
+      }
       this.saveSelection();
       this.data.value = editor.innerHTML;
       if (this.selector) {
@@ -15011,12 +15014,12 @@ var SimpleWysiwyg = function (_aTemplate) {
   }, {
     key: 'onPaste',
     value: function onPaste() {
-      // const e = this.e;
-      // e.preventDefault();
-      // const insertText = e.clipboardData.getData('text/plain');
-      // if (this._isFocused()) {
-      //   document.execCommand('insertText', false, insertText);
-      // }
+      var e = this.e;
+      e.preventDefault();
+      var insertText = e.clipboardData.getData('text/plain');
+      if (this._isFocused()) {
+        document.execCommand('insertText', false, insertText);
+      }
     }
   }, {
     key: 'onPutCaret',
@@ -15024,9 +15027,6 @@ var SimpleWysiwyg = function (_aTemplate) {
       var tagName = this.e.target.localName;
       this.updateToolBox(tagName);
     }
-  }, {
-    key: '_getAllParentNodes',
-    value: function _getAllParentNodes() {}
   }, {
     key: 'updateToolBox',
     value: function updateToolBox(tagName, classname) {
@@ -15047,8 +15047,13 @@ var SimpleWysiwyg = function (_aTemplate) {
       this.restoreSelection();
       var node = util.getSelectionNode();
       var editor = this._getElementByQuery('[data-selector="simple-wysiwyg"]');
+      if (!editor || !node) {
+        return;
+      }
+      var pos = util.getCaretPos();
       util.before(node, node.innerHTML);
       util.removeElement(node);
+      util.setCaretPos(pos);
       this.data.value = editor.innerHTML;
       var newNode = util.getSelectionNode();
       this.updateToolBox(newNode.localName);
@@ -15276,14 +15281,69 @@ var replaceSelectionWithHtml = exports.replaceSelectionWithHtml = function repla
   }
 };
 
-var getSelectionNode = exports.getSelectionNode = function getSelectionNode(html) {
-  var node = document.getSelection().anchorNode;
-  return node.nodeType == 3 ? node.parentNode : node;
+var getSelectionNode = exports.getSelectionNode = function getSelectionNode() {
+  var range = void 0,
+      sel = void 0,
+      container = void 0;
+  if (document.selection && document.selection.createRange) {
+    range = document.selection.createRange();
+    return range.parentElement();
+  } else if (window.getSelection) {
+    sel = window.getSelection();
+    if (sel.getRangeAt) {
+      if (sel.rangeCount > 0) {
+        range = sel.getRangeAt(0);
+      }
+    } else {
+      range = document.createRange();
+      range.setStart(sel.anchorNode, sel.anchorOffset);
+      range.setEnd(sel.focusNode, sel.focusOffset);
+      if (range.collapsed !== sel.isCollapsed) {
+        range.setStart(sel.focusNode, sel.focusOffset);
+        range.setEnd(sel.anchorNode, sel.anchorOffset);
+      }
+    }
+
+    if (range) {
+      container = range.commonAncestorContainer;
+      return container.nodeType === 3 ? container.parentNode : container;
+    }
+  }
 };
 
 var unwrapTag = exports.unwrapTag = function unwrapTag(node) {
   var html = node.innerHTML;
   node.parentNode.insertBefore(node, document.createTextNode(html));
+};
+
+var setCaretPos = exports.setCaretPos = function setCaretPos(node, pos) {
+  var el = document.getElementsByTagName('div')[0];
+  var range = document.createRange();
+  var sel = window.getSelection();
+  range.setStart(el, pos);
+  range.collapse(true);
+  sel.removeAllRanges();
+  sel.addRange(range);
+  el.focus();
+};
+
+var getCaretPos = exports.getCaretPos = function getCaretPos(node) {
+  if (window.getSelection && window.getSelection().getRangeAt) {
+    var range = window.getSelection().getRangeAt(0);
+    var selectedObj = window.getSelection();
+    var rangeCount = 0;
+    var childNodes = selectedObj.anchorNode.parentNode.childNodes;
+    for (var i = 0; i < childNodes.length; i++) {
+      if (childNodes[i] == selectedObj.anchorNode) {
+        break;
+      }
+      if (childNodes[i].outerHTML) rangeCount += childNodes[i].outerHTML.length;else if (childNodes[i].nodeType == 3) {
+        rangeCount += childNodes[i].textContent.length;
+      }
+    }
+    return range.startOffset + rangeCount;
+  }
+  return -1;
 };
 
 },{}]},{},[95])(95)

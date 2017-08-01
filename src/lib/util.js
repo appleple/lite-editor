@@ -139,12 +139,67 @@ export const replaceSelectionWithHtml = (html) => {
   }
 }
 
-export const getSelectionNode = (html) => {
-  const node = document.getSelection().anchorNode;
-  return (node.nodeType == 3 ? node.parentNode : node);
+export const getSelectionNode = () => {
+  let range, sel, container;
+  if (document.selection && document.selection.createRange) {
+    range = document.selection.createRange();
+    return range.parentElement();
+  } else if (window.getSelection) {
+    sel = window.getSelection();
+    if (sel.getRangeAt) {
+      if (sel.rangeCount > 0) {
+        range = sel.getRangeAt(0);
+      }
+    } else {
+      range = document.createRange();
+      range.setStart(sel.anchorNode, sel.anchorOffset);
+      range.setEnd(sel.focusNode, sel.focusOffset);
+      if (range.collapsed !== sel.isCollapsed) {
+          range.setStart(sel.focusNode, sel.focusOffset);
+          range.setEnd(sel.anchorNode, sel.anchorOffset);
+      }
+    }
+
+    if (range) {
+      container = range.commonAncestorContainer;
+      return container.nodeType === 3 ? container.parentNode : container;
+    }   
+  }
 }
 
 export const unwrapTag = (node) => {
   const html = node.innerHTML;
   node.parentNode.insertBefore(node, document.createTextNode(html));
+}
+
+export const setCaretPos = (node, pos) => {
+  const el = document.getElementsByTagName('div')[0];
+  const range = document.createRange();
+  const sel = window.getSelection();
+  range.setStart(el, pos);
+  range.collapse(true);
+  sel.removeAllRanges();
+  sel.addRange(range);
+  el.focus();
+}
+
+export const getCaretPos = (node) => {
+  if (window.getSelection && window.getSelection().getRangeAt) {
+    const range = window.getSelection().getRangeAt(0);
+    const selectedObj = window.getSelection();
+    let rangeCount = 0;
+    const childNodes = selectedObj.anchorNode.parentNode.childNodes;
+    for (let i = 0; i < childNodes.length; i++) {
+      if (childNodes[i] == selectedObj.anchorNode) {
+        break;
+      }
+      if (childNodes[i].outerHTML)
+        rangeCount += childNodes[i].outerHTML.length;
+      else if (childNodes[i].nodeType == 3) {
+        rangeCount += childNodes[i].textContent.length;
+      }
+    }
+    return range.startOffset + rangeCount;
+  }
+  return -1;
 }

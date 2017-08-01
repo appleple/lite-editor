@@ -207,6 +207,9 @@ export default class SimpleWysiwyg extends aTemplate {
 
   onInput() {
     const editor = this._getElementByQuery(`[data-selector="simple-wysiwyg"]`);
+    if(!editor) {
+      return;
+    }
     this.saveSelection();
     this.data.value = editor.innerHTML;
     if(this.selector) {
@@ -215,21 +218,17 @@ export default class SimpleWysiwyg extends aTemplate {
   }
 
   onPaste() {
-    // const e = this.e;
-    // e.preventDefault();
-    // const insertText = e.clipboardData.getData('text/plain');
-    // if (this._isFocused()) {
-    //   document.execCommand('insertText', false, insertText);
-    // }
+    const e = this.e;
+    e.preventDefault();
+    const insertText = e.clipboardData.getData('text/plain');
+    if (this._isFocused()) {
+      document.execCommand('insertText', false, insertText);
+    }
   }
 
   onPutCaret() {
     const tagName = this.e.target.localName;
     this.updateToolBox(tagName);
-  }
-
-  _getAllParentNodes() {
-
   }
 
   updateToolBox(tagName, classname) {
@@ -249,8 +248,13 @@ export default class SimpleWysiwyg extends aTemplate {
     this.restoreSelection();
     const node = util.getSelectionNode();
     const editor = this._getElementByQuery(`[data-selector="simple-wysiwyg"]`);
-    util.before(node,node.innerHTML);
+    if (!editor || !node) {
+      return;
+    }
+    const pos = util.getCaretPos();
+    util.before(node, node.innerHTML);
     util.removeElement(node);
+    util.setCaretPos(pos);
     this.data.value = editor.innerHTML;
     const newNode = util.getSelectionNode();
     this.updateToolBox(newNode.localName);
