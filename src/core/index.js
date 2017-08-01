@@ -248,13 +248,11 @@ export default class SimpleWysiwyg extends aTemplate {
     this.restoreSelection();
     const node = util.getSelectionNode();
     const editor = this._getElementByQuery(`[data-selector="simple-wysiwyg"]`);
-    if (!editor || !node) {
-      return;
-    }
     const pos = util.getCaretPos();
+    console.log(node);
     util.before(node, node.innerHTML);
     util.removeElement(node);
-    util.setCaretPos(pos);
+    util.setCaretPos(editor, pos);
     this.data.value = editor.innerHTML;
     const newNode = util.getSelectionNode();
     this.updateToolBox(newNode.localName);

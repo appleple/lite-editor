@@ -173,14 +173,13 @@ export const unwrapTag = (node) => {
 }
 
 export const setCaretPos = (node, pos) => {
-  const el = document.getElementsByTagName('div')[0];
   const range = document.createRange();
   const sel = window.getSelection();
-  range.setStart(el, pos);
+  range.setStart(node, pos);
   range.collapse(true);
   sel.removeAllRanges();
   sel.addRange(range);
-  el.focus();
+  node.focus();
 }
 
 export const getCaretPos = (node) => {
