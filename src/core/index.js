@@ -2,7 +2,6 @@ import aTemplate from 'a-template';
 import editorHtml from './editor.html';
 import btnHtml from './btn.html';
 import extend from 'deep-extend';
-import Undo from 'undo.js';
 
 import * as util from '../lib/util';
 
