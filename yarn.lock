@@ -5708,6 +5708,10 @@ underscore@1.7.x:
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/underscore/-/underscore-1.7.0.tgz#6bbaf0877500d36be34ecaa584e0db9fef035209"
 
+undo.js@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/undo.js/-/undo.js-0.2.0.tgz#0dee70facbe827baeac378272ec449ea849cfadc"
+
 union@~0.4.3:
   version "0.4.6"
   resolved "https://registry.yarnpkg.com/union/-/union-0.4.6.tgz#198fbdaeba254e788b0efcb630bc11f24a2959e0"

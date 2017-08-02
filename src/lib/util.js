@@ -175,30 +175,34 @@ export const unwrapTag = (node) => {
 export const setCaretPos = (node, pos) => {
   const range = document.createRange();
   const sel = window.getSelection();
-  range.setStart(node, pos);
+  const childNodes = node.childNodes;
+  childNodes.forEach((node) => {
+    if (node.length > pos) {
+      range.setStart(node, pos);
+      return false;
+    }
+    pos -= node.length;
+  });
   range.collapse(true);
   sel.removeAllRanges();
   sel.addRange(range);
   node.focus();
 }
 
-export const getCaretPos = (node) => {
-  if (window.getSelection && window.getSelection().getRangeAt) {
+export const getCaretPos = (element) => {
+  let caretOffset = 0;
+  if (window.getSelection) {
     const range = window.getSelection().getRangeAt(0);
-    const selectedObj = window.getSelection();
-    let rangeCount = 0;
-    const childNodes = selectedObj.anchorNode.parentNode.childNodes;
-    for (let i = 0; i < childNodes.length; i++) {
-      if (childNodes[i] == selectedObj.anchorNode) {
-        break;
-      }
-      if (childNodes[i].outerHTML)
-        rangeCount += childNodes[i].outerHTML.length;
-      else if (childNodes[i].nodeType == 3) {
-        rangeCount += childNodes[i].textContent.length;
-      }
-    }
-    return range.startOffset + rangeCount;
+    const preCaretRange = range.cloneRange();
+    preCaretRange.selectNodeContents(element);
+    preCaretRange.setEnd(range.endContainer, range.endOffset);
+    caretOffset = preCaretRange.toString().length;
+  } else if (document.selection && document.selection.createRange) {
+    const textRange = document.selection.createRange();
+    const preCaretTextRange = document.body.createTextRange();
+    preCaretTextRange.moveToElementText(element);
+    preCaretTextRange.setEndPoint("EndToEnd", textRange);
+    caretOffset = preCaretTextRange.text.length;
   }
-  return -1;
+  return caretOffset;
 }

@@ -2,6 +2,7 @@ import aTemplate from 'a-template';
 import editorHtml from './editor.html';
 import btnHtml from './btn.html';
 import extend from 'deep-extend';
+import Undo from 'undo.js';
 
 import * as util from '../lib/util';
 
@@ -74,6 +75,7 @@ export default class SimpleWysiwyg extends aTemplate {
       this.data.selectedOption = this.data.selectOptions[0].value;
     }
     this.data.attr = attrStr;
+    this.stack = new Undo.Stack();
     const html = `<div data-id='${this.id}'></div>`;
     selector.style.display = 'none';
     util.before(selector, html);
@@ -205,6 +207,16 @@ export default class SimpleWysiwyg extends aTemplate {
     this.onInput();
   }
 
+  redo() {
+    document.execCommand('redo', false);
+  }
+
+  undo() {
+    const editor = this._getElementByQuery(`[data-selector="simple-wysiwyg"]`);
+    editor.focus();
+    document.execCommand('undo', false);
+  }
+
   onInput() {
     const editor = this._getElementByQuery(`[data-selector="simple-wysiwyg"]`);
     if(!editor) {
@@ -248,22 +260,16 @@ export default class SimpleWysiwyg extends aTemplate {
     this.restoreSelection();
     const node = util.getSelectionNode();
     const editor = this._getElementByQuery(`[data-selector="simple-wysiwyg"]`);
-    const pos = util.getCaretPos();
-    console.log(node);
+    const pos = util.getCaretPos(editor);
+    if(node === editor) {
+      return;
+    }
     util.before(node, node.innerHTML);
     util.removeElement(node);
     util.setCaretPos(editor, pos);
     this.data.value = editor.innerHTML;
     const newNode = util.getSelectionNode();
     this.updateToolBox(newNode.localName);
-  }
-
-  redo() {
-    document.execCommand('redo', false);
-  }
-
-  undo() {
-    document.execCommand('undo', false);
   }
 
   changeMode(mode) {

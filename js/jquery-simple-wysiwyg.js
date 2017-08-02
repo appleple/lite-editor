@@ -206,6 +206,12 @@
  *   homepage: https://github.com/rvagg/string_decoder
  *   version: 0.10.31
  *
+ * undo.js:
+ *   license: MIT (http://opensource.org/licenses/MIT)
+ *   author: Jörn Zaefferer <joern.zaefferer@gmail.com>
+ *   homepage: https://github.com/jzaefferer/undo
+ *   version: 0.2.0
+ *
  * upndown:
  *   license: MIT (http://opensource.org/licenses/MIT)
  *   maintainers: Net Gusto <contact@netgusto.com>
@@ -10510,7 +10516,7 @@ function CorkedRequest(state) {
   };
 }
 }).call(this,require('_process'))
-},{"./_stream_duplex":76,"./internal/streams/stream":82,"_process":74,"core-util-is":10,"inherits":63,"process-nextick-args":73,"safe-buffer":88,"util-deprecate":93}],81:[function(require,module,exports){
+},{"./_stream_duplex":76,"./internal/streams/stream":82,"_process":74,"core-util-is":10,"inherits":63,"process-nextick-args":73,"safe-buffer":88,"util-deprecate":94}],81:[function(require,module,exports){
 'use strict';
 
 /*<replacement>*/
@@ -14155,6 +14161,135 @@ function base64DetectIncompleteChar(buffer) {
 }
 
 },{"buffer":9}],92:[function(require,module,exports){
+/*
+ * Undo.js - A undo/redo framework for JavaScript
+ * 
+ * http://jzaefferer.github.com/undo
+ *
+ * Copyright (c) 2011 Jörn Zaefferer
+ * 
+ * MIT licensed.
+ */
+(function() {
+
+// based on Backbone.js' inherits	
+var ctor = function(){};
+var inherits = function(parent, protoProps) {
+	var child;
+
+	if (protoProps && protoProps.hasOwnProperty('constructor')) {
+		child = protoProps.constructor;
+	} else {
+		child = function(){ return parent.apply(this, arguments); };
+	}
+
+	ctor.prototype = parent.prototype;
+	child.prototype = new ctor();
+	
+	if (protoProps) extend(child.prototype, protoProps);
+	
+	child.prototype.constructor = child;
+	child.__super__ = parent.prototype;
+	return child;
+};
+
+function extend(target, ref) {
+	var name, value;
+	for ( name in ref ) {
+		value = ref[name];
+		if (value !== undefined) {
+			target[ name ] = value;
+		}
+	}
+	return target;
+};
+
+var Undo = {
+	version: '0.1.15'
+};
+
+Undo.Stack = function() {
+	this.commands = [];
+	this.stackPosition = -1;
+	this.savePosition = -1;
+};
+
+extend(Undo.Stack.prototype, {
+	execute: function(command) {
+		this._clearRedo();
+		command.execute();
+		this.commands.push(command);
+		this.stackPosition++;
+		this.changed();
+	},
+	undo: function() {
+		this.commands[this.stackPosition].undo();
+		this.stackPosition--;
+		this.changed();
+	},
+	canUndo: function() {
+		return this.stackPosition >= 0;
+	},
+	redo: function() {
+		this.stackPosition++;
+		this.commands[this.stackPosition].redo();
+		this.changed();
+	},
+	canRedo: function() {
+		return this.stackPosition < this.commands.length - 1;
+	},
+	save: function() {
+		this.savePosition = this.stackPosition;
+		this.changed();
+	},
+	dirty: function() {
+		return this.stackPosition != this.savePosition;
+	},
+	_clearRedo: function() {
+		// TODO there's probably a more efficient way for this
+		this.commands = this.commands.slice(0, this.stackPosition + 1);
+	},
+	changed: function() {
+		// do nothing, override
+	}
+});
+
+Undo.Command = function(name) {
+	this.name = name;
+}
+
+var up = new Error("override me!");
+
+extend(Undo.Command.prototype, {
+	execute: function() {
+		throw up;
+	},
+	undo: function() {
+		throw up;
+	},
+	redo: function() {
+		this.execute();
+	}
+});
+
+Undo.Command.extend = function(protoProps) {
+	var child = inherits(this, protoProps);
+	child.extend = Undo.Command.extend;
+	return child;
+};
+	
+// AMD support
+if (typeof define === "function" && define.amd) {
+	// Define as an anonymous module
+	define(Undo);
+} else if(typeof module != "undefined" && module.exports){
+	module.exports = Undo 
+}else {
+	this.Undo = Undo;
+}
+}).call(this);
+
+},{}],93:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -14666,7 +14801,7 @@ module.exports = function () {
 }();
 
 
-},{"htmlparser2":61}],93:[function(require,module,exports){
+},{"htmlparser2":61}],94:[function(require,module,exports){
 (function (global){
 
 /**
@@ -14737,7 +14872,7 @@ function config (name) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],94:[function(require,module,exports){
+},{}],95:[function(require,module,exports){
 'use strict';
 
 var smartPhoto = require('../index');
@@ -14762,7 +14897,7 @@ if (typeof define === 'function' && define.amd) {
 
 module.exports = applyJQuery;
 
-},{"../index":96}],95:[function(require,module,exports){
+},{"../index":97}],96:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -14778,6 +14913,10 @@ var _aTemplate3 = _interopRequireDefault(_aTemplate2);
 var _deepExtend = require('deep-extend');
 
 var _deepExtend2 = _interopRequireDefault(_deepExtend);
+
+var _undo = require('undo.js');
+
+var _undo2 = _interopRequireDefault(_undo);
 
 var _util = require('../lib/util');
 
@@ -14870,6 +15009,7 @@ var SimpleWysiwyg = function (_aTemplate) {
       _this.data.selectedOption = _this.data.selectOptions[0].value;
     }
     _this.data.attr = attrStr;
+    _this.stack = new _undo2.default.Stack();
     var html = '<div data-id=\'' + _this.id + '\'></div>';
     selector.style.display = 'none';
     util.before(selector, html);
@@ -15024,6 +15164,18 @@ var SimpleWysiwyg = function (_aTemplate) {
       this.onInput();
     }
   }, {
+    key: 'redo',
+    value: function redo() {
+      document.execCommand('redo', false);
+    }
+  }, {
+    key: 'undo',
+    value: function undo() {
+      var editor = this._getElementByQuery('[data-selector="simple-wysiwyg"]');
+      editor.focus();
+      document.execCommand('undo', false);
+    }
+  }, {
     key: 'onInput',
     value: function onInput() {
       var editor = this._getElementByQuery('[data-selector="simple-wysiwyg"]');
@@ -15072,24 +15224,16 @@ var SimpleWysiwyg = function (_aTemplate) {
       this.restoreSelection();
       var node = util.getSelectionNode();
       var editor = this._getElementByQuery('[data-selector="simple-wysiwyg"]');
-      var pos = util.getCaretPos();
-      console.log(node);
+      var pos = util.getCaretPos(editor);
+      if (node === editor) {
+        return;
+      }
       util.before(node, node.innerHTML);
       util.removeElement(node);
       util.setCaretPos(editor, pos);
       this.data.value = editor.innerHTML;
       var newNode = util.getSelectionNode();
       this.updateToolBox(newNode.localName);
-    }
-  }, {
-    key: 'redo',
-    value: function redo() {
-      document.execCommand('redo', false);
-    }
-  }, {
-    key: 'undo',
-    value: function undo() {
-      document.execCommand('undo', false);
     }
   }, {
     key: 'changeMode',
@@ -15155,12 +15299,12 @@ var SimpleWysiwyg = function (_aTemplate) {
 exports.default = SimpleWysiwyg;
 module.exports = exports['default'];
 
-},{"../lib/util":97,"a-template":1,"deep-extend":11,"html-entities":50,"showdown":89,"upndown":92}],96:[function(require,module,exports){
+},{"../lib/util":98,"a-template":1,"deep-extend":11,"html-entities":50,"showdown":89,"undo.js":92,"upndown":93}],97:[function(require,module,exports){
 'use strict';
 
 module.exports = require('./core/');
 
-},{"./core/":95}],97:[function(require,module,exports){
+},{"./core/":96}],98:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -15342,30 +15486,36 @@ var unwrapTag = exports.unwrapTag = function unwrapTag(node) {
 var setCaretPos = exports.setCaretPos = function setCaretPos(node, pos) {
   var range = document.createRange();
   var sel = window.getSelection();
-  range.setStart(node, pos);
+  var childNodes = node.childNodes;
+  childNodes.forEach(function (node) {
+    if (node.length > pos) {
+      range.setStart(node, pos);
+      return false;
+    }
+    pos -= node.length;
+  });
   range.collapse(true);
   sel.removeAllRanges();
   sel.addRange(range);
   node.focus();
 };
 
-var getCaretPos = exports.getCaretPos = function getCaretPos(node) {
-  if (window.getSelection && window.getSelection().getRangeAt) {
+var getCaretPos = exports.getCaretPos = function getCaretPos(element) {
+  var caretOffset = 0;
+  if (window.getSelection) {
     var range = window.getSelection().getRangeAt(0);
-    var selectedObj = window.getSelection();
-    var rangeCount = 0;
-    var childNodes = selectedObj.anchorNode.parentNode.childNodes;
-    for (var i = 0; i < childNodes.length; i++) {
-      if (childNodes[i] == selectedObj.anchorNode) {
-        break;
-      }
-      if (childNodes[i].outerHTML) rangeCount += childNodes[i].outerHTML.length;else if (childNodes[i].nodeType == 3) {
-        rangeCount += childNodes[i].textContent.length;
-      }
-    }
-    return range.startOffset + rangeCount;
+    var preCaretRange = range.cloneRange();
+    preCaretRange.selectNodeContents(element);
+    preCaretRange.setEnd(range.endContainer, range.endOffset);
+    caretOffset = preCaretRange.toString().length;
+  } else if (document.selection && document.selection.createRange) {
+    var textRange = document.selection.createRange();
+    var preCaretTextRange = document.body.createTextRange();
+    preCaretTextRange.moveToElementText(element);
+    preCaretTextRange.setEndPoint("EndToEnd", textRange);
+    caretOffset = preCaretTextRange.text.length;
   }
-  return -1;
+  return caretOffset;
 };
 
-},{}]},{},[94]);
+},{}]},{},[95]);
