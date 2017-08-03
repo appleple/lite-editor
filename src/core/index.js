@@ -74,8 +74,6 @@ export default class SimpleWysiwyg extends aTemplate {
       this.data.selectedOption = this.data.selectOptions[0].value;
     }
     this.data.attr = attrStr;
-    this.data.canUndo = this.Undo;
-    this.data.canRedo = this.canRedo;
     this.stack = [];
     this.stackPosition = 0;
     const html = `<div data-id='${this.id}'></div>`;
@@ -204,6 +202,11 @@ export default class SimpleWysiwyg extends aTemplate {
     if(this.data.btnOptions[number].onClick) {
       this.data.btnOptions[number].onClick.apply(this);
     }
+  }
+
+  beforeUpdated() {
+    this.data.canUndo = this.canUndo();
+    this.data.canRedo = this.canRedo();
   }
 
   onUpdated() {

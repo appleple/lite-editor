@@ -14870,8 +14870,6 @@ var SimpleWysiwyg = function (_aTemplate) {
       _this.data.selectedOption = _this.data.selectOptions[0].value;
     }
     _this.data.attr = attrStr;
-    _this.data.canUndo = _this.Undo;
-    _this.data.canRedo = _this.canRedo;
     _this.stack = [];
     _this.stackPosition = 0;
     var html = '<div data-id=\'' + _this.id + '\'></div>';
@@ -15022,6 +15020,12 @@ var SimpleWysiwyg = function (_aTemplate) {
       if (this.data.btnOptions[number].onClick) {
         this.data.btnOptions[number].onClick.apply(this);
       }
+    }
+  }, {
+    key: 'beforeUpdated',
+    value: function beforeUpdated() {
+      this.data.canUndo = this.canUndo();
+      this.data.canRedo = this.canRedo();
     }
   }, {
     key: 'onUpdated',
