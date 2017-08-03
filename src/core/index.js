@@ -194,6 +194,7 @@ export default class SimpleWysiwyg extends aTemplate {
     } else {
       this.insertHtml(insertHtml.replace(/\r\n|\r|\n/g,'<br/>'));
     }
+    this.onInput();
   }
 
   onClick(i) {
@@ -208,7 +209,7 @@ export default class SimpleWysiwyg extends aTemplate {
   }
 
   redo() {
-    if (this.stackPosition === this.stack.length -1) {
+    if (this.stackPosition >= this.stack.length - 1) {
       return;
     }
     this.stackPosition++;
@@ -218,7 +219,7 @@ export default class SimpleWysiwyg extends aTemplate {
   }
 
   undo() {
-    if (this.stackPosition === 0) {
+    if (this.stackPosition <= 0) {
       return;
     }
     this.stackPosition--;
@@ -237,13 +238,14 @@ export default class SimpleWysiwyg extends aTemplate {
     if (this.stopStack) {
       this.stopStack = false;
     } else {
-      if(this.stack[this.stackPosition] !== this.data.value) {
+      if(`${this.stack[this.stackPosition - 1]}` !== `${this.data.value}`) {
+        this.stack = this.stack.slice(0, this.stackPosition + 1);
+        this.stack.push(this.data.value); 
         this.stackPosition++;
-        this.stack.push(this.data.value);
+        if(this.selector) {
+          this.selector.value = this.format(this.data.value);
+        }
       }
-    }
-    if(this.selector) {
-      this.selector.value = this.format(this.data.value);
     }
   }
 
