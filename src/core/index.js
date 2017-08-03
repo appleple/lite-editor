@@ -74,7 +74,8 @@ export default class SimpleWysiwyg extends aTemplate {
       this.data.selectedOption = this.data.selectOptions[0].value;
     }
     this.data.attr = attrStr;
-    this.stack = new Undo.Stack();
+    this.stack = [];
+    this.stackPosition = 0;
     const html = `<div data-id='${this.id}'></div>`;
     selector.style.display = 'none';
     util.before(selector, html);
@@ -207,13 +208,23 @@ export default class SimpleWysiwyg extends aTemplate {
   }
 
   redo() {
-    document.execCommand('redo', false);
+    if (this.stackPosition === this.stack.length -1) {
+      return;
+    }
+    this.stackPosition++;
+    this.data.value = this.stack[this.stackPosition];
+    this.stopStack = true;
+    this.update();
   }
 
   undo() {
-    const editor = this._getElementByQuery(`[data-selector="simple-wysiwyg"]`);
-    editor.focus();
-    document.execCommand('undo', false);
+    if (this.stackPosition === 0) {
+      return;
+    }
+    this.stackPosition--;
+    this.data.value = this.stack[this.stackPosition];
+    this.stopStack = true;
+    this.update();
   }
 
   onInput() {
@@ -223,6 +234,12 @@ export default class SimpleWysiwyg extends aTemplate {
     }
     this.saveSelection();
     this.data.value = editor.innerHTML;
+    if (this.stopStack) {
+      this.stopStack = false;
+    } else {
+      this.stackPosition++;
+      this.stack.push(this.data.value);
+    }
     if(this.selector) {
       this.selector.value = this.format(this.data.value);
     }
