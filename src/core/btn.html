@@ -12,8 +12,8 @@
     <div class="\{classNames.SimpleWysiwygBtnGroupWrap\}" <!-- BEGIN hideBtns:exist --> style="display:none;"<!-- END hideBtns:exist -->>
         <div class="\{classNames.SimpleWysiwygBtnGroup\}">
         <button class="\{classNames.SimpleWysiwygBtn\}<!-- BEGIN showSource:exist --> \{classNames.SimpleWysiwygBtnActive\}<!-- END showSource:exist -->" data-action-click="toggleSource" type="button">\{message.sourceBtn\}</button>
-        <button class="\{classNames.SimpleWysiwygBtn\}" data-action-click="redo"<!-- BEGIN showSource:exist --> disabled<!-- END showSource:exist --> type="button">\{message.redoBtn\}</button>
-        <button class="\{classNames.SimpleWysiwygBtn\}" data-action-click="undo"<!-- BEGIN showSource:exist --> disabled<!-- END showSource:exist --> type="button">\{message.undoBtn\}</button>
+        <button class="\{classNames.SimpleWysiwygBtn\}" data-action-click="redo"<!-- BEGIN canRedo:empty --> disabled<!-- END canRedo:empty --> type="button">\{message.redoBtn\}</button>
+        <button class="\{classNames.SimpleWysiwygBtn\}" data-action-click="undo"<!-- BEGIN canUndo:empty --> disabled<!-- END canUndo:empty --> type="button">\{message.undoBtn\}</button>
         </div>
         
         <div class="\{classNames.SimpleWysiwygBtnGroup\}" data-selector="btn-group">

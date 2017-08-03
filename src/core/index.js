@@ -74,6 +74,8 @@ export default class SimpleWysiwyg extends aTemplate {
       this.data.selectedOption = this.data.selectOptions[0].value;
     }
     this.data.attr = attrStr;
+    this.data.canUndo = this.Undo;
+    this.data.canRedo = this.canRedo;
     this.stack = [];
     this.stackPosition = 0;
     const html = `<div data-id='${this.id}'></div>`;
@@ -194,7 +196,7 @@ export default class SimpleWysiwyg extends aTemplate {
     } else {
       this.insertHtml(insertHtml.replace(/\r\n|\r|\n/g,'<br/>'));
     }
-    this.onInput();
+    this.updateToolBox();
   }
 
   onClick(i) {
@@ -209,7 +211,7 @@ export default class SimpleWysiwyg extends aTemplate {
   }
 
   redo() {
-    if (this.stackPosition >= this.stack.length - 1) {
+    if (!this.canRedo()) {
       return;
     }
     this.stackPosition++;
@@ -218,14 +220,28 @@ export default class SimpleWysiwyg extends aTemplate {
     this.update();
   }
 
+  canRedo() {
+    if (this.stackPosition < this.stack.length - 1) {
+      return true;
+    }
+    return false;
+  }
+
   undo() {
-    if (this.stackPosition <= 0) {
+    if (!this.canUndo()) {
       return;
     }
     this.stackPosition--;
     this.data.value = this.stack[this.stackPosition];
     this.stopStack = true;
     this.update();
+  }
+
+  canUndo() {
+    if (this.stackPosition > 0) {
+      return true;
+    }
+    return false;
   }
 
   onInput() {
