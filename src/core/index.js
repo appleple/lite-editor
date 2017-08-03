@@ -237,8 +237,10 @@ export default class SimpleWysiwyg extends aTemplate {
     if (this.stopStack) {
       this.stopStack = false;
     } else {
-      this.stackPosition++;
-      this.stack.push(this.data.value);
+      if(this.stack[this.stackPosition] !== this.data.value) {
+        this.stackPosition++;
+        this.stack.push(this.data.value);
+      }
     }
     if(this.selector) {
       this.selector.value = this.format(this.data.value);
