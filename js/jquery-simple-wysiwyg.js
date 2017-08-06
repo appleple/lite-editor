@@ -14955,11 +14955,9 @@ var SimpleWysiwyg = function (_aTemplate) {
   }, {
     key: 'insertHtml',
     value: function insertHtml(html) {
-      if (this._isFocused()) {
-        util.replaceSelectionWithHtml(html);
-        var editor = this._getElementByQuery('[data-selector="simple-wysiwyg"]');
-        this.data.value = editor.innerHTML;
-      }
+      util.replaceSelectionWithHtml(html);
+      var editor = this._getElementByQuery('[data-selector="simple-wysiwyg"]');
+      this.data.value = editor.innerHTML;
     }
   }, {
     key: 'saveSelection',
@@ -14987,21 +14985,20 @@ var SimpleWysiwyg = function (_aTemplate) {
 
       var data = this.data;
       var mode = data.mode;
-      var classAttr = '';
       var link = '';
-      if (className) {
-        classAttr = ' class="' + className + '"';
-      }
+
       if (tag === 'a') {
         link = ' href="' + prompt(data.message.addLinkTitle, 'http://') + '"';
       }
-      if (!this._isFocused()) {
-        return;
-      }
+
       var selection = util.getSelection();
       if (!selection) {
         alert(data.message.noRangeSelected);
         return;
+      }
+      var classAttr = '';
+      if (className) {
+        classAttr = ' class="' + className + '"';
       }
       var insertHtml = '<' + tag + link + classAttr + '>' + selection + '</' + tag + '>';
       if (this.data.mode === 'markdown') {
@@ -15130,7 +15127,9 @@ var SimpleWysiwyg = function (_aTemplate) {
       var editor = this._getElementByQuery('[data-selector="simple-wysiwyg"]');
       var pos = util.getCaretPos(editor);
       if (node === editor) {
-        return;
+        var id = this._getUniqId();
+        this.insertTag('i', id);
+        node = this._getElementByQuery('.' + id);
       }
       util.before(node, node.innerHTML);
       util.removeElement(node);

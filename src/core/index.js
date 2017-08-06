@@ -144,11 +144,9 @@ export default class SimpleWysiwyg extends aTemplate {
   }
 
   insertHtml(html) {
-    if (this._isFocused()) {
-      util.replaceSelectionWithHtml(html);
-      const editor = this._getElementByQuery(`[data-selector="simple-wysiwyg"]`);
-      this.data.value = editor.innerHTML;
-    }
+    util.replaceSelectionWithHtml(html);
+    const editor = this._getElementByQuery(`[data-selector="simple-wysiwyg"]`);
+    this.data.value = editor.innerHTML;
   }
 
   saveSelection() {
@@ -167,24 +165,23 @@ export default class SimpleWysiwyg extends aTemplate {
     return selector !== document.activeElement;
   }
 
-  insertTag(tag, className) {
+  insertTag(tag, className){
     const data = this.data;
     const mode = data.mode;
-    let classAttr = '';
     let link = '';
-    if (className) {
-      classAttr = ` class="${className}"`;
-    }
+    
     if (tag === 'a') {
       link = ` href="${prompt(data.message.addLinkTitle, 'http://')}"`;
     }
-    if (!this._isFocused()) {
-      return;
-    }
+
     const selection = util.getSelection();
     if (!selection) {
       alert(data.message.noRangeSelected);
       return;
+    }
+    let classAttr = '';
+    if (className) {
+      classAttr = ` class="${className}"`;
     }
     const insertHtml = `<${tag}${link}${classAttr}>${selection}</${tag}>`;
     if(this.data.mode === 'markdown') {
@@ -297,11 +294,13 @@ export default class SimpleWysiwyg extends aTemplate {
 
   removeParentTag() {
     this.restoreSelection();
-    const node = util.getSelectionNode();
+    let node = util.getSelectionNode();
     const editor = this._getElementByQuery(`[data-selector="simple-wysiwyg"]`);
     const pos = util.getCaretPos(editor);
     if(node === editor) {
-      return;
+      const id = this._getUniqId();
+      this.insertTag('i', id);
+      node = this._getElementByQuery(`.${id}`);
     }
     util.before(node, node.innerHTML);
     util.removeElement(node);
