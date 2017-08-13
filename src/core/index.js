@@ -275,24 +275,38 @@ export default class SimpleWysiwyg extends aTemplate {
   }
 
   onPutCaret() {
-    const tagName = this.e.target.localName;
-    this.updateToolBox(tagName);
+    const target = this.e.target;
+    const tags = [];
+    const editor = this._getElementByQuery(`[data-selector="simple-wysiwyg"]`);
+    if (target && target !== editor) {
+      tags.push({tagName:target.tagName.toLowerCase(),className:target.getAttribute('class') || ''});
+      let parent = target.parentElement;
+      while (parent !== editor) {
+        tags.push({
+          tagName:parent.tagName.toLowerCase(),
+          className:parent.getAttribute('class') || ''
+        });
+        parent = parent.parentElement;
+      }
+    }
+    this.updateToolBox(tags);
   }
 
-  updateToolBox(tagName, classname) {
+  updateToolBox(tags = []) {
     const btnOptions = this.data.btnOptions;
     btnOptions.forEach(btn => {
-      if (btn.tag === tagName) {
-        btn.selected = true;
-      } else {
-        btn.selected = false;
-      }
+      btn.selected = false;
+      tags.forEach((tag) => {
+        if (btn.tag === tag.tagName && btn.className === tag.className) {
+          btn.selected = true;
+        }
+      });
     });
     this.saveSelection();
     this.update('html',`.${this.data.classNames.SimpleWysiwygToolBox}`);
   }
 
-  removeParentTag() {
+  removeParentTag(tag, className) {
     this.restoreSelection();
     let node = util.getSelectionNode();
     const editor = this._getElementByQuery(`[data-selector="simple-wysiwyg"]`);
@@ -302,12 +316,24 @@ export default class SimpleWysiwyg extends aTemplate {
       this.insertTag('i', id);
       node = this._getElementByQuery(`.${id}`);
     }
-    util.before(node, node.innerHTML);
-    util.removeElement(node);
-    util.setCaretPos(editor, pos);
+
+    while (true) {
+      const nodeClassName = node.getAttribute('class') || '';
+      if (node.tagName.toLowerCase() === tag &&  nodeClassName === className) {
+        util.before(node, node.innerHTML);
+        util.removeElement(node);
+        util.setCaretPos(editor, pos);
+        break;
+      }
+      if (node === editor) {
+        break;
+      }
+      node = node.parentElement;
+    }
+
     this.data.value = editor.innerHTML;
     const newNode = util.getSelectionNode();
-    this.updateToolBox(newNode.localName);
+    this.updateToolBox([{tagName:newNode.localName, className: ''}]);
   }
 
   changeMode(mode) {
