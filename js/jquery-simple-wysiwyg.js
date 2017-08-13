@@ -15142,8 +15142,8 @@ var SimpleWysiwyg = function (_aTemplate) {
       var node = util.getSelectionNode();
       var editor = this._getElementByQuery('[data-selector="simple-wysiwyg"]');
       var pos = util.getCaretPos(editor);
+      var id = this._getUniqId();
       if (node === editor) {
-        var id = this._getUniqId();
         this.insertTag('i', id);
         node = this._getElementByQuery('.' + id);
       }
@@ -15160,6 +15160,11 @@ var SimpleWysiwyg = function (_aTemplate) {
           break;
         }
         node = node.parentElement;
+      }
+
+      var marker = this._getElementByQuery('.' + id);
+      if (marker) {
+        util.unwrapTag(marker);
       }
 
       this.data.value = editor.innerHTML;
@@ -15409,9 +15414,13 @@ var getSelectionNode = exports.getSelectionNode = function getSelectionNode() {
   }
 };
 
-var unwrapTag = exports.unwrapTag = function unwrapTag(node) {
-  var html = node.innerHTML;
-  node.parentNode.insertBefore(node, document.createTextNode(html));
+var unwrapTag = exports.unwrapTag = function unwrapTag(element) {
+
+  var parent = element.parentNode;
+
+  while (el.firstChild) {
+    parent.insertBefore(element.firstChild, element);
+  }parent.removeChild(element);
 };
 
 var setCaretPos = exports.setCaretPos = function setCaretPos(node, pos) {

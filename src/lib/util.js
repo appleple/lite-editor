@@ -167,9 +167,13 @@ export const getSelectionNode = () => {
   }
 }
 
-export const unwrapTag = (node) => {
-  const html = node.innerHTML;
-  node.parentNode.insertBefore(node, document.createTextNode(html));
+export const unwrapTag = (element) => {
+
+  const parent = element.parentNode;
+
+  while (el.firstChild) parent.insertBefore(element.firstChild, element);
+
+  parent.removeChild(element);
 }
 
 export const setCaretPos = (node, pos) => {
