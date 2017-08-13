@@ -171,7 +171,7 @@ export const unwrapTag = (element) => {
 
   const parent = element.parentNode;
 
-  while (el.firstChild) parent.insertBefore(element.firstChild, element);
+  while (element.firstChild) parent.insertBefore(element.firstChild, element);
 
   parent.removeChild(element);
 }

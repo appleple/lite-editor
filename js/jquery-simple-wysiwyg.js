@@ -15418,7 +15418,7 @@ var unwrapTag = exports.unwrapTag = function unwrapTag(element) {
 
   var parent = element.parentNode;
 
-  while (el.firstChild) {
+  while (element.firstChild) {
     parent.insertBefore(element.firstChild, element);
   }parent.removeChild(element);
 };
