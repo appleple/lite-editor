@@ -383,6 +383,7 @@ export default class SimpleWysiwyg extends aTemplate {
     }
     const item = this.data.selectOptions.find((item => item.value === value));
     if (item && item.onSelect) {
+      this.data.selectedOption = item.value;
       item.onSelect.apply(this);
     }
   }

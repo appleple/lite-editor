@@ -17,7 +17,7 @@
 	<script>
 	window.addEventListener('DOMContentLoaded',function(){
 		window.wysiwyg = new SimpleWysiwyg('.js-simple-wysiwyg',{
-      mode:'direct',
+      mode:'html',
       message: {
         addLinkTitle: 'リンク先URLを入力してください。',
         addLinkBtn: 'リンクの挿入',
@@ -42,7 +42,7 @@
           }
         }
       ],
-      selectedOption: 'p',
+      selectedOption: 'html',
       btnOptions: [
         { 
           label: '<i class="fa fa-link"></i>', 

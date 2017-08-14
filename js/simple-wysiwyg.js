@@ -15200,6 +15200,7 @@ var SimpleWysiwyg = function (_aTemplate) {
         return item.value === value;
       });
       if (item && item.onSelect) {
+        this.data.selectedOption = item.value;
         item.onSelect.apply(this);
       }
     }
