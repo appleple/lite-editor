@@ -5596,9 +5596,9 @@ to-fast-properties@^1.0.1:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/to-fast-properties/-/to-fast-properties-1.0.3.tgz#b83571fa4d8c25b82e231b06e3a3055de4ca1a47"
 
-to-markdown@^3.0.4:
-  version "3.0.4"
-  resolved "https://registry.yarnpkg.com/to-markdown/-/to-markdown-3.0.4.tgz#3c7822f9286bc294ff37f9e0e5e23154c122ce69"
+to-markdown@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/to-markdown/-/to-markdown-3.1.0.tgz#63ffc1a1b00ac54e3f9332bec9f207c24313414c"
   dependencies:
     collapse-whitespace "1.1.2"
     jsdom "^9.0.0"
@@ -5707,10 +5707,6 @@ undefsafe@0.0.3:
 underscore@1.7.x:
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/underscore/-/underscore-1.7.0.tgz#6bbaf0877500d36be34ecaa584e0db9fef035209"
-
-undo.js@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/undo.js/-/undo.js-0.2.0.tgz#0dee70facbe827baeac378272ec449ea849cfadc"
 
 union@~0.4.3:
   version "0.4.6"

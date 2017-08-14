@@ -364,6 +364,7 @@ export default class SimpleWysiwyg extends aTemplate {
     this.data.mode = 'markdown';
     und.convert(this.data.value, (err, markdown) => {
       this.data.value = markdown;
+      this.data.value = this.data.value.replace(/\n/g,'<br>');
       this.update();
     });    
   }

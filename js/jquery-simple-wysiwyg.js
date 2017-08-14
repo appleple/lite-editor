@@ -15202,6 +15202,7 @@ var SimpleWysiwyg = function (_aTemplate) {
       this.data.mode = 'markdown';
       und.convert(this.data.value, function (err, markdown) {
         _this3.data.value = markdown;
+        _this3.data.value = _this3.data.value.replace(/\n/g, '<br>');
         _this3.update();
       });
     }
