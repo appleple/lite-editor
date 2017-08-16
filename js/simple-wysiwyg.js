@@ -14761,8 +14761,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var editorHtml = '<div class="\\{classNames.SimpleWysiwyg\\}" data-action-mouseup="onPutCaret" data-selector="simple-wysiwyg" contenteditable data-action-input="onInput" data-action-paste="onPaste"<!-- BEGIN showSource:exist --> style="display:none;"<!-- END showSource:exist --><!-- BEGIN hideEditor:exist --> style="display:none;"<!-- END hideEditor:exist -->>{value}</div>\n<textarea class="\\{classNames.SimpleWysiwygSource\\}" data-selector="simple-wysiwyg-source" <!-- BEGIN showSource:empty --> style="display:none;"<!-- END showSource:empty -->{attr} data-action="directInput">{value}[format]</textarea>';
-var btnHtml = '<div class="\\{classNames.SimpleWysiwygToolBox\\}">\n    <!-- BEGIN selectOptions.0:exist -->\n    <div class="\\{classNames.SimpleWysiwygSelectWrap\\}">\n        <select class="\\{classNames.SimpleWysiwygSelect\\}"<!-- BEGIN selectName:exist --> name="{selectName}"<!-- END selectName:exist --> data-action-change="changeOption" data-bind="selectedOption">\n        <!-- BEGIN selectOptions:loop -->\n        <option value="{value}" data-tag_extend>{label}</option>\n        <!-- END selectOptions:loop -->\n        </select>\n    </div>\n    <!-- END selectOptions.0:exist -->\n\n    <div class="\\{classNames.SimpleWysiwygBtnGroupWrap\\}" <!-- BEGIN hideBtns:exist --> style="display:none;"<!-- END hideBtns:exist -->>\n        <div class="\\{classNames.SimpleWysiwygBtnGroup\\}"><button class="\\{classNames.SimpleWysiwygBtn\\}<!-- BEGIN showSource:exist --> \\{classNames.SimpleWysiwygBtnActive\\}<!-- END showSource:exist -->" data-action-click="toggleSource" type="button">\\{message.sourceBtn\\}</button><button class="\\{classNames.SimpleWysiwygBtn\\}" data-action-click="redo"<!-- BEGIN canRedo:empty --> disabled<!-- END canRedo:empty --> type="button">\\{message.redoBtn\\}</button><button class="\\{classNames.SimpleWysiwygBtn\\}" data-action-click="undo"<!-- BEGIN canUndo:empty --> disabled<!-- END canUndo:empty --> type="button">\\{message.undoBtn\\}</button></div>\n        \n        <div class="\\{classNames.SimpleWysiwygBtnGroup\\}" data-selector="btn-group">\n        <!-- BEGIN btnOptions:loop --><button class="\\\\{classNames.SimpleWysiwygBtn\\\\}<!-- BEGIN selfClassName:exist --> {selfClassName}<!-- END selfClassName:exist --><!-- BEGIN selected:exist --> \\\\{classNames.SimpleWysiwygBtnActive\\\\}<!-- END selected:exist -->" data-tag="{tag}" data-class="{className}"<!-- BEGIN tag:exist --><!-- BEGIN selected:empty --> data-action-click="insertTag({tag},{className})"<!-- END selected:empty --><!-- BEGIN selected:exist --> data-action-click="removeParentTag({tag},{className})"<!-- END selected:exist --><!-- END tag:exist --><!-- BEGIN tag:empty --> data-action-click="onClick({i})"<!-- END tag:empty --><!-- \\BEGIN showSource:exist --> disabled<!-- \\END showSource:exist --> type="button">{label}</button><!-- END btnOptions:loop -->\n        </div>\n    </div>\n</div>';
+var editorHtml = '<div class="\\{classNames.SimpleWysiwyg\\}" data-action-mouseup="onPutCaret" data-selector="simple-wysiwyg" contenteditable data-action-input="onInput" data-action-keydown="onPutCaret" data-action-paste="onPaste"<!-- BEGIN showSource:exist --> style="display:none;"<!-- END showSource:exist --><!-- BEGIN hideEditor:exist --> style="display:none;"<!-- END hideEditor:exist -->>{value}</div>\n<textarea class="\\{classNames.SimpleWysiwygSource\\}" data-selector="simple-wysiwyg-source" <!-- BEGIN showSource:empty --> style="display:none;"<!-- END showSource:empty -->{attr} data-action="directInput">{value}[format]</textarea>';
+var btnHtml = '<div class="\\{classNames.SimpleWysiwygToolBox\\}">\n    <!-- BEGIN selectOptions.0:exist -->\n    <div class="\\{classNames.SimpleWysiwygSelectWrap\\}">\n        <select class="\\{classNames.SimpleWysiwygSelect\\}"<!-- BEGIN selectName:exist --> name="{selectName}"<!-- END selectName:exist --> data-action-change="changeOption" data-bind="selectedOption">\n        <!-- BEGIN selectOptions:loop -->\n        <option value="{value}" data-tag_extend>{label}</option>\n        <!-- END selectOptions:loop -->\n        </select>\n    </div>\n    <!-- END selectOptions.0:exist -->\n\n    <div class="\\{classNames.SimpleWysiwygBtnGroupWrap\\}" <!-- BEGIN hideBtns:exist --> style="display:none;"<!-- END hideBtns:exist -->>\n        <div class="\\{classNames.SimpleWysiwygBtnGroup\\}"><button class="\\{classNames.SimpleWysiwygBtn\\}<!-- BEGIN showSource:exist --> \\{classNames.SimpleWysiwygBtnActive\\}<!-- END showSource:exist -->" data-action-click="toggleSource" type="button">\\{message.sourceBtn\\}</button><button class="\\{classNames.SimpleWysiwygBtn\\}" data-action-click="redo"<!-- BEGIN canRedo:empty --> disabled<!-- END canRedo:empty --> type="button">\\{message.redoBtn\\}</button><button class="\\{classNames.SimpleWysiwygBtn\\}" data-action-click="undo"<!-- BEGIN canUndo:empty --> disabled<!-- END canUndo:empty --> type="button">\\{message.undoBtn\\}</button></div>\n        \n        <div class="\\{classNames.SimpleWysiwygBtnGroup\\}" data-selector="btn-group">\n        <!-- BEGIN btnOptions:loop --><button class="\\\\{classNames.SimpleWysiwygBtn\\\\}<!-- BEGIN selfClassName:exist --> {selfClassName}<!-- END selfClassName:exist --><!-- BEGIN selected:exist --> \\\\{classNames.SimpleWysiwygBtnActive\\\\}<!-- END selected:exist -->" data-tag="{tag}" data-class="{className}"<!-- BEGIN tag:exist --><!-- BEGIN selected:empty --> data-action-click="insertTag({tag},{className})"<!-- END selected:empty --><!-- BEGIN selected:exist --> data-action-click="unwrapTag({tag},{className})"<!-- END selected:exist --><!-- END tag:exist --><!-- BEGIN tag:empty --> data-action-click="onClick({i})"<!-- END tag:empty --><!-- \\BEGIN showSource:exist --> disabled<!-- \\END showSource:exist --> type="button">{label}</button><!-- END btnOptions:loop -->\n        </div>\n    </div>\n</div>';
 
 
 var Entities = require('html-entities').XmlEntities;
@@ -15070,21 +15070,25 @@ var SimpleWysiwyg = function (_aTemplate) {
   }, {
     key: 'onPutCaret',
     value: function onPutCaret() {
-      var target = this.e.target;
-      var tags = [];
-      var editor = this._getElementByQuery('[data-selector="simple-wysiwyg"]');
-      if (target && target !== editor) {
-        tags.push({ tagName: target.tagName.toLowerCase(), className: target.getAttribute('class') || '' });
-        var parent = target.parentElement;
-        while (parent !== editor) {
-          tags.push({
-            tagName: parent.tagName.toLowerCase(),
-            className: parent.getAttribute('class') || ''
-          });
-          parent = parent.parentElement;
+      var _this3 = this;
+
+      setTimeout(function () {
+        var target = _this3.getSelectionNode();
+        var tags = [];
+        var editor = _this3._getElementByQuery('[data-selector="simple-wysiwyg"]');
+        if (target && target !== editor) {
+          tags.push({ tagName: target.tagName.toLowerCase(), className: target.getAttribute('class') || '' });
+          var parent = target.parentElement;
+          while (parent !== editor) {
+            tags.push({
+              tagName: parent.tagName.toLowerCase(),
+              className: parent.getAttribute('class') || ''
+            });
+            parent = parent.parentElement;
+          }
         }
-      }
-      this.updateToolBox(tags);
+        _this3.updateToolBox(tags);
+      }, 1);
     }
   }, {
     key: 'updateToolBox',
@@ -15104,35 +15108,23 @@ var SimpleWysiwyg = function (_aTemplate) {
       this.update('html', '.' + this.data.classNames.SimpleWysiwygToolBox);
     }
   }, {
-    key: 'removeParentTag',
-    value: function removeParentTag(tag, className) {
-      this.restoreSelection();
-      var node = util.getSelectionNode();
-      var editor = this._getElementByQuery('[data-selector="simple-wysiwyg"]');
-      var pos = util.getCaretPos(editor);
-      var id = this._getUniqId();
-      if (node === editor) {
-        this.insertTag('i', id);
-        node = this._getElementByQuery('.' + id);
-      }
+    key: 'getSelectionNode',
+    value: function getSelectionNode() {
+      var node = document.getSelection().anchorNode;
+      return node.nodeType == 3 ? node.parentNode : node;
+    }
+  }, {
+    key: 'unwrapTag',
+    value: function unwrapTag(tag, className) {
+      var node = this.getSelectionNode();
 
       while (true) {
         var nodeClassName = node.getAttribute('class') || '';
         if (node.tagName.toLowerCase() === tag && nodeClassName === className) {
-          util.before(node, node.innerHTML);
-          util.removeElement(node);
-          util.setCaretPos(editor, pos);
-          break;
-        }
-        if (node === editor) {
+          util.unwrapTag(node);
           break;
         }
         node = node.parentElement;
-      }
-
-      var marker = this._getElementByQuery('.' + id);
-      if (marker) {
-        util.unwrapTag(marker);
       }
 
       this.data.value = editor.innerHTML;
@@ -15165,13 +15157,13 @@ var SimpleWysiwyg = function (_aTemplate) {
   }, {
     key: 'toMarkdown',
     value: function toMarkdown() {
-      var _this3 = this;
+      var _this4 = this;
 
       this.data.mode = 'markdown';
       und.convert(this.data.value, function (err, markdown) {
-        _this3.data.value = markdown;
-        _this3.data.value = _this3.data.value.replace(/\n/g, '<br>');
-        _this3.update();
+        _this4.data.value = markdown;
+        _this4.data.value = _this4.data.value.replace(/\n/g, '<br>');
+        _this4.update();
       });
     }
   }, {

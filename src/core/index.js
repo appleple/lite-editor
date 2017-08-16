@@ -275,21 +275,23 @@ export default class SimpleWysiwyg extends aTemplate {
   }
 
   onPutCaret() {
-    const target = this.e.target;
-    const tags = [];
-    const editor = this._getElementByQuery(`[data-selector="simple-wysiwyg"]`);
-    if (target && target !== editor) {
-      tags.push({tagName:target.tagName.toLowerCase(),className:target.getAttribute('class') || ''});
-      let parent = target.parentElement;
-      while (parent !== editor) {
-        tags.push({
-          tagName:parent.tagName.toLowerCase(),
-          className:parent.getAttribute('class') || ''
-        });
-        parent = parent.parentElement;
+    setTimeout(() => {
+      const target = this.getSelectionNode();
+      const tags = [];
+      const editor = this._getElementByQuery(`[data-selector="simple-wysiwyg"]`);
+      if (target && target !== editor) {
+        tags.push({tagName:target.tagName.toLowerCase(),className:target.getAttribute('class') || ''});
+        let parent = target.parentElement;
+        while (parent !== editor) {
+          tags.push({
+            tagName:parent.tagName.toLowerCase(),
+            className:parent.getAttribute('class') || ''
+          });
+          parent = parent.parentElement;
+        }
       }
-    }
-    this.updateToolBox(tags);
+      this.updateToolBox(tags);
+    },1);
   }
 
   updateToolBox(tags = []) {
@@ -306,34 +308,21 @@ export default class SimpleWysiwyg extends aTemplate {
     this.update('html',`.${this.data.classNames.SimpleWysiwygToolBox}`);
   }
 
-  removeParentTag(tag, className) {
-    this.restoreSelection();
-    let node = util.getSelectionNode();
-    const editor = this._getElementByQuery(`[data-selector="simple-wysiwyg"]`);
-    const pos = util.getCaretPos(editor);
-    const id = this._getUniqId();
-    if(node === editor) {
-      this.insertTag('i', id);
-      node = this._getElementByQuery(`.${id}`);
-    }
+  getSelectionNode() {
+    const node = document.getSelection().anchorNode;
+    return (node.nodeType == 3 ? node.parentNode : node);
+  }
+
+  unwrapTag(tag, className) {
+    let node = this.getSelectionNode();
 
     while (true) {
       const nodeClassName = node.getAttribute('class') || '';
       if (node.tagName.toLowerCase() === tag && nodeClassName === className) {
-        util.before(node, node.innerHTML);
-        util.removeElement(node);
-        util.setCaretPos(editor, pos);
-        break;
-      }
-      if (node === editor) {
+        util.unwrapTag(node);
         break;
       }
       node = node.parentElement;
-    }
-
-    const marker = this._getElementByQuery(`.${id}`);
-    if (marker) {
-      util.unwrapTag(marker);
     }
  
     this.data.value = editor.innerHTML;
