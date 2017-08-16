@@ -4,6 +4,7 @@
   ],
   "plugins": [
     "transform-html-import-to-string",
+    "transform-es2015-for-of",
     "add-module-exports"
   ]
 }

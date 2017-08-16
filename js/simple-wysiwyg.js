@@ -15117,8 +15117,8 @@ var SimpleWysiwyg = function (_aTemplate) {
     key: 'unwrapTag',
     value: function unwrapTag(tag, className) {
       var editor = this._getElementByQuery('[data-selector="simple-wysiwyg"]');
+      var pos = util.getCaretPos(editor);
       var node = this.getSelectionNode();
-
       while (true) {
         var nodeClassName = node.getAttribute('class') || '';
         if (node.tagName.toLowerCase() === tag && nodeClassName === className) {
@@ -15127,10 +15127,10 @@ var SimpleWysiwyg = function (_aTemplate) {
         }
         node = node.parentElement;
       }
-
       this.data.value = editor.innerHTML;
-      var newNode = this.getSelectionNode();
-      this.updateToolBox([{ tagName: newNode.localName, className: '' }]);
+      editor.focus();
+      util.setCaretPos(editor, pos);
+      this.onPutCaret();
     }
   }, {
     key: 'changeMode',
@@ -15355,21 +15355,53 @@ var unwrapTag = exports.unwrapTag = function unwrapTag(element) {
   parent.removeChild(element);
 };
 
-var setCaretPos = exports.setCaretPos = function setCaretPos(node, pos) {
-  var range = document.createRange();
-  var sel = window.getSelection();
-  var childNodes = node.childNodes;
-  childNodes.forEach(function (node) {
-    if (node.length > pos) {
-      range.setStart(node, pos);
-      return false;
+var setCaretPos = exports.setCaretPos = function setCaretPos(el, pos) {
+  // Loop through all child nodes
+  var _iteratorNormalCompletion = true;
+  var _didIteratorError = false;
+  var _iteratorError = undefined;
+
+  try {
+    for (var _iterator = el.childNodes[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+      var node = _step.value;
+
+      if (node.nodeType === 3) {
+        // we have a text node
+        if (node.length >= pos) {
+          // finally add our range
+          var range = document.createRange();
+          var sel = window.getSelection();
+          range.setStart(node, pos);
+          range.collapse(true);
+          sel.removeAllRanges();
+          sel.addRange(range);
+          return -1; // we are done
+        } else {
+          pos -= node.length;
+        }
+      } else {
+        pos = setCaretPos(node, pos);
+        if (pos === -1) {
+          return -1; // no need to finish the for loop
+        }
+      }
     }
-    pos -= node.length;
-  });
-  range.collapse(true);
-  sel.removeAllRanges();
-  sel.addRange(range);
-  node.focus();
+  } catch (err) {
+    _didIteratorError = true;
+    _iteratorError = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion && _iterator.return) {
+        _iterator.return();
+      }
+    } finally {
+      if (_didIteratorError) {
+        throw _iteratorError;
+      }
+    }
+  }
+
+  return pos; // needed because of recursion stuff
 };
 
 var getCaretPos = exports.getCaretPos = function getCaretPos(element) {
