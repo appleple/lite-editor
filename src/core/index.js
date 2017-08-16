@@ -314,8 +314,9 @@ export default class SimpleWysiwyg extends aTemplate {
   }
 
   unwrapTag(tag, className) {
+    const editor = this._getElementByQuery(`[data-selector="simple-wysiwyg"]`);
     let node = this.getSelectionNode();
-
+    
     while (true) {
       const nodeClassName = node.getAttribute('class') || '';
       if (node.tagName.toLowerCase() === tag && nodeClassName === className) {
@@ -326,7 +327,7 @@ export default class SimpleWysiwyg extends aTemplate {
     }
  
     this.data.value = editor.innerHTML;
-    const newNode = util.getSelectionNode();
+    const newNode = this.getSelectionNode();
     this.updateToolBox([{tagName:newNode.localName, className: ''}]);
   }
 

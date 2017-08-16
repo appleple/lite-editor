@@ -80,12 +80,10 @@ export const getSelection = () => {
   if (window.getSelection && window.getSelection().toString()) {
     text = window.getSelection();
     return text;
-  }
-  else if (document.getSelection && document.getSelection().toString()) {
+  } else if (document.getSelection && document.getSelection().toString()) {
     text = document.getSelection();
     return text;
-  }
-  else {
+  } else {
     const selection = document.selection && document.selection.createRange();
 
     if (!(typeof selection === "undefined")
@@ -139,40 +137,11 @@ export const replaceSelectionWithHtml = (html) => {
   }
 }
 
-export const getSelectionNode = () => {
-  let range, sel, container;
-  if (document.selection && document.selection.createRange) {
-    range = document.selection.createRange();
-    return range.parentElement();
-  } else if (window.getSelection) {
-    sel = window.getSelection();
-    if (sel.getRangeAt) {
-      if (sel.rangeCount > 0) {
-        range = sel.getRangeAt(0);
-      }
-    } else {
-      range = document.createRange();
-      range.setStart(sel.anchorNode, sel.anchorOffset);
-      range.setEnd(sel.focusNode, sel.focusOffset);
-      if (range.collapsed !== sel.isCollapsed) {
-          range.setStart(sel.focusNode, sel.focusOffset);
-          range.setEnd(sel.anchorNode, sel.anchorOffset);
-      }
-    }
-
-    if (range) {
-      container = range.commonAncestorContainer;
-      return container.nodeType === 3 ? container.parentNode : container;
-    }   
-  }
-}
-
 export const unwrapTag = (element) => {
-
   const parent = element.parentNode;
-
-  while (element.firstChild) parent.insertBefore(element.firstChild, element);
-
+  while (element.firstChild) {
+    parent.insertBefore(element.firstChild, element);
+  }
   parent.removeChild(element);
 }
 

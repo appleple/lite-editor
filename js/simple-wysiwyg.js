@@ -15116,6 +15116,7 @@ var SimpleWysiwyg = function (_aTemplate) {
   }, {
     key: 'unwrapTag',
     value: function unwrapTag(tag, className) {
+      var editor = this._getElementByQuery('[data-selector="simple-wysiwyg"]');
       var node = this.getSelectionNode();
 
       while (true) {
@@ -15128,7 +15129,7 @@ var SimpleWysiwyg = function (_aTemplate) {
       }
 
       this.data.value = editor.innerHTML;
-      var newNode = util.getSelectionNode();
+      var newNode = this.getSelectionNode();
       this.updateToolBox([{ tagName: newNode.localName, className: '' }]);
     }
   }, {
@@ -15346,43 +15347,12 @@ var replaceSelectionWithHtml = exports.replaceSelectionWithHtml = function repla
   }
 };
 
-var getSelectionNode = exports.getSelectionNode = function getSelectionNode() {
-  var range = void 0,
-      sel = void 0,
-      container = void 0;
-  if (document.selection && document.selection.createRange) {
-    range = document.selection.createRange();
-    return range.parentElement();
-  } else if (window.getSelection) {
-    sel = window.getSelection();
-    if (sel.getRangeAt) {
-      if (sel.rangeCount > 0) {
-        range = sel.getRangeAt(0);
-      }
-    } else {
-      range = document.createRange();
-      range.setStart(sel.anchorNode, sel.anchorOffset);
-      range.setEnd(sel.focusNode, sel.focusOffset);
-      if (range.collapsed !== sel.isCollapsed) {
-        range.setStart(sel.focusNode, sel.focusOffset);
-        range.setEnd(sel.anchorNode, sel.anchorOffset);
-      }
-    }
-
-    if (range) {
-      container = range.commonAncestorContainer;
-      return container.nodeType === 3 ? container.parentNode : container;
-    }
-  }
-};
-
 var unwrapTag = exports.unwrapTag = function unwrapTag(element) {
-
   var parent = element.parentNode;
-
   while (element.firstChild) {
     parent.insertBefore(element.firstChild, element);
-  }parent.removeChild(element);
+  }
+  parent.removeChild(element);
 };
 
 var setCaretPos = exports.setCaretPos = function setCaretPos(node, pos) {
