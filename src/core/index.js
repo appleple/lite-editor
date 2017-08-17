@@ -207,7 +207,24 @@ export default class SimpleWysiwyg extends aTemplate {
   }
 
   onUpdated() {
-    this.onInput();
+    const editor = this._getElementByQuery(`[data-selector="simple-wysiwyg"]`);
+    if(!editor) {
+      return;
+    }
+    this.saveSelection();
+    this.data.value = editor.innerHTML;
+    if (this.stopStack) {
+      this.stopStack = false;
+    } else {
+      if(`${this.stack[this.stackPosition - 1]}` !== `${this.data.value}`) {
+        this.stack = this.stack.slice(0, this.stackPosition + 1);
+        this.stack.push(this.data.value); 
+        this.stackPosition++;
+        if(this.selector) {
+          this.selector.value = this.format(this.data.value);
+        }
+      }
+    }
   }
 
   redo() {
@@ -245,24 +262,7 @@ export default class SimpleWysiwyg extends aTemplate {
   }
 
   onInput() {
-    const editor = this._getElementByQuery(`[data-selector="simple-wysiwyg"]`);
-    if(!editor) {
-      return;
-    }
-    this.saveSelection();
-    this.data.value = editor.innerHTML;
-    if (this.stopStack) {
-      this.stopStack = false;
-    } else {
-      if(`${this.stack[this.stackPosition - 1]}` !== `${this.data.value}`) {
-        this.stack = this.stack.slice(0, this.stackPosition + 1);
-        this.stack.push(this.data.value); 
-        this.stackPosition++;
-        if(this.selector) {
-          this.selector.value = this.format(this.data.value);
-        }
-      }
-    }
+    this.update('html',`[data-selector="simple-wysiwyg-source"]`);
   }
 
   onPaste() {
@@ -305,7 +305,7 @@ export default class SimpleWysiwyg extends aTemplate {
       });
     });
     this.saveSelection();
-    this.update('html',`.${this.data.classNames.SimpleWysiwygToolBox}`);
+    this.update('html',`[data-selector="simple-wysiwyg-toolbox"]`);
   }
 
   getSelectionNode() {
@@ -346,8 +346,9 @@ export default class SimpleWysiwyg extends aTemplate {
   }
 
   format(txt) {
+    txt = txt.replace(/<div>(.*?)<\/div>/g, '$1\n');
     const decoded = entities.decode(txt);
-    return decoded.replace(/<br>/g,'\n').replace(/^([\t ])*\n/gm,"");
+    return decoded.replace(/<br>/g,'\n');
   }
 
   toMarkdown() {
