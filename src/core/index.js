@@ -204,6 +204,7 @@ export default class SimpleWysiwyg extends aTemplate {
   beforeUpdated() {
     this.data.canUndo = this.canUndo();
     this.data.canRedo = this.canRedo();
+    this.data.formatedValue = this.format(this.data.value);
   }
 
   onUpdated() {
@@ -346,9 +347,9 @@ export default class SimpleWysiwyg extends aTemplate {
   }
 
   format(txt) {
-    txt = txt.replace(/<div>(.*?)<\/div>/g, '$1\n');
-    const decoded = entities.decode(txt);
-    return decoded.replace(/<br>/g,'\n');
+    return txt
+      .replace(/<(div|p|br)[^<]*?>/g, '\n')
+      .replace(/<\/(div|p)>/g, '');
   }
 
   toMarkdown() {
