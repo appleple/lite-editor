@@ -15173,12 +15173,12 @@ var SimpleWysiwyg = function (_aTemplate) {
   }, {
     key: 'directInput',
     value: function directInput() {
-      this.data.value = this.e.target.value;
+      this.data.value = this.e.target.value.replace(/\n/, '<br>');
     }
   }, {
     key: 'format',
     value: function format(txt) {
-      return txt.replace(/<(div|p|br)[^<]*?>/g, '\n').replace(/<\/(div|p)>/g, '');
+      return txt.replace(/&nbsp;/g, ' ').replace(/<(div|p|br)[^<]*?>(.*?)<\/(div|p)>/g, '\n$2').replace(/<br>/g, '\n');
     }
   }, {
     key: 'toMarkdown',

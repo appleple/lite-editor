@@ -343,13 +343,14 @@ export default class SimpleWysiwyg extends aTemplate {
   }
 
   directInput() {
-    this.data.value = this.e.target.value;
+    this.data.value = this.e.target.value.replace(/\n/,'<br>');
   }
 
   format(txt) {
     return txt
-      .replace(/<(div|p|br)[^<]*?>/g, '\n')
-      .replace(/<\/(div|p)>/g, '');
+      .replace(/&nbsp;/g, ' ')
+      .replace(/<(div|p|br)[^<]*?>(.*?)<\/(div|p)>/g, '\n$2')
+      .replace(/<br>/g, '\n');
   }
 
   toMarkdown() {
