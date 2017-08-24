@@ -339,11 +339,11 @@ export default class SimpleWysiwyg extends aTemplate {
   toggleSource() {
     const source = this.data.showSource;
     this.data.showSource = !source;
+    if (!this.data.showSource) {
+      const textarea = this._getElementByQuery(`[data-selector="simple-wysiwyg-source"]`);
+      this.data.value = textarea.value.replace(/\n/g,'<br>');
+    }
     this.update();
-  }
-
-  directInput() {
-    this.data.value = this.e.target.value.replace(/\n/,'<br>');
   }
 
   format(txt) {
