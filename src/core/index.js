@@ -350,7 +350,9 @@ export default class SimpleWysiwyg extends aTemplate {
     this.data.showSource = !source;
     if (!this.data.showSource) {
       const textarea = this._getElementByQuery(`[data-selector="simple-wysiwyg-source"]`);
-      this.data.value = textarea.value.replace(/\n/g,'<br>');
+      const value = textarea.value;
+      let formatted = value.replace(/\n/g,'<br>');
+      this.data.value = formatted;
     }
     this.update();
   }
@@ -359,8 +361,8 @@ export default class SimpleWysiwyg extends aTemplate {
     return txt
       .replace(/&nbsp;/g, ' ')
       .replace(/<p[^<]*?>(([\n\r\t]|.)*?)<\/p>/g, '\n$1')
-      .replace(/<div[^<]*?>(([\n\r\t]|.)*?)<br><\/div>/g, '$1\n')
-      .replace(/<div[^<]*?>(([\n\r\t]|.)*?)<\/div>/g, '$1')
+      .replace(/<div[^<]*?>(([\n\r\t]|.)*?)<br><\/div>/g, '\n$1')
+      .replace(/<div[^<]*?>(([\n\r\t]|.)*?)<\/div>/g, '\n$1')
       .replace(/<br>/g, '\n');
   }
 
