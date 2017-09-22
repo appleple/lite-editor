@@ -208,6 +208,9 @@ export default class SimpleWysiwyg extends aTemplate {
   }
 
   onUpdated() {
+    const textarea = this._getElementByQuery(`[data-selector="simple-wysiwyg-source"]`);
+    textarea.style.height = 'auto';
+    textarea.style.height = `${textarea.scrollHeight}px`;
     const editor = this._getElementByQuery(`[data-selector="simple-wysiwyg"]`);
     if(!editor) {
       return;
@@ -264,6 +267,12 @@ export default class SimpleWysiwyg extends aTemplate {
 
   onInput() {
     this.update('html',`[data-selector="simple-wysiwyg-source"]`);
+  }
+
+  onDirectInput() {
+    const textarea = this._getElementByQuery(`[data-selector="simple-wysiwyg-source"]`);
+    textarea.style.height = 'auto';
+    textarea.style.height = `${textarea.scrollHeight}px`;
   }
 
   onPaste() {
@@ -347,12 +356,6 @@ export default class SimpleWysiwyg extends aTemplate {
   }
 
   format(txt) {
-    console.log(txt
-      .replace(/&nbsp;/g, ' ')
-      .replace(/<p[^<]*?>(([\n\r\t]|.)*?)<\/p>/g, '\n$1')
-      .replace(/<div[^<]*?>(([\n\r\t]|.)*?)<br><\/div>/g, '$1\n')
-      .replace(/<div[^<]*?>(([\n\r\t]|.)*?)<\/div>/g, '$1')
-      .replace(/<br>/g, '\n'))
     return txt
       .replace(/&nbsp;/g, ' ')
       .replace(/<p[^<]*?>(([\n\r\t]|.)*?)<\/p>/g, '\n$1')
