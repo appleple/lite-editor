@@ -1,7 +1,7 @@
 @charset "UTF-8";
 .simple-wysiwyg,
 .simple-wysiwyg-source {
-  min-height: 100px;
+  min-height: 32px;
   border: 1px solid #CCC;
   background-color: #FFF;
   border-radius: 5px;
@@ -9,6 +9,7 @@
   border-top-left-radius: 0;
   font-family: "Hiragino Kaku Gothic Pro", "ヒラギノ角ゴ Pro W3", "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
   font-size: 16px;
+  line-height: 1.3;
   padding: 5px;
   margin-bottom: 10px;
   width: 100%;
