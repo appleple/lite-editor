@@ -35,12 +35,13 @@ const defaults = {
     redoBtn: 'redo',
     undoBtn: 'undo'
   },
+  maxHeight:100,
+  minHeight:100,
   selectOptions: [],
   btnOptions: [],
   selectName: '',
   useLink: true,
-  showSource: false,
-  hideEditor: false,
+  allowPreview: false,
   btnPosition: 'top'
 }
 
@@ -49,6 +50,8 @@ export default class SimpleWysiwyg extends aTemplate {
   constructor(ele, settings) {
     super();
     this.data = extend({}, defaults, settings);
+    this.data.showSource = false;
+    this.data.hideEditor = false;
     this.id = this._getUniqId();
     let template = ``;
     if (this.data.btnPosition === 'bottom') {
