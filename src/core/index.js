@@ -65,7 +65,7 @@ export default class SimpleWysiwyg extends aTemplate {
       format:this.format
     }
     if(selector.value) {
-      this.data.value = selector.value.replace(/\r\n|\r|\n/g,'<br/>');
+      this.data.value = selector.value.replace(/\r\n|\r|\n/g,'<br/>').replace(/ /g,'&nbsp;');
     }
     let attrStr = '';
     if (selector.attributes){
@@ -295,6 +295,7 @@ export default class SimpleWysiwyg extends aTemplate {
     }
     const editor = this._getElementByQuery(`[data-selector="simple-wysiwyg"]`);
     const pos = util.getCaretPos(editor);
+    // on purpose
     this.insertHtml('<br> ');
     editor.focus();
     util.setCaretPos(editor, pos + 1);
@@ -370,6 +371,7 @@ export default class SimpleWysiwyg extends aTemplate {
 
   format(txt) {
     return txt
+      .replace(/ /g, '')
       .replace(/&nbsp;/g, ' ')
       .replace(/<p[^<]*?>(([\n\r\t]|.)*?)<\/p>/g, '$1\n')
       .replace(/<br>/g, '\n');

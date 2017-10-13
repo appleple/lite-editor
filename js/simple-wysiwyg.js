@@ -14829,7 +14829,7 @@ var SimpleWysiwyg = function (_aTemplate) {
       format: _this.format
     };
     if (selector.value) {
-      _this.data.value = selector.value.replace(/\r\n|\r|\n/g, '<br/>');
+      _this.data.value = selector.value.replace(/\r\n|\r|\n/g, '<br/>').replace(/ /g, '&nbsp;');
     }
     var attrStr = '';
     if (selector.attributes) {
@@ -15091,6 +15091,7 @@ var SimpleWysiwyg = function (_aTemplate) {
       }
       var editor = this._getElementByQuery('[data-selector="simple-wysiwyg"]');
       var pos = util.getCaretPos(editor);
+      // on purpose
       this.insertHtml('<br> ');
       editor.focus();
       util.setCaretPos(editor, pos + 1);
@@ -15176,7 +15177,7 @@ var SimpleWysiwyg = function (_aTemplate) {
   }, {
     key: 'format',
     value: function format(txt) {
-      return txt.replace(/&nbsp;/g, ' ').replace(/<p[^<]*?>(([\n\r\t]|.)*?)<\/p>/g, '$1\n').replace(/<br>/g, '\n');
+      return txt.replace(/ /g, '').replace(/&nbsp;/g, ' ').replace(/<p[^<]*?>(([\n\r\t]|.)*?)<\/p>/g, '$1\n').replace(/<br>/g, '\n');
     }
   }, {
     key: 'toMarkdown',
