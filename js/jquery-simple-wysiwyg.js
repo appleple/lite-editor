@@ -15192,7 +15192,7 @@ var SimpleWysiwyg = function (_aTemplate) {
   }, {
     key: 'format',
     value: function format(txt) {
-      return txt.replace(/&nbsp;/g, ' ').replace(/<p[^<]*?>(([\n\r\t]|.)*?)<\/p>/g, '\n$1').replace(/<div[^<]*?>(([\n\r\t]|.)*?)<br><\/div>/g, '\n$1').replace(/<div[^<]*?>(([\n\r\t]|.)*?)<\/div>/g, '\n$1').replace(/<br>/g, '\n');
+      return txt.replace(/&nbsp;/g, ' ').replace(/<p[^<]*?>(([\n\r\t]|.)*?)<\/p>/g, '\n$1').replace(/<div[^<]*?>(([\n\r\t]|.)*?)<br><\/div>/g, '\n$1').replace(/<div[^<]*?>(([\n\r\t]|.)*?)<\/div>/g, '\n$1').replace(/<([^>]+)><br><([^>]+)>/g, '\n').replace(/<br>/g, '\n');
     }
   }, {
     key: 'toMarkdown',

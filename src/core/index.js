@@ -366,6 +366,7 @@ export default class SimpleWysiwyg extends aTemplate {
       .replace(/<p[^<]*?>(([\n\r\t]|.)*?)<\/p>/g, '\n$1')
       .replace(/<div[^<]*?>(([\n\r\t]|.)*?)<br><\/div>/g, '\n$1')
       .replace(/<div[^<]*?>(([\n\r\t]|.)*?)<\/div>/g, '\n$1')
+      .replace(/<([^>]+)><br><([^>]+)>/g, '\n')
       .replace(/<br>/g, '\n');
   }
 
