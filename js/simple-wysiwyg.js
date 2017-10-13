@@ -15177,7 +15177,7 @@ var SimpleWysiwyg = function (_aTemplate) {
   }, {
     key: 'format',
     value: function format(txt) {
-      return txt.replace(/&nbsp;/g, ' ').replace(/<p[^<]*?>(([\n\r\t]|.)*?)<\/p>/g, '$1\n').replace(/<br>/g, '\n');
+      return txt.replace(/&nbsp;/g, ' ').replace(/<p[^<]*?>(([\n\r\t]|.)*?)<\/p>/g, '$1\n').replace(/<br> /g, '\n').replace(/<br>/g, '\n');
     }
   }, {
     key: 'toMarkdown',
