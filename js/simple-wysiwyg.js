@@ -15091,8 +15091,9 @@ var SimpleWysiwyg = function (_aTemplate) {
       }
       var editor = this._getElementByQuery('[data-selector="simple-wysiwyg"]');
       var pos = util.getCaretPos(editor);
-      this.insertHtml('<br>');
-      util.setCaretPos(editor, pos);
+      this.insertHtml('<br> ');
+      editor.focus();
+      util.setCaretPos(editor, pos + 1);
       e.preventDefault();
     }
   }, {

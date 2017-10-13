@@ -295,8 +295,9 @@ export default class SimpleWysiwyg extends aTemplate {
     }
     const editor = this._getElementByQuery(`[data-selector="simple-wysiwyg"]`);
     const pos = util.getCaretPos(editor);
-    this.insertHtml('<br>');
-    util.setCaretPos(editor, pos);
+    this.insertHtml('<br> ');
+    editor.focus();
+    util.setCaretPos(editor, pos + 1);
     e.preventDefault();
   }
 
