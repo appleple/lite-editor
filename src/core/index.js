@@ -65,7 +65,7 @@ export default class SimpleWysiwyg extends aTemplate {
       format:this.format
     }
     if(selector.value) {
-      this.data.value = selector.value.replace(/\r\n|\r|\n/g,'<br/>').replace(/ /g,'&nbsp;');
+      this.data.value = selector.value.replace(/\r\n|\r|\n/g,'<br/>');
     }
     let attrStr = '';
     if (selector.attributes){
@@ -371,7 +371,6 @@ export default class SimpleWysiwyg extends aTemplate {
 
   format(txt) {
     return txt
-      .replace(/ /g, '')
       .replace(/&nbsp;/g, ' ')
       .replace(/<p[^<]*?>(([\n\r\t]|.)*?)<\/p>/g, '$1\n')
       .replace(/<br>/g, '\n');
