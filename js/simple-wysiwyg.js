@@ -14761,7 +14761,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var editorHtml = '<div class="\\{classNames.SimpleWysiwyg\\}" data-action-mouseup="onPutCaret" data-selector="simple-wysiwyg" contenteditable data-action-input="onInput" data-action-keydown="onPutCaret" data-action-paste="onPaste"<!-- BEGIN showSource:exist --> style="display:none;"<!-- END showSource:exist --><!-- BEGIN hideEditor:exist --> style="display:none;"<!-- END hideEditor:exist -->>{value}</div>\n<textarea class="\\{classNames.SimpleWysiwygSource\\}" data-selector="simple-wysiwyg-source" <!-- BEGIN showSource:empty --> style="display:none;"<!-- END showSource:empty -->{attr} data-bind="formatedValue" disabled></textarea>';
+var editorHtml = '<div class="\\{classNames.SimpleWysiwyg\\}" data-action-mouseup="onPutCaret" data-action-keydown="onKeyDown" data-selector="simple-wysiwyg" contenteditable data-action-input="onInput" data-action-paste="onPaste"<!-- BEGIN showSource:exist --> style="display:none;"<!-- END showSource:exist --><!-- BEGIN hideEditor:exist --> style="display:none;"<!-- END hideEditor:exist -->>{value}</div>\n<textarea class="\\{classNames.SimpleWysiwygSource\\}" data-selector="simple-wysiwyg-source" <!-- BEGIN showSource:empty --> style="display:none;"<!-- END showSource:empty -->{attr} data-bind="formatedValue" disabled></textarea>';
 var btnHtml = '<div class="\\{classNames.SimpleWysiwygToolBox\\}" data-selector="simple-wysiwyg-toolbox">\n    <!-- BEGIN selectOptions.0:exist -->\n    <div class="\\{classNames.SimpleWysiwygSelectWrap\\}">\n        <select class="\\{classNames.SimpleWysiwygSelect\\}"<!-- BEGIN selectName:exist --> name="{selectName}"<!-- END selectName:exist --> data-action-change="changeOption" data-bind="selectedOption">\n        <!-- BEGIN selectOptions:loop -->\n        <option value="{value}" data-tag_extend>{label}</option>\n        <!-- END selectOptions:loop -->\n        </select>\n    </div>\n    <!-- END selectOptions.0:exist -->\n\n    <div class="\\{classNames.SimpleWysiwygBtnGroupWrap\\}" <!-- BEGIN hideBtns:exist --> style="display:none;"<!-- END hideBtns:exist -->>\n        <div class="\\{classNames.SimpleWysiwygBtnGroup\\}"><!-- BEGIN allowPreview:exist --><button class="\\{classNames.SimpleWysiwygBtn\\}<!-- BEGIN showSource:exist --> \\{classNames.SimpleWysiwygBtnActive\\}<!-- END showSource:exist -->" data-action-click="toggleSource" type="button">\\{message.sourceBtn\\}</button><!-- END allowPreview:exist --><button class="\\{classNames.SimpleWysiwygBtn\\}" data-action-click="redo"<!-- BEGIN canRedo:empty --> disabled<!-- END canRedo:empty --> type="button">\\{message.redoBtn\\}</button><button class="\\{classNames.SimpleWysiwygBtn\\}" data-action-click="undo"<!-- BEGIN canUndo:empty --> disabled<!-- END canUndo:empty --> type="button">\\{message.undoBtn\\}</button></div>\n        \n        <div class="\\{classNames.SimpleWysiwygBtnGroup\\}" data-selector="btn-group">\n        <!-- BEGIN btnOptions:loop --><button class="\\\\{classNames.SimpleWysiwygBtn\\\\}<!-- BEGIN selfClassName:exist --> {selfClassName}<!-- END selfClassName:exist --><!-- BEGIN selected:exist --> \\\\{classNames.SimpleWysiwygBtnActive\\\\}<!-- END selected:exist -->" data-tag="{tag}" data-class="{className}"<!-- BEGIN tag:exist --><!-- BEGIN selected:empty --> data-action-click="insertTag({tag},{className})"<!-- END selected:empty --><!-- BEGIN selected:exist --> data-action-click="unwrapTag({tag},{className})"<!-- END selected:exist --><!-- END tag:exist --><!-- BEGIN tag:empty --> data-action-click="onClick({i})"<!-- END tag:empty --><!-- \\BEGIN showSource:exist --> disabled<!-- \\END showSource:exist --> type="button">{label}</button><!-- END btnOptions:loop -->\n        </div>\n    </div>\n</div>';
 
 
@@ -15082,6 +15082,20 @@ var SimpleWysiwyg = function (_aTemplate) {
       }
     }
   }, {
+    key: 'onKeyDown',
+    value: function onKeyDown() {
+      var e = this.e;
+      if (e.keyCode !== 13) {
+        this.onPutCaret();
+        return;
+      }
+      var editor = this._getElementByQuery('[data-selector="simple-wysiwyg"]');
+      var pos = util.getCaretPos(editor);
+      this.insertHtml('<br>');
+      util.setCaretPos(editor, pos);
+      e.preventDefault();
+    }
+  }, {
     key: 'onPutCaret',
     value: function onPutCaret() {
       var _this3 = this;
@@ -15156,18 +15170,12 @@ var SimpleWysiwyg = function (_aTemplate) {
     value: function toggleSource() {
       var source = this.data.showSource;
       this.data.showSource = !source;
-      if (!this.data.showSource) {
-        var textarea = this._getElementByQuery('[data-selector="simple-wysiwyg-source"]');
-        var value = textarea.value;
-        var formatted = value.replace(/\n/g, '<br>');
-        this.data.value = formatted;
-      }
       this.update();
     }
   }, {
     key: 'format',
     value: function format(txt) {
-      return txt.replace(/&nbsp;/g, ' ').replace(/<p[^<]*?>(([\n\r\t]|.)*?)<\/p>/g, '\n$1').replace(/<div[^<]*?>(([\n\r\t]|.)*?)<br><\/div>/g, '\n$1').replace(/<div[^<]*?>(([\n\r\t]|.)*?)<\/div>/g, '\n$1').replace(/<([^>]+)><br><([^>]+)>/g, '\n').replace(/<br>/g, '\n');
+      return txt.replace(/&nbsp;/g, ' ').replace(/<br>/g, '\n');
     }
   }, {
     key: 'toMarkdown',

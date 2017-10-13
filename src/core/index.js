@@ -287,6 +287,19 @@ export default class SimpleWysiwyg extends aTemplate {
     }
   }
 
+  onKeyDown() {
+    const e = this.e;
+    if (e.keyCode !== 13) {
+      this.onPutCaret();
+      return;
+    }
+    const editor = this._getElementByQuery(`[data-selector="simple-wysiwyg"]`);
+    const pos = util.getCaretPos(editor);
+    this.insertHtml('<br>');
+    util.setCaretPos(editor, pos);
+    e.preventDefault();
+  }
+
   onPutCaret() {
     setTimeout(() => {
       const target = this.getSelectionNode();
@@ -351,22 +364,12 @@ export default class SimpleWysiwyg extends aTemplate {
   toggleSource() {
     const source = this.data.showSource;
     this.data.showSource = !source;
-    if (!this.data.showSource) {
-      const textarea = this._getElementByQuery(`[data-selector="simple-wysiwyg-source"]`);
-      const value = textarea.value;
-      let formatted = value.replace(/\n/g,'<br>');
-      this.data.value = formatted;
-    }
     this.update();
   }
 
   format(txt) {
     return txt
       .replace(/&nbsp;/g, ' ')
-      .replace(/<p[^<]*?>(([\n\r\t]|.)*?)<\/p>/g, '\n$1')
-      .replace(/<div[^<]*?>(([\n\r\t]|.)*?)<br><\/div>/g, '\n$1')
-      .replace(/<div[^<]*?>(([\n\r\t]|.)*?)<\/div>/g, '\n$1')
-      .replace(/<([^>]+)><br><([^>]+)>/g, '\n')
       .replace(/<br>/g, '\n');
   }
 
