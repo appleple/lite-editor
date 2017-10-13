@@ -370,11 +370,15 @@ export default class SimpleWysiwyg extends aTemplate {
   }
 
   format(txt) {
-    return txt
-      .replace(/&nbsp;/g, ' ')
-      .replace(/<p[^<]*?>(([\n\r\t]|.)*?)<\/p>/g, '$1\n')
-      .replace(/<br> /g, '\n')
-      .replace(/<br>/g, '\n');
+    let replaced = txt
+    .replace(/&nbsp;/g, ' ')
+    .replace(/<p[^<]*?>(([\n\r\t]|.)*?)<\/p>/g, '$1\n')
+    .replace(/<br> /g, '\n')
+    .replace(/<br>/g, '\n');
+    if (replaced.slice(-1) === '\n') {
+      replaced = replaced.slice(0, -1);
+    }
+    return replaced;
   }
 
   toMarkdown() {
