@@ -297,8 +297,11 @@ export default class SimpleWysiwyg extends aTemplate {
     const pos = util.getCaretPos(editor);
     // on purpose
     this.insertHtml('<br> ');
+    editor.innerHTML = editor.innerHTML.replace(/<br> <\/(.*?)>/g,'</$1><br> ');
+    this.data.value = editor.innerHTML;
     editor.focus();
     util.setCaretPos(editor, pos + 1);
+    this.updateToolBox();
     e.preventDefault();
   }
 
@@ -371,10 +374,10 @@ export default class SimpleWysiwyg extends aTemplate {
 
   format(txt) {
     let replaced = txt
-    .replace(/&nbsp;/g, ' ')
     .replace(/<p[^<]*?>(([\n\r\t]|.)*?)<\/p>/g, '$1\n')
-    .replace(/<br> /g, '\n')
-    .replace(/<br>/g, '\n');
+    .replace(/<br>(\s*)/g, '\n')
+    .replace(/<br>/g, '\n')
+    .replace(/&nbsp;/g, ' ')
     if (replaced.slice(-1) === '\n') {
       replaced = replaced.slice(0, -1);
     }
