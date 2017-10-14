@@ -52,6 +52,7 @@ export default class SimpleWysiwyg extends aTemplate {
     this.data = extend({}, defaults, settings);
     this.data.showSource = false;
     this.data.hideEditor = false;
+    this.data.groups = this.makeBtnGroups();
     this.id = this._getUniqId();
     let template = ``;
     if (this.data.btnPosition === 'bottom') {
@@ -92,6 +93,75 @@ export default class SimpleWysiwyg extends aTemplate {
     if(this.data.afterInit) {
       this.data.afterInit.apply(this);
     }
+  }
+
+  applyDefaultActionBtns() {
+    const options = [
+      { 
+        label: '<i class="fa fa-link"></i>', 
+        tag: 'a', 
+        className: '',
+        group: 'mark'
+      },
+      { 
+        label: '<i class="fa fa-bold"></i>', 
+        tag: 'strong', 
+        className: '',
+        group: 'mark'
+      },
+      {
+        label: '<i class="fa fa-italic"></i>',
+        tag: 'i',
+        className: '',
+        group: 'mark'
+      },
+      {
+        label: '<i class="fa fa-align-left"></i>',
+        tag: 'div',
+        className: 'left',
+        group: 'align'
+      },
+      {
+        label: '<i class="fa fa-align-center"></i>',
+        tag: 'div',
+        className: 'center',
+        group: 'align'
+      },
+      {
+        label: '<i class="fa fa-align-right"></i>',
+        tag: 'div',
+        className: 'right',
+        group: 'align'
+      },
+    ]
+    this.data.btnOptions = options
+    this.data.groups = this.makeBtnGroups();
+    this.updateToolBox();
+  }
+
+  makeBtnGroups() {
+    const btns = this.data.btnOptions;
+    const groups = [];
+    btns.forEach((btn) => {
+      let flag = true;
+      if (!btn.group) {
+        btn.group = 'none';
+      }
+      groups.forEach((group) => {
+        if (group.name === btn.group) {
+          group.items.push(btn);
+          flag = false;
+        }
+      });
+      if (flag) {
+        const group = {
+          name: btn.group,
+          items: [btn]
+        }
+        groups.push(group);
+      }
+    });
+    return groups;
   }
 
   _getSelf() {
@@ -326,13 +396,15 @@ export default class SimpleWysiwyg extends aTemplate {
   }
 
   updateToolBox(tags = []) {
-    const btnOptions = this.data.btnOptions;
-    btnOptions.forEach(btn => {
-      btn.selected = false;
-      tags.forEach((tag) => {
-        if (btn.tag === tag.tagName && btn.className === tag.className) {
-          btn.selected = true;
-        }
+    const groups = this.data.groups;
+    groups.forEach((group) => {
+      group.items.forEach(btn => {
+        btn.selected = false;
+        tags.forEach((tag) => {
+          if (btn.tag === tag.tagName && btn.className === tag.className) {
+            btn.selected = true;
+          }
+        });
       });
     });
     this.saveSelection();

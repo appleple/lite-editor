@@ -16,7 +16,7 @@ please visit!!</textarea>
 	<script src="../js/simple-wysiwyg.js"></script>
 	<script>
 	window.addEventListener('DOMContentLoaded',function(){
-		window.wysiwyg = new SimpleWysiwyg('.js-simple-wysiwyg',{
+		const wysiwyg = new SimpleWysiwyg('.js-simple-wysiwyg',{
       mode:'html',
       allowPreview: true,
       message: {
@@ -44,25 +44,20 @@ please visit!!</textarea>
         }
       ],
       selectedOption: 'html',
-      btnOptions: [
-        { 
-          label: '<i class="fa fa-link"></i>', 
-          tag: 'a', 
-          className: ''
-        },
-        { 
-          label: '<i class="fa fa-bold"></i>', 
-          tag: 'strong', 
-          className: ''
-        },
-        {
-          label: '<i class="fa fa-italic"></i>',
-          tag: 'i',
-          className: ''
-        }
-      ]
 		});
+    wysiwyg.applyDefaultActionBtns();
 	});
 	</script>
+  <style>
+    .right{
+      text-align: right
+    }
+    .center {
+      text-align: center;
+    }
+    .left {
+      text-align: left;
+    }
+  </style>
 </body>
 </html>
