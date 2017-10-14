@@ -6,7 +6,7 @@
  *   license: MIT (http://opensource.org/licenses/MIT)
  *   author: appleple
  *   homepage: http://developer.a-blogcms.jp
- *   version: 0.1.1
+ *   version: 0.2.0
  *
  * a-template:
  *   license: MIT (http://opensource.org/licenses/MIT)
@@ -14850,8 +14850,8 @@ var SimpleWysiwyg = function (_aTemplate) {
     util.removeElement(selector);
     _this.update();
     _this.selector = _this._getElementByQuery('[data-selector="simple-wysiwyg-source"]');
-    var item = _this.data.selectOptions.find(function (item) {
-      return item.value === _this.data.selectedOption;
+    var item = _this.data.selectOptions.find(function (option) {
+      return option.value === _this.data.selectedOption;
     });
     if (item && item.onSelect) {
       item.onSelect.apply(_this);
@@ -14980,7 +14980,6 @@ var SimpleWysiwyg = function (_aTemplate) {
   }, {
     key: 'resetStyle',
     value: function resetStyle() {
-      var data = this.data;
       var selection = util.getSelection();
       var insertText = ('' + selection).replace(/<[^>]*>/g, '');
       if (this._isFocused()) {
