@@ -1,17 +1,16 @@
 import aTemplate from 'a-template';
+import extend from 'deep-extend';
 import editorHtml from './editor.html';
 import btnHtml from './btn.html';
-import extend from 'deep-extend';
-
 import * as util from '../lib/util';
 
 const Entities = require('html-entities').XmlEntities;
-const upndown = require('upndown');
-const showdown = require('showdown');
+const Upndown = require('upndown');
+const Showdown = require('showdown');
 
 const entities = new Entities();
-const converter = new showdown.Converter();
-const und = new upndown({decodeEntities: false});
+const converter = new Showdown.Converter();
+const und = new Upndown({ decodeEntities: false });
 
 const defaults = {
   mode: 'html',
@@ -35,15 +34,15 @@ const defaults = {
     redoBtn: 'redo',
     undoBtn: 'undo'
   },
-  maxHeight:100,
-  minHeight:100,
+  maxHeight: 100,
+  minHeight: 100,
   selectOptions: [],
   btnOptions: [],
   selectName: '',
   useLink: true,
   allowPreview: false,
   btnPosition: 'top'
-}
+};
 
 export default class SimpleWysiwyg extends aTemplate {
 
@@ -54,7 +53,7 @@ export default class SimpleWysiwyg extends aTemplate {
     this.data.hideEditor = false;
     this.data.groups = this.makeBtnGroups();
     this.id = this._getUniqId();
-    let template = ``;
+    let template = '';
     if (this.data.btnPosition === 'bottom') {
       template = `${editorHtml}${btnHtml}`;
     } else {
@@ -63,14 +62,14 @@ export default class SimpleWysiwyg extends aTemplate {
     this.addTemplate(this.id, template);
     const selector = typeof ele === 'string' ? document.querySelector(ele) : ele;
     this.convert = {
-      format:this.format
-    }
-    if(selector.value) {
-      this.data.value = selector.value.replace(/\r\n|\r|\n/g,'<br/>');
+      format: this.format
+    };
+    if (selector.value) {
+      this.data.value = selector.value.replace(/\r\n|\r|\n/g, '<br/>');
     }
     let attrStr = '';
-    if (selector.attributes){
-      [].forEach.call(selector.attributes, attr => {
+    if (selector.attributes) {
+      [].forEach.call(selector.attributes, (attr) => {
         attrStr += ` ${attr.nodeName}="${attr.nodeValue}"`;
       });
     }
@@ -85,27 +84,27 @@ export default class SimpleWysiwyg extends aTemplate {
     util.before(selector, html);
     util.removeElement(selector);
     this.update();
-    this.selector = this._getElementByQuery(`[data-selector="simple-wysiwyg-source"]`);
+    this.selector = this._getElementByQuery('[data-selector="simple-wysiwyg-source"]');
     const item = this.data.selectOptions.find((item => item.value === this.data.selectedOption));
     if (item && item.onSelect) {
       item.onSelect.apply(this);
     }
-    if(this.data.afterInit) {
+    if (this.data.afterInit) {
       this.data.afterInit.apply(this);
     }
   }
 
   applyDefaultActionBtns() {
     const options = [
-      { 
-        label: '<i class="fa fa-link"></i>', 
-        tag: 'a', 
+      {
+        label: '<i class="fa fa-link"></i>',
+        tag: 'a',
         className: '',
         group: 'mark'
       },
-      { 
-        label: '<i class="fa fa-bold"></i>', 
-        tag: 'strong', 
+      {
+        label: '<i class="fa fa-bold"></i>',
+        tag: 'strong',
         className: '',
         group: 'mark'
       },
@@ -133,8 +132,8 @@ export default class SimpleWysiwyg extends aTemplate {
         className: 'right',
         group: 'align'
       },
-    ]
-    this.data.btnOptions = options
+    ];
+    this.data.btnOptions = options;
     this.data.groups = this.makeBtnGroups();
     this.updateToolBox();
   }
@@ -157,7 +156,7 @@ export default class SimpleWysiwyg extends aTemplate {
         const group = {
           name: btn.group,
           items: [btn]
-        }
+        };
         groups.push(group);
       }
     });
@@ -183,7 +182,7 @@ export default class SimpleWysiwyg extends aTemplate {
 
   decodeValue() {
     this.data.value = entities.decode(this.data.value);
-    this.update();    
+    this.update();
   }
 
   hideEditor() {
@@ -208,9 +207,8 @@ export default class SimpleWysiwyg extends aTemplate {
 
   resetStyle() {
     const data = this.data;
-    const mode = data.mode;
     const selection = util.getSelection();
-    const insertText = `${selection}`.replace(/<[^>]*>/g, "");
+    const insertText = `${selection}`.replace(/<[^>]*>/g, '');
     if (this._isFocused()) {
       document.execCommand('insertText', false, insertText);
     }
@@ -218,7 +216,7 @@ export default class SimpleWysiwyg extends aTemplate {
 
   insertHtml(html) {
     util.replaceSelectionWithHtml(html);
-    const editor = this._getElementByQuery(`[data-selector="simple-wysiwyg"]`);
+    const editor = this._getElementByQuery('[data-selector="simple-wysiwyg"]');
     this.data.value = editor.innerHTML;
   }
 
@@ -234,19 +232,17 @@ export default class SimpleWysiwyg extends aTemplate {
   }
 
   _isFocused() {
-    const selector = this._getElementByQuery(`[data-selector="simple-wysiwyg"]`);
+    const selector = this._getElementByQuery('[data-selector="simple-wysiwyg"]');
     return selector !== document.activeElement;
   }
 
-  insertTag(tag, className){
+  insertTag(tag, className) {
     const data = this.data;
-    const mode = data.mode;
     let link = '';
-    
+
     if (tag === 'a') {
       link = ` href="${prompt(data.message.addLinkTitle, 'http://')}"`;
     }
-
     const selection = util.getSelection();
     if (!selection) {
       alert(data.message.noRangeSelected);
@@ -257,19 +253,19 @@ export default class SimpleWysiwyg extends aTemplate {
       classAttr = ` class="${className}"`;
     }
     const insertHtml = `<${tag}${link}${classAttr}>${selection}</${tag}>`;
-    if(this.data.mode === 'markdown') {
+    if (this.data.mode === 'markdown') {
       und.convert(insertHtml, (err, markdown) => {
-        this.insertHtml(markdown.replace(/\r\n|\r|\n/g,'<br/>'));
+        this.insertHtml(markdown.replace(/\r\n|\r|\n/g, '<br/>'));
       });
     } else {
-      this.insertHtml(insertHtml.replace(/\r\n|\r|\n/g,'<br/>'));
+      this.insertHtml(insertHtml.replace(/\r\n|\r|\n/g, '<br/>'));
     }
     this.updateToolBox();
   }
 
   onClick(i) {
     const number = parseInt(i, 10);
-    if(this.data.btnOptions[number].onClick) {
+    if (this.data.btnOptions[number].onClick) {
       this.data.btnOptions[number].onClick.apply(this);
     }
   }
@@ -281,25 +277,23 @@ export default class SimpleWysiwyg extends aTemplate {
   }
 
   onUpdated() {
-    const textarea = this._getElementByQuery(`[data-selector="simple-wysiwyg-source"]`);
+    const textarea = this._getElementByQuery('[data-selector="simple-wysiwyg-source"]');
     textarea.style.height = 'auto';
     textarea.style.height = `${textarea.scrollHeight}px`;
-    const editor = this._getElementByQuery(`[data-selector="simple-wysiwyg"]`);
-    if(!editor) {
+    const editor = this._getElementByQuery('[data-selector="simple-wysiwyg"]');
+    if (!editor) {
       return;
     }
     this.saveSelection();
     this.data.value = editor.innerHTML;
     if (this.stopStack) {
       this.stopStack = false;
-    } else {
-      if(`${this.stack[this.stackPosition - 1]}` !== `${this.data.value}`) {
-        this.stack = this.stack.slice(0, this.stackPosition + 1);
-        this.stack.push(this.data.value); 
-        this.stackPosition++;
-        if(this.selector) {
-          this.selector.value = this.format(this.data.value);
-        }
+    } else if (`${this.stack[this.stackPosition - 1]}` !== `${this.data.value}`) {
+      this.stack = this.stack.slice(0, this.stackPosition + 1);
+      this.stack.push(this.data.value);
+      this.stackPosition += 1;
+      if (this.selector) {
+        this.selector.value = this.format(this.data.value);
       }
     }
   }
@@ -308,7 +302,7 @@ export default class SimpleWysiwyg extends aTemplate {
     if (!this.canRedo()) {
       return;
     }
-    this.stackPosition++;
+    this.stackPosition += 1;
     this.data.value = this.stack[this.stackPosition];
     this.stopStack = true;
     this.update();
@@ -325,7 +319,7 @@ export default class SimpleWysiwyg extends aTemplate {
     if (!this.canUndo()) {
       return;
     }
-    this.stackPosition--;
+    this.stackPosition -= 1;
     this.data.value = this.stack[this.stackPosition];
     this.stopStack = true;
     this.update();
@@ -339,11 +333,11 @@ export default class SimpleWysiwyg extends aTemplate {
   }
 
   onInput() {
-    this.update('html',`[data-selector="simple-wysiwyg-source"]`);
+    this.update('html', '[data-selector="simple-wysiwyg-source"]');
   }
 
   onDirectInput() {
-    const textarea = this._getElementByQuery(`[data-selector="simple-wysiwyg-source"]`);
+    const textarea = this._getElementByQuery('[data-selector="simple-wysiwyg-source"]');
     textarea.style.height = 'auto';
     textarea.style.height = `${textarea.scrollHeight}px`;
   }
@@ -363,11 +357,11 @@ export default class SimpleWysiwyg extends aTemplate {
       this.onPutCaret();
       return;
     }
-    const editor = this._getElementByQuery(`[data-selector="simple-wysiwyg"]`);
+    const editor = this._getElementByQuery('[data-selector="simple-wysiwyg"]');
     const pos = util.getCaretPos(editor);
     // on purpose
     this.insertHtml('<br> ');
-    editor.innerHTML = editor.innerHTML.replace(/<br> <\/(.*?)>/g,'</$1><br> ');
+    editor.innerHTML = editor.innerHTML.replace(/<br> <\/(.*?)>/g, '</$1><br> ');
     this.data.value = editor.innerHTML;
     editor.focus();
     util.setCaretPos(editor, pos + 1);
@@ -379,26 +373,26 @@ export default class SimpleWysiwyg extends aTemplate {
     setTimeout(() => {
       const target = this.getSelectionNode();
       const tags = [];
-      const editor = this._getElementByQuery(`[data-selector="simple-wysiwyg"]`);
+      const editor = this._getElementByQuery('[data-selector="simple-wysiwyg"]');
       if (target && target !== editor) {
-        tags.push({tagName:target.tagName.toLowerCase(),className:target.getAttribute('class') || ''});
+        tags.push({ tagName: target.tagName.toLowerCase(), className: target.getAttribute('class') || '' });
         let parent = target.parentElement;
         while (parent !== editor) {
           tags.push({
-            tagName:parent.tagName.toLowerCase(),
-            className:parent.getAttribute('class') || ''
+            tagName: parent.tagName.toLowerCase(),
+            className: parent.getAttribute('class') || ''
           });
           parent = parent.parentElement;
         }
       }
       this.updateToolBox(tags);
-    },1);
+    }, 1);
   }
 
   updateToolBox(tags = []) {
     const groups = this.data.groups;
     groups.forEach((group) => {
-      group.items.forEach(btn => {
+      group.items.forEach((btn) => {
         btn.selected = false;
         tags.forEach((tag) => {
           if (btn.tag === tag.tagName && btn.className === tag.className) {
@@ -408,16 +402,16 @@ export default class SimpleWysiwyg extends aTemplate {
       });
     });
     this.saveSelection();
-    this.update('html',`[data-selector="simple-wysiwyg-toolbox"]`);
+    this.update('html', '[data-selector="simple-wysiwyg-toolbox"]');
   }
 
   getSelectionNode() {
     const node = document.getSelection().anchorNode;
-    return (node.nodeType == 3 ? node.parentNode : node);
+    return (node.nodeType === 3 ? node.parentNode : node);
   }
 
   unwrapTag(tag, className) {
-    const editor = this._getElementByQuery(`[data-selector="simple-wysiwyg"]`);
+    const editor = this._getElementByQuery('[data-selector="simple-wysiwyg"]');
     const pos = util.getCaretPos(editor);
     let node = this.getSelectionNode();
     while (true) {
@@ -449,7 +443,7 @@ export default class SimpleWysiwyg extends aTemplate {
     .replace(/<p[^<]*?>(([\n\r\t]|.)*?)<\/p>/g, '$1\n')
     .replace(/<br>(\s*)/g, '\n')
     .replace(/<br>/g, '\n')
-    .replace(/&nbsp;/g, ' ')
+    .replace(/&nbsp;/g, ' ');
     if (replaced.slice(-1) === '\n') {
       replaced = replaced.slice(0, -1);
     }
@@ -460,9 +454,9 @@ export default class SimpleWysiwyg extends aTemplate {
     this.data.mode = 'markdown';
     und.convert(this.data.value, (err, markdown) => {
       this.data.value = markdown;
-      this.data.value = this.data.value.replace(/\n/g,'<br>');
+      this.data.value = this.data.value.replace(/\n/g, '<br>');
       this.update();
-    });    
+    });
   }
 
   toHtml() {
@@ -471,13 +465,13 @@ export default class SimpleWysiwyg extends aTemplate {
     this.data.value = this.data.value.replace(/^<p>|<\/p>$/g, '');
     this.update();
   }
-  
+
   changeOption() {
     const value = this.e.target.value;
     if (!value) {
       return;
     }
-    const item = this.data.selectOptions.find((item => item.value === value));
+    const item = this.data.selectOptions.find((option => option.value === value));
     if (item && item.onSelect) {
       this.data.selectedOption = item.value;
       item.onSelect.apply(this);
