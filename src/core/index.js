@@ -85,7 +85,7 @@ export default class SimpleWysiwyg extends aTemplate {
     util.removeElement(selector);
     this.update();
     this.selector = this._getElementByQuery('[data-selector="simple-wysiwyg-source"]');
-    const item = this.data.selectOptions.find((item => item.value === this.data.selectedOption));
+    const item = this.data.selectOptions.find((option => option.value === this.data.selectedOption));
     if (item && item.onSelect) {
       item.onSelect.apply(this);
     }
@@ -206,7 +206,6 @@ export default class SimpleWysiwyg extends aTemplate {
   }
 
   resetStyle() {
-    const data = this.data;
     const selection = util.getSelection();
     const insertText = `${selection}`.replace(/<[^>]*>/g, '');
     if (this._isFocused()) {
