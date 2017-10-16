@@ -438,6 +438,9 @@ export default class SimpleWysiwyg extends aTemplate {
   }
 
   format(txt) {
+    if (!txt) {
+      return '';
+    }
     let replaced = txt
     .replace(/<p[^<]*?>(([\n\r\t]|.)*?)<\/p>/g, '$1\n')
     .replace(/<br>(\s*)/g, '\n')
