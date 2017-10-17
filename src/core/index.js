@@ -232,7 +232,7 @@ export default class SimpleWysiwyg extends aTemplate {
 
   _isFocused() {
     const selector = this._getElementByQuery('[data-selector="simple-wysiwyg"]');
-    return selector !== document.activeElement;
+    return selector === document.activeElement;
   }
 
   insertTag(tag, className) {
@@ -351,12 +351,15 @@ export default class SimpleWysiwyg extends aTemplate {
   }
 
   onKeyDown() {
+    const editor = this._getElementByQuery('[data-selector="simple-wysiwyg"]');
     const e = this.e;
+
     if (e.keyCode !== 13) {
+      this.data.value = editor.innerHTML;
       this.onPutCaret();
       return;
     }
-    const editor = this._getElementByQuery('[data-selector="simple-wysiwyg"]');
+
     const pos = util.getCaretPos(editor);
     // on purpose
     this.insertHtml('<br> ');
