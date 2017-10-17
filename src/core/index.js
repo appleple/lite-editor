@@ -34,9 +34,10 @@ const defaults = {
     redoBtn: 'redo',
     undoBtn: 'undo'
   },
-  maxHeight: 100,
-  minHeight: 100,
+  maxHeight: null,
+  minHeight: null,
   selectOptions: [],
+  selectedOption: '',
   btnOptions: [],
   selectName: '',
   useLink: true,

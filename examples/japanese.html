@@ -17,8 +17,9 @@ please visit!!</textarea>
 	<script>
 	window.addEventListener('DOMContentLoaded',function(){
 		const wysiwyg = new SimpleWysiwyg('.js-simple-wysiwyg',{
-      mode:'html',
       allowPreview: true,
+      minHeight: 200,
+      maxHeight: 500,
       message: {
         addLinkTitle: 'リンク先URLを入力してください。',
         addLinkBtn: 'リンクの挿入',
@@ -43,7 +44,7 @@ please visit!!</textarea>
           }
         }
       ],
-      selectedOption: 'html',
+      selectedOption: 'markdown',
 		});
     wysiwyg.applyDefaultActionBtns();
 	});
