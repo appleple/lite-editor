@@ -368,6 +368,7 @@ export default class SimpleWysiwyg extends aTemplate {
     this.insertHtml('<br> ');
     editor.innerHTML = editor.innerHTML.replace(/<br> <\/(.*?)>/g, '</$1><br> ');
     this.data.value = editor.innerHTML;
+    editor.scrollTop = editor.scrollHeight;
     editor.focus();
     util.setCaretPos(editor, pos + 1);
     e.preventDefault();
