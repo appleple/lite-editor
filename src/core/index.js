@@ -269,16 +269,19 @@ export default class SimpleWysiwyg extends aTemplate {
   }
 
   beforeUpdated() {
-    this.data.canUndo = this.canUndo();
-    this.data.canRedo = this.canRedo();
-    this.data.formatedValue = this.format(this.data.value);
+    const data = this.data;
+    const editor = this._getElementByQuery('[data-selector="simple-wysiwyg"]');
+    data.canUndo = this.canUndo();
+    data.canRedo = this.canRedo();
+    data.formatedValue = this.format(data.value);
+    if (!data.showSource && editor && editor.offsetHeight) {
+      data.sourceHeight = editor.offsetHeight;
+    }
   }
 
   onUpdated() {
     const editor = this._getElementByQuery('[data-selector="simple-wysiwyg"]');
     const textarea = this._getElementByQuery('[data-selector="simple-wysiwyg-source"]');
-    textarea.style.height = 'auto';
-    textarea.style.height = `${editor.scrollHeight}px`;
     if (!editor) {
       return;
     }
