@@ -14825,8 +14825,6 @@ var defaults = {
   selectOptions: [],
   selectedOption: '',
   btnOptions: [],
-  selectName: '',
-  useLink: true,
   allowPreview: false,
   btnPosition: 'top'
 };
