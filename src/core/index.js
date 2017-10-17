@@ -276,10 +276,10 @@ export default class SimpleWysiwyg extends aTemplate {
   }
 
   onUpdated() {
+    const editor = this._getElementByQuery('[data-selector="simple-wysiwyg"]');
     const textarea = this._getElementByQuery('[data-selector="simple-wysiwyg-source"]');
     textarea.style.height = 'auto';
-    textarea.style.height = `${textarea.scrollHeight}px`;
-    const editor = this._getElementByQuery('[data-selector="simple-wysiwyg"]');
+    textarea.style.height = `${editor.scrollHeight}px`;
     if (!editor) {
       return;
     }
@@ -332,7 +332,11 @@ export default class SimpleWysiwyg extends aTemplate {
   }
 
   onInput() {
-    this.update('html', '[data-selector="simple-wysiwyg-source"]');
+    const editor = this._getElementByQuery('[data-selector="simple-wysiwyg"]');
+    const textarea = this._getElementByQuery('[data-selector="simple-wysiwyg-source"]');
+    this.data.value = editor.innerHTML;
+    this.data.formatedValue = this.format(this.data.value);
+    textarea.value = this.data.formatedValue;
   }
 
   onDirectInput() {
@@ -345,8 +349,8 @@ export default class SimpleWysiwyg extends aTemplate {
     const e = this.e;
     e.preventDefault();
     const insertText = e.clipboardData.getData('text/plain');
-    if (this._isFocused()) {
-      document.execCommand('insertText', false, insertText);
+    if (this._isFocused() && insertText) {
+      document.execCommand('insertText', false, insertText.replace(/<div>/g,'').replace(/<\div>/g,'<br>'));
     }
   }
 
@@ -367,7 +371,6 @@ export default class SimpleWysiwyg extends aTemplate {
     this.data.value = editor.innerHTML;
     editor.focus();
     util.setCaretPos(editor, pos + 1);
-    this.updateToolBox();
     e.preventDefault();
   }
 
