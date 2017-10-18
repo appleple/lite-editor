@@ -15065,7 +15065,6 @@ var SimpleWysiwyg = function (_aTemplate) {
     key: 'onUpdated',
     value: function onUpdated() {
       var editor = this._getElementByQuery('[data-selector="simple-wysiwyg"]');
-      var textarea = this._getElementByQuery('[data-selector="simple-wysiwyg-source"]');
       if (!editor) {
         return;
       }

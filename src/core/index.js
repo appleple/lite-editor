@@ -281,7 +281,6 @@ export default class SimpleWysiwyg extends aTemplate {
 
   onUpdated() {
     const editor = this._getElementByQuery('[data-selector="simple-wysiwyg"]');
-    const textarea = this._getElementByQuery('[data-selector="simple-wysiwyg-source"]');
     if (!editor) {
       return;
     }
