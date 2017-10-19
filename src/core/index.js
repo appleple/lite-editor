@@ -479,7 +479,7 @@ export default class SimpleWysiwyg extends aTemplate {
     if (replaced.slice(-1) === '\n') {
       replaced = replaced.slice(0, -1);
     }
-    return replaced;
+    return entities.decode(replaced);
   }
 
   toMarkdown() {
