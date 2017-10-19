@@ -43,6 +43,60 @@ const defaults = {
   btnPosition: 'top'
 };
 
+const defaultOptions = [
+  {
+    label: 'preview',
+    action: 'preview',
+    group: 'action'
+  },
+  {
+    label: 'undo',
+    action: 'undo',
+    group: 'action'
+  },
+  {
+    label: 'redo',
+    action: 'redo',
+    group: 'action'
+  },
+  {
+    label: '<i class="fa fa-link"></i>',
+    tag: 'a',
+    className: '',
+    group: 'mark'
+  },
+  {
+    label: '<i class="fa fa-bold"></i>',
+    tag: 'strong',
+    className: '',
+    group: 'mark'
+  },
+  {
+    label: '<i class="fa fa-italic"></i>',
+    tag: 'i',
+    className: '',
+    group: 'mark'
+  },
+  {
+    label: '<i class="fa fa-align-left"></i>',
+    tag: 'div',
+    className: 'left',
+    group: 'align'
+  },
+  {
+    label: '<i class="fa fa-align-center"></i>',
+    tag: 'div',
+    className: 'center',
+    group: 'align'
+  },
+  {
+    label: '<i class="fa fa-align-right"></i>',
+    tag: 'div',
+    className: 'right',
+    group: 'align'
+  },
+];
+
 export default class SimpleWysiwyg extends aTemplate {
 
   constructor(ele, settings) {
@@ -94,44 +148,7 @@ export default class SimpleWysiwyg extends aTemplate {
   }
 
   applyDefaultActionBtns() {
-    const options = [
-      {
-        label: '<i class="fa fa-link"></i>',
-        tag: 'a',
-        className: '',
-        group: 'mark'
-      },
-      {
-        label: '<i class="fa fa-bold"></i>',
-        tag: 'strong',
-        className: '',
-        group: 'mark'
-      },
-      {
-        label: '<i class="fa fa-italic"></i>',
-        tag: 'i',
-        className: '',
-        group: 'mark'
-      },
-      {
-        label: '<i class="fa fa-align-left"></i>',
-        tag: 'div',
-        className: 'left',
-        group: 'align'
-      },
-      {
-        label: '<i class="fa fa-align-center"></i>',
-        tag: 'div',
-        className: 'center',
-        group: 'align'
-      },
-      {
-        label: '<i class="fa fa-align-right"></i>',
-        tag: 'div',
-        className: 'right',
-        group: 'align'
-      },
-    ];
+    const options = extend({}, defaultOptions);
     this.data.btnOptions = options;
     this.data.groups = this.makeBtnGroups();
     this.updateToolBox();
