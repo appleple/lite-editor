@@ -26,6 +26,10 @@
             <button class="\\\{classNames.SimpleWysiwygBtn\\\}" data-action-click="undo"<!-- \\BEGIN canUndo:empty --> disabled<!-- \\END canUndo:empty --> type="button">\{label\}</button>
             <!-- \END action:touch#undo -->
 
+            <!-- \BEGIN action:touch#extra -->
+            <button class="\\\{classNames.SimpleWysiwygBtn\\\}" data-action-click="onClick(\{index\})" type="button">\{label\}</button>
+            <!-- \END action:touch#extra -->
+
             <!-- \BEGIN action:empty -->
             <button class="\\\{classNames.SimpleWysiwygBtn\\\}<!-- \BEGIN selfClassName:exist --> \{selfClassName\}<!-- \END selfClassName:exist --><!-- \BEGIN selected:exist --> \\\{classNames.SimpleWysiwygBtnActive\\\}<!-- \END selected:exist -->"
             <!-- \BEGIN tag:exist -->

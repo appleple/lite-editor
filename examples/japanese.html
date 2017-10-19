@@ -15,6 +15,67 @@ my blog url is <a href="http://horicdesign.com">Horic Design</a>
 please visit!!</textarea>
 	<script src="../js/simple-wysiwyg.js"></script>
 	<script>
+  var btnOptions = [
+    {
+      label: '<i class="fa fa-code"></i>',
+      action: 'preview',
+      group: 'action'
+    },
+    {
+      label: '<i class="fa fa-rotate-left"></i>',
+      action: 'undo',
+      group: 'action'
+    },
+    {
+      label: '<i class="fa fa-rotate-right"></i>',
+      action: 'redo',
+      group: 'action'
+    },
+    {
+      label: 'alert',
+      action: 'extra',
+      group: 'action',
+      onClick: function(item){
+        alert('aaa');
+      }
+    },
+    {
+      label: '<i class="fa fa-link"></i>',
+      tag: 'a',
+      className: '',
+      group: 'mark'
+    },
+    {
+      label: '<i class="fa fa-bold"></i>',
+      tag: 'strong',
+      className: '',
+      group: 'mark'
+    },
+    {
+      label: '<i class="fa fa-italic"></i>',
+      tag: 'i',
+      className: '',
+      group: 'mark'
+    },
+    {
+      label: '<i class="fa fa-align-left"></i>',
+      tag: 'div',
+      className: 'left',
+      group: 'align'
+    },
+    {
+      label: '<i class="fa fa-align-center"></i>',
+      tag: 'div',
+      className: 'center',
+      group: 'align'
+    },
+    {
+      label: '<i class="fa fa-align-right"></i>',
+      tag: 'div',
+      className: 'right',
+      group: 'align'
+    },
+  ];
 	window.addEventListener('DOMContentLoaded',function(){
 		const wysiwyg = new SimpleWysiwyg('.js-simple-wysiwyg',{
       allowPreview: true,
@@ -23,7 +84,8 @@ please visit!!</textarea>
       message: {
         addLinkTitle: 'リンク先URLを入力してください。',
         addLinkBtn: 'リンクの挿入',
-      }
+      },
+      btnOptions: btnOptions
 		});
 	});
 	</script>

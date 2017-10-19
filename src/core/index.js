@@ -163,7 +163,8 @@ export default class SimpleWysiwyg extends aTemplate {
   makeBtnGroups() {
     const btns = this.data.btnOptions;
     const groups = [];
-    btns.forEach((btn) => {
+    btns.forEach((btn, index) => {
+      btn.index = index;
       let flag = true;
       if (!btn.group) {
         btn.group = 'none';
@@ -287,7 +288,7 @@ export default class SimpleWysiwyg extends aTemplate {
   onClick(i) {
     const number = parseInt(i, 10);
     if (this.data.btnOptions[number].onClick) {
-      this.data.btnOptions[number].onClick.apply(this);
+      this.data.btnOptions[number].onClick(this);
     }
   }
 
