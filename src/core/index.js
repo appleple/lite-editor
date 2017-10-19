@@ -7,7 +7,6 @@ import * as util from '../lib/util';
 const Entities = require('html-entities').XmlEntities;
 const Upndown = require('upndown');
 const Showdown = require('showdown');
-const clone = require('clone');
 
 const entities = new Entities();
 const converter = new Showdown.Converter();
@@ -68,21 +67,21 @@ const defaultbtnOptions = [
 ];
 
 const defaultSelectOptions = [
-  { 
-    label: '本文', 
+  {
+    label: '本文',
     value: 'html',
     onSelect: (item) => {
       item.toHtml();
     }
   },
-  { 
-    label: 'マークダウン', 
-    value: 'markdown', 
+  {
+    label: 'マークダウン',
+    value: 'markdown',
     onSelect: (item) => {
       item.toMarkdown();
     }
   }
-]
+];
 
 const defaults = {
   mode: 'html',
