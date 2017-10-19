@@ -15035,38 +15035,7 @@ var entities = new Entities();
 var converter = new Showdown.Converter();
 var und = new Upndown({ decodeEntities: false });
 
-var defaults = {
-  mode: 'html',
-  classNames: {
-    SimpleWysiwyg: 'simple-wysiwyg',
-    SimpleWysiwygSource: 'simple-wysiwyg-source',
-    SimpleWysiwygBtn: 'simple-wysiwyg-btn',
-    SimpleWysiwygBtnActive: 'simple-wysiwyg-btn-active',
-    SimpleWysiwygBtnGroup: 'simple-wysiwyg-btn-group',
-    SimpleWysiwygBtnGroupWrap: 'simple-wysiwyg-btn-group-wrap',
-    SimpleWysiwygSelect: 'simple-wysiwyg-select',
-    SimpleWysiwygSelectWrap: 'simple-wysiwyg-select-wrap',
-    SimpleWysiwygToolBox: 'simple-wysiwyg-toolbox'
-  },
-  message: {
-    addLinkTitle: 'Add Link',
-    addLinkBtn: 'add link',
-    sourceBtn: 'source',
-    resetStyleBtn: 'reset',
-    noRangeSelected: 'please select the range',
-    redoBtn: 'redo',
-    undoBtn: 'undo'
-  },
-  maxHeight: null,
-  minHeight: null,
-  selectOptions: [],
-  selectedOption: '',
-  btnOptions: [],
-  allowPreview: false,
-  btnPosition: 'top'
-};
-
-var defaultOptions = [{
+var defaultbtnOptions = [{
   label: '<i class="fa fa-code"></i>',
   action: 'preview',
   group: 'action'
@@ -15110,6 +15079,46 @@ var defaultOptions = [{
   group: 'align'
 }];
 
+var defaultSelectOptions = [{
+  label: '本文',
+  value: 'html',
+  onSelect: function onSelect(item) {
+    item.toHtml();
+  }
+}, {
+  label: 'マークダウン',
+  value: 'markdown',
+  onSelect: function onSelect(item) {
+    item.toMarkdown();
+  }
+}];
+
+var defaults = {
+  mode: 'html',
+  classNames: {
+    SimpleWysiwyg: 'simple-wysiwyg',
+    SimpleWysiwygSource: 'simple-wysiwyg-source',
+    SimpleWysiwygBtn: 'simple-wysiwyg-btn',
+    SimpleWysiwygBtnActive: 'simple-wysiwyg-btn-active',
+    SimpleWysiwygBtnGroup: 'simple-wysiwyg-btn-group',
+    SimpleWysiwygBtnGroupWrap: 'simple-wysiwyg-btn-group-wrap',
+    SimpleWysiwygSelect: 'simple-wysiwyg-select',
+    SimpleWysiwygSelectWrap: 'simple-wysiwyg-select-wrap',
+    SimpleWysiwygToolBox: 'simple-wysiwyg-toolbox'
+  },
+  message: {
+    addLinkTitle: 'Add Link',
+    noRangeSelected: 'please select the range'
+  },
+  maxHeight: null,
+  minHeight: null,
+  selectOptions: defaultSelectOptions,
+  selectedOption: '',
+  btnOptions: defaultbtnOptions,
+  allowPreview: false,
+  btnPosition: 'top'
+};
+
 var SimpleWysiwyg = function (_aTemplate) {
   _inherits(SimpleWysiwyg, _aTemplate);
 
@@ -15121,10 +15130,6 @@ var SimpleWysiwyg = function (_aTemplate) {
     _this.data = (0, _deepExtend2.default)({}, defaults, settings);
     _this.data.showSource = false;
     _this.data.hideEditor = false;
-    if (!_this.data.btnOptions.length) {
-      var options = clone(defaultOptions);
-      _this.data.btnOptions = options;
-    }
     _this.data.groups = _this.makeBtnGroups();
     _this.id = _this._getUniqId();
     var template = '';
@@ -15172,14 +15177,6 @@ var SimpleWysiwyg = function (_aTemplate) {
   }
 
   _createClass(SimpleWysiwyg, [{
-    key: 'applyDefaultActionBtns',
-    value: function applyDefaultActionBtns() {
-      var options = clone(defaultOptions);
-      this.data.btnOptions = options;
-      this.data.groups = this.makeBtnGroups();
-      this.updateToolBox();
-    }
-  }, {
     key: 'makeBtnGroups',
     value: function makeBtnGroups() {
       var btns = this.data.btnOptions;
@@ -15570,7 +15567,7 @@ var SimpleWysiwyg = function (_aTemplate) {
       });
       if (item && item.onSelect) {
         this.data.selectedOption = item.value;
-        item.onSelect.apply(this);
+        item.onSelect(this);
       }
     }
   }]);

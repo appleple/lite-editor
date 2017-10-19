@@ -13,38 +13,7 @@ const entities = new Entities();
 const converter = new Showdown.Converter();
 const und = new Upndown({ decodeEntities: false });
 
-const defaults = {
-  mode: 'html',
-  classNames: {
-    SimpleWysiwyg: 'simple-wysiwyg',
-    SimpleWysiwygSource: 'simple-wysiwyg-source',
-    SimpleWysiwygBtn: 'simple-wysiwyg-btn',
-    SimpleWysiwygBtnActive: 'simple-wysiwyg-btn-active',
-    SimpleWysiwygBtnGroup: 'simple-wysiwyg-btn-group',
-    SimpleWysiwygBtnGroupWrap: 'simple-wysiwyg-btn-group-wrap',
-    SimpleWysiwygSelect: 'simple-wysiwyg-select',
-    SimpleWysiwygSelectWrap: 'simple-wysiwyg-select-wrap',
-    SimpleWysiwygToolBox: 'simple-wysiwyg-toolbox'
-  },
-  message: {
-    addLinkTitle: 'Add Link',
-    addLinkBtn: 'add link',
-    sourceBtn: 'source',
-    resetStyleBtn: 'reset',
-    noRangeSelected: 'please select the range',
-    redoBtn: 'redo',
-    undoBtn: 'undo'
-  },
-  maxHeight: null,
-  minHeight: null,
-  selectOptions: [],
-  selectedOption: '',
-  btnOptions: [],
-  allowPreview: false,
-  btnPosition: 'top'
-};
-
-const defaultOptions = [
+const defaultbtnOptions = [
   {
     label: '<i class="fa fa-code"></i>',
     action: 'preview',
@@ -98,6 +67,49 @@ const defaultOptions = [
   },
 ];
 
+const defaultSelectOptions = [
+  { 
+    label: '本文', 
+    value: 'html',
+    onSelect: (item) => {
+      item.toHtml();
+    }
+  },
+  { 
+    label: 'マークダウン', 
+    value: 'markdown', 
+    onSelect: (item) => {
+      item.toMarkdown();
+    }
+  }
+]
+
+const defaults = {
+  mode: 'html',
+  classNames: {
+    SimpleWysiwyg: 'simple-wysiwyg',
+    SimpleWysiwygSource: 'simple-wysiwyg-source',
+    SimpleWysiwygBtn: 'simple-wysiwyg-btn',
+    SimpleWysiwygBtnActive: 'simple-wysiwyg-btn-active',
+    SimpleWysiwygBtnGroup: 'simple-wysiwyg-btn-group',
+    SimpleWysiwygBtnGroupWrap: 'simple-wysiwyg-btn-group-wrap',
+    SimpleWysiwygSelect: 'simple-wysiwyg-select',
+    SimpleWysiwygSelectWrap: 'simple-wysiwyg-select-wrap',
+    SimpleWysiwygToolBox: 'simple-wysiwyg-toolbox'
+  },
+  message: {
+    addLinkTitle: 'Add Link',
+    noRangeSelected: 'please select the range',
+  },
+  maxHeight: null,
+  minHeight: null,
+  selectOptions: defaultSelectOptions,
+  selectedOption: '',
+  btnOptions: defaultbtnOptions,
+  allowPreview: false,
+  btnPosition: 'top'
+};
+
 export default class SimpleWysiwyg extends aTemplate {
 
   constructor(ele, settings) {
@@ -105,10 +117,6 @@ export default class SimpleWysiwyg extends aTemplate {
     this.data = extend({}, defaults, settings);
     this.data.showSource = false;
     this.data.hideEditor = false;
-    if (!this.data.btnOptions.length) {
-      const options = clone(defaultOptions);
-      this.data.btnOptions = options;
-    }
     this.data.groups = this.makeBtnGroups();
     this.id = this._getUniqId();
     let template = '';
@@ -150,13 +158,6 @@ export default class SimpleWysiwyg extends aTemplate {
     if (this.data.afterInit) {
       this.data.afterInit.apply(this);
     }
-  }
-
-  applyDefaultActionBtns() {
-    const options = clone(defaultOptions);
-    this.data.btnOptions = options;
-    this.data.groups = this.makeBtnGroups();
-    this.updateToolBox();
   }
 
   makeBtnGroups() {
@@ -506,7 +507,7 @@ export default class SimpleWysiwyg extends aTemplate {
     const item = this.data.selectOptions.find((option => option.value === value));
     if (item && item.onSelect) {
       this.data.selectedOption = item.value;
-      item.onSelect.apply(this);
+      item.onSelect(this);
     }
   }
 }
