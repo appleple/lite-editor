@@ -152,10 +152,10 @@ export default class SimpleWysiwyg extends aTemplate {
     this.selector = this._getElementByQuery('[data-selector="simple-wysiwyg-source"]');
     const item = this.data.selectOptions.find((option => option.value === this.data.selectedOption));
     if (item && item.onSelect) {
-      item.onSelect.apply(this);
+      item.onSelect(this);
     }
     if (this.data.afterInit) {
-      this.data.afterInit.apply(this);
+      this.data.afterInit(this);
     }
   }
 

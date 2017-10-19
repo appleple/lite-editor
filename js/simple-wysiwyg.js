@@ -14906,10 +14906,10 @@ var SimpleWysiwyg = function (_aTemplate) {
       return option.value === _this.data.selectedOption;
     });
     if (item && item.onSelect) {
-      item.onSelect.apply(_this);
+      item.onSelect(_this);
     }
     if (_this.data.afterInit) {
-      _this.data.afterInit.apply(_this);
+      _this.data.afterInit(_this);
     }
     return _this;
   }
