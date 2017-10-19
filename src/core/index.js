@@ -66,23 +66,6 @@ const defaultbtnOptions = [
   },
 ];
 
-const defaultSelectOptions = [
-  {
-    label: '本文',
-    value: 'html',
-    onSelect: (item) => {
-      item.toHtml();
-    }
-  },
-  {
-    label: 'マークダウン',
-    value: 'markdown',
-    onSelect: (item) => {
-      item.toMarkdown();
-    }
-  }
-];
-
 const defaults = {
   mode: 'html',
   classNames: {
@@ -102,7 +85,7 @@ const defaults = {
   },
   maxHeight: null,
   minHeight: null,
-  selectOptions: defaultSelectOptions,
+  selectOptions: [],
   selectedOption: '',
   btnOptions: defaultbtnOptions,
   btnPosition: 'top'
@@ -130,6 +113,7 @@ export default class SimpleWysiwyg extends aTemplate {
     };
     if (selector.value) {
       this.data.value = selector.value.replace(/\r\n|\r|\n/g, '<br/>');
+      //this.data.value = this._escapeTagExceptRegisteredOnes(this.data.value);
     }
     let attrStr = '';
     if (selector.attributes) {
@@ -194,6 +178,12 @@ export default class SimpleWysiwyg extends aTemplate {
 
   _getElementByQuery(query) {
     return document.querySelector(`[data-id='${this.id}'] ${query}`);
+  }
+
+  //todo
+  _escapeTagExceptRegisteredOnes(value) {
+    const btns = this.data.btnOptions;
+    return value.replace(/<([a-zA-Z0-9._-]+)\s*(\w)*.*?>(([\n\r\t]|.)*?)<\/\1>/g, (component, name, attr, content) => `&lt;${name}&gt;${content}&lt;/${name}&gt;`);
   }
 
   encodeValue() {

@@ -14842,20 +14842,6 @@ var defaultbtnOptions = [{
   group: 'align'
 }];
 
-var defaultSelectOptions = [{
-  label: '本文',
-  value: 'html',
-  onSelect: function onSelect(item) {
-    item.toHtml();
-  }
-}, {
-  label: 'マークダウン',
-  value: 'markdown',
-  onSelect: function onSelect(item) {
-    item.toMarkdown();
-  }
-}];
-
 var defaults = {
   mode: 'html',
   classNames: {
@@ -14875,7 +14861,7 @@ var defaults = {
   },
   maxHeight: null,
   minHeight: null,
-  selectOptions: defaultSelectOptions,
+  selectOptions: [],
   selectedOption: '',
   btnOptions: defaultbtnOptions,
   btnPosition: 'top'
@@ -14907,6 +14893,7 @@ var SimpleWysiwyg = function (_aTemplate) {
     };
     if (selector.value) {
       _this.data.value = selector.value.replace(/\r\n|\r|\n/g, '<br/>');
+      //this.data.value = this._escapeTagExceptRegisteredOnes(this.data.value);
     }
     var attrStr = '';
     if (selector.attributes) {
@@ -14979,6 +14966,17 @@ var SimpleWysiwyg = function (_aTemplate) {
     key: '_getElementByQuery',
     value: function _getElementByQuery(query) {
       return document.querySelector('[data-id=\'' + this.id + '\'] ' + query);
+    }
+
+    //todo
+
+  }, {
+    key: '_escapeTagExceptRegisteredOnes',
+    value: function _escapeTagExceptRegisteredOnes(value) {
+      var btns = this.data.btnOptions;
+      return value.replace(/<([a-zA-Z0-9._-]+)\s*(\w)*.*?>(([\n\r\t]|.)*?)<\/\1>/g, function (component, name, attr, content) {
+        return '&lt;' + name + '&gt;' + content + '&lt;/' + name + '&gt;';
+      });
     }
   }, {
     key: 'encodeValue',

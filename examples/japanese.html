@@ -84,6 +84,22 @@ please visit!!</textarea>
       group: 'align'
     },
   ];
+  const selectOptions = [
+  {
+    label: '本文',
+    value: 'html',
+    onSelect: function(item) {
+      item.toHtml();
+    }
+  },
+  {
+    label: 'マークダウン',
+    value: 'markdown',
+    onSelect: function(item) {
+      item.toMarkdown();
+    }
+  }
+];
 	window.addEventListener('DOMContentLoaded',function(){
 		const wysiwyg = new SimpleWysiwyg('.js-simple-wysiwyg',{
       minHeight: 200,
@@ -92,7 +108,8 @@ please visit!!</textarea>
         addLinkTitle: 'リンク先URLを入力してください。',
         addLinkBtn: 'リンクの挿入',
       },
-      btnOptions: btnOptions
+      btnOptions: btnOptions,
+      selectOptions: selectOptions
 		});
 	});
 	</script>
