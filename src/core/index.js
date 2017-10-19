@@ -105,7 +105,6 @@ const defaults = {
   selectOptions: defaultSelectOptions,
   selectedOption: '',
   btnOptions: defaultbtnOptions,
-  allowPreview: false,
   btnPosition: 'top'
 };
 
