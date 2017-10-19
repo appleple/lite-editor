@@ -7,6 +7,7 @@ import * as util from '../lib/util';
 const Entities = require('html-entities').XmlEntities;
 const Upndown = require('upndown');
 const Showdown = require('showdown');
+const clone = require('clone');
 
 const entities = new Entities();
 const converter = new Showdown.Converter();
@@ -45,17 +46,17 @@ const defaults = {
 
 const defaultOptions = [
   {
-    label: 'preview',
+    label: '<i class="fa fa-code"></i>',
     action: 'preview',
     group: 'action'
   },
   {
-    label: 'undo',
+    label: '<i class="fa fa-rotate-left"></i>',
     action: 'undo',
     group: 'action'
   },
   {
-    label: 'redo',
+    label: '<i class="fa fa-rotate-right"></i>',
     action: 'redo',
     group: 'action'
   },
@@ -104,6 +105,10 @@ export default class SimpleWysiwyg extends aTemplate {
     this.data = extend({}, defaults, settings);
     this.data.showSource = false;
     this.data.hideEditor = false;
+    if (!this.data.btnOptions.length) {
+      const options = clone(defaultOptions);
+      this.data.btnOptions = options;
+    }
     this.data.groups = this.makeBtnGroups();
     this.id = this._getUniqId();
     let template = '';
@@ -148,7 +153,7 @@ export default class SimpleWysiwyg extends aTemplate {
   }
 
   applyDefaultActionBtns() {
-    const options = extend({}, defaultOptions);
+    const options = clone(defaultOptions);
     this.data.btnOptions = options;
     this.data.groups = this.makeBtnGroups();
     this.updateToolBox();
