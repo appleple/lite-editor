@@ -10,7 +10,7 @@
 	<title>SimpleWysiwyg</title>
 </head>
 <body>
-  <textarea class='js-simple-wysiwyg' name="hoge">Lorem ipsum dolor sit amet, <br>consectetur <strong>adipisicing</strong> elit. Magni alias optio reiciendis quam, ea ex laborum ducimus beatae eveniet. Sapiente natus totam obcaecati perferendis labore, veniam quam eaque ea provident!
+  <textarea class='js-simple-wysiwyg' name="hoge">Lorem <span class="red">ipsum</span> dolor <span class="blue">sit</span> amet, <br>consectetur <strong>adipisicing</strong> elit. Magni alias optio reiciendis quam, ea ex laborum ducimus beatae eveniet. Sapiente natus totam obcaecati perferendis labore, veniam quam eaque ea provident!
 my blog url is <a href="http://horicdesign.com">Horic Design</a>
 please visit!!</textarea>
 	<script src="../js/simple-wysiwyg.js"></script>
@@ -66,6 +66,12 @@ please visit!!</textarea>
       group: 'mark'
     },
     {
+      label: 'red',
+      tag: 'span',
+      className: 'red',
+      group: 'mark'
+    },
+    {
       label: '<i class="fa fa-align-left"></i>',
       tag: 'div',
       className: 'left',
@@ -104,6 +110,7 @@ please visit!!</textarea>
 		const wysiwyg = new SimpleWysiwyg('.js-simple-wysiwyg',{
       minHeight: 200,
       maxHeight: 500,
+      escapeNotRegisteredTags: true,
       message: {
         addLinkTitle: 'リンク先URLを入力してください。',
         addLinkBtn: 'リンクの挿入',

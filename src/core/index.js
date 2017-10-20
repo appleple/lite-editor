@@ -85,6 +85,7 @@ const defaults = {
   },
   maxHeight: null,
   minHeight: null,
+  escapeNotRegisteredTags: false,
   selectOptions: [],
   selectedOption: '',
   btnOptions: defaultbtnOptions,
@@ -113,7 +114,9 @@ export default class SimpleWysiwyg extends aTemplate {
     };
     if (selector.value) {
       this.data.value = selector.value.replace(/\r\n|\r|\n/g, '<br/>');
-      //this.data.value = this._escapeTagExceptRegisteredOnes(this.data.value);
+      if (this.data.escapeNotRegisteredTags) {
+        this.escapeTagExceptRegisteredTags();
+      }
     }
     let attrStr = '';
     if (selector.attributes) {
@@ -180,10 +183,26 @@ export default class SimpleWysiwyg extends aTemplate {
     return document.querySelector(`[data-id='${this.id}'] ${query}`);
   }
 
-  //todo
-  _escapeTagExceptRegisteredOnes(value) {
+  escapeTagExceptRegisteredTags() {
     const btns = this.data.btnOptions;
-    return value.replace(/<([a-zA-Z0-9._-]+)\s*(\w)*.*?>(([\n\r\t]|.)*?)<\/\1>/g, (component, name, attr, content) => `&lt;${name}&gt;${content}&lt;/${name}&gt;`);
+    const value = this.data.value;
+    this.data.value = value.replace(/<([a-zA-Z0-9._-]+)\s?(.*?)>(([\n\r\t]|.)*?)<\/\1>/g, (component, tag, attr, content) => {
+      const className = (attr.match(/class=["|'](.*?)["|']/i) || [,""])[1];
+      let flag = false;
+      if (attr) {
+        attr = ` ${attr}`;
+      }
+      btns.forEach((btn) => {
+        if (btn.className === className && btn.tag === tag) {
+          flag = true;
+        }
+      });
+      if (flag) {
+        return component
+      } else {
+        return `&lt;${tag}${attr}&gt;${content}&lt;/${tag}&gt;`;
+      }
+    });
   }
 
   encodeValue() {

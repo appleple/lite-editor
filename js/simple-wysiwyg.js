@@ -14836,6 +14836,7 @@ var defaults = {
   },
   maxHeight: null,
   minHeight: null,
+  escapeNotRegisteredTags: false,
   selectOptions: [],
   selectedOption: '',
   btnOptions: defaultbtnOptions,
@@ -14868,7 +14869,9 @@ var SimpleWysiwyg = function (_aTemplate) {
     };
     if (selector.value) {
       _this.data.value = selector.value.replace(/\r\n|\r|\n/g, '<br/>');
-      //this.data.value = this._escapeTagExceptRegisteredOnes(this.data.value);
+      if (_this.data.escapeNotRegisteredTags) {
+        _this.escapeTagExceptRegisteredTags();
+      }
     }
     var attrStr = '';
     if (selector.attributes) {
@@ -14942,15 +14945,27 @@ var SimpleWysiwyg = function (_aTemplate) {
     value: function _getElementByQuery(query) {
       return document.querySelector('[data-id=\'' + this.id + '\'] ' + query);
     }
-
-    //todo
-
   }, {
-    key: '_escapeTagExceptRegisteredOnes',
-    value: function _escapeTagExceptRegisteredOnes(value) {
+    key: 'escapeTagExceptRegisteredTags',
+    value: function escapeTagExceptRegisteredTags() {
       var btns = this.data.btnOptions;
-      return value.replace(/<([a-zA-Z0-9._-]+)\s*(\w)*.*?>(([\n\r\t]|.)*?)<\/\1>/g, function (component, name, attr, content) {
-        return '&lt;' + name + '&gt;' + content + '&lt;/' + name + '&gt;';
+      var value = this.data.value;
+      this.data.value = value.replace(/<([a-zA-Z0-9._-]+)\s?(.*?)>(([\n\r\t]|.)*?)<\/\1>/g, function (component, tag, attr, content) {
+        var className = (attr.match(/class=["|'](.*?)["|']/i) || [, ""])[1];
+        var flag = false;
+        if (attr) {
+          attr = ' ' + attr;
+        }
+        btns.forEach(function (btn) {
+          if (btn.className === className && btn.tag === tag) {
+            flag = true;
+          }
+        });
+        if (flag) {
+          return component;
+        } else {
+          return '&lt;' + tag + attr + '&gt;' + content + '&lt;/' + tag + '&gt;';
+        }
       });
     }
   }, {
