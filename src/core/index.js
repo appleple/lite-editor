@@ -89,7 +89,8 @@ const defaults = {
   selectOptions: [],
   selectedOption: '',
   btnOptions: defaultbtnOptions,
-  btnPosition: 'top'
+  btnPosition: 'top',
+  sampleText: 'sample text'
 };
 
 export default class SimpleWysiwyg extends aTemplate {
@@ -277,10 +278,9 @@ export default class SimpleWysiwyg extends aTemplate {
     if (tag === 'a') {
       link = ` href="${prompt(data.message.addLinkTitle, 'http://')}"`;
     }
-    const selection = util.getSelection();
+    let selection = util.getSelection();
     if (!selection) {
-      alert(data.message.noRangeSelected);
-      return;
+      selection = this.data.sampleText;
     }
     let classAttr = '';
     if (className) {

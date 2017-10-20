@@ -14840,7 +14840,8 @@ var defaults = {
   selectOptions: [],
   selectedOption: '',
   btnOptions: defaultbtnOptions,
-  btnPosition: 'top'
+  btnPosition: 'top',
+  sampleText: 'sample text'
 };
 
 var SimpleWysiwyg = function (_aTemplate) {
@@ -15060,8 +15061,7 @@ var SimpleWysiwyg = function (_aTemplate) {
       }
       var selection = util.getSelection();
       if (!selection) {
-        alert(data.message.noRangeSelected);
-        return;
+        selection = this.data.sampleText;
       }
       var classAttr = '';
       if (className) {
