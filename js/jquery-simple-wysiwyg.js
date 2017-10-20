@@ -14895,7 +14895,7 @@ var SimpleWysiwyg = function (_aTemplate) {
     if (selector.value) {
       _this.data.value = selector.value.replace(/\r\n|\r|\n/g, '<br/>');
       if (_this.data.escapeNotRegisteredTags) {
-        _this.escapeTagExceptRegisteredTags();
+        _this.escapeNotRegisteredTags();
       }
     }
     var attrStr = '';
@@ -14971,11 +14971,12 @@ var SimpleWysiwyg = function (_aTemplate) {
       return document.querySelector('[data-id=\'' + this.id + '\'] ' + query);
     }
   }, {
-    key: 'escapeTagExceptRegisteredTags',
-    value: function escapeTagExceptRegisteredTags() {
+    key: '_escapeTagExceptRegisteredTags',
+    value: function _escapeTagExceptRegisteredTags(value) {
+      var _this2 = this;
+
       var btns = this.data.btnOptions;
-      var value = this.data.value;
-      this.data.value = value.replace(/<([a-zA-Z0-9._-]+)\s?(.*?)>(([\n\r\t]|.)*?)<\/\1>/g, function (component, tag, attr, content) {
+      return value.replace(/<([a-zA-Z0-9._-]+)\s?(.*?)>(([\n\r\t]|.)*?)<\/\1>/g, function (component, tag, attr, content) {
         var className = (attr.match(/class=["|'](.*?)["|']/i) || [null, ''])[1];
         var flag = false;
         if (attr) {
@@ -14989,8 +14990,16 @@ var SimpleWysiwyg = function (_aTemplate) {
         if (flag) {
           return component;
         }
+        if (/<([a-zA-Z0-9._-]+)\s?(.*?)>(([\n\r\t]|.)*?)<\/\1>/.exec(content)) {
+          content = _this2._escapeTagExceptRegisteredTags(content);
+        }
         return '&lt;' + tag + attr + '&gt;' + content + '&lt;/' + tag + '&gt;';
       });
+    }
+  }, {
+    key: 'escapeNotRegisteredTags',
+    value: function escapeNotRegisteredTags() {
+      this.data.value = this._escapeTagExceptRegisteredTags(this.data.value);
     }
   }, {
     key: 'encodeValue',
@@ -15066,7 +15075,7 @@ var SimpleWysiwyg = function (_aTemplate) {
   }, {
     key: 'insertTag',
     value: function insertTag(tag, className) {
-      var _this2 = this;
+      var _this3 = this;
 
       var data = this.data;
       var link = '';
@@ -15086,7 +15095,7 @@ var SimpleWysiwyg = function (_aTemplate) {
       var insertHtml = '<' + tag + link + classAttr + '>' + selection + '</' + tag + '>';
       if (this.data.mode === 'markdown') {
         und.convert(insertHtml, function (err, markdown) {
-          _this2.insertHtml(markdown.replace(/\r\n|\r|\n/g, '<br/>'));
+          _this3.insertHtml(markdown.replace(/\r\n|\r|\n/g, '<br/>'));
         });
       } else {
         this.insertHtml(insertHtml.replace(/\r\n|\r|\n/g, '<br/>'));
@@ -15222,12 +15231,12 @@ var SimpleWysiwyg = function (_aTemplate) {
   }, {
     key: 'onPutCaret',
     value: function onPutCaret() {
-      var _this3 = this;
+      var _this4 = this;
 
       setTimeout(function () {
-        var target = _this3.getSelectionNode();
+        var target = _this4.getSelectionNode();
         var tags = [];
-        var editor = _this3._getElementByQuery('[data-selector="simple-wysiwyg"]');
+        var editor = _this4._getElementByQuery('[data-selector="simple-wysiwyg"]');
         if (target && target !== editor) {
           tags.push({ tagName: target.tagName.toLowerCase(), className: target.getAttribute('class') || '' });
           var parent = target.parentElement;
@@ -15239,7 +15248,7 @@ var SimpleWysiwyg = function (_aTemplate) {
             parent = parent.parentElement;
           }
         }
-        _this3.updateToolBox(tags);
+        _this4.updateToolBox(tags);
       }, 1);
     }
   }, {
@@ -15313,13 +15322,13 @@ var SimpleWysiwyg = function (_aTemplate) {
   }, {
     key: 'toMarkdown',
     value: function toMarkdown() {
-      var _this4 = this;
+      var _this5 = this;
 
       this.data.mode = 'markdown';
       und.convert(this.data.value, function (err, markdown) {
-        _this4.data.value = markdown;
-        _this4.data.value = _this4.data.value.replace(/\n/g, '<br>');
-        _this4.update();
+        _this5.data.value = markdown;
+        _this5.data.value = _this5.data.value.replace(/\n/g, '<br>');
+        _this5.update();
       });
     }
   }, {
