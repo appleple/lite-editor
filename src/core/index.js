@@ -187,7 +187,7 @@ export default class SimpleWysiwyg extends aTemplate {
     const btns = this.data.btnOptions;
     const value = this.data.value;
     this.data.value = value.replace(/<([a-zA-Z0-9._-]+)\s?(.*?)>(([\n\r\t]|.)*?)<\/\1>/g, (component, tag, attr, content) => {
-      const className = (attr.match(/class=["|'](.*?)["|']/i) || [,""])[1];
+      const className = (attr.match(/class=["|'](.*?)["|']/i) || [null, ''])[1];
       let flag = false;
       if (attr) {
         attr = ` ${attr}`;
@@ -198,10 +198,9 @@ export default class SimpleWysiwyg extends aTemplate {
         }
       });
       if (flag) {
-        return component
-      } else {
-        return `&lt;${tag}${attr}&gt;${content}&lt;/${tag}&gt;`;
+        return component;
       }
+      return `&lt;${tag}${attr}&gt;${content}&lt;/${tag}&gt;`;
     });
   }
 

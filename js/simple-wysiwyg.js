@@ -14951,7 +14951,7 @@ var SimpleWysiwyg = function (_aTemplate) {
       var btns = this.data.btnOptions;
       var value = this.data.value;
       this.data.value = value.replace(/<([a-zA-Z0-9._-]+)\s?(.*?)>(([\n\r\t]|.)*?)<\/\1>/g, function (component, tag, attr, content) {
-        var className = (attr.match(/class=["|'](.*?)["|']/i) || [, ""])[1];
+        var className = (attr.match(/class=["|'](.*?)["|']/i) || [null, ''])[1];
         var flag = false;
         if (attr) {
           attr = ' ' + attr;
@@ -14963,9 +14963,8 @@ var SimpleWysiwyg = function (_aTemplate) {
         });
         if (flag) {
           return component;
-        } else {
-          return '&lt;' + tag + attr + '&gt;' + content + '&lt;/' + tag + '&gt;';
         }
+        return '&lt;' + tag + attr + '&gt;' + content + '&lt;/' + tag + '&gt;';
       });
     }
   }, {
