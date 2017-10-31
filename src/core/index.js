@@ -408,13 +408,15 @@ export default class SimpleWysiwyg extends aTemplate {
     const editor = this._getElementByQuery('[data-selector="simple-wysiwyg"]');
     const e = this.e;
 
-    if ((e.which == 90 || e.keyCode == 90) && (e.ctrlKey || e.metaKey)) {
-      if (e.shiftKey) {
-        this.redo();
-      } else {
-        this.undo();
+    if (e.ctrlKey || e.metaKey) {
+      if (e.which == 90 || e.keyCode == 90) {
+        e.preventDefault();
+        if (e.shiftKey) {
+          this.redo();
+        } else {
+          this.undo();
+        }    
       }
-      e.preventDefault();
       return;
     }
 
