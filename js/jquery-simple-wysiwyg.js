@@ -15226,7 +15226,7 @@ var SimpleWysiwyg = function (_aTemplate) {
       var e = this.e;
 
       if (e.ctrlKey || e.metaKey) {
-        if (e.which == 90 || e.keyCode == 90) {
+        if (e.which === 90 || e.keyCode === 90) {
           e.preventDefault();
           if (e.shiftKey) {
             this.redo();
