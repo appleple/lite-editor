@@ -80,7 +80,8 @@ const defaults = {
     SimpleWysiwygSelectWrap: 'simple-wysiwyg-select-wrap',
     SimpleWysiwygToolBox: 'simple-wysiwyg-toolbox',
     SimpleWysiwygTooltip: 'simple-wysiwyg-tooltip',
-    SimpleWysiwygTooltipTable: 'simple-wysiwyg-tooltip-table'
+    SimpleWysiwygTooltipTable: 'simple-wysiwyg-tooltip-table',
+    SimpleWysiwygExtendInput: 'simple-wysiwyg-extend-input'
   },
   message: {
     addLinkTitle: 'Add Link',
@@ -115,7 +116,8 @@ export default class SimpleWysiwyg extends aTemplate {
     this.addTemplate(this.id, template);
     const selector = typeof ele === 'string' ? document.querySelector(ele) : ele;
     this.convert = {
-      format: this.format
+      format: this.format,
+      insertExtend: this.insertExtend
     };
     if (selector.value) {
       this.data.value = selector.value.replace(/\r\n|\r|\n/g, '<br/>');
@@ -146,8 +148,11 @@ export default class SimpleWysiwyg extends aTemplate {
     this.update();
     this.selector = this._getElementByQuery('[data-selector="simple-wysiwyg-source"]');
     const item = this.data.selectOptions.find((option => option.value === this.data.selectedOption));
-    if (item && item.onSelect) {
-      item.onSelect(this);
+    if (item) {
+      this.data.extendLabel = item.extendLabel;
+      if (item.onSelect) {
+        item.onSelect(this);
+      }
     }
     if (this.data.afterInit) {
       this.data.afterInit(this);
@@ -533,6 +538,11 @@ export default class SimpleWysiwyg extends aTemplate {
     this.update();
   }
 
+  insertExtend(txt) {
+    console.log(txt.replace(/text_tag/g, 'text_extend_tag'));
+    return txt.replace(/text_tag/g, 'text_extend_tag');
+  }
+
   format(txt) {
     if (!txt) {
       return '';
@@ -570,9 +580,13 @@ export default class SimpleWysiwyg extends aTemplate {
       return;
     }
     const item = this.data.selectOptions.find((option => option.value === value));
-    if (item && item.onSelect) {
-      this.data.selectedOption = item.value;
-      item.onSelect(this);
+    if (item) {
+      this.data.extendLabel = item.extendLabel;
+      this.update('html', '[data-selector="simple-wysiwyg-toolbox"]');
+      if (item.onSelect) {
+        this.data.selectedOption = item.value;
+        item.onSelect(this);
+      }
     }
   }
 }

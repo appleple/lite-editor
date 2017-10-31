@@ -96,20 +96,23 @@ please visit!!</textarea>
     value: 'html',
     onSelect: function(item) {
       item.toHtml();
-    }
+    },
+    extendLabel: 'id'
   },
   {
     label: 'マークダウン',
     value: 'markdown',
     onSelect: function(item) {
       item.toMarkdown();
-    }
+    },
+
   }
 ];
 	window.addEventListener('DOMContentLoaded',function(){
 		const wysiwyg = new SimpleWysiwyg('.js-simple-wysiwyg',{
       minHeight: 200,
       maxHeight: 500,
+      selectName: 'text_tag_9554e6aef2487270c334ce8c41bf990a',
       escapeNotRegisteredTags: true,
       message: {
         addLinkTitle: 'リンク先URLを入力してください。',

@@ -190,3 +190,11 @@
   border: 1px solid #CCC;
   width: 300px;
 }
+
+.simple-wysiwyg-extend-input {
+  margin-right: 10px;
+  border-radius: 3px;
+  padding: 5px;
+  border: 1px solid #CCC;
+  width: 100px;
+}

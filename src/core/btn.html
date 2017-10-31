@@ -3,9 +3,13 @@
     <div class="\{classNames.SimpleWysiwygSelectWrap\}">
         <select class="\{classNames.SimpleWysiwygSelect\}"<!-- BEGIN selectName:exist --> name="{selectName}"<!-- END selectName:exist --> data-action-change="changeOption" data-bind="selectedOption">
         <!-- BEGIN selectOptions:loop -->
-        <option value="{value}" data-tag_extend>{label}</option>
+        <option value="{value}">{label}</option>
         <!-- END selectOptions:loop -->
         </select>
+        <!-- BEGIN extendLabel:exist -->
+        <label>{extendLabel}</label>
+        <input type="text" name="{selectName}[insertExtend]" class="\{classNames.SimpleWysiwygExtendInput\}" data-bind="extendValue"/>
+        <!-- END extendLabel:exist -->
     </div>
     <!-- END selectOptions.0:exist -->
 
