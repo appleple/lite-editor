@@ -101,7 +101,8 @@
 
 .simple-wysiwyg-select {
     -webkit-appearance: button;
-    display: inline-block;
+	display: inline-block;
+	vertical-align: middle;
     border: 1px solid #a7a7aa;
     border-radius: 3px;
     background-color: #ccc;
@@ -140,6 +141,7 @@
 
 .simple-wysiwyg-tooltip-wrap {
 	position: fixed;
+	z-index: 1;
 	top: 0;
 	left: 0;
 	width: 100%;
@@ -181,9 +183,16 @@
 
 .simple-wysiwyg-tooltip-body {
 	padding: 10px;
+	* {
+		box-sizing: border-box;
+	}
 }
 
 .simple-wysiwyg-tooltip-table {
+	width: 100%;
+	th {
+		width: 80px
+	}
 	th,
 	td {
 		font-weight: normal;
@@ -191,12 +200,13 @@
 		padding: 5px;
 		font-size: 13px;
 	}
-	input {
-		border-radius: 3px;
-		padding: 5px;
-		border: 1px solid #CCC;
-		width: 300px;
-	}
+}
+
+.simple-wysiwyg-tooltip-input {
+	border-radius: 3px;
+	padding: 5px;
+	border: 1px solid #CCC;
+	width: 100%;
 }
 
 .simple-wysiwyg-extend-input {

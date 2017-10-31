@@ -90,7 +90,8 @@ const defaults = {
     SimpleWysiwygTooltipTable: 'simple-wysiwyg-tooltip-table',
     SimpleWysiwygTooltipTitle: 'simple-wysiwyg-tooltip-title',
     SimpleWysiwygTooltipBody: 'simple-wysiwyg-tooltip-body',
-    SimpleWysiwygExtendInput: 'simple-wysiwyg-extend-input'
+    SimpleWysiwygTooltipInput: 'simple-wysiwyg-tooltip-input',
+    SimpleWysiwygExtendInput: 'simple-wysiwyg-extend-input',
   },
   message: {
     addLinkTitle: 'Add Link',
@@ -307,7 +308,7 @@ export default class SimpleWysiwyg extends aTemplate {
     if (className) {
       classAttr = ` class="${className}"`;
     }
-    const insertHtml = `<a${classAttr}>${selection}</a>`;
+    const insertHtml = `<${tag}${classAttr}>${selection}</${tag}>`;
     if (this.data.mode === 'markdown') {
       und.convert(insertHtml, (err, markdown) => {
         this.insertHtml(markdown.replace(/\r\n|\r|\n/g, '<br/>'));

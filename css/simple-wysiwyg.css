@@ -104,6 +104,7 @@
 .simple-wysiwyg-select {
   -webkit-appearance: button;
   display: inline-block;
+  vertical-align: middle;
   border: 1px solid #a7a7aa;
   border-radius: 3px;
   background-color: #ccc;
@@ -142,6 +143,7 @@
 
 .simple-wysiwyg-tooltip-wrap {
   position: fixed;
+  z-index: 1;
   top: 0;
   left: 0;
   width: 100%;
@@ -185,6 +187,18 @@
   padding: 10px;
 }
 
+.simple-wysiwyg-tooltip-body * {
+  box-sizing: border-box;
+}
+
+.simple-wysiwyg-tooltip-table {
+  width: 100%;
+}
+
+.simple-wysiwyg-tooltip-table th {
+  width: 80px;
+}
+
 .simple-wysiwyg-tooltip-table th,
 .simple-wysiwyg-tooltip-table td {
   font-weight: normal;
@@ -193,11 +207,11 @@
   font-size: 13px;
 }
 
-.simple-wysiwyg-tooltip-table input {
+.simple-wysiwyg-tooltip-input {
   border-radius: 3px;
   padding: 5px;
   border: 1px solid #CCC;
-  width: 300px;
+  width: 100%;
 }
 
 .simple-wysiwyg-extend-input {
