@@ -147,6 +147,7 @@
 	padding: 10px;
 	background-color: #FFF;
 	border-radius: 5px;
+	z-index: 1;
 	&:before,
 	&:after {
 		bottom: 100%;
@@ -195,4 +196,5 @@
 	padding: 5px;
 	border: 1px solid #CCC;
 	width: 100px;
+	vertical-align: middle;
 }
