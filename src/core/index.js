@@ -1,6 +1,7 @@
 import aTemplate from 'a-template';
 import editorHtml from './editor.html';
 import btnHtml from './btn.html';
+import tooltipHtml from './tooltip.html';
 import extend from 'deep-extend';
 
 import * as util from '../lib/util';
@@ -24,7 +25,9 @@ const defaults = {
     SimpleWysiwygBtnGroupWrap: 'simple-wysiwyg-btn-group-wrap',
     SimpleWysiwygSelect: 'simple-wysiwyg-select',
     SimpleWysiwygSelectWrap: 'simple-wysiwyg-select-wrap',
-    SimpleWysiwygToolBox: 'simple-wysiwyg-toolbox'
+    SimpleWysiwygToolBox: 'simple-wysiwyg-toolbox',
+    SimpleWysiwygTooltip: 'simple-wysiwyg-tooltip',
+    SimpleWysiwygTooltipTable: 'simple-wysiwyg-tooltip-table'
   },
   message: {
     addLinkTitle: 'Add Link',
@@ -36,8 +39,8 @@ const defaults = {
     undoBtn: 'undo'
   },
   selectOptions: [],
+  selectedOption: '',
   btnOptions: [],
-  selectName: '',
   useLink: true,
   showSource: false,
   hideEditor: false,
@@ -56,6 +59,7 @@ export default class SimpleWysiwyg extends aTemplate {
     } else {
       template = `${btnHtml}${editorHtml}`;
     }
+    template += `${tooltipHtml}`;
     this.addTemplate(this.id, template);
     const selector = typeof ele === 'string' ? document.querySelector(ele) : ele;
     this.convert = {
@@ -74,6 +78,10 @@ export default class SimpleWysiwyg extends aTemplate {
       this.data.selectedOption = this.data.selectOptions[0].value;
     }
     this.data.attr = attrStr;
+    this.data.tooltipLabel = '';
+    this.data.tooltipUrl = '';
+    this.data.tooltipTop = 0;
+    this.data.tooltipLeft = 0;
     this.stack = [];
     this.stackPosition = 0;
     const html = `<div data-id='${this.id}'></div>`;
@@ -289,17 +297,26 @@ export default class SimpleWysiwyg extends aTemplate {
       const target = this.getSelectionNode();
       const tags = [];
       const editor = this._getElementByQuery(`[data-selector="simple-wysiwyg"]`);
+      let tmp = null;
       if (target && target !== editor) {
         tags.push({tagName:target.tagName.toLowerCase(),className:target.getAttribute('class') || ''});
+        if (target.tagName.toLowerCase() === 'a') {
+          tmp = target;
+        }
         let parent = target.parentElement;
         while (parent !== editor) {
+          const tagName = parent.tagName.toLowerCase();
           tags.push({
-            tagName:parent.tagName.toLowerCase(),
+            tagName,
             className:parent.getAttribute('class') || ''
           });
+          if (tagName === 'a') {
+            tmp = parent;
+          }
           parent = parent.parentElement;
         }
       }
+      this.updateTooltip(tmp);
       this.updateToolBox(tags);
     },1);
   }
@@ -316,6 +333,42 @@ export default class SimpleWysiwyg extends aTemplate {
     });
     this.saveSelection();
     this.update('html',`[data-selector="simple-wysiwyg-toolbox"]`);
+  }
+
+  updateTooltip(item) {
+    if (item === null) {
+      this.data.tooltipLabel = '';
+      this.data.tooltipUrl = '';
+    } else {
+      const rect = item.getBoundingClientRect();
+      this.data.tooltipLabel = item.innerHTML;
+      this.data.tooltipUrl = item.getAttribute('href');
+      this.data.tooltipTop = rect.top;
+      this.data.tooltipLeft = rect.left;
+      this.savedLinkNode = item;
+    }
+    this.update('html',`[data-selector="simple-wysiwyg-tooltip"]`);
+  }
+
+  updateLink() {
+    const editor = this._getElementByQuery(`[data-selector="simple-wysiwyg"]`);
+    const pos = util.getCaretPos(editor);
+    const label = this.data.tooltipLabel;
+    const url = this.data.tooltipUrl;
+    let node = this.savedLinkNode;
+    while (true) {
+      const nodeClassName = node.getAttribute('class') || '';
+      if (node.tagName.toLowerCase() === 'a') {
+        node.setAttribute('href', url);
+        node.innerHTML = label;
+        break;
+      }
+      node = node.parentElement;
+    }
+    this.data.value = editor.innerHTML;
+    editor.focus();
+    util.setCaretPos(editor, pos);
+    this.onPutCaret();
   }
 
   getSelectionNode() {

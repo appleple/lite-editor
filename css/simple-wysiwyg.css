@@ -14,6 +14,7 @@
   margin-bottom: 10px;
   width: 100%;
   box-sizing: border-box;
+  position: relative;
 }
 
 .simple-wysiwyg:focus,
@@ -122,4 +123,54 @@
 .simple-wysiwyg + .simple-wysiwyg-toolbox {
   border-top: 0;
   border-bottom: 1px solid #CCC;
+}
+
+.simple-wysiwyg-tooltip {
+  position: fixed;
+  top: 0;
+  left: 0;
+  transform: translateY(25px);
+  border: 1px solid #CCC;
+  padding: 10px;
+  background-color: #FFF;
+  border-radius: 5px;
+}
+
+.simple-wysiwyg-tooltip:before, .simple-wysiwyg-tooltip:after {
+  bottom: 100%;
+  left: 20px;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+}
+
+.simple-wysiwyg-tooltip:after {
+  border-color: rgba(255, 255, 255, 0);
+  border-bottom-color: #FFF;
+  border-width: 10px;
+  margin-left: -10px;
+}
+
+.simple-wysiwyg-tooltip:before {
+  border-color: rgba(204, 204, 204, 0);
+  border-bottom-color: #ccc;
+  border-width: 11px;
+  margin-left: -11px;
+}
+
+.simple-wysiwyg-tooltip-table th,
+.simple-wysiwyg-tooltip-table td {
+  font-weight: normal;
+  text-align: left;
+  padding: 5px;
+}
+
+.simple-wysiwyg-tooltip-table input {
+  border-radius: 3px;
+  padding: 5px;
+  border: 1px solid #CCC;
+  width: 300px;
 }
