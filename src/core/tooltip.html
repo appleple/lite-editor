@@ -1,20 +1,44 @@
 <div data-selector="simple-wysiwyg-tooltip">
 <!-- BEGIN tooltipLabel:exist -->
-<div class="\{classNames.SimpleWysiwygTooltip\}" style="left:{tooltipLeft}px;top:{tooltipTop}px">
-    <table class="\{classNames.SimpleWysiwygTooltipTable\}">
-        <tr>
-            <th>ラベル名</th>
-            <td><input type="text" data-bind="tooltipLabel"></td>
-        </tr>
-        <tr>
-            <th>URL</th>
-            <td><input type="text" data-bind="tooltipUrl"></td>
-        </tr>
-        <tr>
-            <td></td>
-            <td><button type="button" data-action-click="updateLink()" class="\{classNames.SimpleWysiwygBtn\}">変更</button></td>
-        </tr>
-    </table>
+<div class="\{classNames.SimpleWysiwygTooltipWrap\}">
+    <div class="\{classNames.SimpleWysiwygTooltipOuter\}">
+        <div class="\{classNames.SimpleWysiwygTooltipInner\}">
+            <div class="\{classNames.SimpleWysiwygTooltip\}">
+                <button type="button" data-action-click="closeTooltip()" class="\{classNames.SimpleWysiwygBtn\} \{classNames.SimpleWysiwygBtnClose\}">x</button>
+                <!-- BEGIN linkNew:exist -->
+                <h2 class="\{classNames.SimpleWysiwygTooltipTitle\}">リンクの挿入</h2>
+                <!-- END linkNew:exist -->
+                <!-- BEGIN linkNew:empty -->
+                <h2 class="\{classNames.SimpleWysiwygTooltipTitle\}">リンクの編集</h2>
+                <!-- END linkNew:empty -->
+                <div class="\{classNames.SimpleWysiwygTooltipBody\}">
+                    <table class="\{classNames.SimpleWysiwygTooltipTable\}">
+                        <tr>
+                            <th>ラベル名</th>
+                            <td><input type="text" data-bind="tooltipLabel"></td>
+                        </tr>
+                        <tr>
+                            <th>URL</th>
+                            <td><input type="text" data-bind="tooltipUrl"></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                <!-- BEGIN linkNew:exist -->
+                                <button type="button" data-action-click="insertAtag()" class="\{classNames.SimpleWysiwygBtn\}">挿入</button> 
+                                <!-- END linkNew:exist -->
+
+                                <!-- BEGIN linkNew:empty -->
+                                <button type="button" data-action-click="removeLink()" class="\{classNames.SimpleWysiwygBtn\}">リンクを削除</button>
+                                <button type="button" data-action-click="updateLink()" class="\{classNames.SimpleWysiwygBtn\}">変更</button>
+                                <!-- END linkNew:empty -->
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <!-- END tooltipLabel:exist -->
 </div>

@@ -14763,7 +14763,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var editorHtml = '<div class="\\{classNames.SimpleWysiwyg\\}" data-action-mouseup="onPutCaret" data-action-keydown="onKeyDown" data-selector="simple-wysiwyg" contenteditable data-action-input="onInput" data-action-paste="onPaste" style="<!-- BEGIN showSource:exist -->display:none;<!-- END showSource:exist --><!-- BEGIN hideEditor:exist -->display:none;"<!-- END hideEditor:exist --><!-- BEGIN minHeight:exist -->min-height: {minHeight}px;<!-- END minHeight:exist --><!-- BEGIN maxHeight:exist -->max-height:{maxHeight}px;<!-- END maxHeight:exist -->">{value}</div>\n<textarea class="\\{classNames.SimpleWysiwygSource\\}" data-selector="simple-wysiwyg-source" style="<!-- BEGIN showSource:empty -->display:none;<!-- END showSource:empty --><!-- BEGIN sourceHeight:exist -->height:{sourceHeight}px;<!-- END sourceHeight:exist -->"{attr} data-bind="formatedValue"></textarea>';
 var btnHtml = '<div class="\\{classNames.SimpleWysiwygToolBox\\}" data-selector="simple-wysiwyg-toolbox">\n    <!-- BEGIN selectOptions.0:exist -->\n    <div class="\\{classNames.SimpleWysiwygSelectWrap\\}">\n        <select class="\\{classNames.SimpleWysiwygSelect\\}"<!-- BEGIN selectName:exist --> name="{selectName}"<!-- END selectName:exist --> data-action-change="changeOption" data-bind="selectedOption">\n        <!-- BEGIN selectOptions:loop -->\n        <option value="{value}">{label}</option>\n        <!-- END selectOptions:loop -->\n        </select>\n        <!-- BEGIN extendLabel:exist -->\n        <label>{extendLabel}</label>\n        <input type="text" name="{selectName}[insertExtend]" class="\\{classNames.SimpleWysiwygExtendInput\\}" data-bind="extendValue"/>\n        <!-- END extendLabel:exist -->\n    </div>\n    <!-- END selectOptions.0:exist -->\n\n    <div class="\\{classNames.SimpleWysiwygBtnGroupWrap\\}" <!-- BEGIN hideBtns:exist --> style="display:none;"<!-- END hideBtns:exist -->>        \n        <!-- BEGIN groups:loop -->\n        <div class="\\\\{classNames.SimpleWysiwygBtnGroup\\\\}">\n            <!-- \\BEGIN groups.{i}.items:loop -->\n\n            <!-- \\BEGIN action:touch#preview -->\n            <button class="\\\\\\{classNames.SimpleWysiwygBtn\\\\\\}<!-- \\\\BEGIN showSource:exist --> \\\\\\{classNames.SimpleWysiwygBtnActive\\\\\\}<!-- \\\\END showSource:exist -->" data-action-click="toggleSource" type="button">\\{label\\}</button>\n            <!-- \\END action:touch#preview -->\n\n            <!-- \\BEGIN action:touch#redo -->\n            <button class="\\\\\\{classNames.SimpleWysiwygBtn\\\\\\}" data-action-click="redo"<!-- \\\\BEGIN canRedo:empty --> disabled<!-- \\\\END canRedo:empty --> type="button">\\{label\\}</button>\n            <!-- \\END action:touch#redo -->\n\n            <!-- \\BEGIN action:touch#undo -->\n            <button class="\\\\\\{classNames.SimpleWysiwygBtn\\\\\\}" data-action-click="undo"<!-- \\\\BEGIN canUndo:empty --> disabled<!-- \\\\END canUndo:empty --> type="button">\\{label\\}</button>\n            <!-- \\END action:touch#undo -->\n\n            <!-- \\BEGIN action:touch#extra -->\n            <button class="\\\\\\{classNames.SimpleWysiwygBtn\\\\\\}<!-- \\BEGIN selfClassName:exist --> \\{selfClassName\\}<!-- \\END selfClassName:exist -->" data-action-click="onClick(\\{index\\})" type="button">\\{label\\}</button>\n            <!-- \\END action:touch#extra -->\n\n            <!-- \\BEGIN action:empty -->\n            <button class="\\\\\\{classNames.SimpleWysiwygBtn\\\\\\}<!-- \\BEGIN selfClassName:exist --> \\{selfClassName\\}<!-- \\END selfClassName:exist --><!-- \\BEGIN selected:exist --> \\\\\\{classNames.SimpleWysiwygBtnActive\\\\\\}<!-- \\END selected:exist -->"\n            <!-- \\BEGIN tag:exist -->\n            <!-- \\BEGIN selected:empty --> data-action-click="insertTag(\\{tag\\},\\{className\\},\\{sampleText\\})"<!-- \\END selected:empty -->\n            <!-- \\BEGIN selected:exist --> data-action-click="unwrapTag(\\{tag\\},\\{className\\},\\{sampleText\\})"<!-- \\END selected:exist -->\n            <!-- \\END tag:exist -->\n            <!-- \\BEGIN tag:empty --> data-action-click="insertTag(span,\\{className\\},\\{sampleText\\})"<!-- \\END tag:empty -->\n            <!-- \\\\BEGIN showSource:exist --> disabled<!-- \\\\END showSource:exist --> \n            type="button">\\{label\\}</button>\n            <!-- \\END action:empty -->\n            <!-- \\END groups.{i}.items:loop -->\n        </div>\n        <!-- END groups:loop -->\n    </div>\n</div>';
-var tooltipHtml = '<div data-selector="simple-wysiwyg-tooltip">\n<!-- BEGIN tooltipLabel:exist -->\n<div class="\\{classNames.SimpleWysiwygTooltip\\}" style="left:{tooltipLeft}px;top:{tooltipTop}px">\n    <table class="\\{classNames.SimpleWysiwygTooltipTable\\}">\n        <tr>\n            <th>\u30E9\u30D9\u30EB\u540D</th>\n            <td><input type="text" data-bind="tooltipLabel"></td>\n        </tr>\n        <tr>\n            <th>URL</th>\n            <td><input type="text" data-bind="tooltipUrl"></td>\n        </tr>\n        <tr>\n            <td></td>\n            <td><button type="button" data-action-click="updateLink()" class="\\{classNames.SimpleWysiwygBtn\\}">\u5909\u66F4</button></td>\n        </tr>\n    </table>\n</div>\n<!-- END tooltipLabel:exist -->\n</div>';
+var tooltipHtml = '<div data-selector="simple-wysiwyg-tooltip">\n<!-- BEGIN tooltipLabel:exist -->\n<div class="\\{classNames.SimpleWysiwygTooltipWrap\\}">\n    <div class="\\{classNames.SimpleWysiwygTooltipOuter\\}">\n        <div class="\\{classNames.SimpleWysiwygTooltipInner\\}">\n            <div class="\\{classNames.SimpleWysiwygTooltip\\}">\n                <button type="button" data-action-click="closeTooltip()" class="\\{classNames.SimpleWysiwygBtn\\} \\{classNames.SimpleWysiwygBtnClose\\}">x</button>\n                <!-- BEGIN linkNew:exist -->\n                <h2 class="\\{classNames.SimpleWysiwygTooltipTitle\\}">\u30EA\u30F3\u30AF\u306E\u633F\u5165</h2>\n                <!-- END linkNew:exist -->\n                <!-- BEGIN linkNew:empty -->\n                <h2 class="\\{classNames.SimpleWysiwygTooltipTitle\\}">\u30EA\u30F3\u30AF\u306E\u7DE8\u96C6</h2>\n                <!-- END linkNew:empty -->\n                <div class="\\{classNames.SimpleWysiwygTooltipBody\\}">\n                    <table class="\\{classNames.SimpleWysiwygTooltipTable\\}">\n                        <tr>\n                            <th>\u30E9\u30D9\u30EB\u540D</th>\n                            <td><input type="text" data-bind="tooltipLabel"></td>\n                        </tr>\n                        <tr>\n                            <th>URL</th>\n                            <td><input type="text" data-bind="tooltipUrl"></td>\n                        </tr>\n                        <tr>\n                            <td></td>\n                            <td>\n                                <!-- BEGIN linkNew:exist -->\n                                <button type="button" data-action-click="insertAtag()" class="\\{classNames.SimpleWysiwygBtn\\}">\u633F\u5165</button> \n                                <!-- END linkNew:exist -->\n\n                                <!-- BEGIN linkNew:empty -->\n                                <button type="button" data-action-click="removeLink()" class="\\{classNames.SimpleWysiwygBtn\\}">\u30EA\u30F3\u30AF\u3092\u524A\u9664</button>\n                                <button type="button" data-action-click="updateLink()" class="\\{classNames.SimpleWysiwygBtn\\}">\u5909\u66F4</button>\n                                <!-- END linkNew:empty -->\n                            </td>\n                        </tr>\n                    </table>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>\n<!-- END tooltipLabel:exist -->\n</div>';
 
 
 var Entities = require('html-entities').XmlEntities;
@@ -14827,6 +14827,7 @@ var defaults = {
     SimpleWysiwyg: 'simple-wysiwyg',
     SimpleWysiwygSource: 'simple-wysiwyg-source',
     SimpleWysiwygBtn: 'simple-wysiwyg-btn',
+    SimpleWysiwygBtnClose: 'simple-wysiwyg-btn-close',
     SimpleWysiwygBtnActive: 'simple-wysiwyg-btn-active',
     SimpleWysiwygBtnGroup: 'simple-wysiwyg-btn-group',
     SimpleWysiwygBtnGroupWrap: 'simple-wysiwyg-btn-group-wrap',
@@ -14834,7 +14835,12 @@ var defaults = {
     SimpleWysiwygSelectWrap: 'simple-wysiwyg-select-wrap',
     SimpleWysiwygToolBox: 'simple-wysiwyg-toolbox',
     SimpleWysiwygTooltip: 'simple-wysiwyg-tooltip',
+    SimpleWysiwygTooltipWrap: 'simple-wysiwyg-tooltip-wrap',
+    SimpleWysiwygTooltipOuter: 'simple-wysiwyg-tooltip-outer',
+    SimpleWysiwygTooltipInner: 'simple-wysiwyg-tooltip-inner',
     SimpleWysiwygTooltipTable: 'simple-wysiwyg-tooltip-table',
+    SimpleWysiwygTooltipTitle: 'simple-wysiwyg-tooltip-title',
+    SimpleWysiwygTooltipBody: 'simple-wysiwyg-tooltip-body',
     SimpleWysiwygExtendInput: 'simple-wysiwyg-extend-input'
   },
   message: {
@@ -14894,8 +14900,8 @@ var SimpleWysiwyg = function (_aTemplate) {
     _this.data.attr = attrStr;
     _this.data.tooltipLabel = '';
     _this.data.tooltipUrl = '';
-    _this.data.tooltipTop = 0;
-    _this.data.tooltipLeft = 0;
+    _this.data.tooltipClassName = '';
+    _this.data.linkNew = true;
     _this.stack = [];
     _this.stackPosition = 0;
     var html = '<div data-id=\'' + _this.id + '\'></div>';
@@ -15070,19 +15076,21 @@ var SimpleWysiwyg = function (_aTemplate) {
 
       var data = this.data;
       var link = '';
-
-      if (tag === 'a') {
-        link = ' href="' + prompt(data.message.addLinkTitle, 'http://') + '"';
-      }
       var selection = util.getSelection();
       if (!selection) {
         selection = sampleText;
       }
+      if (tag === 'a') {
+        this.saveSelection();
+        this.showLinkDialog('' + selection, className);
+        return;
+      }
+
       var classAttr = '';
       if (className) {
         classAttr = ' class="' + className + '"';
       }
-      var insertHtml = '<' + tag + link + classAttr + '>' + selection + '</' + tag + '>';
+      var insertHtml = '<a' + classAttr + '>' + selection + '</a>';
       if (this.data.mode === 'markdown') {
         und.convert(insertHtml, function (err, markdown) {
           _this3.insertHtml(markdown.replace(/\r\n|\r|\n/g, '<br/>'));
@@ -15091,6 +15099,38 @@ var SimpleWysiwyg = function (_aTemplate) {
         this.insertHtml(insertHtml.replace(/\r\n|\r|\n/g, '<br/>'));
       }
       this.updateToolBox();
+    }
+  }, {
+    key: 'showLinkDialog',
+    value: function showLinkDialog(text, className) {
+      this.data.tooltipLabel = text;
+      this.data.linkNew = true;
+      this.data.tooltipClassName = className;
+      this.update('html', '[data-selector="simple-wysiwyg-tooltip"]');
+    }
+  }, {
+    key: 'insertAtag',
+    value: function insertAtag() {
+      var _this4 = this;
+
+      this.restoreSelection();
+      var label = this.data.tooltipLabel;
+      var link = this.data.tooltipUrl;
+      var className = this.data.tooltipClassName;
+      var classAttr = '';
+      if (className) {
+        classAttr = ' class="' + className + '"';
+      }
+      var insertHtml = '<a href="' + link + '"' + classAttr + '>' + this.data.tooltipLabel + '</a>';
+      if (this.data.mode === 'markdown') {
+        und.convert(insertHtml, function (err, markdown) {
+          _this4.insertHtml(markdown.replace(/\r\n|\r|\n/g, '<br/>'));
+        });
+      } else {
+        this.insertHtml(insertHtml.replace(/\r\n|\r|\n/g, '<br/>'));
+      }
+      this.updateToolBox();
+      this.closeTooltip();
     }
   }, {
     key: 'onClick',
@@ -15233,18 +15273,14 @@ var SimpleWysiwyg = function (_aTemplate) {
   }, {
     key: 'onPutCaret',
     value: function onPutCaret() {
-      var _this4 = this;
+      var _this5 = this;
 
       setTimeout(function () {
-        var target = _this4.getSelectionNode();
+        var target = _this5.getSelectionNode();
         var tags = [];
-        var editor = _this4._getElementByQuery('[data-selector="simple-wysiwyg"]');
-        var tmp = null;
+        var editor = _this5._getElementByQuery('[data-selector="simple-wysiwyg"]');
         if (target && target !== editor) {
           tags.push({ tagName: target.tagName.toLowerCase(), className: target.getAttribute('class') || '' });
-          if (target.tagName.toLowerCase() === 'a') {
-            tmp = target;
-          }
           var parent = target.parentElement;
           while (parent !== editor) {
             var tagName = parent.tagName.toLowerCase();
@@ -15252,14 +15288,10 @@ var SimpleWysiwyg = function (_aTemplate) {
               tagName: tagName,
               className: parent.getAttribute('class') || ''
             });
-            if (tagName === 'a') {
-              tmp = parent;
-            }
             parent = parent.parentElement;
           }
         }
-        _this4.updateTooltip(tmp);
-        _this4.updateToolBox(tags);
+        _this5.updateToolBox(tags);
       }, 1);
     }
   }, {
@@ -15285,16 +15317,23 @@ var SimpleWysiwyg = function (_aTemplate) {
     key: 'updateTooltip',
     value: function updateTooltip(item) {
       if (item === null) {
+        this.data.linkNew = true;
         this.data.tooltipLabel = '';
         this.data.tooltipUrl = '';
       } else {
-        var rect = item.getBoundingClientRect();
+        this.data.linkNew = false;
         this.data.tooltipLabel = item.innerHTML;
         this.data.tooltipUrl = item.getAttribute('href');
-        this.data.tooltipTop = rect.top;
-        this.data.tooltipLeft = rect.left;
         this.savedLinkNode = item;
       }
+      this.update('html', '[data-selector="simple-wysiwyg-tooltip"]');
+    }
+  }, {
+    key: 'closeTooltip',
+    value: function closeTooltip() {
+      this.data.tooltipLabel = '';
+      this.data.tooltipUrl = '';
+      this.data.tooltipClassName = '';
       this.update('html', '[data-selector="simple-wysiwyg-tooltip"]');
     }
   }, {
@@ -15305,18 +15344,25 @@ var SimpleWysiwyg = function (_aTemplate) {
       var label = this.data.tooltipLabel;
       var url = this.data.tooltipUrl;
       var node = this.savedLinkNode;
-      while (true) {
-        if (node.tagName.toLowerCase() === 'a') {
-          node.setAttribute('href', url);
-          node.innerHTML = label;
-          break;
-        }
-        node = node.parentElement;
-      }
+      node.setAttribute('href', url);
+      node.innerHTML = label;
       this.data.value = editor.innerHTML;
       editor.focus();
       util.setCaretPos(editor, pos);
       this.onPutCaret();
+      this.closeTooltip();
+    }
+  }, {
+    key: 'removeLink',
+    value: function removeLink() {
+      var editor = this._getElementByQuery('[data-selector="simple-wysiwyg"]');
+      var pos = util.getCaretPos(editor);
+      var node = this.savedLinkNode;
+      util.unwrapTag(node);
+      editor.focus();
+      util.setCaretPos(editor, pos);
+      this.onPutCaret();
+      this.closeTooltip();
     }
   }, {
     key: 'getSelectionNode',
@@ -15333,7 +15379,11 @@ var SimpleWysiwyg = function (_aTemplate) {
       while (true) {
         var nodeClassName = node.getAttribute('class') || '';
         if (node.tagName.toLowerCase() === tag && nodeClassName === className) {
-          util.unwrapTag(node);
+          if (tag === 'a') {
+            this.updateTooltip(node);
+          } else {
+            util.unwrapTag(node);
+          }
           break;
         }
         node = node.parentElement;
@@ -15375,13 +15425,13 @@ var SimpleWysiwyg = function (_aTemplate) {
   }, {
     key: 'toMarkdown',
     value: function toMarkdown() {
-      var _this5 = this;
+      var _this6 = this;
 
       this.data.mode = 'markdown';
       und.convert(this.data.value, function (err, markdown) {
-        _this5.data.value = markdown;
-        _this5.data.value = _this5.data.value.replace(/\n/g, '<br>');
-        _this5.update();
+        _this6.data.value = markdown;
+        _this6.data.value = _this6.data.value.replace(/\n/g, '<br>');
+        _this6.update();
       });
     }
   }, {
