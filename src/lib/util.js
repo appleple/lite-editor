@@ -147,7 +147,9 @@ export const unwrapTag = (element) => {
 
 export const setCaretPos = (el, pos) => {
   // Loop through all child nodes
-  for (const node of el.childNodes) {
+  const nodes = [].slice.call(el.childNodes);
+  for (let i = 0, n = nodes.length; i < n; i++) {
+    const node = nodes[i];
     if (node.nodeType === 3) { // we have a text node
       if (node.length >= pos) {
         // finally add our range

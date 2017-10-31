@@ -6,7 +6,7 @@
  *   license: MIT (http://opensource.org/licenses/MIT)
  *   author: appleple
  *   homepage: http://developer.a-blogcms.jp
- *   version: 0.1.1
+ *   version: 0.3.5
  *
  * a-template:
  *   license: MIT (http://opensource.org/licenses/MIT)
@@ -14761,18 +14761,62 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var editorHtml = '<div class="\\{classNames.SimpleWysiwyg\\}" data-action-mouseup="onPutCaret" data-selector="simple-wysiwyg" contenteditable data-action-input="onInput" data-action-keydown="onPutCaret" data-action-paste="onPaste"<!-- BEGIN showSource:exist --> style="display:none;"<!-- END showSource:exist --><!-- BEGIN hideEditor:exist --> style="display:none;"<!-- END hideEditor:exist -->>{value}</div>\n<textarea class="\\{classNames.SimpleWysiwygSource\\}" data-selector="simple-wysiwyg-source" <!-- BEGIN showSource:empty --> style="display:none;"<!-- END showSource:empty -->{attr} data-bind="formatedValue" data-action-input="onDirectInput"></textarea>';
-var btnHtml = '<div class="\\{classNames.SimpleWysiwygToolBox\\}" data-selector="simple-wysiwyg-toolbox">\n    <!-- BEGIN selectOptions.0:exist -->\n    <div class="\\{classNames.SimpleWysiwygSelectWrap\\}">\n        <select class="\\{classNames.SimpleWysiwygSelect\\}"<!-- BEGIN selectName:exist --> name="{selectName}"<!-- END selectName:exist --> data-action-change="changeOption" data-bind="selectedOption">\n        <!-- BEGIN selectOptions:loop -->\n        <option value="{value}" data-tag_extend>{label}</option>\n        <!-- END selectOptions:loop -->\n        </select>\n    </div>\n    <!-- END selectOptions.0:exist -->\n\n    <div class="\\{classNames.SimpleWysiwygBtnGroupWrap\\}" <!-- BEGIN hideBtns:exist --> style="display:none;"<!-- END hideBtns:exist -->>\n        <div class="\\{classNames.SimpleWysiwygBtnGroup\\}"><button class="\\{classNames.SimpleWysiwygBtn\\}<!-- BEGIN showSource:exist --> \\{classNames.SimpleWysiwygBtnActive\\}<!-- END showSource:exist -->" data-action-click="toggleSource" type="button">\\{message.sourceBtn\\}</button><button class="\\{classNames.SimpleWysiwygBtn\\}" data-action-click="redo"<!-- BEGIN canRedo:empty --> disabled<!-- END canRedo:empty --> type="button">\\{message.redoBtn\\}</button><button class="\\{classNames.SimpleWysiwygBtn\\}" data-action-click="undo"<!-- BEGIN canUndo:empty --> disabled<!-- END canUndo:empty --> type="button">\\{message.undoBtn\\}</button></div>\n        \n        <div class="\\{classNames.SimpleWysiwygBtnGroup\\}" data-selector="btn-group">\n        <!-- BEGIN btnOptions:loop --><button class="\\\\{classNames.SimpleWysiwygBtn\\\\}<!-- BEGIN selfClassName:exist --> {selfClassName}<!-- END selfClassName:exist --><!-- BEGIN selected:exist --> \\\\{classNames.SimpleWysiwygBtnActive\\\\}<!-- END selected:exist -->" data-tag="{tag}" data-class="{className}"<!-- BEGIN tag:exist --><!-- BEGIN selected:empty --> data-action-click="insertTag({tag},{className})"<!-- END selected:empty --><!-- BEGIN selected:exist --> data-action-click="unwrapTag({tag},{className})"<!-- END selected:exist --><!-- END tag:exist --><!-- BEGIN tag:empty --> data-action-click="onClick({i})"<!-- END tag:empty --><!-- \\BEGIN showSource:exist --> disabled<!-- \\END showSource:exist --> type="button">{label}</button><!-- END btnOptions:loop -->\n        </div>\n    </div>\n</div>';
+var editorHtml = '<div class="\\{classNames.SimpleWysiwyg\\}" data-action-mouseup="onPutCaret" data-action-keydown="onKeyDown" data-selector="simple-wysiwyg" contenteditable data-action-input="onInput" data-action-paste="onPaste" style="<!-- BEGIN showSource:exist -->display:none;<!-- END showSource:exist --><!-- BEGIN hideEditor:exist -->display:none;"<!-- END hideEditor:exist --><!-- BEGIN minHeight:exist -->min-height: {minHeight}px;<!-- END minHeight:exist --><!-- BEGIN maxHeight:exist -->max-height:{maxHeight}px;<!-- END maxHeight:exist -->">{value}</div>\n<textarea class="\\{classNames.SimpleWysiwygSource\\}" data-selector="simple-wysiwyg-source" style="<!-- BEGIN showSource:empty -->display:none;<!-- END showSource:empty --><!-- BEGIN sourceHeight:exist -->height:{sourceHeight}px;<!-- END sourceHeight:exist -->"{attr} data-bind="formatedValue"></textarea>';
+var btnHtml = '<div class="\\{classNames.SimpleWysiwygToolBox\\}" data-selector="simple-wysiwyg-toolbox">\n    <!-- BEGIN selectOptions.0:exist -->\n    <div class="\\{classNames.SimpleWysiwygSelectWrap\\}">\n        <select class="\\{classNames.SimpleWysiwygSelect\\}"<!-- BEGIN selectName:exist --> name="{selectName}"<!-- END selectName:exist --> data-action-change="changeOption" data-bind="selectedOption">\n        <!-- BEGIN selectOptions:loop -->\n        <option value="{value}" data-tag_extend>{label}</option>\n        <!-- END selectOptions:loop -->\n        </select>\n    </div>\n    <!-- END selectOptions.0:exist -->\n\n    <div class="\\{classNames.SimpleWysiwygBtnGroupWrap\\}" <!-- BEGIN hideBtns:exist --> style="display:none;"<!-- END hideBtns:exist -->>        \n        <!-- BEGIN groups:loop -->\n        <div class="\\\\{classNames.SimpleWysiwygBtnGroup\\\\}">\n            <!-- \\BEGIN groups.{i}.items:loop -->\n\n            <!-- \\BEGIN action:touch#preview -->\n            <button class="\\\\\\{classNames.SimpleWysiwygBtn\\\\\\}<!-- \\\\BEGIN showSource:exist --> \\\\\\{classNames.SimpleWysiwygBtnActive\\\\\\}<!-- \\\\END showSource:exist -->" data-action-click="toggleSource" type="button">\\{label\\}</button>\n            <!-- \\END action:touch#preview -->\n\n            <!-- \\BEGIN action:touch#redo -->\n            <button class="\\\\\\{classNames.SimpleWysiwygBtn\\\\\\}" data-action-click="redo"<!-- \\\\BEGIN canRedo:empty --> disabled<!-- \\\\END canRedo:empty --> type="button">\\{label\\}</button>\n            <!-- \\END action:touch#redo -->\n\n            <!-- \\BEGIN action:touch#undo -->\n            <button class="\\\\\\{classNames.SimpleWysiwygBtn\\\\\\}" data-action-click="undo"<!-- \\\\BEGIN canUndo:empty --> disabled<!-- \\\\END canUndo:empty --> type="button">\\{label\\}</button>\n            <!-- \\END action:touch#undo -->\n\n            <!-- \\BEGIN action:touch#extra -->\n            <button class="\\\\\\{classNames.SimpleWysiwygBtn\\\\\\}<!-- \\BEGIN selfClassName:exist --> \\{selfClassName\\}<!-- \\END selfClassName:exist -->" data-action-click="onClick(\\{index\\})" type="button">\\{label\\}</button>\n            <!-- \\END action:touch#extra -->\n\n            <!-- \\BEGIN action:empty -->\n            <button class="\\\\\\{classNames.SimpleWysiwygBtn\\\\\\}<!-- \\BEGIN selfClassName:exist --> \\{selfClassName\\}<!-- \\END selfClassName:exist --><!-- \\BEGIN selected:exist --> \\\\\\{classNames.SimpleWysiwygBtnActive\\\\\\}<!-- \\END selected:exist -->"\n            <!-- \\BEGIN tag:exist -->\n            <!-- \\BEGIN selected:empty --> data-action-click="insertTag(\\{tag\\},\\{className\\})"<!-- \\END selected:empty -->\n            <!-- \\BEGIN selected:exist --> data-action-click="unwrapTag(\\{tag\\},\\{className\\})"<!-- \\END selected:exist -->\n            <!-- \\END tag:exist -->\n            <!-- \\BEGIN tag:empty --> data-action-click="insertTag(span,\\{className\\})"<!-- \\END tag:empty -->\n            <!-- \\\\BEGIN showSource:exist --> disabled<!-- \\\\END showSource:exist --> \n            type="button">\\{label\\}</button>\n            <!-- \\END action:empty -->\n            <!-- \\END groups.{i}.items:loop -->\n        </div>\n        <!-- END groups:loop -->\n    </div>\n</div>';
 var tooltipHtml = '<div data-selector="simple-wysiwyg-tooltip">\n<!-- BEGIN tooltipLabel:exist -->\n<div class="\\{classNames.SimpleWysiwygTooltip\\}" style="left:{tooltipLeft}px;top:{tooltipTop}px">\n    <table class="\\{classNames.SimpleWysiwygTooltipTable\\}">\n        <tr>\n            <th>\u30E9\u30D9\u30EB\u540D</th>\n            <td><input type="text" data-bind="tooltipLabel"></td>\n        </tr>\n        <tr>\n            <th>URL</th>\n            <td><input type="text" data-bind="tooltipUrl"></td>\n        </tr>\n        <tr>\n            <td></td>\n            <td><button data-action-click="updateLink()">\u5909\u66F4</button></td>\n        </tr>\n    </table>\n</div>\n<!-- END tooltipLabel:exist -->\n</div>';
 
 
 var Entities = require('html-entities').XmlEntities;
-var upndown = require('upndown');
-var showdown = require('showdown');
+var Upndown = require('upndown');
+var Showdown = require('showdown');
 
 var entities = new Entities();
-var converter = new showdown.Converter();
-var und = new upndown({ decodeEntities: false });
+var converter = new Showdown.Converter();
+var und = new Upndown({ decodeEntities: false });
+
+var defaultbtnOptions = [{
+  label: '<i class="fa fa-code"></i>',
+  action: 'preview',
+  group: 'action'
+}, {
+  label: '<i class="fa fa-rotate-left"></i>',
+  action: 'undo',
+  group: 'action'
+}, {
+  label: '<i class="fa fa-rotate-right"></i>',
+  action: 'redo',
+  group: 'action'
+}, {
+  label: '<i class="fa fa-link"></i>',
+  tag: 'a',
+  className: '',
+  group: 'mark'
+}, {
+  label: '<i class="fa fa-bold"></i>',
+  tag: 'strong',
+  className: '',
+  group: 'mark'
+}, {
+  label: '<i class="fa fa-italic"></i>',
+  tag: 'i',
+  className: '',
+  group: 'mark'
+}, {
+  label: '<i class="fa fa-align-left"></i>',
+  tag: 'div',
+  className: 'left',
+  group: 'align'
+}, {
+  label: '<i class="fa fa-align-center"></i>',
+  tag: 'div',
+  className: 'center',
+  group: 'align'
+}, {
+  label: '<i class="fa fa-align-right"></i>',
+  tag: 'div',
+  className: 'right',
+  group: 'align'
+}];
 
 var defaults = {
   mode: 'html',
@@ -14791,20 +14835,16 @@ var defaults = {
   },
   message: {
     addLinkTitle: 'Add Link',
-    addLinkBtn: 'add link',
-    sourceBtn: 'source',
-    resetStyleBtn: 'reset',
-    noRangeSelected: 'please select the range',
-    redoBtn: 'redo',
-    undoBtn: 'undo'
+    noRangeSelected: 'please select the range'
   },
+  maxHeight: null,
+  minHeight: null,
+  escapeNotRegisteredTags: false,
   selectOptions: [],
   selectedOption: '',
-  btnOptions: [],
-  useLink: true,
-  showSource: false,
-  hideEditor: false,
-  btnPosition: 'top'
+  btnOptions: defaultbtnOptions,
+  btnPosition: 'top',
+  sampleText: 'sample text'
 };
 
 var SimpleWysiwyg = function (_aTemplate) {
@@ -14816,6 +14856,9 @@ var SimpleWysiwyg = function (_aTemplate) {
     var _this = _possibleConstructorReturn(this, (SimpleWysiwyg.__proto__ || Object.getPrototypeOf(SimpleWysiwyg)).call(this));
 
     _this.data = (0, _deepExtend2.default)({}, defaults, settings);
+    _this.data.showSource = false;
+    _this.data.hideEditor = false;
+    _this.data.groups = _this.makeBtnGroups();
     _this.id = _this._getUniqId();
     var template = '';
     if (_this.data.btnPosition === 'bottom') {
@@ -14831,6 +14874,9 @@ var SimpleWysiwyg = function (_aTemplate) {
     };
     if (selector.value) {
       _this.data.value = selector.value.replace(/\r\n|\r|\n/g, '<br/>');
+      if (_this.data.escapeNotRegisteredTags) {
+        _this.escapeNotRegisteredTags();
+      }
     }
     var attrStr = '';
     if (selector.attributes) {
@@ -14854,19 +14900,46 @@ var SimpleWysiwyg = function (_aTemplate) {
     util.removeElement(selector);
     _this.update();
     _this.selector = _this._getElementByQuery('[data-selector="simple-wysiwyg-source"]');
-    var item = _this.data.selectOptions.find(function (item) {
-      return item.value === _this.data.selectedOption;
+    var item = _this.data.selectOptions.find(function (option) {
+      return option.value === _this.data.selectedOption;
     });
     if (item && item.onSelect) {
-      item.onSelect.apply(_this);
+      item.onSelect(_this);
     }
     if (_this.data.afterInit) {
-      _this.data.afterInit.apply(_this);
+      _this.data.afterInit(_this);
     }
     return _this;
   }
 
   _createClass(SimpleWysiwyg, [{
+    key: 'makeBtnGroups',
+    value: function makeBtnGroups() {
+      var btns = this.data.btnOptions;
+      var groups = [];
+      btns.forEach(function (btn, index) {
+        btn.index = index;
+        var flag = true;
+        if (!btn.group) {
+          btn.group = 'none';
+        }
+        groups.forEach(function (group) {
+          if (group.name === btn.group) {
+            group.items.push(btn);
+            flag = false;
+          }
+        });
+        if (flag) {
+          var group = {
+            name: btn.group,
+            items: [btn]
+          };
+          groups.push(group);
+        }
+      });
+      return groups;
+    }
+  }, {
     key: '_getSelf',
     value: function _getSelf() {
       return document.querySelector('[data-id=\'' + this.id + '\']');
@@ -14880,6 +14953,37 @@ var SimpleWysiwyg = function (_aTemplate) {
     key: '_getElementByQuery',
     value: function _getElementByQuery(query) {
       return document.querySelector('[data-id=\'' + this.id + '\'] ' + query);
+    }
+  }, {
+    key: '_escapeTagExceptRegisteredTags',
+    value: function _escapeTagExceptRegisteredTags(value) {
+      var _this2 = this;
+
+      var btns = this.data.btnOptions;
+      return value.replace(/<([a-zA-Z0-9._-]+)\s?(.*?)>(([\n\r\t]|.)*?)<\/\1>/g, function (component, tag, attr, content) {
+        var className = (attr.match(/class=["|'](.*?)["|']/i) || [null, ''])[1];
+        var flag = false;
+        if (attr) {
+          attr = ' ' + attr;
+        }
+        btns.forEach(function (btn) {
+          if (btn.className === className && btn.tag === tag) {
+            flag = true;
+          }
+        });
+        if (flag) {
+          return component;
+        }
+        if (/<([a-zA-Z0-9._-]+)\s?(.*?)>(([\n\r\t]|.)*?)<\/\1>/.exec(content)) {
+          content = _this2._escapeTagExceptRegisteredTags(content);
+        }
+        return '&lt;' + tag + attr + '&gt;' + content + '&lt;/' + tag + '&gt;';
+      });
+    }
+  }, {
+    key: 'escapeNotRegisteredTags',
+    value: function escapeNotRegisteredTags() {
+      this.data.value = this._escapeTagExceptRegisteredTags(this.data.value);
     }
   }, {
     key: 'encodeValue',
@@ -14920,10 +15024,8 @@ var SimpleWysiwyg = function (_aTemplate) {
   }, {
     key: 'resetStyle',
     value: function resetStyle() {
-      var data = this.data;
-      var mode = data.mode;
       var selection = util.getSelection();
-      var insertText = ('' + selection).replace(/<[^>]*>/g, "");
+      var insertText = ('' + selection).replace(/<[^>]*>/g, '');
       if (this._isFocused()) {
         document.execCommand('insertText', false, insertText);
       }
@@ -14952,25 +15054,22 @@ var SimpleWysiwyg = function (_aTemplate) {
     key: '_isFocused',
     value: function _isFocused() {
       var selector = this._getElementByQuery('[data-selector="simple-wysiwyg"]');
-      return selector !== document.activeElement;
+      return selector === document.activeElement;
     }
   }, {
     key: 'insertTag',
     value: function insertTag(tag, className) {
-      var _this2 = this;
+      var _this3 = this;
 
       var data = this.data;
-      var mode = data.mode;
       var link = '';
 
       if (tag === 'a') {
         link = ' href="' + prompt(data.message.addLinkTitle, 'http://') + '"';
       }
-
       var selection = util.getSelection();
       if (!selection) {
-        alert(data.message.noRangeSelected);
-        return;
+        selection = this.data.sampleText;
       }
       var classAttr = '';
       if (className) {
@@ -14979,7 +15078,7 @@ var SimpleWysiwyg = function (_aTemplate) {
       var insertHtml = '<' + tag + link + classAttr + '>' + selection + '</' + tag + '>';
       if (this.data.mode === 'markdown') {
         und.convert(insertHtml, function (err, markdown) {
-          _this2.insertHtml(markdown.replace(/\r\n|\r|\n/g, '<br/>'));
+          _this3.insertHtml(markdown.replace(/\r\n|\r|\n/g, '<br/>'));
         });
       } else {
         this.insertHtml(insertHtml.replace(/\r\n|\r|\n/g, '<br/>'));
@@ -14991,22 +15090,24 @@ var SimpleWysiwyg = function (_aTemplate) {
     value: function onClick(i) {
       var number = parseInt(i, 10);
       if (this.data.btnOptions[number].onClick) {
-        this.data.btnOptions[number].onClick.apply(this);
+        this.data.btnOptions[number].onClick(this);
       }
     }
   }, {
     key: 'beforeUpdated',
     value: function beforeUpdated() {
-      this.data.canUndo = this.canUndo();
-      this.data.canRedo = this.canRedo();
-      this.data.formatedValue = this.format(this.data.value);
+      var data = this.data;
+      var editor = this._getElementByQuery('[data-selector="simple-wysiwyg"]');
+      data.canUndo = this.canUndo();
+      data.canRedo = this.canRedo();
+      data.formatedValue = this.format(data.value);
+      if (!data.showSource && editor && editor.offsetHeight) {
+        data.sourceHeight = editor.offsetHeight;
+      }
     }
   }, {
     key: 'onUpdated',
     value: function onUpdated() {
-      var textarea = this._getElementByQuery('[data-selector="simple-wysiwyg-source"]');
-      textarea.style.height = 'auto';
-      textarea.style.height = textarea.scrollHeight + 'px';
       var editor = this._getElementByQuery('[data-selector="simple-wysiwyg"]');
       if (!editor) {
         return;
@@ -15015,14 +15116,12 @@ var SimpleWysiwyg = function (_aTemplate) {
       this.data.value = editor.innerHTML;
       if (this.stopStack) {
         this.stopStack = false;
-      } else {
-        if ('' + this.stack[this.stackPosition - 1] !== '' + this.data.value) {
-          this.stack = this.stack.slice(0, this.stackPosition + 1);
-          this.stack.push(this.data.value);
-          this.stackPosition++;
-          if (this.selector) {
-            this.selector.value = this.format(this.data.value);
-          }
+      } else if ('' + this.stack[this.stackPosition - 1] !== '' + this.data.value) {
+        this.stack = this.stack.slice(0, this.stackPosition + 1);
+        this.stack.push(this.data.value);
+        this.stackPosition += 1;
+        if (this.selector) {
+          this.selector.value = this.format(this.data.value);
         }
       }
     }
@@ -15032,7 +15131,7 @@ var SimpleWysiwyg = function (_aTemplate) {
       if (!this.canRedo()) {
         return;
       }
-      this.stackPosition++;
+      this.stackPosition += 1;
       this.data.value = this.stack[this.stackPosition];
       this.stopStack = true;
       this.update();
@@ -15051,7 +15150,7 @@ var SimpleWysiwyg = function (_aTemplate) {
       if (!this.canUndo()) {
         return;
       }
-      this.stackPosition--;
+      this.stackPosition -= 1;
       this.data.value = this.stack[this.stackPosition];
       this.stopStack = true;
       this.update();
@@ -15067,7 +15166,11 @@ var SimpleWysiwyg = function (_aTemplate) {
   }, {
     key: 'onInput',
     value: function onInput() {
-      this.update('html', '[data-selector="simple-wysiwyg-source"]');
+      var editor = this._getElementByQuery('[data-selector="simple-wysiwyg"]');
+      var textarea = this._getElementByQuery('[data-selector="simple-wysiwyg-source"]');
+      this.data.value = editor.innerHTML;
+      this.data.formatedValue = this.format(this.data.value);
+      textarea.value = this.data.formatedValue;
     }
   }, {
     key: 'onDirectInput',
@@ -15082,19 +15185,41 @@ var SimpleWysiwyg = function (_aTemplate) {
       var e = this.e;
       e.preventDefault();
       var insertText = e.clipboardData.getData('text/plain');
-      if (this._isFocused()) {
-        document.execCommand('insertText', false, insertText);
+      if (this._isFocused() && insertText) {
+        document.execCommand('insertText', false, insertText.replace(/<div>/g, '').replace(/<\div>/g, '<br>'));
       }
+    }
+  }, {
+    key: 'onKeyDown',
+    value: function onKeyDown() {
+      var editor = this._getElementByQuery('[data-selector="simple-wysiwyg"]');
+      var e = this.e;
+
+      if (e.keyCode !== 13) {
+        this.data.value = editor.innerHTML;
+        this.onPutCaret();
+        return;
+      }
+
+      var pos = util.getCaretPos(editor);
+      // on purpose
+      this.insertHtml('<br> ');
+      editor.innerHTML = editor.innerHTML.replace(/<br> <\/(.*?)>/g, '</$1><br> ');
+      this.data.value = editor.innerHTML;
+      editor.scrollTop = editor.scrollHeight;
+      editor.focus();
+      util.setCaretPos(editor, pos + 1);
+      e.preventDefault();
     }
   }, {
     key: 'onPutCaret',
     value: function onPutCaret() {
-      var _this3 = this;
+      var _this4 = this;
 
       setTimeout(function () {
-        var target = _this3.getSelectionNode();
+        var target = _this4.getSelectionNode();
         var tags = [];
-        var editor = _this3._getElementByQuery('[data-selector="simple-wysiwyg"]');
+        var editor = _this4._getElementByQuery('[data-selector="simple-wysiwyg"]');
         var tmp = null;
         if (target && target !== editor) {
           tags.push({ tagName: target.tagName.toLowerCase(), className: target.getAttribute('class') || '' });
@@ -15114,8 +15239,8 @@ var SimpleWysiwyg = function (_aTemplate) {
             parent = parent.parentElement;
           }
         }
-        _this3.updateTooltip(tmp);
-        _this3.updateToolBox(tags);
+        _this4.updateTooltip(tmp);
+        _this4.updateToolBox(tags);
       }, 1);
     }
   }, {
@@ -15123,13 +15248,15 @@ var SimpleWysiwyg = function (_aTemplate) {
     value: function updateToolBox() {
       var tags = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 
-      var btnOptions = this.data.btnOptions;
-      btnOptions.forEach(function (btn) {
-        btn.selected = false;
-        tags.forEach(function (tag) {
-          if (btn.tag === tag.tagName && btn.className === tag.className) {
-            btn.selected = true;
-          }
+      var groups = this.data.groups;
+      groups.forEach(function (group) {
+        group.items.forEach(function (btn) {
+          btn.selected = false;
+          tags.forEach(function (tag) {
+            if (btn.tag === tag.tagName && btn.className === tag.className) {
+              btn.selected = true;
+            }
+          });
         });
       });
       this.saveSelection();
@@ -15177,7 +15304,7 @@ var SimpleWysiwyg = function (_aTemplate) {
     key: 'getSelectionNode',
     value: function getSelectionNode() {
       var node = document.getSelection().anchorNode;
-      return node.nodeType == 3 ? node.parentNode : node;
+      return node.nodeType === 3 ? node.parentNode : node;
     }
   }, {
     key: 'unwrapTag',
@@ -15208,29 +15335,30 @@ var SimpleWysiwyg = function (_aTemplate) {
     value: function toggleSource() {
       var source = this.data.showSource;
       this.data.showSource = !source;
-      if (!this.data.showSource) {
-        var textarea = this._getElementByQuery('[data-selector="simple-wysiwyg-source"]');
-        var value = textarea.value;
-        var formatted = value.replace(/\n/g, '<br>');
-        this.data.value = formatted;
-      }
       this.update();
     }
   }, {
     key: 'format',
     value: function format(txt) {
-      return txt.replace(/&nbsp;/g, ' ').replace(/<p[^<]*?>(([\n\r\t]|.)*?)<\/p>/g, '\n$1').replace(/<div[^<]*?>(([\n\r\t]|.)*?)<br><\/div>/g, '\n$1').replace(/<div[^<]*?>(([\n\r\t]|.)*?)<\/div>/g, '\n$1').replace(/<br>/g, '\n');
+      if (!txt) {
+        return '';
+      }
+      var replaced = txt.replace(/<p[^<]*?>(([\n\r\t]|.)*?)<\/p>/g, '$1\n').replace(/<br>(\s*)/g, '\n').replace(/<br>/g, '\n').replace(/&nbsp;/g, ' ');
+      if (replaced.slice(-1) === '\n') {
+        replaced = replaced.slice(0, -1);
+      }
+      return entities.decode(replaced);
     }
   }, {
     key: 'toMarkdown',
     value: function toMarkdown() {
-      var _this4 = this;
+      var _this5 = this;
 
       this.data.mode = 'markdown';
       und.convert(this.data.value, function (err, markdown) {
-        _this4.data.value = markdown;
-        _this4.data.value = _this4.data.value.replace(/\n/g, '<br>');
-        _this4.update();
+        _this5.data.value = markdown;
+        _this5.data.value = _this5.data.value.replace(/\n/g, '<br>');
+        _this5.update();
       });
     }
   }, {
@@ -15248,12 +15376,12 @@ var SimpleWysiwyg = function (_aTemplate) {
       if (!value) {
         return;
       }
-      var item = this.data.selectOptions.find(function (item) {
-        return item.value === value;
+      var item = this.data.selectOptions.find(function (option) {
+        return option.value === value;
       });
       if (item && item.onSelect) {
         this.data.selectedOption = item.value;
-        item.onSelect.apply(this);
+        item.onSelect(this);
       }
     }
   }]);
@@ -15423,50 +15551,30 @@ var unwrapTag = exports.unwrapTag = function unwrapTag(element) {
 
 var setCaretPos = exports.setCaretPos = function setCaretPos(el, pos) {
   // Loop through all child nodes
-  var _iteratorNormalCompletion = true;
-  var _didIteratorError = false;
-  var _iteratorError = undefined;
-
-  try {
-    for (var _iterator = el.childNodes[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-      var node = _step.value;
-
-      if (node.nodeType === 3) {
-        // we have a text node
-        if (node.length >= pos) {
-          // finally add our range
-          var range = document.createRange();
-          var sel = window.getSelection();
-          range.setStart(node, pos);
-          range.collapse(true);
-          sel.removeAllRanges();
-          sel.addRange(range);
-          return -1; // we are done
-        } else {
-          pos -= node.length;
-        }
+  var nodes = [].slice.call(el.childNodes);
+  for (var i = 0, n = nodes.length; i < n; i++) {
+    var node = nodes[i];
+    if (node.nodeType === 3) {
+      // we have a text node
+      if (node.length >= pos) {
+        // finally add our range
+        var range = document.createRange();
+        var sel = window.getSelection();
+        range.setStart(node, pos);
+        range.collapse(true);
+        sel.removeAllRanges();
+        sel.addRange(range);
+        return -1; // we are done
       } else {
-        pos = setCaretPos(node, pos);
-        if (pos === -1) {
-          return -1; // no need to finish the for loop
-        }
+        pos -= node.length;
       }
-    }
-  } catch (err) {
-    _didIteratorError = true;
-    _iteratorError = err;
-  } finally {
-    try {
-      if (!_iteratorNormalCompletion && _iterator.return) {
-        _iterator.return();
-      }
-    } finally {
-      if (_didIteratorError) {
-        throw _iteratorError;
+    } else {
+      pos = setCaretPos(node, pos);
+      if (pos === -1) {
+        return -1; // no need to finish the for loop
       }
     }
   }
-
   return pos; // needed because of recursion stuff
 };
 

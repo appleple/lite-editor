@@ -1,18 +1,71 @@
 import aTemplate from 'a-template';
+import extend from 'deep-extend';
 import editorHtml from './editor.html';
 import btnHtml from './btn.html';
 import tooltipHtml from './tooltip.html';
-import extend from 'deep-extend';
-
 import * as util from '../lib/util';
 
 const Entities = require('html-entities').XmlEntities;
-const upndown = require('upndown');
-const showdown = require('showdown');
+const Upndown = require('upndown');
+const Showdown = require('showdown');
 
 const entities = new Entities();
-const converter = new showdown.Converter();
-const und = new upndown({decodeEntities: false});
+const converter = new Showdown.Converter();
+const und = new Upndown({ decodeEntities: false });
+
+const defaultbtnOptions = [
+  {
+    label: '<i class="fa fa-code"></i>',
+    action: 'preview',
+    group: 'action'
+  },
+  {
+    label: '<i class="fa fa-rotate-left"></i>',
+    action: 'undo',
+    group: 'action'
+  },
+  {
+    label: '<i class="fa fa-rotate-right"></i>',
+    action: 'redo',
+    group: 'action'
+  },
+  {
+    label: '<i class="fa fa-link"></i>',
+    tag: 'a',
+    className: '',
+    group: 'mark'
+  },
+  {
+    label: '<i class="fa fa-bold"></i>',
+    tag: 'strong',
+    className: '',
+    group: 'mark'
+  },
+  {
+    label: '<i class="fa fa-italic"></i>',
+    tag: 'i',
+    className: '',
+    group: 'mark'
+  },
+  {
+    label: '<i class="fa fa-align-left"></i>',
+    tag: 'div',
+    className: 'left',
+    group: 'align'
+  },
+  {
+    label: '<i class="fa fa-align-center"></i>',
+    tag: 'div',
+    className: 'center',
+    group: 'align'
+  },
+  {
+    label: '<i class="fa fa-align-right"></i>',
+    tag: 'div',
+    className: 'right',
+    group: 'align'
+  },
+];
 
 const defaults = {
   mode: 'html',
@@ -31,29 +84,28 @@ const defaults = {
   },
   message: {
     addLinkTitle: 'Add Link',
-    addLinkBtn: 'add link',
-    sourceBtn: 'source',
-    resetStyleBtn: 'reset',
     noRangeSelected: 'please select the range',
-    redoBtn: 'redo',
-    undoBtn: 'undo'
   },
+  maxHeight: null,
+  minHeight: null,
+  escapeNotRegisteredTags: false,
   selectOptions: [],
   selectedOption: '',
-  btnOptions: [],
-  useLink: true,
-  showSource: false,
-  hideEditor: false,
-  btnPosition: 'top'
-}
+  btnOptions: defaultbtnOptions,
+  btnPosition: 'top',
+  sampleText: 'sample text'
+};
 
 export default class SimpleWysiwyg extends aTemplate {
 
   constructor(ele, settings) {
     super();
     this.data = extend({}, defaults, settings);
+    this.data.showSource = false;
+    this.data.hideEditor = false;
+    this.data.groups = this.makeBtnGroups();
     this.id = this._getUniqId();
-    let template = ``;
+    let template = '';
     if (this.data.btnPosition === 'bottom') {
       template = `${editorHtml}${btnHtml}`;
     } else {
@@ -63,14 +115,17 @@ export default class SimpleWysiwyg extends aTemplate {
     this.addTemplate(this.id, template);
     const selector = typeof ele === 'string' ? document.querySelector(ele) : ele;
     this.convert = {
-      format:this.format
-    }
-    if(selector.value) {
-      this.data.value = selector.value.replace(/\r\n|\r|\n/g,'<br/>');
+      format: this.format
+    };
+    if (selector.value) {
+      this.data.value = selector.value.replace(/\r\n|\r|\n/g, '<br/>');
+      if (this.data.escapeNotRegisteredTags) {
+        this.escapeNotRegisteredTags();
+      }
     }
     let attrStr = '';
-    if (selector.attributes){
-      [].forEach.call(selector.attributes, attr => {
+    if (selector.attributes) {
+      [].forEach.call(selector.attributes, (attr) => {
         attrStr += ` ${attr.nodeName}="${attr.nodeValue}"`;
       });
     }
@@ -89,14 +144,40 @@ export default class SimpleWysiwyg extends aTemplate {
     util.before(selector, html);
     util.removeElement(selector);
     this.update();
-    this.selector = this._getElementByQuery(`[data-selector="simple-wysiwyg-source"]`);
-    const item = this.data.selectOptions.find((item => item.value === this.data.selectedOption));
+    this.selector = this._getElementByQuery('[data-selector="simple-wysiwyg-source"]');
+    const item = this.data.selectOptions.find((option => option.value === this.data.selectedOption));
     if (item && item.onSelect) {
-      item.onSelect.apply(this);
+      item.onSelect(this);
     }
-    if(this.data.afterInit) {
-      this.data.afterInit.apply(this);
+    if (this.data.afterInit) {
+      this.data.afterInit(this);
     }
+  }
+
+  makeBtnGroups() {
+    const btns = this.data.btnOptions;
+    const groups = [];
+    btns.forEach((btn, index) => {
+      btn.index = index;
+      let flag = true;
+      if (!btn.group) {
+        btn.group = 'none';
+      }
+      groups.forEach((group) => {
+        if (group.name === btn.group) {
+          group.items.push(btn);
+          flag = false;
+        }
+      });
+      if (flag) {
+        const group = {
+          name: btn.group,
+          items: [btn]
+        };
+        groups.push(group);
+      }
+    });
+    return groups;
   }
 
   _getSelf() {
@@ -111,6 +192,33 @@ export default class SimpleWysiwyg extends aTemplate {
     return document.querySelector(`[data-id='${this.id}'] ${query}`);
   }
 
+  _escapeTagExceptRegisteredTags(value) {
+    const btns = this.data.btnOptions;
+    return value.replace(/<([a-zA-Z0-9._-]+)\s?(.*?)>(([\n\r\t]|.)*?)<\/\1>/g, (component, tag, attr, content) => {
+      const className = (attr.match(/class=["|'](.*?)["|']/i) || [null, ''])[1];
+      let flag = false;
+      if (attr) {
+        attr = ` ${attr}`;
+      }
+      btns.forEach((btn) => {
+        if (btn.className === className && btn.tag === tag) {
+          flag = true;
+        }
+      });
+      if (flag) {
+        return component;
+      }
+      if (/<([a-zA-Z0-9._-]+)\s?(.*?)>(([\n\r\t]|.)*?)<\/\1>/.exec(content)) {
+        content = this._escapeTagExceptRegisteredTags(content);
+      }
+      return `&lt;${tag}${attr}&gt;${content}&lt;/${tag}&gt;`;
+    });
+  }
+
+  escapeNotRegisteredTags() {
+    this.data.value = this._escapeTagExceptRegisteredTags(this.data.value);
+  }
+
   encodeValue() {
     this.data.value = entities.encode(this.data.value);
     this.update();
@@ -118,7 +226,7 @@ export default class SimpleWysiwyg extends aTemplate {
 
   decodeValue() {
     this.data.value = entities.decode(this.data.value);
-    this.update();    
+    this.update();
   }
 
   hideEditor() {
@@ -142,10 +250,8 @@ export default class SimpleWysiwyg extends aTemplate {
   }
 
   resetStyle() {
-    const data = this.data;
-    const mode = data.mode;
     const selection = util.getSelection();
-    const insertText = `${selection}`.replace(/<[^>]*>/g, "");
+    const insertText = `${selection}`.replace(/<[^>]*>/g, '');
     if (this._isFocused()) {
       document.execCommand('insertText', false, insertText);
     }
@@ -153,7 +259,7 @@ export default class SimpleWysiwyg extends aTemplate {
 
   insertHtml(html) {
     util.replaceSelectionWithHtml(html);
-    const editor = this._getElementByQuery(`[data-selector="simple-wysiwyg"]`);
+    const editor = this._getElementByQuery('[data-selector="simple-wysiwyg"]');
     this.data.value = editor.innerHTML;
   }
 
@@ -169,72 +275,69 @@ export default class SimpleWysiwyg extends aTemplate {
   }
 
   _isFocused() {
-    const selector = this._getElementByQuery(`[data-selector="simple-wysiwyg"]`);
-    return selector !== document.activeElement;
+    const selector = this._getElementByQuery('[data-selector="simple-wysiwyg"]');
+    return selector === document.activeElement;
   }
 
-  insertTag(tag, className){
+  insertTag(tag, className) {
     const data = this.data;
-    const mode = data.mode;
     let link = '';
-    
+
     if (tag === 'a') {
       link = ` href="${prompt(data.message.addLinkTitle, 'http://')}"`;
     }
-
-    const selection = util.getSelection();
+    let selection = util.getSelection();
     if (!selection) {
-      alert(data.message.noRangeSelected);
-      return;
+      selection = this.data.sampleText;
     }
     let classAttr = '';
     if (className) {
       classAttr = ` class="${className}"`;
     }
     const insertHtml = `<${tag}${link}${classAttr}>${selection}</${tag}>`;
-    if(this.data.mode === 'markdown') {
+    if (this.data.mode === 'markdown') {
       und.convert(insertHtml, (err, markdown) => {
-        this.insertHtml(markdown.replace(/\r\n|\r|\n/g,'<br/>'));
+        this.insertHtml(markdown.replace(/\r\n|\r|\n/g, '<br/>'));
       });
     } else {
-      this.insertHtml(insertHtml.replace(/\r\n|\r|\n/g,'<br/>'));
+      this.insertHtml(insertHtml.replace(/\r\n|\r|\n/g, '<br/>'));
     }
     this.updateToolBox();
   }
 
   onClick(i) {
     const number = parseInt(i, 10);
-    if(this.data.btnOptions[number].onClick) {
-      this.data.btnOptions[number].onClick.apply(this);
+    if (this.data.btnOptions[number].onClick) {
+      this.data.btnOptions[number].onClick(this);
     }
   }
 
   beforeUpdated() {
-    this.data.canUndo = this.canUndo();
-    this.data.canRedo = this.canRedo();
-    this.data.formatedValue = this.format(this.data.value);
+    const data = this.data;
+    const editor = this._getElementByQuery('[data-selector="simple-wysiwyg"]');
+    data.canUndo = this.canUndo();
+    data.canRedo = this.canRedo();
+    data.formatedValue = this.format(data.value);
+    if (!data.showSource && editor && editor.offsetHeight) {
+      data.sourceHeight = editor.offsetHeight;
+    }
   }
 
   onUpdated() {
-    const textarea = this._getElementByQuery(`[data-selector="simple-wysiwyg-source"]`);
-    textarea.style.height = 'auto';
-    textarea.style.height = `${textarea.scrollHeight}px`;
-    const editor = this._getElementByQuery(`[data-selector="simple-wysiwyg"]`);
-    if(!editor) {
+    const editor = this._getElementByQuery('[data-selector="simple-wysiwyg"]');
+    if (!editor) {
       return;
     }
     this.saveSelection();
     this.data.value = editor.innerHTML;
     if (this.stopStack) {
       this.stopStack = false;
-    } else {
-      if(`${this.stack[this.stackPosition - 1]}` !== `${this.data.value}`) {
-        this.stack = this.stack.slice(0, this.stackPosition + 1);
-        this.stack.push(this.data.value); 
-        this.stackPosition++;
-        if(this.selector) {
-          this.selector.value = this.format(this.data.value);
-        }
+    } else if (`${this.stack[this.stackPosition - 1]}` !== `${this.data.value}`) {
+      this.stack = this.stack.slice(0, this.stackPosition + 1);
+      this.stack.push(this.data.value);
+      this.stackPosition += 1;
+      if (this.selector) {
+        this.selector.value = this.format(this.data.value);
       }
     }
   }
@@ -243,7 +346,7 @@ export default class SimpleWysiwyg extends aTemplate {
     if (!this.canRedo()) {
       return;
     }
-    this.stackPosition++;
+    this.stackPosition += 1;
     this.data.value = this.stack[this.stackPosition];
     this.stopStack = true;
     this.update();
@@ -260,7 +363,7 @@ export default class SimpleWysiwyg extends aTemplate {
     if (!this.canUndo()) {
       return;
     }
-    this.stackPosition--;
+    this.stackPosition -= 1;
     this.data.value = this.stack[this.stackPosition];
     this.stopStack = true;
     this.update();
@@ -274,11 +377,15 @@ export default class SimpleWysiwyg extends aTemplate {
   }
 
   onInput() {
-    this.update('html',`[data-selector="simple-wysiwyg-source"]`);
+    const editor = this._getElementByQuery('[data-selector="simple-wysiwyg"]');
+    const textarea = this._getElementByQuery('[data-selector="simple-wysiwyg-source"]');
+    this.data.value = editor.innerHTML;
+    this.data.formatedValue = this.format(this.data.value);
+    textarea.value = this.data.formatedValue;
   }
 
   onDirectInput() {
-    const textarea = this._getElementByQuery(`[data-selector="simple-wysiwyg-source"]`);
+    const textarea = this._getElementByQuery('[data-selector="simple-wysiwyg-source"]');
     textarea.style.height = 'auto';
     textarea.style.height = `${textarea.scrollHeight}px`;
   }
@@ -287,9 +394,30 @@ export default class SimpleWysiwyg extends aTemplate {
     const e = this.e;
     e.preventDefault();
     const insertText = e.clipboardData.getData('text/plain');
-    if (this._isFocused()) {
-      document.execCommand('insertText', false, insertText);
+    if (this._isFocused() && insertText) {
+      document.execCommand('insertText', false, insertText.replace(/<div>/g, '').replace(/<\div>/g, '<br>'));
     }
+  }
+
+  onKeyDown() {
+    const editor = this._getElementByQuery('[data-selector="simple-wysiwyg"]');
+    const e = this.e;
+
+    if (e.keyCode !== 13) {
+      this.data.value = editor.innerHTML;
+      this.onPutCaret();
+      return;
+    }
+
+    const pos = util.getCaretPos(editor);
+    // on purpose
+    this.insertHtml('<br> ');
+    editor.innerHTML = editor.innerHTML.replace(/<br> <\/(.*?)>/g, '</$1><br> ');
+    this.data.value = editor.innerHTML;
+    editor.scrollTop = editor.scrollHeight;
+    editor.focus();
+    util.setCaretPos(editor, pos + 1);
+    e.preventDefault();
   }
 
   onPutCaret() {
@@ -318,21 +446,23 @@ export default class SimpleWysiwyg extends aTemplate {
       }
       this.updateTooltip(tmp);
       this.updateToolBox(tags);
-    },1);
+    }, 1);
   }
 
   updateToolBox(tags = []) {
-    const btnOptions = this.data.btnOptions;
-    btnOptions.forEach(btn => {
-      btn.selected = false;
-      tags.forEach((tag) => {
-        if (btn.tag === tag.tagName && btn.className === tag.className) {
-          btn.selected = true;
-        }
+    const groups = this.data.groups;
+    groups.forEach((group) => {
+      group.items.forEach((btn) => {
+        btn.selected = false;
+        tags.forEach((tag) => {
+          if (btn.tag === tag.tagName && btn.className === tag.className) {
+            btn.selected = true;
+          }
+        });
       });
     });
     this.saveSelection();
-    this.update('html',`[data-selector="simple-wysiwyg-toolbox"]`);
+    this.update('html', '[data-selector="simple-wysiwyg-toolbox"]');
   }
 
   updateTooltip(item) {
@@ -373,11 +503,11 @@ export default class SimpleWysiwyg extends aTemplate {
 
   getSelectionNode() {
     const node = document.getSelection().anchorNode;
-    return (node.nodeType == 3 ? node.parentNode : node);
+    return (node.nodeType === 3 ? node.parentNode : node);
   }
 
   unwrapTag(tag, className) {
-    const editor = this._getElementByQuery(`[data-selector="simple-wysiwyg"]`);
+    const editor = this._getElementByQuery('[data-selector="simple-wysiwyg"]');
     const pos = util.getCaretPos(editor);
     let node = this.getSelectionNode();
     while (true) {
@@ -401,31 +531,31 @@ export default class SimpleWysiwyg extends aTemplate {
   toggleSource() {
     const source = this.data.showSource;
     this.data.showSource = !source;
-    if (!this.data.showSource) {
-      const textarea = this._getElementByQuery(`[data-selector="simple-wysiwyg-source"]`);
-      const value = textarea.value;
-      let formatted = value.replace(/\n/g,'<br>');
-      this.data.value = formatted;
-    }
     this.update();
   }
 
   format(txt) {
-    return txt
-      .replace(/&nbsp;/g, ' ')
-      .replace(/<p[^<]*?>(([\n\r\t]|.)*?)<\/p>/g, '\n$1')
-      .replace(/<div[^<]*?>(([\n\r\t]|.)*?)<br><\/div>/g, '\n$1')
-      .replace(/<div[^<]*?>(([\n\r\t]|.)*?)<\/div>/g, '\n$1')
-      .replace(/<br>/g, '\n');
+    if (!txt) {
+      return '';
+    }
+    let replaced = txt
+    .replace(/<p[^<]*?>(([\n\r\t]|.)*?)<\/p>/g, '$1\n')
+    .replace(/<br>(\s*)/g, '\n')
+    .replace(/<br>/g, '\n')
+    .replace(/&nbsp;/g, ' ');
+    if (replaced.slice(-1) === '\n') {
+      replaced = replaced.slice(0, -1);
+    }
+    return entities.decode(replaced);
   }
 
   toMarkdown() {
     this.data.mode = 'markdown';
     und.convert(this.data.value, (err, markdown) => {
       this.data.value = markdown;
-      this.data.value = this.data.value.replace(/\n/g,'<br>');
+      this.data.value = this.data.value.replace(/\n/g, '<br>');
       this.update();
-    });    
+    });
   }
 
   toHtml() {
@@ -434,16 +564,16 @@ export default class SimpleWysiwyg extends aTemplate {
     this.data.value = this.data.value.replace(/^<p>|<\/p>$/g, '');
     this.update();
   }
-  
+
   changeOption() {
     const value = this.e.target.value;
     if (!value) {
       return;
     }
-    const item = this.data.selectOptions.find((item => item.value === value));
+    const item = this.data.selectOptions.find((option => option.value === value));
     if (item && item.onSelect) {
       this.data.selectedOption = item.value;
-      item.onSelect.apply(this);
+      item.onSelect(this);
     }
   }
 }

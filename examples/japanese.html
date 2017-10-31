@@ -10,62 +10,126 @@
 	<title>SimpleWysiwyg</title>
 </head>
 <body>
-  <textarea class='js-simple-wysiwyg' name="hoge">Lorem ipsum dolor sit amet, consectetur <strong>adipisicing</strong> elit. Magni alias optio reiciendis quam, ea ex laborum ducimus beatae eveniet. Sapiente natus totam obcaecati perferendis labore, veniam quam eaque ea provident!
-my blog url is <a href="http://horicdesign.com">Horic Design</a></textarea>
+  <textarea class='js-simple-wysiwyg' name="hoge">Lorem <span class="red">ipsum</span> dolor <span class="blue">sit</span> amet, <br>consectetur <strong>adipisicing</strong> elit. Magni alias optio reiciendis quam, ea ex laborum ducimus beatae eveniet. Sapiente natus totam obcaecati perferendis labore, veniam quam eaque ea provident!
+my blog url is <a href="http://horicdesign.com">Hori<strong>c</strong> Design</a>
+please visit!!</textarea>
 	<script src="../js/simple-wysiwyg.js"></script>
 	<script>
+  var btnOptions = [
+    {
+      label: '<i class="fa fa-code"></i>',
+      action: 'preview',
+      group: 'action'
+    },
+    {
+      label: '<i class="fa fa-rotate-left"></i>',
+      action: 'undo',
+      group: 'action'
+    },
+    {
+      label: '<i class="fa fa-rotate-right"></i>',
+      action: 'redo',
+      group: 'action'
+    },
+    {
+      label: 'alert',
+      action: 'extra',
+      group: 'extra',
+      onClick: function(item){
+        alert('aaa');
+      }
+    },
+    {
+      label: 'alert2',
+      action: 'extra',
+      group: 'extra',
+      onClick: function(item){
+        alert('bbb');
+      }
+    },
+    {
+      label: '<i class="fa fa-link"></i>',
+      tag: 'a',
+      className: '',
+      group: 'mark'
+    },
+    {
+      label: '<i class="fa fa-bold"></i>',
+      tag: 'strong',
+      className: '',
+      group: 'mark'
+    },
+    {
+      label: '<i class="fa fa-italic"></i>',
+      tag: 'i',
+      className: '',
+      group: 'mark'
+    },
+    {
+      label: 'red',
+      tag: 'span',
+      className: 'red',
+      group: 'mark'
+    },
+    {
+      label: '<i class="fa fa-align-left"></i>',
+      tag: 'div',
+      className: 'left',
+      group: 'align'
+    },
+    {
+      label: '<i class="fa fa-align-center"></i>',
+      tag: 'div',
+      className: 'center',
+      group: 'align'
+    },
+    {
+      label: '<i class="fa fa-align-right"></i>',
+      tag: 'div',
+      className: 'right',
+      group: 'align'
+    },
+  ];
+  const selectOptions = [
+  {
+    label: '本文',
+    value: 'html',
+    onSelect: function(item) {
+      item.toHtml();
+    }
+  },
+  {
+    label: 'マークダウン',
+    value: 'markdown',
+    onSelect: function(item) {
+      item.toMarkdown();
+    }
+  }
+];
 	window.addEventListener('DOMContentLoaded',function(){
-		window.wysiwyg = new SimpleWysiwyg('.js-simple-wysiwyg',{
-      mode:'html',
+		const wysiwyg = new SimpleWysiwyg('.js-simple-wysiwyg',{
+      minHeight: 200,
+      maxHeight: 500,
+      escapeNotRegisteredTags: true,
       message: {
         addLinkTitle: 'リンク先URLを入力してください。',
         addLinkBtn: 'リンクの挿入',
-        resetStyleBtn: 'Reset',
-        sourceBtn: '<i class="fa fa-code"></i>',
-        redoBtn: '<i class="fa fa-repeat"></i>',
-        undoBtn: '<i class="fa fa-undo"></i>'
       },
-      selectOptions: [
-        { 
-          label: '本文', 
-          value: 'html',
-          onSelect: function() {
-            this.toHtml();
-          }
-        },
-        { 
-          label: 'マークダウン', 
-          value: 'markdown', 
-          onSelect: function(){
-            this.toMarkdown();
-          }
-        }
-      ],
-      selectedOption: 'html',
-      btnOptions: [
-        { 
-          label: '<i class="fa fa-link"></i>', 
-          tag: 'a', 
-          className: ''
-        },
-        { 
-          label: '<i class="fa fa-bold"></i>', 
-          tag: 'strong', 
-          className: ''
-        },
-        {
-          label: '<i class="fa fa-italic"></i>',
-          tag: 'i',
-          className: ''
-        },
-        {
-          label: 'strong',
-          tag: 'strong',
-          className: 'strong'
-        }
-      ]
+      btnOptions: btnOptions,
+      selectOptions: selectOptions
 		});
 	});
 	</script>
+  <style>
+    .right{
+      text-align: right
+    }
+    .center {
+      text-align: center;
+    }
+    .left {
+      text-align: left;
+    }
+  </style>
 </body>
 </html>
