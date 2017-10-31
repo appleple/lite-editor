@@ -33,19 +33,22 @@ const defaultbtnOptions = [
     label: '<i class="fa fa-link"></i>',
     tag: 'a',
     className: '',
-    group: 'mark'
+    group: 'mark',
+    sampleText: 'link text'
   },
   {
     label: '<i class="fa fa-bold"></i>',
     tag: 'strong',
     className: '',
-    group: 'mark'
+    group: 'mark',
+    sampleText: 'strong text'
   },
   {
     label: '<i class="fa fa-italic"></i>',
     tag: 'i',
     className: '',
-    group: 'mark'
+    group: 'mark',
+    sampleText: 'italic text'
   },
   {
     label: '<i class="fa fa-align-left"></i>',
@@ -93,8 +96,7 @@ const defaults = {
   selectOptions: [],
   selectedOption: '',
   btnOptions: defaultbtnOptions,
-  btnPosition: 'top',
-  sampleText: 'sample text'
+  btnPosition: 'top'
 };
 
 export default class SimpleWysiwyg extends aTemplate {
@@ -284,7 +286,7 @@ export default class SimpleWysiwyg extends aTemplate {
     return selector === document.activeElement;
   }
 
-  insertTag(tag, className) {
+  insertTag(tag, className, sampleText) {
     const data = this.data;
     let link = '';
 
@@ -293,7 +295,7 @@ export default class SimpleWysiwyg extends aTemplate {
     }
     let selection = util.getSelection();
     if (!selection) {
-      selection = this.data.sampleText;
+      selection = sampleText;
     }
     let classAttr = '';
     if (className) {

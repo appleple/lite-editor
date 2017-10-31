@@ -14787,7 +14787,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var editorHtml = '<div class="\\{classNames.SimpleWysiwyg\\}" data-action-mouseup="onPutCaret" data-action-keydown="onKeyDown" data-selector="simple-wysiwyg" contenteditable data-action-input="onInput" data-action-paste="onPaste" style="<!-- BEGIN showSource:exist -->display:none;<!-- END showSource:exist --><!-- BEGIN hideEditor:exist -->display:none;"<!-- END hideEditor:exist --><!-- BEGIN minHeight:exist -->min-height: {minHeight}px;<!-- END minHeight:exist --><!-- BEGIN maxHeight:exist -->max-height:{maxHeight}px;<!-- END maxHeight:exist -->">{value}</div>\n<textarea class="\\{classNames.SimpleWysiwygSource\\}" data-selector="simple-wysiwyg-source" style="<!-- BEGIN showSource:empty -->display:none;<!-- END showSource:empty --><!-- BEGIN sourceHeight:exist -->height:{sourceHeight}px;<!-- END sourceHeight:exist -->"{attr} data-bind="formatedValue"></textarea>';
-var btnHtml = '<div class="\\{classNames.SimpleWysiwygToolBox\\}" data-selector="simple-wysiwyg-toolbox">\n    <!-- BEGIN selectOptions.0:exist -->\n    <div class="\\{classNames.SimpleWysiwygSelectWrap\\}">\n        <select class="\\{classNames.SimpleWysiwygSelect\\}"<!-- BEGIN selectName:exist --> name="{selectName}"<!-- END selectName:exist --> data-action-change="changeOption" data-bind="selectedOption">\n        <!-- BEGIN selectOptions:loop -->\n        <option value="{value}">{label}</option>\n        <!-- END selectOptions:loop -->\n        </select>\n        <!-- BEGIN extendLabel:exist -->\n        <label>{extendLabel}</label>\n        <input type="text" name="{selectName}[insertExtend]" class="\\{classNames.SimpleWysiwygExtendInput\\}" data-bind="extendValue"/>\n        <!-- END extendLabel:exist -->\n    </div>\n    <!-- END selectOptions.0:exist -->\n\n    <div class="\\{classNames.SimpleWysiwygBtnGroupWrap\\}" <!-- BEGIN hideBtns:exist --> style="display:none;"<!-- END hideBtns:exist -->>        \n        <!-- BEGIN groups:loop -->\n        <div class="\\\\{classNames.SimpleWysiwygBtnGroup\\\\}">\n            <!-- \\BEGIN groups.{i}.items:loop -->\n\n            <!-- \\BEGIN action:touch#preview -->\n            <button class="\\\\\\{classNames.SimpleWysiwygBtn\\\\\\}<!-- \\\\BEGIN showSource:exist --> \\\\\\{classNames.SimpleWysiwygBtnActive\\\\\\}<!-- \\\\END showSource:exist -->" data-action-click="toggleSource" type="button">\\{label\\}</button>\n            <!-- \\END action:touch#preview -->\n\n            <!-- \\BEGIN action:touch#redo -->\n            <button class="\\\\\\{classNames.SimpleWysiwygBtn\\\\\\}" data-action-click="redo"<!-- \\\\BEGIN canRedo:empty --> disabled<!-- \\\\END canRedo:empty --> type="button">\\{label\\}</button>\n            <!-- \\END action:touch#redo -->\n\n            <!-- \\BEGIN action:touch#undo -->\n            <button class="\\\\\\{classNames.SimpleWysiwygBtn\\\\\\}" data-action-click="undo"<!-- \\\\BEGIN canUndo:empty --> disabled<!-- \\\\END canUndo:empty --> type="button">\\{label\\}</button>\n            <!-- \\END action:touch#undo -->\n\n            <!-- \\BEGIN action:touch#extra -->\n            <button class="\\\\\\{classNames.SimpleWysiwygBtn\\\\\\}<!-- \\BEGIN selfClassName:exist --> \\{selfClassName\\}<!-- \\END selfClassName:exist -->" data-action-click="onClick(\\{index\\})" type="button">\\{label\\}</button>\n            <!-- \\END action:touch#extra -->\n\n            <!-- \\BEGIN action:empty -->\n            <button class="\\\\\\{classNames.SimpleWysiwygBtn\\\\\\}<!-- \\BEGIN selfClassName:exist --> \\{selfClassName\\}<!-- \\END selfClassName:exist --><!-- \\BEGIN selected:exist --> \\\\\\{classNames.SimpleWysiwygBtnActive\\\\\\}<!-- \\END selected:exist -->"\n            <!-- \\BEGIN tag:exist -->\n            <!-- \\BEGIN selected:empty --> data-action-click="insertTag(\\{tag\\},\\{className\\})"<!-- \\END selected:empty -->\n            <!-- \\BEGIN selected:exist --> data-action-click="unwrapTag(\\{tag\\},\\{className\\})"<!-- \\END selected:exist -->\n            <!-- \\END tag:exist -->\n            <!-- \\BEGIN tag:empty --> data-action-click="insertTag(span,\\{className\\})"<!-- \\END tag:empty -->\n            <!-- \\\\BEGIN showSource:exist --> disabled<!-- \\\\END showSource:exist --> \n            type="button">\\{label\\}</button>\n            <!-- \\END action:empty -->\n            <!-- \\END groups.{i}.items:loop -->\n        </div>\n        <!-- END groups:loop -->\n    </div>\n</div>';
+var btnHtml = '<div class="\\{classNames.SimpleWysiwygToolBox\\}" data-selector="simple-wysiwyg-toolbox">\n    <!-- BEGIN selectOptions.0:exist -->\n    <div class="\\{classNames.SimpleWysiwygSelectWrap\\}">\n        <select class="\\{classNames.SimpleWysiwygSelect\\}"<!-- BEGIN selectName:exist --> name="{selectName}"<!-- END selectName:exist --> data-action-change="changeOption" data-bind="selectedOption">\n        <!-- BEGIN selectOptions:loop -->\n        <option value="{value}">{label}</option>\n        <!-- END selectOptions:loop -->\n        </select>\n        <!-- BEGIN extendLabel:exist -->\n        <label>{extendLabel}</label>\n        <input type="text" name="{selectName}[insertExtend]" class="\\{classNames.SimpleWysiwygExtendInput\\}" data-bind="extendValue"/>\n        <!-- END extendLabel:exist -->\n    </div>\n    <!-- END selectOptions.0:exist -->\n\n    <div class="\\{classNames.SimpleWysiwygBtnGroupWrap\\}" <!-- BEGIN hideBtns:exist --> style="display:none;"<!-- END hideBtns:exist -->>        \n        <!-- BEGIN groups:loop -->\n        <div class="\\\\{classNames.SimpleWysiwygBtnGroup\\\\}">\n            <!-- \\BEGIN groups.{i}.items:loop -->\n\n            <!-- \\BEGIN action:touch#preview -->\n            <button class="\\\\\\{classNames.SimpleWysiwygBtn\\\\\\}<!-- \\\\BEGIN showSource:exist --> \\\\\\{classNames.SimpleWysiwygBtnActive\\\\\\}<!-- \\\\END showSource:exist -->" data-action-click="toggleSource" type="button">\\{label\\}</button>\n            <!-- \\END action:touch#preview -->\n\n            <!-- \\BEGIN action:touch#redo -->\n            <button class="\\\\\\{classNames.SimpleWysiwygBtn\\\\\\}" data-action-click="redo"<!-- \\\\BEGIN canRedo:empty --> disabled<!-- \\\\END canRedo:empty --> type="button">\\{label\\}</button>\n            <!-- \\END action:touch#redo -->\n\n            <!-- \\BEGIN action:touch#undo -->\n            <button class="\\\\\\{classNames.SimpleWysiwygBtn\\\\\\}" data-action-click="undo"<!-- \\\\BEGIN canUndo:empty --> disabled<!-- \\\\END canUndo:empty --> type="button">\\{label\\}</button>\n            <!-- \\END action:touch#undo -->\n\n            <!-- \\BEGIN action:touch#extra -->\n            <button class="\\\\\\{classNames.SimpleWysiwygBtn\\\\\\}<!-- \\BEGIN selfClassName:exist --> \\{selfClassName\\}<!-- \\END selfClassName:exist -->" data-action-click="onClick(\\{index\\})" type="button">\\{label\\}</button>\n            <!-- \\END action:touch#extra -->\n\n            <!-- \\BEGIN action:empty -->\n            <button class="\\\\\\{classNames.SimpleWysiwygBtn\\\\\\}<!-- \\BEGIN selfClassName:exist --> \\{selfClassName\\}<!-- \\END selfClassName:exist --><!-- \\BEGIN selected:exist --> \\\\\\{classNames.SimpleWysiwygBtnActive\\\\\\}<!-- \\END selected:exist -->"\n            <!-- \\BEGIN tag:exist -->\n            <!-- \\BEGIN selected:empty --> data-action-click="insertTag(\\{tag\\},\\{className\\},\\{sampleText\\})"<!-- \\END selected:empty -->\n            <!-- \\BEGIN selected:exist --> data-action-click="unwrapTag(\\{tag\\},\\{className\\},\\{sampleText\\})"<!-- \\END selected:exist -->\n            <!-- \\END tag:exist -->\n            <!-- \\BEGIN tag:empty --> data-action-click="insertTag(span,\\{className\\},\\{sampleText\\})"<!-- \\END tag:empty -->\n            <!-- \\\\BEGIN showSource:exist --> disabled<!-- \\\\END showSource:exist --> \n            type="button">\\{label\\}</button>\n            <!-- \\END action:empty -->\n            <!-- \\END groups.{i}.items:loop -->\n        </div>\n        <!-- END groups:loop -->\n    </div>\n</div>';
 var tooltipHtml = '<div data-selector="simple-wysiwyg-tooltip">\n<!-- BEGIN tooltipLabel:exist -->\n<div class="\\{classNames.SimpleWysiwygTooltip\\}" style="left:{tooltipLeft}px;top:{tooltipTop}px">\n    <table class="\\{classNames.SimpleWysiwygTooltipTable\\}">\n        <tr>\n            <th>\u30E9\u30D9\u30EB\u540D</th>\n            <td><input type="text" data-bind="tooltipLabel"></td>\n        </tr>\n        <tr>\n            <th>URL</th>\n            <td><input type="text" data-bind="tooltipUrl"></td>\n        </tr>\n        <tr>\n            <td></td>\n            <td><button type="button" data-action-click="updateLink()" class="\\{classNames.SimpleWysiwygBtn\\}">\u5909\u66F4</button></td>\n        </tr>\n    </table>\n</div>\n<!-- END tooltipLabel:exist -->\n</div>';
 
 
@@ -14815,17 +14815,20 @@ var defaultbtnOptions = [{
   label: '<i class="fa fa-link"></i>',
   tag: 'a',
   className: '',
-  group: 'mark'
+  group: 'mark',
+  sampleText: 'link text'
 }, {
   label: '<i class="fa fa-bold"></i>',
   tag: 'strong',
   className: '',
-  group: 'mark'
+  group: 'mark',
+  sampleText: 'strong text'
 }, {
   label: '<i class="fa fa-italic"></i>',
   tag: 'i',
   className: '',
-  group: 'mark'
+  group: 'mark',
+  sampleText: 'italic text'
 }, {
   label: '<i class="fa fa-align-left"></i>',
   tag: 'div',
@@ -14869,8 +14872,7 @@ var defaults = {
   selectOptions: [],
   selectedOption: '',
   btnOptions: defaultbtnOptions,
-  btnPosition: 'top',
-  sampleText: 'sample text'
+  btnPosition: 'top'
 };
 
 var SimpleWysiwyg = function (_aTemplate) {
@@ -15088,7 +15090,7 @@ var SimpleWysiwyg = function (_aTemplate) {
     }
   }, {
     key: 'insertTag',
-    value: function insertTag(tag, className) {
+    value: function insertTag(tag, className, sampleText) {
       var _this3 = this;
 
       var data = this.data;
@@ -15099,7 +15101,7 @@ var SimpleWysiwyg = function (_aTemplate) {
       }
       var selection = util.getSelection();
       if (!selection) {
-        selection = this.data.sampleText;
+        selection = sampleText;
       }
       var classAttr = '';
       if (className) {
