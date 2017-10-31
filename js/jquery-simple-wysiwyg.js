@@ -15099,8 +15099,6 @@ var SimpleWysiwyg = function (_aTemplate) {
     value: function insertTag(tag, className, sampleText) {
       var _this3 = this;
 
-      var data = this.data;
-      var link = '';
       var selection = util.getSelection();
       if (!selection) {
         selection = sampleText;
@@ -15146,7 +15144,7 @@ var SimpleWysiwyg = function (_aTemplate) {
       if (className) {
         classAttr = ' class="' + className + '"';
       }
-      var insertHtml = '<a href="' + link + '"' + classAttr + '>' + this.data.tooltipLabel + '</a>';
+      var insertHtml = '<a href="' + link + '"' + classAttr + '>' + label + '</a>';
       if (this.data.mode === 'markdown') {
         und.convert(insertHtml, function (err, markdown) {
           _this4.insertHtml(markdown.replace(/\r\n|\r|\n/g, '<br/>'));

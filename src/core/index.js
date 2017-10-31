@@ -293,8 +293,6 @@ export default class SimpleWysiwyg extends aTemplate {
   }
 
   insertTag(tag, className, sampleText) {
-    const data = this.data;
-    let link = '';
     let selection = util.getSelection();
     if (!selection) {
       selection = sampleText;
@@ -320,7 +318,6 @@ export default class SimpleWysiwyg extends aTemplate {
     this.updateToolBox();
   }
 
-
   showLinkDialog(text, className) {
     this.data.tooltipLabel = text;
     this.data.linkNew = true;
@@ -337,7 +334,7 @@ export default class SimpleWysiwyg extends aTemplate {
     if (className) {
       classAttr = ` class="${className}"`;
     }
-    const insertHtml = `<a href="${link}"${classAttr}>${this.data.tooltipLabel}</a>`;
+    const insertHtml = `<a href="${link}"${classAttr}>${label}</a>`;
     if (this.data.mode === 'markdown') {
       und.convert(insertHtml, (err, markdown) => {
         this.insertHtml(markdown.replace(/\r\n|\r|\n/g, '<br/>'));
