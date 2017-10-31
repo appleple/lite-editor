@@ -15312,7 +15312,6 @@ var SimpleWysiwyg = function (_aTemplate) {
       var url = this.data.tooltipUrl;
       var node = this.savedLinkNode;
       while (true) {
-        var nodeClassName = node.getAttribute('class') || '';
         if (node.tagName.toLowerCase() === 'a') {
           node.setAttribute('href', url);
           node.innerHTML = label;

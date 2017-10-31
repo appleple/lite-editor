@@ -424,10 +424,10 @@ export default class SimpleWysiwyg extends aTemplate {
     setTimeout(() => {
       const target = this.getSelectionNode();
       const tags = [];
-      const editor = this._getElementByQuery(`[data-selector="simple-wysiwyg"]`);
+      const editor = this._getElementByQuery('[data-selector="simple-wysiwyg"]');
       let tmp = null;
       if (target && target !== editor) {
-        tags.push({tagName:target.tagName.toLowerCase(),className:target.getAttribute('class') || ''});
+        tags.push({ tagName: target.tagName.toLowerCase(), className: target.getAttribute('class') || '' });
         if (target.tagName.toLowerCase() === 'a') {
           tmp = target;
         }
@@ -436,7 +436,7 @@ export default class SimpleWysiwyg extends aTemplate {
           const tagName = parent.tagName.toLowerCase();
           tags.push({
             tagName,
-            className:parent.getAttribute('class') || ''
+            className: parent.getAttribute('class') || ''
           });
           if (tagName === 'a') {
             tmp = parent;
@@ -477,17 +477,16 @@ export default class SimpleWysiwyg extends aTemplate {
       this.data.tooltipLeft = rect.left;
       this.savedLinkNode = item;
     }
-    this.update('html',`[data-selector="simple-wysiwyg-tooltip"]`);
+    this.update('html', '[data-selector="simple-wysiwyg-tooltip"]');
   }
 
   updateLink() {
-    const editor = this._getElementByQuery(`[data-selector="simple-wysiwyg"]`);
+    const editor = this._getElementByQuery('[data-selector="simple-wysiwyg"]');
     const pos = util.getCaretPos(editor);
     const label = this.data.tooltipLabel;
     const url = this.data.tooltipUrl;
     let node = this.savedLinkNode;
     while (true) {
-      const nodeClassName = node.getAttribute('class') || '';
       if (node.tagName.toLowerCase() === 'a') {
         node.setAttribute('href', url);
         node.innerHTML = label;
