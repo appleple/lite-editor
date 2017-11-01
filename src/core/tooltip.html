@@ -6,31 +6,31 @@
             <div class="\{classNames.SimpleWysiwygTooltip\}">
                 <button type="button" data-action-click="closeTooltip()" class="\{classNames.SimpleWysiwygBtn\} \{classNames.SimpleWysiwygBtnClose\}">x</button>
                 <!-- BEGIN linkNew:exist -->
-                <h2 class="\{classNames.SimpleWysiwygTooltipTitle\}">リンクの挿入</h2>
+                <h2 class="\{classNames.SimpleWysiwygTooltipTitle\}">\{message.addLinkTitle\}</h2>
                 <!-- END linkNew:exist -->
                 <!-- BEGIN linkNew:empty -->
-                <h2 class="\{classNames.SimpleWysiwygTooltipTitle\}">リンクの編集</h2>
+                <h2 class="\{classNames.SimpleWysiwygTooltipTitle\}">\{message.updateLinkTitle\}</h2>
                 <!-- END linkNew:empty -->
                 <div class="\{classNames.SimpleWysiwygTooltipBody\}">
                     <table class="\{classNames.SimpleWysiwygTooltipTable\}">
                         <tr>
-                            <th>ラベル名</th>
-                            <td><input type="text" data-bind="tooltipLabel" class="\{classNames.SimpleWysiwygTooltipInput\}"></td>
+                            <th>\{message.linkLabel\}</th>
+                            <td><input type="text" data-bind="tooltipLabel" class="\{classNames.SimpleWysiwygTooltipInput\}" data-action-keydown="preventSubmit()"></td>
                         </tr>
                         <tr>
-                            <th>URL</th>
-                            <td><input type="text" data-bind="tooltipUrl" class="\{classNames.SimpleWysiwygTooltipInput\}"></td>
+                            <th>\{message.linkUrl\}</th>
+                            <td><input type="text" data-bind="tooltipUrl" class="\{classNames.SimpleWysiwygTooltipInput\}" data-action-keydown="preventSubmit()"></td>
                         </tr>
                         <tr>
                             <td></td>
                             <td>
                                 <!-- BEGIN linkNew:exist -->
-                                <button type="button" data-action-click="insertAtag()" class="\{classNames.SimpleWysiwygBtn\}">挿入</button> 
+                                <button type="button" data-action-click="insertAtag()" class="\{classNames.SimpleWysiwygBtn\}">\{message.addLink\}</button> 
                                 <!-- END linkNew:exist -->
 
                                 <!-- BEGIN linkNew:empty -->
-                                <button type="button" data-action-click="removeLink()" class="\{classNames.SimpleWysiwygBtn\}">リンクを削除</button>
-                                <button type="button" data-action-click="updateLink()" class="\{classNames.SimpleWysiwygBtn\}">変更</button>
+                                <button type="button" data-action-click="removeLink()" class="\{classNames.SimpleWysiwygBtn\}">\{message.removeLink\}</button>
+                                <button type="button" data-action-click="updateLink()" class="\{classNames.SimpleWysiwygBtn\}">\{message.updateLink\}</button>
                                 <!-- END linkNew:empty -->
                             </td>
                         </tr>

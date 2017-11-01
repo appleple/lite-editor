@@ -95,7 +95,12 @@ const defaults = {
   },
   message: {
     addLinkTitle: 'Add Link',
-    noRangeSelected: 'please select the range',
+    updateLinkTitle: 'Update Link',
+    addLink: 'add',
+    updateLink: 'update',
+    removeLink: 'remove',
+    linkUrl: 'URL',
+    linkLabel: 'label'
   },
   maxHeight: null,
   minHeight: null,
@@ -499,6 +504,13 @@ export default class SimpleWysiwyg extends aTemplate {
     editor.focus();
     util.setCaretPos(editor, pos + 1);
     e.preventDefault();
+  }
+
+  preventSubmit() {
+    const e = this.e;
+    if (e.keyCode !== 13) {
+      e.preventDefault();
+    }
   }
 
   onPutCaret() {
