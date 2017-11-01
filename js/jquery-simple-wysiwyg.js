@@ -15257,7 +15257,7 @@ var SimpleWysiwyg = function (_aTemplate) {
       e.preventDefault();
       var insertText = e.clipboardData.getData('text/plain');
       if (this._isFocused() && insertText) {
-        document.execCommand('insertText', false, insertText.replace(/<div>/g, '').replace(/<\div>/g, '<br>'));
+        this.insertHtml(insertText.replace(/\n/g, '<br>').replace(/\s/g, '&nbsp;'));
       }
     }
   }, {
