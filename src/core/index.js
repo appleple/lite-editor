@@ -129,7 +129,7 @@ export default class SimpleWysiwyg extends aTemplate {
       insertExtend: this.insertExtend
     };
     if (selector.value) {
-      this.data.value = selector.value.replace(/\r\n|\r|\n/g, '<br/>');
+      this.data.value = selector.value.replace(/\r\n|\r|\n/g, '<br>');
       if (this.data.escapeNotRegisteredTags) {
         this.escapeNotRegisteredTags();
       }
@@ -244,7 +244,7 @@ export default class SimpleWysiwyg extends aTemplate {
       if (tag !== 'br') {
         return `&lt;${tag}${attr}&gt`;
       }
-      return '<br/>';
+      return '<br>';
     });
   }
 
@@ -330,10 +330,10 @@ export default class SimpleWysiwyg extends aTemplate {
     const insertHtml = `<${tag}${classAttr}>${selection}</${tag}>`;
     if (this.data.mode === 'markdown') {
       und.convert(insertHtml, (err, markdown) => {
-        this.insertHtml(markdown.replace(/\r\n|\r|\n/g, '<br/>'));
+        this.insertHtml(markdown.replace(/\r\n|\r|\n/g, '<br>'));
       });
     } else {
-      this.insertHtml(insertHtml.replace(/\r\n|\r|\n/g, '<br/>'));
+      this.insertHtml(insertHtml.replace(/\r\n|\r|\n/g, '<br>'));
     }
     this.updateToolBox();
   }
@@ -357,10 +357,10 @@ export default class SimpleWysiwyg extends aTemplate {
     const insertHtml = `<a href="${link}"${classAttr}>${label}</a>`;
     if (this.data.mode === 'markdown') {
       und.convert(insertHtml, (err, markdown) => {
-        this.insertHtml(markdown.replace(/\r\n|\r|\n/g, '<br/>'));
+        this.insertHtml(markdown.replace(/\r\n|\r|\n/g, '<br>'));
       });
     } else {
-      this.insertHtml(insertHtml.replace(/\r\n|\r|\n/g, '<br/>'));
+      this.insertHtml(insertHtml.replace(/\r\n|\r|\n/g, '<br>'));
     }
     this.updateToolBox();
     this.closeTooltip();

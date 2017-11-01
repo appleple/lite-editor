@@ -14909,7 +14909,7 @@ var SimpleWysiwyg = function (_aTemplate) {
       insertExtend: _this.insertExtend
     };
     if (selector.value) {
-      _this.data.value = selector.value.replace(/\r\n|\r|\n/g, '<br/>');
+      _this.data.value = selector.value.replace(/\r\n|\r|\n/g, '<br>');
       if (_this.data.escapeNotRegisteredTags) {
         _this.escapeNotRegisteredTags();
       }
@@ -15035,7 +15035,7 @@ var SimpleWysiwyg = function (_aTemplate) {
         if (tag !== 'br') {
           return '&lt;' + tag + attr + '&gt';
         }
-        return '<br/>';
+        return '<br>';
       });
     }
   }, {
@@ -15136,10 +15136,10 @@ var SimpleWysiwyg = function (_aTemplate) {
       var insertHtml = '<' + tag + classAttr + '>' + selection + '</' + tag + '>';
       if (this.data.mode === 'markdown') {
         und.convert(insertHtml, function (err, markdown) {
-          _this3.insertHtml(markdown.replace(/\r\n|\r|\n/g, '<br/>'));
+          _this3.insertHtml(markdown.replace(/\r\n|\r|\n/g, '<br>'));
         });
       } else {
-        this.insertHtml(insertHtml.replace(/\r\n|\r|\n/g, '<br/>'));
+        this.insertHtml(insertHtml.replace(/\r\n|\r|\n/g, '<br>'));
       }
       this.updateToolBox();
     }
@@ -15167,10 +15167,10 @@ var SimpleWysiwyg = function (_aTemplate) {
       var insertHtml = '<a href="' + link + '"' + classAttr + '>' + label + '</a>';
       if (this.data.mode === 'markdown') {
         und.convert(insertHtml, function (err, markdown) {
-          _this4.insertHtml(markdown.replace(/\r\n|\r|\n/g, '<br/>'));
+          _this4.insertHtml(markdown.replace(/\r\n|\r|\n/g, '<br>'));
         });
       } else {
-        this.insertHtml(insertHtml.replace(/\r\n|\r|\n/g, '<br/>'));
+        this.insertHtml(insertHtml.replace(/\r\n|\r|\n/g, '<br>'));
       }
       this.updateToolBox();
       this.closeTooltip();
