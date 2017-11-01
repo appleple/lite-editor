@@ -14974,7 +14974,7 @@ var SimpleWysiwyg = function (_aTemplate) {
       var _this2 = this;
 
       var btns = this.data.btnOptions;
-      return value.replace(/<([a-zA-Z0-9._-]+)\s?(.*?)>(([\n\r\t]|.)*?)<\/\1>/g, function (component, tag, attr, content) {
+      value = value.replace(/<([a-zA-Z0-9._-]+)\s?(.*?)>(([\n\r\t]|.)*?)<\/\1>/g, function (component, tag, attr, content) {
         var className = (attr.match(/class=["|'](.*?)["|']/i) || [null, ''])[1];
         var flag = false;
         if (attr) {
@@ -14992,6 +14992,16 @@ var SimpleWysiwyg = function (_aTemplate) {
           content = _this2._escapeTagExceptRegisteredTags(content);
         }
         return '&lt;' + tag + attr + '&gt;' + content + '&lt;/' + tag + '&gt;';
+      });
+      return value.replace(/<([a-zA-Z0-9._-]+)\s?([^>]*?)\/>/g, function (component, tag, attr) {
+        if (attr) {
+          attr = ' ' + attr;
+        }
+        if (tag !== 'br') {
+          return '&lt;' + tag + attr + '/&gt';
+        } else {
+          return '<br/>';
+        }
       });
     }
   }, {
@@ -15103,8 +15113,8 @@ var SimpleWysiwyg = function (_aTemplate) {
     key: 'showLinkDialog',
     value: function showLinkDialog(text, className) {
       this.data.tooltipLabel = text;
-      this.data.linkNew = true;
       this.data.tooltipClassName = className;
+      this.data.linkNew = true;
       this.update('html', '[data-selector="simple-wysiwyg-tooltip"]');
     }
   }, {

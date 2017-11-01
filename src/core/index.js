@@ -208,7 +208,7 @@ export default class SimpleWysiwyg extends aTemplate {
 
   _escapeTagExceptRegisteredTags(value) {
     const btns = this.data.btnOptions;
-    return value.replace(/<([a-zA-Z0-9._-]+)\s?(.*?)>(([\n\r\t]|.)*?)<\/\1>/g, (component, tag, attr, content) => {
+    value = value.replace(/<([a-zA-Z0-9._-]+)\s?(.*?)>(([\n\r\t]|.)*?)<\/\1>/g, (component, tag, attr, content) => {
       const className = (attr.match(/class=["|'](.*?)["|']/i) || [null, ''])[1];
       let flag = false;
       if (attr) {
@@ -226,6 +226,16 @@ export default class SimpleWysiwyg extends aTemplate {
         content = this._escapeTagExceptRegisteredTags(content);
       }
       return `&lt;${tag}${attr}&gt;${content}&lt;/${tag}&gt;`;
+    });
+    return value.replace(/<([a-zA-Z0-9._-]+)\s?([^>]*?)\/>/g, (component, tag, attr) => {
+      if (attr) {
+        attr = ` ${attr}`;
+      }
+      if (tag !== 'br') {
+        return `&lt;${tag}${attr}/&gt`;
+      } else {
+        return '<br/>';
+      }
     });
   }
 
@@ -321,8 +331,8 @@ export default class SimpleWysiwyg extends aTemplate {
 
   showLinkDialog(text, className) {
     this.data.tooltipLabel = text;
-    this.data.linkNew = true;
     this.data.tooltipClassName = className;
+    this.data.linkNew = true;
     this.update('html', '[data-selector="simple-wysiwyg-tooltip"]');
   }
 
