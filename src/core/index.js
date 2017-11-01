@@ -227,12 +227,22 @@ export default class SimpleWysiwyg extends aTemplate {
       }
       return `&lt;${tag}${attr}&gt;${content}&lt;/${tag}&gt;`;
     });
-    return value.replace(/<([a-zA-Z0-9._-]+)\s?([^>]*?)\/>/g, (component, tag, attr) => {
+    return value.replace(/<([a-zA-Z0-9._-]+)\s?([^>]*?)\/?>/g, (component, tag, attr) => {
+      const className = (attr.match(/class=["|'](.*?)["|']/i) || [null, ''])[1];
+      let flag = false;
       if (attr) {
         attr = ` ${attr}`;
       }
+      btns.forEach((btn) => {
+        if (btn.className === className && btn.tag === tag) {
+          flag = true;
+        }
+      });
+      if (flag) {
+        return component;
+      }
       if (tag !== 'br') {
-        return `&lt;${tag}${attr}/&gt`;
+        return `&lt;${tag}${attr}&gt`;
       }
       return '<br/>';
     });
