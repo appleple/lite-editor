@@ -15254,10 +15254,15 @@ var SimpleWysiwyg = function (_aTemplate) {
     key: 'onPaste',
     value: function onPaste() {
       var e = this.e;
+      var editor = this._getElementByQuery('[data-selector="simple-wysiwyg"]');
+      var textarea = this._getElementByQuery('[data-selector="simple-wysiwyg-source"]');
       e.preventDefault();
       var insertText = e.clipboardData.getData('text/plain');
       if (this._isFocused() && insertText) {
         this.insertHtml(insertText.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br>').replace(/\s/g, '&nbsp;'));
+        this.data.value = editor.innerHTML;
+        this.data.formatedValue = this.format(this.data.value);
+        textarea.value = this.data.formatedValue;
       }
     }
   }, {
