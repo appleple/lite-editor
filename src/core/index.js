@@ -56,25 +56,7 @@ const defaultbtnOptions = [
     className: '',
     group: 'mark',
     sampleText: 'underline'
-  },
-  {
-    label: '<i class="fa fa-align-left"></i>',
-    tag: 'div',
-    className: 'left',
-    group: 'align'
-  },
-  {
-    label: '<i class="fa fa-align-center"></i>',
-    tag: 'div',
-    className: 'center',
-    group: 'align'
-  },
-  {
-    label: '<i class="fa fa-align-right"></i>',
-    tag: 'div',
-    className: 'right',
-    group: 'align'
-  },
+  }
 ];
 
 const defaults = {
