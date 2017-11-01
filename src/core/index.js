@@ -448,6 +448,7 @@ export default class SimpleWysiwyg extends aTemplate {
 
   onKeyDown() {
     const editor = this._getElementByQuery('[data-selector="simple-wysiwyg"]');
+    const textarea = this._getElementByQuery('[data-selector="simple-wysiwyg-source"]');
     const e = this.e;
 
     if (e.ctrlKey || e.metaKey) {
@@ -473,7 +474,9 @@ export default class SimpleWysiwyg extends aTemplate {
     this.insertHtml('<br> ');
     editor.innerHTML = editor.innerHTML.replace(/<br> <\/(.*?)>/g, '</$1><br> ');
     this.data.value = editor.innerHTML;
+    this.data.formatedValue = this.format(this.data.value);
     editor.scrollTop = editor.scrollHeight;
+    textarea.value = this.data.formatedValue;
     editor.focus();
     util.setCaretPos(editor, pos + 1);
     e.preventDefault();

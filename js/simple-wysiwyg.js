@@ -15244,6 +15244,7 @@ var SimpleWysiwyg = function (_aTemplate) {
     key: 'onKeyDown',
     value: function onKeyDown() {
       var editor = this._getElementByQuery('[data-selector="simple-wysiwyg"]');
+      var textarea = this._getElementByQuery('[data-selector="simple-wysiwyg-source"]');
       var e = this.e;
 
       if (e.ctrlKey || e.metaKey) {
@@ -15269,7 +15270,9 @@ var SimpleWysiwyg = function (_aTemplate) {
       this.insertHtml('<br> ');
       editor.innerHTML = editor.innerHTML.replace(/<br> <\/(.*?)>/g, '</$1><br> ');
       this.data.value = editor.innerHTML;
+      this.data.formatedValue = this.format(this.data.value);
       editor.scrollTop = editor.scrollHeight;
+      textarea.value = this.data.formatedValue;
       editor.focus();
       util.setCaretPos(editor, pos + 1);
       e.preventDefault();
