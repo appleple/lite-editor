@@ -14920,7 +14920,7 @@ var SimpleWysiwyg = function (_aTemplate) {
       insertExtend: _this.insertExtend
     };
     if (selector.value) {
-      _this.data.value = selector.value.replace(/\r\n|\r|\n/g, '<br>').replace(/\s/g, '&nbsp;');
+      _this.data.value = selector.value.replace(/\r\n|\r|\n/g, '<br>');
       if (_this.data.escapeNotRegisteredTags) {
         _this.escapeNotRegisteredTags();
       }

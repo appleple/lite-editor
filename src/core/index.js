@@ -141,7 +141,7 @@ export default class SimpleWysiwyg extends aTemplate {
       insertExtend: this.insertExtend
     };
     if (selector.value) {
-      this.data.value = selector.value.replace(/\r\n|\r|\n/g, '<br>').replace(/\s/g, '&nbsp;');
+      this.data.value = selector.value.replace(/\r\n|\r|\n/g, '<br>');
       if (this.data.escapeNotRegisteredTags) {
         this.escapeNotRegisteredTags();
       }
