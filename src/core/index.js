@@ -518,7 +518,7 @@ export default class SimpleWysiwyg extends aTemplate {
 
   preventSubmit() {
     const e = this.e;
-    if (e.keyCode !== 13) {
+    if (e.keyCode === 13) {
       e.preventDefault();
     }
   }

@@ -15314,7 +15314,7 @@ var SimpleWysiwyg = function (_aTemplate) {
     key: 'preventSubmit',
     value: function preventSubmit() {
       var e = this.e;
-      if (e.keyCode !== 13) {
+      if (e.keyCode === 13) {
         e.preventDefault();
       }
     }
