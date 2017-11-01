@@ -14830,6 +14830,12 @@ var defaultbtnOptions = [{
   group: 'mark',
   sampleText: 'italic text'
 }, {
+  label: '<i class="fa fa-underline"></i>',
+  tag: 'u',
+  className: '',
+  group: 'mark',
+  sampleText: 'underline'
+}, {
   label: '<i class="fa fa-align-left"></i>',
   tag: 'div',
   className: 'left',
@@ -15196,6 +15202,7 @@ var SimpleWysiwyg = function (_aTemplate) {
       data.canUndo = this.canUndo();
       data.canRedo = this.canRedo();
       data.formatedValue = this.format(data.value);
+      data.value = data.value.replace(/{(.*?)}/g, '&lcub;$1&rcub;');
       if (!data.showSource && editor && editor.offsetHeight) {
         data.sourceHeight = editor.offsetHeight;
       }
