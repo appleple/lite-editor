@@ -391,7 +391,9 @@ export default class SimpleWysiwyg extends aTemplate {
     data.canUndo = this.canUndo();
     data.canRedo = this.canRedo();
     data.formatedValue = this.format(data.value);
-    data.value = data.value.replace(/{(.*?)}/g, '&lcub;$1&rcub;');
+    if (data.value) {
+      data.value = data.value.replace(/{(.*?)}/g, '&lcub;$1&rcub;');
+    }
     if (!data.showSource && editor && editor.offsetHeight) {
       data.sourceHeight = editor.offsetHeight;
     }
