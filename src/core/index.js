@@ -233,9 +233,8 @@ export default class SimpleWysiwyg extends aTemplate {
       }
       if (tag !== 'br') {
         return `&lt;${tag}${attr}/&gt`;
-      } else {
-        return '<br/>';
       }
+      return '<br/>';
     });
   }
 
