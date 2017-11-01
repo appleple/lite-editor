@@ -435,9 +435,9 @@ export default class SimpleWysiwyg extends aTemplate {
   onPaste() {
     const e = this.e;
     e.preventDefault();
-    const insertText = e.clipboardData.getData('text/plain');
+    let insertText = e.clipboardData.getData('text/plain');
     if (this._isFocused() && insertText) {
-      this.insertHtml(insertText.replace(/\n/g, '<br>').replace(/\s/g, '&nbsp;'));
+      this.insertHtml(insertText.replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g, '<br>').replace(/\s/g, '&nbsp;'));
     }
   }
 

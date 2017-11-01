@@ -15232,7 +15232,7 @@ var SimpleWysiwyg = function (_aTemplate) {
       e.preventDefault();
       var insertText = e.clipboardData.getData('text/plain');
       if (this._isFocused() && insertText) {
-        this.insertHtml(insertText.replace(/\n/g, '<br>').replace(/\s/g, '&nbsp;'));
+        this.insertHtml(insertText.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br>').replace(/\s/g, '&nbsp;'));
       }
     }
   }, {
