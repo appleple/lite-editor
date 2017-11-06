@@ -24,6 +24,7 @@
     "patch": "npm version patch && npm run build:js && node ./tools/index.js",
     "minor": "npm version minor && npm run build:js && node ./tools/index.js",
     "major": "npm version major && npm run build:js && node ./tools/index.js",
+    "prepublish": "npm run build:js && git add -A && git commit -m \"bumping version\"",
     "deploy": "np --no-cleanup"
   },
   "repository": {
