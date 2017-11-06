@@ -62,25 +62,25 @@ const defaultbtnOptions = [
 const defaults = {
   mode: 'html',
   classNames: {
-    SimpleWysiwyg: 'simple-wysiwyg',
-    SimpleWysiwygSource: 'simple-wysiwyg-source',
-    SimpleWysiwygBtn: 'simple-wysiwyg-btn',
-    SimpleWysiwygBtnClose: 'simple-wysiwyg-btn-close',
-    SimpleWysiwygBtnActive: 'simple-wysiwyg-btn-active',
-    SimpleWysiwygBtnGroup: 'simple-wysiwyg-btn-group',
-    SimpleWysiwygBtnGroupWrap: 'simple-wysiwyg-btn-group-wrap',
-    SimpleWysiwygSelect: 'simple-wysiwyg-select',
-    SimpleWysiwygSelectWrap: 'simple-wysiwyg-select-wrap',
-    SimpleWysiwygToolBox: 'simple-wysiwyg-toolbox',
-    SimpleWysiwygTooltip: 'simple-wysiwyg-tooltip',
-    SimpleWysiwygTooltipWrap: 'simple-wysiwyg-tooltip-wrap',
-    SimpleWysiwygTooltipOuter: 'simple-wysiwyg-tooltip-outer',
-    SimpleWysiwygTooltipInner: 'simple-wysiwyg-tooltip-inner',
-    SimpleWysiwygTooltipTable: 'simple-wysiwyg-tooltip-table',
-    SimpleWysiwygTooltipTitle: 'simple-wysiwyg-tooltip-title',
-    SimpleWysiwygTooltipBody: 'simple-wysiwyg-tooltip-body',
-    SimpleWysiwygTooltipInput: 'simple-wysiwyg-tooltip-input',
-    SimpleWysiwygExtendInput: 'simple-wysiwyg-extend-input',
+    LiteEditor: 'lite-editor',
+    LiteEditorSource: 'lite-editor-source',
+    LiteEditorBtn: 'lite-editor-btn',
+    LiteEditorBtnClose: 'lite-editor-btn-close',
+    LiteEditorBtnActive: 'lite-editor-btn-active',
+    LiteEditorBtnGroup: 'lite-editor-btn-group',
+    LiteEditorBtnGroupWrap: 'lite-editor-btn-group-wrap',
+    LiteEditorSelect: 'lite-editor-select',
+    LiteEditorSelectWrap: 'lite-editor-select-wrap',
+    LiteEditorToolBox: 'lite-editor-toolbox',
+    LiteEditorTooltip: 'lite-editor-tooltip',
+    LiteEditorTooltipWrap: 'lite-editor-tooltip-wrap',
+    LiteEditorTooltipOuter: 'lite-editor-tooltip-outer',
+    LiteEditorTooltipInner: 'lite-editor-tooltip-inner',
+    LiteEditorTooltipTable: 'lite-editor-tooltip-table',
+    LiteEditorTooltipTitle: 'lite-editor-tooltip-title',
+    LiteEditorTooltipBody: 'lite-editor-tooltip-body',
+    LiteEditorTooltipInput: 'lite-editor-tooltip-input',
+    LiteEditorExtendInput: 'lite-editor-extend-input',
   },
   message: {
     addLinkTitle: 'Add Link',
@@ -100,7 +100,7 @@ const defaults = {
   btnPosition: 'top'
 };
 
-export default class SimpleWysiwyg extends aTemplate {
+export default class LiteEditor extends aTemplate {
 
   constructor(ele, settings) {
     super();
@@ -149,7 +149,7 @@ export default class SimpleWysiwyg extends aTemplate {
     util.before(selector, html);
     util.removeElement(selector);
     this.update();
-    this.selector = this._getElementByQuery('[data-selector="simple-wysiwyg-source"]');
+    this.selector = this._getElementByQuery('[data-selector="lite-editor-source"]');
     const item = this.data.selectOptions.find((option => option.value === this.data.selectedOption));
     if (item) {
       this.data.extendLabel = item.extendLabel;
@@ -286,7 +286,7 @@ export default class SimpleWysiwyg extends aTemplate {
 
   insertHtml(html) {
     util.replaceSelectionWithHtml(html);
-    const editor = this._getElementByQuery('[data-selector="simple-wysiwyg"]');
+    const editor = this._getElementByQuery('[data-selector="lite-editor"]');
     this.data.value = editor.innerHTML;
   }
 
@@ -302,7 +302,7 @@ export default class SimpleWysiwyg extends aTemplate {
   }
 
   _isFocused() {
-    const selector = this._getElementByQuery('[data-selector="simple-wysiwyg"]');
+    const selector = this._getElementByQuery('[data-selector="lite-editor"]');
     return selector === document.activeElement;
   }
 
@@ -336,7 +336,7 @@ export default class SimpleWysiwyg extends aTemplate {
     this.data.tooltipLabel = text;
     this.data.tooltipClassName = className;
     this.data.linkNew = true;
-    this.update('html', '[data-selector="simple-wysiwyg-tooltip"]');
+    this.update('html', '[data-selector="lite-editor-tooltip"]');
   }
 
   insertAtag() {
@@ -369,7 +369,7 @@ export default class SimpleWysiwyg extends aTemplate {
 
   beforeUpdated() {
     const data = this.data;
-    const editor = this._getElementByQuery('[data-selector="simple-wysiwyg"]');
+    const editor = this._getElementByQuery('[data-selector="lite-editor"]');
     data.canUndo = this.canUndo();
     data.canRedo = this.canRedo();
     data.formatedValue = this.format(data.value);
@@ -382,7 +382,7 @@ export default class SimpleWysiwyg extends aTemplate {
   }
 
   onUpdated() {
-    const editor = this._getElementByQuery('[data-selector="simple-wysiwyg"]');
+    const editor = this._getElementByQuery('[data-selector="lite-editor"]');
     if (!editor) {
       return;
     }
@@ -435,23 +435,23 @@ export default class SimpleWysiwyg extends aTemplate {
   }
 
   onInput() {
-    const editor = this._getElementByQuery('[data-selector="simple-wysiwyg"]');
-    const textarea = this._getElementByQuery('[data-selector="simple-wysiwyg-source"]');
+    const editor = this._getElementByQuery('[data-selector="lite-editor"]');
+    const textarea = this._getElementByQuery('[data-selector="lite-editor-source"]');
     this.data.value = editor.innerHTML;
     this.data.formatedValue = this.format(this.data.value);
     textarea.value = this.data.formatedValue;
   }
 
   onDirectInput() {
-    const textarea = this._getElementByQuery('[data-selector="simple-wysiwyg-source"]');
+    const textarea = this._getElementByQuery('[data-selector="lite-editor-source"]');
     textarea.style.height = 'auto';
     textarea.style.height = `${textarea.scrollHeight}px`;
   }
 
   onPaste() {
     const e = this.e;
-    const editor = this._getElementByQuery('[data-selector="simple-wysiwyg"]');
-    const textarea = this._getElementByQuery('[data-selector="simple-wysiwyg-source"]');
+    const editor = this._getElementByQuery('[data-selector="lite-editor"]');
+    const textarea = this._getElementByQuery('[data-selector="lite-editor-source"]');
     e.preventDefault();
     const insertText = e.clipboardData.getData('text/plain');
     if (this._isFocused() && insertText) {
@@ -463,8 +463,8 @@ export default class SimpleWysiwyg extends aTemplate {
   }
 
   onKeyDown() {
-    const editor = this._getElementByQuery('[data-selector="simple-wysiwyg"]');
-    const textarea = this._getElementByQuery('[data-selector="simple-wysiwyg-source"]');
+    const editor = this._getElementByQuery('[data-selector="lite-editor"]');
+    const textarea = this._getElementByQuery('[data-selector="lite-editor-source"]');
     const e = this.e;
 
     if (e.ctrlKey || e.metaKey) {
@@ -509,7 +509,7 @@ export default class SimpleWysiwyg extends aTemplate {
     setTimeout(() => {
       const target = this.getSelectionNode();
       const tags = [];
-      const editor = this._getElementByQuery('[data-selector="simple-wysiwyg"]');
+      const editor = this._getElementByQuery('[data-selector="lite-editor"]');
       if (target && target !== editor) {
         tags.push({ tagName: target.tagName.toLowerCase(), className: target.getAttribute('class') || '' });
         let parent = target.parentElement;
@@ -539,7 +539,7 @@ export default class SimpleWysiwyg extends aTemplate {
       });
     });
     this.saveSelection();
-    this.update('html', '[data-selector="simple-wysiwyg-toolbox"]');
+    this.update('html', '[data-selector="lite-editor-toolbox"]');
   }
 
   updateTooltip(item) {
@@ -553,18 +553,18 @@ export default class SimpleWysiwyg extends aTemplate {
       this.data.tooltipUrl = item.getAttribute('href');
       this.savedLinkNode = item;
     }
-    this.update('html', '[data-selector="simple-wysiwyg-tooltip"]');
+    this.update('html', '[data-selector="lite-editor-tooltip"]');
   }
 
   closeTooltip() {
     this.data.tooltipLabel = '';
     this.data.tooltipUrl = '';
     this.data.tooltipClassName = '';
-    this.update('html', '[data-selector="simple-wysiwyg-tooltip"]');
+    this.update('html', '[data-selector="lite-editor-tooltip"]');
   }
 
   updateLink() {
-    const editor = this._getElementByQuery('[data-selector="simple-wysiwyg"]');
+    const editor = this._getElementByQuery('[data-selector="lite-editor"]');
     const pos = util.getCaretPos(editor);
     const label = this.data.tooltipLabel;
     const url = this.data.tooltipUrl;
@@ -579,7 +579,7 @@ export default class SimpleWysiwyg extends aTemplate {
   }
 
   removeLink() {
-    const editor = this._getElementByQuery('[data-selector="simple-wysiwyg"]');
+    const editor = this._getElementByQuery('[data-selector="lite-editor"]');
     const pos = util.getCaretPos(editor);
     const node = this.savedLinkNode;
     util.unwrapTag(node);
@@ -595,7 +595,7 @@ export default class SimpleWysiwyg extends aTemplate {
   }
 
   unwrapTag(tag, className) {
-    const editor = this._getElementByQuery('[data-selector="simple-wysiwyg"]');
+    const editor = this._getElementByQuery('[data-selector="lite-editor"]');
     const pos = util.getCaretPos(editor);
     let node = this.getSelectionNode();
     while (true) {
@@ -669,7 +669,7 @@ export default class SimpleWysiwyg extends aTemplate {
     const item = this.data.selectOptions.find((option => option.value === value));
     if (item) {
       this.data.extendLabel = item.extendLabel;
-      this.update('html', '[data-selector="simple-wysiwyg-toolbox"]');
+      this.update('html', '[data-selector="lite-editor-toolbox"]');
       if (item.onSelect) {
         this.data.selectedOption = item.value;
         item.onSelect(this);

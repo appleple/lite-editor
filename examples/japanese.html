@@ -4,19 +4,19 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<link rel="stylesheet" href="../css/simple-wysiwyg.css">
+	<link rel="stylesheet" href="../css/lite-editor.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="./style.css">
 	<title>SimpleWysiwyg</title>
 </head>
 <body>
-  <textarea class='js-simple-wysiwyg' name="hoge">&lt;input type="text" /&gt;
+  <textarea class='js-lite-editor' name="hoge">&lt;input type="text" /&gt;
 &lt;ul&gt;&lt;li&gt;&lt;li&gt;&lt;/ul&gt;
 {hoge}
   Lorem &lt;span class="red"&gt;ipsum&lt;/span&gt; dolor &lt;span class="blue"&gt;sit&lt;/span&gt; amet, &lt;br&gt;consectetur &lt;strong&gt;adipisicing&lt;/strong&gt; elit. Magni alias optio reiciendis quam, ea ex laborum ducimus beatae eveniet. Sapiente natus totam obcaecati perferendis labore, veniam quam eaque ea provident!
 my blog url is &lt;a href="http://horicdesign.com"&gt;Hori&lt;strong&gt;c&lt;/strong&gt; Design&lt;/a&gt;
 please visit!!</textarea>
-	<script src="../js/simple-wysiwyg.js"></script>
+	<script src="../js/lite-editor.js"></script>
 	<script>
   var btnOptions = [
     {
@@ -73,25 +73,7 @@ please visit!!</textarea>
       tag: 'span',
       className: 'red',
       group: 'mark'
-    },
-    {
-      label: '<i class="fa fa-align-left"></i>',
-      tag: 'div',
-      className: 'left',
-      group: 'align'
-    },
-    {
-      label: '<i class="fa fa-align-center"></i>',
-      tag: 'div',
-      className: 'center',
-      group: 'align'
-    },
-    {
-      label: '<i class="fa fa-align-right"></i>',
-      tag: 'div',
-      className: 'right',
-      group: 'align'
-    },
+    }
   ];
   const selectOptions = [
   {
@@ -112,7 +94,7 @@ please visit!!</textarea>
   }
 ];
 	window.addEventListener('DOMContentLoaded',function(){
-		const wysiwyg = new SimpleWysiwyg('.js-simple-wysiwyg',{
+		const editor = new LiteEditor('.js-lite-editor',{
       minHeight: 200,
       maxHeight: 500,
       selectName: 'text_tag_9554e6aef2487270c334ce8c41bf990a',

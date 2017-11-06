@@ -1,36 +1,36 @@
-<div data-selector="simple-wysiwyg-tooltip">
+<div data-selector="lite-editor-tooltip">
 <!-- BEGIN tooltipLabel:exist -->
-<div class="\{classNames.SimpleWysiwygTooltipWrap\}">
-    <div class="\{classNames.SimpleWysiwygTooltipOuter\}">
-        <div class="\{classNames.SimpleWysiwygTooltipInner\}">
-            <div class="\{classNames.SimpleWysiwygTooltip\}">
-                <button type="button" data-action-click="closeTooltip()" class="\{classNames.SimpleWysiwygBtn\} \{classNames.SimpleWysiwygBtnClose\}">x</button>
+<div class="\{classNames.LiteEditorTooltipWrap\}">
+    <div class="\{classNames.LiteEditorTooltipOuter\}">
+        <div class="\{classNames.LiteEditorTooltipInner\}">
+            <div class="\{classNames.LiteEditorTooltip\}">
+                <button type="button" data-action-click="closeTooltip()" class="\{classNames.LiteEditorBtn\} \{classNames.LiteEditorBtnClose\}">x</button>
                 <!-- BEGIN linkNew:exist -->
-                <h2 class="\{classNames.SimpleWysiwygTooltipTitle\}">\{message.addLinkTitle\}</h2>
+                <h2 class="\{classNames.LiteEditorTooltipTitle\}">\{message.addLinkTitle\}</h2>
                 <!-- END linkNew:exist -->
                 <!-- BEGIN linkNew:empty -->
-                <h2 class="\{classNames.SimpleWysiwygTooltipTitle\}">\{message.updateLinkTitle\}</h2>
+                <h2 class="\{classNames.LiteEditorTooltipTitle\}">\{message.updateLinkTitle\}</h2>
                 <!-- END linkNew:empty -->
-                <div class="\{classNames.SimpleWysiwygTooltipBody\}">
-                    <table class="\{classNames.SimpleWysiwygTooltipTable\}">
+                <div class="\{classNames.LiteEditorTooltipBody\}">
+                    <table class="\{classNames.LiteEditorTooltipTable\}">
                         <tr>
                             <th>\{message.linkLabel\}</th>
-                            <td><input type="text" data-bind="tooltipLabel" class="\{classNames.SimpleWysiwygTooltipInput\}" data-action-keydown="preventSubmit()"></td>
+                            <td><input type="text" data-bind="tooltipLabel" class="\{classNames.LiteEditorTooltipInput\}" data-action-keydown="preventSubmit()"></td>
                         </tr>
                         <tr>
                             <th>\{message.linkUrl\}</th>
-                            <td><input type="text" data-bind="tooltipUrl" class="\{classNames.SimpleWysiwygTooltipInput\}" data-action-keydown="preventSubmit()"></td>
+                            <td><input type="text" data-bind="tooltipUrl" class="\{classNames.LiteEditorTooltipInput\}" data-action-keydown="preventSubmit()"></td>
                         </tr>
                         <tr>
                             <td></td>
                             <td>
                                 <!-- BEGIN linkNew:exist -->
-                                <button type="button" data-action-click="insertAtag()" class="\{classNames.SimpleWysiwygBtn\}">\{message.addLink\}</button> 
+                                <button type="button" data-action-click="insertAtag()" class="\{classNames.LiteEditorBtn\}">\{message.addLink\}</button> 
                                 <!-- END linkNew:exist -->
 
                                 <!-- BEGIN linkNew:empty -->
-                                <button type="button" data-action-click="removeLink()" class="\{classNames.SimpleWysiwygBtn\}">\{message.removeLink\}</button>
-                                <button type="button" data-action-click="updateLink()" class="\{classNames.SimpleWysiwygBtn\}">\{message.updateLink\}</button>
+                                <button type="button" data-action-click="removeLink()" class="\{classNames.LiteEditorBtn\}">\{message.removeLink\}</button>
+                                <button type="button" data-action-click="updateLink()" class="\{classNames.LiteEditorBtn\}">\{message.updateLink\}</button>
                                 <!-- END linkNew:empty -->
                             </td>
                         </tr>
