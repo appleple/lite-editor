@@ -14865,10 +14865,10 @@ var defaults = {
   },
   minHeight: 50,
   maxHeight: 400,
-  nl2br: true,
   decodeSource: false,
-  escapeNotRegisteredTags: true,
+  escapeNotRegisteredTags: false,
   preserveSpace: false,
+  nl2br: true,
   source: true,
   selectOptions: [],
   selectedOption: '',
@@ -14904,7 +14904,11 @@ var LiteEditor = function (_aTemplate) {
     };
     if (selector.value) {
       var value = selector.value;
-      _this.makeEditableHtml(value);
+      value = _this.makeEditableHtml(value);
+      if (_this.data.escapeNotRegisteredTags) {
+        value = _this.escapeNotRegisteredTags(value);
+      }
+      _this.data.value = value;
     }
     var attrStr = '';
     if (selector.attributes) {
@@ -14946,8 +14950,6 @@ var LiteEditor = function (_aTemplate) {
   _createClass(LiteEditor, [{
     key: 'makeEditableHtml',
     value: function makeEditableHtml(value) {
-      // value = value.replace(/\n/g, '');
-
       if (this.data.preserveSpace) {
         var dom = document.createElement('div');
         dom.innerHTML = value;
@@ -14958,11 +14960,7 @@ var LiteEditor = function (_aTemplate) {
       value = value.replace(/<br>(\r\n|\r|\n)/g, '<br>');
       value = value.replace(/\r\n|\r|\n/g, '<br>');
 
-      if (this.data.escapeNotRegisteredTags) {
-        value = this.escapeNotRegisteredTags(value);
-      }
-
-      this.data.value = value;
+      return value;
     }
   }, {
     key: 'makeBtnGroups',
@@ -15362,7 +15360,7 @@ var LiteEditor = function (_aTemplate) {
     value: function onDirectInput() {
       var source = this._getElementByQuery('[data-selector="lite-editor-source"]');
       var value = this.e.target.value;
-      this.makeEditableHtml(value);
+      this.data.value = this.makeEditableHtml(value);
       source.style.height = source.scrollHeight + 'px';
     }
   }, {

@@ -98,10 +98,10 @@ const defaults = {
   },
   minHeight: 50,
   maxHeight: 400,
-  nl2br: true,
   decodeSource: false,
-  escapeNotRegisteredTags: true,
+  escapeNotRegisteredTags: false,
   preserveSpace: false,
+  nl2br: true,
   source: true,
   selectOptions: [],
   selectedOption: '',
@@ -132,8 +132,12 @@ export default class LiteEditor extends aTemplate {
       insertExtend: this.insertExtend
     };
     if (selector.value) {
-      const value = selector.value;
-      this.makeEditableHtml(value);
+      let value = selector.value;
+      value = this.makeEditableHtml(value);
+      if (this.data.escapeNotRegisteredTags) {
+        value = this.escapeNotRegisteredTags(value);
+      }
+      this.data.value = value;
     }
     let attrStr = '';
     if (selector.attributes) {
@@ -170,8 +174,6 @@ export default class LiteEditor extends aTemplate {
   }
 
   makeEditableHtml(value) {
-    // value = value.replace(/\n/g, '');
-
     if (this.data.preserveSpace) {
       const dom = document.createElement('div');
       dom.innerHTML = value;
@@ -182,11 +184,7 @@ export default class LiteEditor extends aTemplate {
     value = value.replace(/<br>(\r\n|\r|\n)/g, '<br>');
     value = value.replace(/\r\n|\r|\n/g, '<br>');
 
-    if (this.data.escapeNotRegisteredTags) {
-      value = this.escapeNotRegisteredTags(value);
-    }
-
-    this.data.value = value;
+    return value;
   }
 
   makeBtnGroups() {
@@ -546,7 +544,7 @@ export default class LiteEditor extends aTemplate {
   onDirectInput() {
     const source = this._getElementByQuery('[data-selector="lite-editor-source"]');
     const value = this.e.target.value;
-    this.makeEditableHtml(value);
+    this.data.value = this.makeEditableHtml(value);
     source.style.height = `${source.scrollHeight}px`;
   }
 
