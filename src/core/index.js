@@ -133,7 +133,7 @@ export default class LiteEditor extends aTemplate {
       insertExtend: this.insertExtend
     };
     if (selector.value) {
-      let value = selector.value;
+      const value = selector.value;
       this.makeEditableHtml(value);
     }
     let attrStr = '';
@@ -170,7 +170,7 @@ export default class LiteEditor extends aTemplate {
     }
   }
 
-  makeEditableHtml (value) {
+  makeEditableHtml(value) {
     if (this.data.preserveSpace) {
       const dom = document.createElement('div');
       dom.innerHTML = value;
@@ -543,7 +543,7 @@ export default class LiteEditor extends aTemplate {
 
   onDirectInput() {
     const value = this.e.target.value;
-    this.makeEditableHtml(value.replace(/\n/g,''));
+    this.makeEditableHtml(value.replace(/\n/g, ''));
     this.update('html', '[data-selector="lite-editor"]');
     this.update('html', '[data-selector="lite-editor-source"]');
   }
@@ -669,9 +669,8 @@ export default class LiteEditor extends aTemplate {
     }
     if (this.data.decodeSource) {
       return entities.decode(replaced);
-    } else {
-      return replaced;
     }
+    return replaced;
   }
 
   addNlAfterBr(txt) {

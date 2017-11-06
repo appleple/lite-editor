@@ -6,7 +6,7 @@
  *   license: MIT (http://opensource.org/licenses/MIT)
  *   author: appleple
  *   homepage: http://developer.a-blogcms.jp
- *   version: 1.0.0
+ *   version: 1.0.1
  *
  * a-template:
  *   license: MIT (http://opensource.org/licenses/MIT)
@@ -15481,9 +15481,8 @@ var LiteEditor = function (_aTemplate) {
       }
       if (this.data.decodeSource) {
         return entities.decode(replaced);
-      } else {
-        return replaced;
       }
+      return replaced;
     }
   }, {
     key: 'addNlAfterBr',
