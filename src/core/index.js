@@ -99,6 +99,7 @@ const defaults = {
   minHeight: 50,
   maxHeight: 650,
   nl2br: true,
+  decodeSource: false,
   escapeNotRegisteredTags: true,
   preserveSpace: false,
   source: true,
@@ -128,22 +129,12 @@ export default class LiteEditor extends aTemplate {
     const selector = typeof ele === 'string' ? document.querySelector(ele) : ele;
     this.convert = {
       format: this.format,
+      addNlAfterBr: this.addNlAfterBr,
       insertExtend: this.insertExtend
     };
     if (selector.value) {
       let value = selector.value;
-
-      if (this.data.preserveSpace) {
-        const dom = document.createElement('div');
-        dom.innerHTML = value;
-        util.replaceWhiteSpaceWithNbsp(dom);
-        value = dom.innerHTML;
-      }
-
-      this.data.value = value.replace(/\r\n|\r|\n/g, '<br>');
-      if (this.data.escapeNotRegisteredTags) {
-        this.escapeNotRegisteredTags();
-      }
+      this.makeEditableHtml(value);
     }
     let attrStr = '';
     if (selector.attributes) {
@@ -177,6 +168,23 @@ export default class LiteEditor extends aTemplate {
     if (this.data.afterInit) {
       this.data.afterInit(this);
     }
+  }
+
+  makeEditableHtml (value) {
+    if (this.data.preserveSpace) {
+      const dom = document.createElement('div');
+      dom.innerHTML = value;
+      util.replaceWhiteSpaceWithNbsp(dom);
+      value = dom.innerHTML;
+    }
+
+    value = value.replace(/\r\n|\r|\n/g, '<br>');
+
+    if (this.data.escapeNotRegisteredTags) {
+      value = this.escapeNotRegisteredTags(value);
+    }
+
+    this.data.value = value;
   }
 
   makeBtnGroups() {
@@ -217,7 +225,7 @@ export default class LiteEditor extends aTemplate {
     return document.querySelector(`[data-id='${this.id}'] ${query}`);
   }
 
-  _escapeTagExceptRegisteredTags(value) {
+  escapeNotRegisteredTags(value) {
     const btns = this.data.btnOptions;
     value = value.replace(/<([a-zA-Z0-9._-]+)\s?(.*?)>(([\n\r\t]|.)*?)<\/\1>/g, (component, tag, attr, content) => {
       const className = (attr.match(/class=["|'](.*?)["|']/i) || [null, ''])[1];
@@ -234,7 +242,7 @@ export default class LiteEditor extends aTemplate {
         return component;
       }
       if (/<([a-zA-Z0-9._-]+)\s?(.*?)>(([\n\r\t]|.)*?)<\/\1>/.exec(content)) {
-        content = this._escapeTagExceptRegisteredTags(content);
+        content = this.escapeNotRegisteredTags(content);
       }
       return `&lt;${tag}${attr}&gt;${content}&lt;/${tag}&gt;`;
     });
@@ -257,10 +265,6 @@ export default class LiteEditor extends aTemplate {
       }
       return '<br>';
     });
-  }
-
-  escapeNotRegisteredTags() {
-    this.data.value = this._escapeTagExceptRegisteredTags(this.data.value);
   }
 
   encodeValue() {
@@ -459,12 +463,6 @@ export default class LiteEditor extends aTemplate {
     textarea.value = this.data.formatedValue;
   }
 
-  onDirectInput() {
-    const textarea = this._getElementByQuery('[data-selector="lite-editor-source"]');
-    textarea.style.height = 'auto';
-    textarea.style.height = `${textarea.scrollHeight}px`;
-  }
-
   onPaste() {
     const e = this.e;
     const editor = this._getElementByQuery('[data-selector="lite-editor"]');
@@ -541,6 +539,13 @@ export default class LiteEditor extends aTemplate {
       }
       this.updateToolBox(tags);
     }, 1);
+  }
+
+  onDirectInput() {
+    const value = this.e.target.value;
+    this.makeEditableHtml(value.replace(/\n/g,''));
+    this.update('html', '[data-selector="lite-editor"]');
+    this.update('html', '[data-selector="lite-editor-source"]');
   }
 
   updateToolBox(tags = []) {
@@ -660,9 +665,17 @@ export default class LiteEditor extends aTemplate {
       replaced = replaced.slice(0, -1);
     }
     if (this.data.nl2br) {
-      replaced = replaced.replace(/\n/g, '<br>\n');
+      replaced = replaced.replace(/\n/g, '<br>');
     }
-    return entities.decode(replaced);
+    if (this.data.decodeSource) {
+      return entities.decode(replaced);
+    } else {
+      return replaced;
+    }
+  }
+
+  addNlAfterBr(txt) {
+    return txt.replace(/<br>/g, '<br>\n');
   }
 
   toMarkdown() {

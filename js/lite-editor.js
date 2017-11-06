@@ -14761,7 +14761,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var editorHtml = '<div class="\\{classNames.LiteEditor\\}" data-action-mouseup="onPutCaret" data-action-keydown="onKeyDown" data-selector="lite-editor" contenteditable data-action-input="onInput" data-action-paste="onPaste" style="<!-- BEGIN showSource:exist -->display:none;<!-- END showSource:exist --><!-- BEGIN hideEditor:exist -->display:none;"<!-- END hideEditor:exist --><!-- BEGIN minHeight:exist -->min-height: {minHeight}px;<!-- END minHeight:exist --><!-- BEGIN maxHeight:exist -->max-height:{maxHeight}px;<!-- END maxHeight:exist -->">{value}</div>\n<textarea class="\\{classNames.LiteEditorSource\\}" data-selector="lite-editor-source" style="<!-- BEGIN showSource:empty -->display:none;<!-- END showSource:empty --><!-- BEGIN sourceHeight:exist -->height:{sourceHeight}px;<!-- END sourceHeight:exist -->"{attr} data-bind="formatedValue" readonly></textarea>';
+var editorHtml = '<div class="\\{classNames.LiteEditor\\}" data-action-mouseup="onPutCaret" data-action-keydown="onKeyDown" data-selector="lite-editor" contenteditable data-action-input="onInput" data-action-paste="onPaste" style="<!-- BEGIN showSource:exist -->display:none;<!-- END showSource:exist --><!-- BEGIN hideEditor:exist -->display:none;"<!-- END hideEditor:exist --><!-- BEGIN minHeight:exist -->min-height: {minHeight}px;<!-- END minHeight:exist --><!-- BEGIN maxHeight:exist -->max-height:{maxHeight}px;<!-- END maxHeight:exist -->">{value}</div>\n<textarea class="\\{classNames.LiteEditorSource\\}" data-selector="lite-editor-input-source" style="<!-- BEGIN showSource:empty -->display:none;<!-- END showSource:empty --><!-- BEGIN sourceHeight:exist -->height:{sourceHeight}px;<!-- END sourceHeight:exist -->" data-action-input="onDirectInput">{formatedValue}[addNlAfterBr]</textarea>\n<textarea class="\\{classNames.LiteEditorSource\\}" data-selector="lite-editor-source" style="display:none;" {attr} data-bind="formatedValue"></textarea>';
 var btnHtml = '<div class="\\{classNames.LiteEditorToolBox\\}" data-selector="lite-editor-toolbox">\n\n    <!-- BEGIN source:exist -->\n    <div class="\\{classNames.LiteEditorBtnGroupWrapRight\\}">\n        <div class="\\{classNames.LiteEditorBtnGroup\\}">\n            <button class="\\{classNames.LiteEditorBtn\\}<!-- BEGIN showSource:empty --> \\{classNames.LiteEditorBtnActive\\}<!-- END showSource:empty -->" data-action-click="toggleSource" type="button" <!-- BEGIN showSource:empty --> disabled<!-- END showSource:empty -->>\n                <i class="\\{classNames.LiteEditorFontAbc\\}"></i>\n            </button>\n            <button class="\\{classNames.LiteEditorBtn\\}<!-- BEGIN showSource:exist --> \\{classNames.LiteEditorBtnActive\\}<!-- END showSource:exist -->" data-action-click="toggleSource" type="button" <!-- BEGIN showSource:exist --> disabled<!-- END showSource:exist -->>\n                <i class="\\{classNames.LiteEditorFontSource\\}"></i>\n            </button>\n        </div>\n    </div>\n    <!-- END source:exist -->\n\n    <!-- BEGIN selectOptions.0:exist -->\n    <div class="\\{classNames.LiteEditorSelectWrap\\}">\n        <select class="\\{classNames.LiteEditorSelect\\}"<!-- BEGIN selectName:exist --> name="{selectName}"<!-- END selectName:exist --> data-action-change="changeOption" data-bind="selectedOption">\n        <!-- BEGIN selectOptions:loop -->\n        <option value="{value}">{label}</option>\n        <!-- END selectOptions:loop -->\n        </select>\n        <!-- BEGIN extendLabel:exist -->\n        <label>{extendLabel}</label>\n        <input type="text" name="{selectName}[insertExtend]" class="\\{classNames.LiteEditorExtendInput\\}" data-bind="extendValue"/>\n        <!-- END extendLabel:exist -->\n    </div>\n    <!-- END selectOptions.0:exist -->\n\n    <div class="\\{classNames.LiteEditorBtnGroupWrap\\}" <!-- BEGIN hideBtns:exist --> style="display:none;"<!-- END hideBtns:exist -->>\n        \n        <!-- BEGIN groups:loop -->\n        <div class="\\\\{classNames.LiteEditorBtnGroup\\\\}">\n            <!-- \\BEGIN groups.{i}.items:loop -->\n\n            <!-- \\BEGIN action:touch#redo -->\n            <button class="\\\\\\{classNames.LiteEditorBtn\\\\\\}" data-action-click="redo"<!-- \\\\BEGIN canRedo:empty --> disabled<!-- \\\\END canRedo:empty --> type="button">\\{label\\}</button>\n            <!-- \\END action:touch#redo -->\n\n            <!-- \\BEGIN action:touch#undo -->\n            <button class="\\\\\\{classNames.LiteEditorBtn\\\\\\}" data-action-click="undo"<!-- \\\\BEGIN canUndo:empty --> disabled<!-- \\\\END canUndo:empty --> type="button">\\{label\\}</button>\n            <!-- \\END action:touch#undo -->\n\n            <!-- \\BEGIN action:touch#extra -->\n            <button class="\\\\\\{classNames.LiteEditorBtn\\\\\\}<!-- \\BEGIN selfClassName:exist --> \\{selfClassName\\}<!-- \\END selfClassName:exist -->" data-action-click="onClick(\\{index\\})" type="button">\\{label\\}</button>\n            <!-- \\END action:touch#extra -->\n\n            <!-- \\BEGIN action:empty -->\n            <button class="\\\\\\{classNames.LiteEditorBtn\\\\\\}<!-- \\BEGIN selfClassName:exist --> \\{selfClassName\\}<!-- \\END selfClassName:exist --><!-- \\BEGIN selected:exist --> \\\\\\{classNames.LiteEditorBtnActive\\\\\\}<!-- \\END selected:exist -->"\n            <!-- \\BEGIN tag:exist -->\n            <!-- \\BEGIN selected:empty --> data-action-click="insertTag(\\{tag\\},\\{className\\},\\{sampleText\\})"<!-- \\END selected:empty -->\n            <!-- \\BEGIN selected:exist --> data-action-click="unwrapTag(\\{tag\\},\\{className\\},\\{sampleText\\})"<!-- \\END selected:exist -->\n            <!-- \\END tag:exist -->\n            <!-- \\BEGIN tag:empty --> data-action-click="insertTag(span,\\{className\\},\\{sampleText\\})"<!-- \\END tag:empty -->\n            <!-- \\\\BEGIN showSource:exist --> disabled<!-- \\\\END showSource:exist --> \n            type="button">\\{label\\}</button>\n            <!-- \\END action:empty -->\n            <!-- \\END groups.{i}.items:loop -->\n        </div>\n        <!-- END groups:loop -->\n    </div>\n</div>';
 var tooltipHtml = '<div data-selector="lite-editor-tooltip">\n<!-- BEGIN tooltipLabel:exist -->\n<div class="\\{classNames.LiteEditorTooltipWrap\\}">\n    <div class="\\{classNames.LiteEditorTooltipOuter\\}">\n        <div class="\\{classNames.LiteEditorTooltipInner\\}">\n            <div class="\\{classNames.LiteEditorTooltip\\}">\n                <span class="\\{classNames.LiteEditorBtnCloseWrap\\}">\n                    <span class="\\{classNames.LiteEditorBtnCloseLabel\\}">\\{message.closeLabel\\}</span>\n                    <button type="button" data-action-click="closeTooltip()" class="\\{classNames.LiteEditorBtn\\} \\{classNames.LiteEditorBtnClose\\}">\n                        <i class="\\{classNames.LiteEditorFontClose\\}"></i>\n                    </button>\n                </span>\n                <!-- BEGIN linkNew:exist -->\n                <h2 class="\\{classNames.LiteEditorTooltipTitle\\}"><i class="\\{classNames.LiteEditorFontLink\\}"></i>\\{message.addLinkTitle\\}</h2>\n                <!-- END linkNew:exist -->\n                <!-- BEGIN linkNew:empty -->\n                <h2 class="\\{classNames.LiteEditorTooltipTitle\\}"><i class="\\{classNames.LiteEditorFontLink\\}"></i>\\{message.updateLinkTitle\\}</h2>\n                <!-- END linkNew:empty -->\n                <div class="\\{classNames.LiteEditorTooltipBody\\}">\n                    <table class="\\{classNames.LiteEditorTooltipTable\\}">\n                        <tr>\n                            <th>\\{message.linkLabel\\}</th>\n                            <td><input type="text" data-bind="tooltipLabel" class="\\{classNames.LiteEditorTooltipInput\\}" data-action-keydown="preventSubmit()"></td>\n                        </tr>\n                        <tr>\n                            <th>\\{message.linkUrl\\}</th>\n                            <td><input type="text" data-bind="tooltipUrl" class="\\{classNames.LiteEditorTooltipInput\\}" data-action-keydown="preventSubmit()"></td>\n                        </tr>\n                        <tr>\n                            <td></td>\n                            <td>\n                                <!-- BEGIN linkNew:exist -->\n                                <button type="button" data-action-click="insertAtag()" class="\\{classNames.LiteEditorBtn\\}">\n                                    <i class="\\{classNames.LiteEditorFontLink\\}"></i>\n                                    \\{message.addLink\\}\n                                </button> \n                                <!-- END linkNew:exist -->\n\n                                <!-- BEGIN linkNew:empty -->\n                                <button type="button" data-action-click="updateLink()" class="\\{classNames.LiteEditorBtn\\}">\n                                    <i class="\\{classNames.LiteEditorFontUpdate\\}"></i>\n                                    \\{message.updateLink\\}\n                                </button>\n                                <button type="button" data-action-click="removeLink()" class="\\{classNames.LiteEditorBtn\\}">\n                                    <i class="\\{classNames.LiteEditorFontRemove\\}"></i>\n                                    \\{message.removeLink\\}\n                                </button>\n                                <!-- END linkNew:empty -->\n                            </td>\n                        </tr>\n                    </table>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>\n<!-- END tooltipLabel:exist -->\n</div>';
 
@@ -14853,6 +14853,7 @@ var defaults = {
   minHeight: 50,
   maxHeight: 650,
   nl2br: true,
+  decodeSource: false,
   escapeNotRegisteredTags: true,
   preserveSpace: false,
   source: true,
@@ -14886,22 +14887,12 @@ var LiteEditor = function (_aTemplate) {
     var selector = typeof ele === 'string' ? document.querySelector(ele) : ele;
     _this.convert = {
       format: _this.format,
+      addNlAfterBr: _this.addNlAfterBr,
       insertExtend: _this.insertExtend
     };
     if (selector.value) {
       var value = selector.value;
-
-      if (_this.data.preserveSpace) {
-        var dom = document.createElement('div');
-        dom.innerHTML = value;
-        util.replaceWhiteSpaceWithNbsp(dom);
-        value = dom.innerHTML;
-      }
-
-      _this.data.value = value.replace(/\r\n|\r|\n/g, '<br>');
-      if (_this.data.escapeNotRegisteredTags) {
-        _this.escapeNotRegisteredTags();
-      }
+      _this.makeEditableHtml(value);
     }
     var attrStr = '';
     if (selector.attributes) {
@@ -14941,6 +14932,24 @@ var LiteEditor = function (_aTemplate) {
   }
 
   _createClass(LiteEditor, [{
+    key: 'makeEditableHtml',
+    value: function makeEditableHtml(value) {
+      if (this.data.preserveSpace) {
+        var dom = document.createElement('div');
+        dom.innerHTML = value;
+        util.replaceWhiteSpaceWithNbsp(dom);
+        value = dom.innerHTML;
+      }
+
+      value = value.replace(/\r\n|\r|\n/g, '<br>');
+
+      if (this.data.escapeNotRegisteredTags) {
+        value = this.escapeNotRegisteredTags(value);
+      }
+
+      this.data.value = value;
+    }
+  }, {
     key: 'makeBtnGroups',
     value: function makeBtnGroups() {
       var btns = this.data.btnOptions;
@@ -14983,8 +14992,8 @@ var LiteEditor = function (_aTemplate) {
       return document.querySelector('[data-id=\'' + this.id + '\'] ' + query);
     }
   }, {
-    key: '_escapeTagExceptRegisteredTags',
-    value: function _escapeTagExceptRegisteredTags(value) {
+    key: 'escapeNotRegisteredTags',
+    value: function escapeNotRegisteredTags(value) {
       var _this2 = this;
 
       var btns = this.data.btnOptions;
@@ -15003,7 +15012,7 @@ var LiteEditor = function (_aTemplate) {
           return component;
         }
         if (/<([a-zA-Z0-9._-]+)\s?(.*?)>(([\n\r\t]|.)*?)<\/\1>/.exec(content)) {
-          content = _this2._escapeTagExceptRegisteredTags(content);
+          content = _this2.escapeNotRegisteredTags(content);
         }
         return '&lt;' + tag + attr + '&gt;' + content + '&lt;/' + tag + '&gt;';
       });
@@ -15026,11 +15035,6 @@ var LiteEditor = function (_aTemplate) {
         }
         return '<br>';
       });
-    }
-  }, {
-    key: 'escapeNotRegisteredTags',
-    value: function escapeNotRegisteredTags() {
-      this.data.value = this._escapeTagExceptRegisteredTags(this.data.value);
     }
   }, {
     key: 'encodeValue',
@@ -15255,13 +15259,6 @@ var LiteEditor = function (_aTemplate) {
       textarea.value = this.data.formatedValue;
     }
   }, {
-    key: 'onDirectInput',
-    value: function onDirectInput() {
-      var textarea = this._getElementByQuery('[data-selector="lite-editor-source"]');
-      textarea.style.height = 'auto';
-      textarea.style.height = textarea.scrollHeight + 'px';
-    }
-  }, {
     key: 'onPaste',
     value: function onPaste() {
       var e = this.e;
@@ -15344,6 +15341,14 @@ var LiteEditor = function (_aTemplate) {
         }
         _this5.updateToolBox(tags);
       }, 1);
+    }
+  }, {
+    key: 'onDirectInput',
+    value: function onDirectInput() {
+      var value = this.e.target.value;
+      this.makeEditableHtml(value.replace(/\n/g, ''));
+      this.update('html', '[data-selector="lite-editor"]');
+      this.update('html', '[data-selector="lite-editor-source"]');
     }
   }, {
     key: 'updateToolBox',
@@ -15472,9 +15477,18 @@ var LiteEditor = function (_aTemplate) {
         replaced = replaced.slice(0, -1);
       }
       if (this.data.nl2br) {
-        replaced = replaced.replace(/\n/g, '<br>\n');
+        replaced = replaced.replace(/\n/g, '<br>');
       }
-      return entities.decode(replaced);
+      if (this.data.decodeSource) {
+        return entities.decode(replaced);
+      } else {
+        return replaced;
+      }
+    }
+  }, {
+    key: 'addNlAfterBr',
+    value: function addNlAfterBr(txt) {
+      return txt.replace(/<br>/g, '<br>\n');
     }
   }, {
     key: 'toMarkdown',
