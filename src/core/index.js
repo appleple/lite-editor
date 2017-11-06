@@ -129,7 +129,6 @@ export default class LiteEditor extends aTemplate {
     const selector = typeof ele === 'string' ? document.querySelector(ele) : ele;
     this.convert = {
       format: this.format,
-      addNlAfterBr: this.addNlAfterBr,
       insertExtend: this.insertExtend
     };
     if (selector.value) {
@@ -171,6 +170,9 @@ export default class LiteEditor extends aTemplate {
   }
 
   makeEditableHtml(value) {
+    
+    // value = value.replace(/\n/g, '');
+
     if (this.data.preserveSpace) {
       const dom = document.createElement('div');
       dom.innerHTML = value;
@@ -178,6 +180,7 @@ export default class LiteEditor extends aTemplate {
       value = dom.innerHTML;
     }
 
+    value = value.replace(/<br>(\r\n|\r|\n)/g, '<br>');
     value = value.replace(/\r\n|\r|\n/g, '<br>');
 
     if (this.data.escapeNotRegisteredTags) {
@@ -544,7 +547,7 @@ export default class LiteEditor extends aTemplate {
   onDirectInput() {
     const source = this._getElementByQuery('[data-selector="lite-editor-source"]');
     const value = this.e.target.value;
-    this.makeEditableHtml(value.replace(/\n/g, ''));
+    this.makeEditableHtml(value);
     source.style.height = `${source.scrollHeight}px`;
   }
 

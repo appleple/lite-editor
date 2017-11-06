@@ -14925,7 +14925,6 @@ var LiteEditor = function (_aTemplate) {
     var selector = typeof ele === 'string' ? document.querySelector(ele) : ele;
     _this.convert = {
       format: _this.format,
-      addNlAfterBr: _this.addNlAfterBr,
       insertExtend: _this.insertExtend
     };
     if (selector.value) {
@@ -14972,6 +14971,9 @@ var LiteEditor = function (_aTemplate) {
   _createClass(LiteEditor, [{
     key: 'makeEditableHtml',
     value: function makeEditableHtml(value) {
+
+      // value = value.replace(/\n/g, '');
+
       if (this.data.preserveSpace) {
         var dom = document.createElement('div');
         dom.innerHTML = value;
@@ -14979,6 +14981,7 @@ var LiteEditor = function (_aTemplate) {
         value = dom.innerHTML;
       }
 
+      value = value.replace(/<br>(\r\n|\r|\n)/g, '<br>');
       value = value.replace(/\r\n|\r|\n/g, '<br>');
 
       if (this.data.escapeNotRegisteredTags) {
@@ -15385,7 +15388,7 @@ var LiteEditor = function (_aTemplate) {
     value: function onDirectInput() {
       var source = this._getElementByQuery('[data-selector="lite-editor-source"]');
       var value = this.e.target.value;
-      this.makeEditableHtml(value.replace(/\n/g, ''));
+      this.makeEditableHtml(value);
       source.style.height = source.scrollHeight + 'px';
     }
   }, {
