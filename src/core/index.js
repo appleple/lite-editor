@@ -97,7 +97,7 @@ const defaults = {
     closeLabel: 'close'
   },
   minHeight: 50,
-  maxHeight: 650,
+  maxHeight: 400,
   nl2br: true,
   decodeSource: false,
   escapeNotRegisteredTags: true,
@@ -397,13 +397,14 @@ export default class LiteEditor extends aTemplate {
     if (data.value) {
       data.value = data.value.replace(/{(.*?)}/g, '&lcub;$1&rcub;');
     }
-    if (!data.showSource && editor && editor.offsetHeight) {
-      data.sourceHeight = editor.offsetHeight;
-    }
   }
 
   onUpdated() {
     const editor = this._getElementByQuery('[data-selector="lite-editor"]');
+    const source = this._getElementByQuery('[data-selector="lite-editor-source"]');
+    if (this.data.showSource === true) {
+      source.style.height = `${source.scrollHeight}px`;
+    }
     if (!editor) {
       return;
     }
@@ -542,10 +543,10 @@ export default class LiteEditor extends aTemplate {
   }
 
   onDirectInput() {
+    const source = this._getElementByQuery('[data-selector="lite-editor-source"]');
     const value = this.e.target.value;
     this.makeEditableHtml(value.replace(/\n/g, ''));
-    this.update('html', '[data-selector="lite-editor"]');
-    this.update('html', '[data-selector="lite-editor-source"]');
+    source.style.height = `${source.scrollHeight}px`;
   }
 
   updateToolBox(tags = []) {
@@ -665,16 +666,12 @@ export default class LiteEditor extends aTemplate {
       replaced = replaced.slice(0, -1);
     }
     if (this.data.nl2br) {
-      replaced = replaced.replace(/\n/g, '<br>');
+      replaced = replaced.replace(/\n/g, '<br>\n');
     }
     if (this.data.decodeSource) {
       return entities.decode(replaced);
     }
     return replaced;
-  }
-
-  addNlAfterBr(txt) {
-    return txt.replace(/<br>/g, '<br>\n');
   }
 
   toMarkdown() {
