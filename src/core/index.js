@@ -15,43 +15,38 @@ const und = new Upndown({ decodeEntities: false });
 
 const defaultbtnOptions = [
   {
-    label: '<i class="fa fa-code"></i>',
-    action: 'preview',
-    group: 'action'
-  },
-  {
-    label: '<i class="fa fa-rotate-left"></i>',
+    label: '<i class="lite-editor-font-back"></i>',
     action: 'undo',
     group: 'action'
   },
   {
-    label: '<i class="fa fa-rotate-right"></i>',
+    label: '<i class="lite-editor-font-go"></i>',
     action: 'redo',
     group: 'action'
   },
   {
-    label: '<i class="fa fa-link"></i>',
+    label: '<i class="lite-editor-font-link"></i>',
     tag: 'a',
     className: '',
-    group: 'mark',
+    group: 'link',
     sampleText: 'link text'
   },
   {
-    label: '<i class="fa fa-bold"></i>',
+    label: '<i class="lite-editor-font-bold"></i>',
     tag: 'strong',
     className: '',
     group: 'mark',
     sampleText: 'strong text'
   },
   {
-    label: '<i class="fa fa-italic"></i>',
+    label: '<i class="lite-editor-font-italic"></i>',
     tag: 'i',
     className: '',
     group: 'mark',
     sampleText: 'italic text'
   },
   {
-    label: '<i class="fa fa-underline"></i>',
+    label: '<i class="lite-editor-font-underline"></i>',
     tag: 'u',
     className: '',
     group: 'mark',
@@ -69,6 +64,9 @@ const defaults = {
     LiteEditorBtnActive: 'lite-editor-btn-active',
     LiteEditorBtnGroup: 'lite-editor-btn-group',
     LiteEditorBtnGroupWrap: 'lite-editor-btn-group-wrap',
+    LiteEditorBtnGroupWrapRight: 'lite-editor-btn-group-wrap-right',
+    LiteEditorBtnCloseWrap: 'lite-editor-btn-close-wrap',
+    LiteEditorBtnCloseLabel: 'lite-editor-btn-close-label',
     LiteEditorSelect: 'lite-editor-select',
     LiteEditorSelectWrap: 'lite-editor-select-wrap',
     LiteEditorToolBox: 'lite-editor-toolbox',
@@ -81,19 +79,29 @@ const defaults = {
     LiteEditorTooltipBody: 'lite-editor-tooltip-body',
     LiteEditorTooltipInput: 'lite-editor-tooltip-input',
     LiteEditorExtendInput: 'lite-editor-extend-input',
+    LiteEditorFontLink: 'lite-editor-font-link',
+    LiteEditorFontRemove: 'lite-editor-font-remove',
+    LiteEditorFontUpdate: 'lite-editor-font-update',
+    LiteEditorFontClose: 'lite-editor-font-close',
+    LiteEditorFontSource: 'lite-editor-font-source',
+    LiteEditorFontAbc: 'lite-editor-font-abc'
   },
   message: {
-    addLinkTitle: 'Add Link',
-    updateLinkTitle: 'Update Link',
+    addLinkTitle: 'link',
+    updateLinkTitle: 'link',
     addLink: 'add',
     updateLink: 'update',
     removeLink: 'remove',
     linkUrl: 'URL',
-    linkLabel: 'label'
+    linkLabel: 'label',
+    closeLabel: 'close'
   },
-  maxHeight: null,
-  minHeight: null,
-  escapeNotRegisteredTags: false,
+  minHeight: 50,
+  maxHeight: 650,
+  nl2br: true,
+  escapeNotRegisteredTags: true,
+  preserveSpace: false,
+  source: true,
   selectOptions: [],
   selectedOption: '',
   btnOptions: defaultbtnOptions,
@@ -123,7 +131,16 @@ export default class LiteEditor extends aTemplate {
       insertExtend: this.insertExtend
     };
     if (selector.value) {
-      this.data.value = selector.value.replace(/\r\n|\r|\n/g, '<br>');
+      let value = selector.value;
+
+      if (this.data.preserveSpace) {
+        const dom = document.createElement('div');
+        dom.innerHTML = value;
+        util.replaceWhiteSpaceWithNbsp(dom);
+        value = dom.innerHTML;
+      }
+
+      this.data.value = value.replace(/\r\n|\r|\n/g, '<br>');
       if (this.data.escapeNotRegisteredTags) {
         this.escapeNotRegisteredTags();
       }
@@ -641,6 +658,9 @@ export default class LiteEditor extends aTemplate {
     .replace(/&nbsp;/g, ' ');
     if (replaced.slice(-1) === '\n') {
       replaced = replaced.slice(0, -1);
+    }
+    if (this.data.nl2br) {
+      replaced = replaced.replace(/\n/g, '<br>\n');
     }
     return entities.decode(replaced);
   }

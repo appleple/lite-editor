@@ -173,6 +173,17 @@ export const setCaretPos = (el, pos) => {
   return pos; // needed because of recursion stuff
 }
 
+export const replaceWhiteSpaceWithNbsp = (el) => {
+  // Loop through all child nodes
+  const nodes = [].slice.call(el.childNodes);
+  for (let i = 0, n = nodes.length; i < n; i++) {
+    const node = nodes[i];
+    if (node.nodeType === 3) { // we have a text node
+      node.textContent = node.textContent.replace(/ /g, '\u00A0');
+    }
+  }  
+} 
+
 export const getCaretPos = (element) => {
   let caretOffset = 0;
   if (window.getSelection) {

@@ -4,12 +4,17 @@
     <div class="\{classNames.LiteEditorTooltipOuter\}">
         <div class="\{classNames.LiteEditorTooltipInner\}">
             <div class="\{classNames.LiteEditorTooltip\}">
-                <button type="button" data-action-click="closeTooltip()" class="\{classNames.LiteEditorBtn\} \{classNames.LiteEditorBtnClose\}">x</button>
+                <span class="\{classNames.LiteEditorBtnCloseWrap\}">
+                    <span class="\{classNames.LiteEditorBtnCloseLabel\}">\{message.closeLabel\}</span>
+                    <button type="button" data-action-click="closeTooltip()" class="\{classNames.LiteEditorBtn\} \{classNames.LiteEditorBtnClose\}">
+                        <i class="\{classNames.LiteEditorFontClose\}"></i>
+                    </button>
+                </span>
                 <!-- BEGIN linkNew:exist -->
-                <h2 class="\{classNames.LiteEditorTooltipTitle\}">\{message.addLinkTitle\}</h2>
+                <h2 class="\{classNames.LiteEditorTooltipTitle\}"><i class="\{classNames.LiteEditorFontLink\}"></i>\{message.addLinkTitle\}</h2>
                 <!-- END linkNew:exist -->
                 <!-- BEGIN linkNew:empty -->
-                <h2 class="\{classNames.LiteEditorTooltipTitle\}">\{message.updateLinkTitle\}</h2>
+                <h2 class="\{classNames.LiteEditorTooltipTitle\}"><i class="\{classNames.LiteEditorFontLink\}"></i>\{message.updateLinkTitle\}</h2>
                 <!-- END linkNew:empty -->
                 <div class="\{classNames.LiteEditorTooltipBody\}">
                     <table class="\{classNames.LiteEditorTooltipTable\}">
@@ -25,12 +30,21 @@
                             <td></td>
                             <td>
                                 <!-- BEGIN linkNew:exist -->
-                                <button type="button" data-action-click="insertAtag()" class="\{classNames.LiteEditorBtn\}">\{message.addLink\}</button> 
+                                <button type="button" data-action-click="insertAtag()" class="\{classNames.LiteEditorBtn\}">
+                                    <i class="\{classNames.LiteEditorFontLink\}"></i>
+                                    \{message.addLink\}
+                                </button> 
                                 <!-- END linkNew:exist -->
 
                                 <!-- BEGIN linkNew:empty -->
-                                <button type="button" data-action-click="removeLink()" class="\{classNames.LiteEditorBtn\}">\{message.removeLink\}</button>
-                                <button type="button" data-action-click="updateLink()" class="\{classNames.LiteEditorBtn\}">\{message.updateLink\}</button>
+                                <button type="button" data-action-click="updateLink()" class="\{classNames.LiteEditorBtn\}">
+                                    <i class="\{classNames.LiteEditorFontUpdate\}"></i>
+                                    \{message.updateLink\}
+                                </button>
+                                <button type="button" data-action-click="removeLink()" class="\{classNames.LiteEditorBtn\}">
+                                    <i class="\{classNames.LiteEditorFontRemove\}"></i>
+                                    \{message.removeLink\}
+                                </button>
                                 <!-- END linkNew:empty -->
                             </td>
                         </tr>

@@ -6,7 +6,7 @@
  *   license: MIT (http://opensource.org/licenses/MIT)
  *   author: appleple
  *   homepage: http://developer.a-blogcms.jp
- *   version: 0.5.16
+ *   version: 1.0.0
  *
  * a-template:
  *   license: MIT (http://opensource.org/licenses/MIT)
@@ -14786,9 +14786,9 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var editorHtml = '<div class="\\{classNames.LiteEditor\\}" data-action-mouseup="onPutCaret" data-action-keydown="onKeyDown" data-selector="lite-editor" contenteditable data-action-input="onInput" data-action-paste="onPaste" style="<!-- BEGIN showSource:exist -->display:none;<!-- END showSource:exist --><!-- BEGIN hideEditor:exist -->display:none;"<!-- END hideEditor:exist --><!-- BEGIN minHeight:exist -->min-height: {minHeight}px;<!-- END minHeight:exist --><!-- BEGIN maxHeight:exist -->max-height:{maxHeight}px;<!-- END maxHeight:exist -->">{value}</div>\n<textarea class="\\{classNames.LiteEditorSource\\}" data-selector="lite-editor-source" style="<!-- BEGIN showSource:empty -->display:none;<!-- END showSource:empty --><!-- BEGIN sourceHeight:exist -->height:{sourceHeight}px;<!-- END sourceHeight:exist -->"{attr} data-bind="formatedValue"></textarea>';
-var btnHtml = '<div class="\\{classNames.LiteEditorToolBox\\}" data-selector="lite-editor-toolbox">\n    <!-- BEGIN selectOptions.0:exist -->\n    <div class="\\{classNames.LiteEditorSelectWrap\\}">\n        <select class="\\{classNames.LiteEditorSelect\\}"<!-- BEGIN selectName:exist --> name="{selectName}"<!-- END selectName:exist --> data-action-change="changeOption" data-bind="selectedOption">\n        <!-- BEGIN selectOptions:loop -->\n        <option value="{value}">{label}</option>\n        <!-- END selectOptions:loop -->\n        </select>\n        <!-- BEGIN extendLabel:exist -->\n        <label>{extendLabel}</label>\n        <input type="text" name="{selectName}[insertExtend]" class="\\{classNames.LiteEditorExtendInput\\}" data-bind="extendValue"/>\n        <!-- END extendLabel:exist -->\n    </div>\n    <!-- END selectOptions.0:exist -->\n\n    <div class="\\{classNames.LiteEditorBtnGroupWrap\\}" <!-- BEGIN hideBtns:exist --> style="display:none;"<!-- END hideBtns:exist -->>        \n        <!-- BEGIN groups:loop -->\n        <div class="\\\\{classNames.LiteEditorBtnGroup\\\\}">\n            <!-- \\BEGIN groups.{i}.items:loop -->\n\n            <!-- \\BEGIN action:touch#preview -->\n            <button class="\\\\\\{classNames.LiteEditorBtn\\\\\\}<!-- \\\\BEGIN showSource:exist --> \\\\\\{classNames.LiteEditorBtnActive\\\\\\}<!-- \\\\END showSource:exist -->" data-action-click="toggleSource" type="button">\\{label\\}</button>\n            <!-- \\END action:touch#preview -->\n\n            <!-- \\BEGIN action:touch#redo -->\n            <button class="\\\\\\{classNames.LiteEditorBtn\\\\\\}" data-action-click="redo"<!-- \\\\BEGIN canRedo:empty --> disabled<!-- \\\\END canRedo:empty --> type="button">\\{label\\}</button>\n            <!-- \\END action:touch#redo -->\n\n            <!-- \\BEGIN action:touch#undo -->\n            <button class="\\\\\\{classNames.LiteEditorBtn\\\\\\}" data-action-click="undo"<!-- \\\\BEGIN canUndo:empty --> disabled<!-- \\\\END canUndo:empty --> type="button">\\{label\\}</button>\n            <!-- \\END action:touch#undo -->\n\n            <!-- \\BEGIN action:touch#extra -->\n            <button class="\\\\\\{classNames.LiteEditorBtn\\\\\\}<!-- \\BEGIN selfClassName:exist --> \\{selfClassName\\}<!-- \\END selfClassName:exist -->" data-action-click="onClick(\\{index\\})" type="button">\\{label\\}</button>\n            <!-- \\END action:touch#extra -->\n\n            <!-- \\BEGIN action:empty -->\n            <button class="\\\\\\{classNames.LiteEditorBtn\\\\\\}<!-- \\BEGIN selfClassName:exist --> \\{selfClassName\\}<!-- \\END selfClassName:exist --><!-- \\BEGIN selected:exist --> \\\\\\{classNames.LiteEditorBtnActive\\\\\\}<!-- \\END selected:exist -->"\n            <!-- \\BEGIN tag:exist -->\n            <!-- \\BEGIN selected:empty --> data-action-click="insertTag(\\{tag\\},\\{className\\},\\{sampleText\\})"<!-- \\END selected:empty -->\n            <!-- \\BEGIN selected:exist --> data-action-click="unwrapTag(\\{tag\\},\\{className\\},\\{sampleText\\})"<!-- \\END selected:exist -->\n            <!-- \\END tag:exist -->\n            <!-- \\BEGIN tag:empty --> data-action-click="insertTag(span,\\{className\\},\\{sampleText\\})"<!-- \\END tag:empty -->\n            <!-- \\\\BEGIN showSource:exist --> disabled<!-- \\\\END showSource:exist --> \n            type="button">\\{label\\}</button>\n            <!-- \\END action:empty -->\n            <!-- \\END groups.{i}.items:loop -->\n        </div>\n        <!-- END groups:loop -->\n    </div>\n</div>';
-var tooltipHtml = '<div data-selector="lite-editor-tooltip">\n<!-- BEGIN tooltipLabel:exist -->\n<div class="\\{classNames.LiteEditorTooltipWrap\\}">\n    <div class="\\{classNames.LiteEditorTooltipOuter\\}">\n        <div class="\\{classNames.LiteEditorTooltipInner\\}">\n            <div class="\\{classNames.LiteEditorTooltip\\}">\n                <button type="button" data-action-click="closeTooltip()" class="\\{classNames.LiteEditorBtn\\} \\{classNames.LiteEditorBtnClose\\}">x</button>\n                <!-- BEGIN linkNew:exist -->\n                <h2 class="\\{classNames.LiteEditorTooltipTitle\\}">\\{message.addLinkTitle\\}</h2>\n                <!-- END linkNew:exist -->\n                <!-- BEGIN linkNew:empty -->\n                <h2 class="\\{classNames.LiteEditorTooltipTitle\\}">\\{message.updateLinkTitle\\}</h2>\n                <!-- END linkNew:empty -->\n                <div class="\\{classNames.LiteEditorTooltipBody\\}">\n                    <table class="\\{classNames.LiteEditorTooltipTable\\}">\n                        <tr>\n                            <th>\\{message.linkLabel\\}</th>\n                            <td><input type="text" data-bind="tooltipLabel" class="\\{classNames.LiteEditorTooltipInput\\}" data-action-keydown="preventSubmit()"></td>\n                        </tr>\n                        <tr>\n                            <th>\\{message.linkUrl\\}</th>\n                            <td><input type="text" data-bind="tooltipUrl" class="\\{classNames.LiteEditorTooltipInput\\}" data-action-keydown="preventSubmit()"></td>\n                        </tr>\n                        <tr>\n                            <td></td>\n                            <td>\n                                <!-- BEGIN linkNew:exist -->\n                                <button type="button" data-action-click="insertAtag()" class="\\{classNames.LiteEditorBtn\\}">\\{message.addLink\\}</button> \n                                <!-- END linkNew:exist -->\n\n                                <!-- BEGIN linkNew:empty -->\n                                <button type="button" data-action-click="removeLink()" class="\\{classNames.LiteEditorBtn\\}">\\{message.removeLink\\}</button>\n                                <button type="button" data-action-click="updateLink()" class="\\{classNames.LiteEditorBtn\\}">\\{message.updateLink\\}</button>\n                                <!-- END linkNew:empty -->\n                            </td>\n                        </tr>\n                    </table>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>\n<!-- END tooltipLabel:exist -->\n</div>';
+var editorHtml = '<div class="\\{classNames.LiteEditor\\}" data-action-mouseup="onPutCaret" data-action-keydown="onKeyDown" data-selector="lite-editor" contenteditable data-action-input="onInput" data-action-paste="onPaste" style="<!-- BEGIN showSource:exist -->display:none;<!-- END showSource:exist --><!-- BEGIN hideEditor:exist -->display:none;"<!-- END hideEditor:exist --><!-- BEGIN minHeight:exist -->min-height: {minHeight}px;<!-- END minHeight:exist --><!-- BEGIN maxHeight:exist -->max-height:{maxHeight}px;<!-- END maxHeight:exist -->">{value}</div>\n<textarea class="\\{classNames.LiteEditorSource\\}" data-selector="lite-editor-source" style="<!-- BEGIN showSource:empty -->display:none;<!-- END showSource:empty --><!-- BEGIN sourceHeight:exist -->height:{sourceHeight}px;<!-- END sourceHeight:exist -->"{attr} data-bind="formatedValue" readonly></textarea>';
+var btnHtml = '<div class="\\{classNames.LiteEditorToolBox\\}" data-selector="lite-editor-toolbox">\n\n    <!-- BEGIN source:exist -->\n    <div class="\\{classNames.LiteEditorBtnGroupWrapRight\\}">\n        <div class="\\{classNames.LiteEditorBtnGroup\\}">\n            <button class="\\{classNames.LiteEditorBtn\\}<!-- BEGIN showSource:empty --> \\{classNames.LiteEditorBtnActive\\}<!-- END showSource:empty -->" data-action-click="toggleSource" type="button" <!-- BEGIN showSource:empty --> disabled<!-- END showSource:empty -->>\n                <i class="\\{classNames.LiteEditorFontAbc\\}"></i>\n            </button>\n            <button class="\\{classNames.LiteEditorBtn\\}<!-- BEGIN showSource:exist --> \\{classNames.LiteEditorBtnActive\\}<!-- END showSource:exist -->" data-action-click="toggleSource" type="button" <!-- BEGIN showSource:exist --> disabled<!-- END showSource:exist -->>\n                <i class="\\{classNames.LiteEditorFontSource\\}"></i>\n            </button>\n        </div>\n    </div>\n    <!-- END source:exist -->\n\n    <!-- BEGIN selectOptions.0:exist -->\n    <div class="\\{classNames.LiteEditorSelectWrap\\}">\n        <select class="\\{classNames.LiteEditorSelect\\}"<!-- BEGIN selectName:exist --> name="{selectName}"<!-- END selectName:exist --> data-action-change="changeOption" data-bind="selectedOption">\n        <!-- BEGIN selectOptions:loop -->\n        <option value="{value}">{label}</option>\n        <!-- END selectOptions:loop -->\n        </select>\n        <!-- BEGIN extendLabel:exist -->\n        <label>{extendLabel}</label>\n        <input type="text" name="{selectName}[insertExtend]" class="\\{classNames.LiteEditorExtendInput\\}" data-bind="extendValue"/>\n        <!-- END extendLabel:exist -->\n    </div>\n    <!-- END selectOptions.0:exist -->\n\n    <div class="\\{classNames.LiteEditorBtnGroupWrap\\}" <!-- BEGIN hideBtns:exist --> style="display:none;"<!-- END hideBtns:exist -->>\n        \n        <!-- BEGIN groups:loop -->\n        <div class="\\\\{classNames.LiteEditorBtnGroup\\\\}">\n            <!-- \\BEGIN groups.{i}.items:loop -->\n\n            <!-- \\BEGIN action:touch#redo -->\n            <button class="\\\\\\{classNames.LiteEditorBtn\\\\\\}" data-action-click="redo"<!-- \\\\BEGIN canRedo:empty --> disabled<!-- \\\\END canRedo:empty --> type="button">\\{label\\}</button>\n            <!-- \\END action:touch#redo -->\n\n            <!-- \\BEGIN action:touch#undo -->\n            <button class="\\\\\\{classNames.LiteEditorBtn\\\\\\}" data-action-click="undo"<!-- \\\\BEGIN canUndo:empty --> disabled<!-- \\\\END canUndo:empty --> type="button">\\{label\\}</button>\n            <!-- \\END action:touch#undo -->\n\n            <!-- \\BEGIN action:touch#extra -->\n            <button class="\\\\\\{classNames.LiteEditorBtn\\\\\\}<!-- \\BEGIN selfClassName:exist --> \\{selfClassName\\}<!-- \\END selfClassName:exist -->" data-action-click="onClick(\\{index\\})" type="button">\\{label\\}</button>\n            <!-- \\END action:touch#extra -->\n\n            <!-- \\BEGIN action:empty -->\n            <button class="\\\\\\{classNames.LiteEditorBtn\\\\\\}<!-- \\BEGIN selfClassName:exist --> \\{selfClassName\\}<!-- \\END selfClassName:exist --><!-- \\BEGIN selected:exist --> \\\\\\{classNames.LiteEditorBtnActive\\\\\\}<!-- \\END selected:exist -->"\n            <!-- \\BEGIN tag:exist -->\n            <!-- \\BEGIN selected:empty --> data-action-click="insertTag(\\{tag\\},\\{className\\},\\{sampleText\\})"<!-- \\END selected:empty -->\n            <!-- \\BEGIN selected:exist --> data-action-click="unwrapTag(\\{tag\\},\\{className\\},\\{sampleText\\})"<!-- \\END selected:exist -->\n            <!-- \\END tag:exist -->\n            <!-- \\BEGIN tag:empty --> data-action-click="insertTag(span,\\{className\\},\\{sampleText\\})"<!-- \\END tag:empty -->\n            <!-- \\\\BEGIN showSource:exist --> disabled<!-- \\\\END showSource:exist --> \n            type="button">\\{label\\}</button>\n            <!-- \\END action:empty -->\n            <!-- \\END groups.{i}.items:loop -->\n        </div>\n        <!-- END groups:loop -->\n    </div>\n</div>';
+var tooltipHtml = '<div data-selector="lite-editor-tooltip">\n<!-- BEGIN tooltipLabel:exist -->\n<div class="\\{classNames.LiteEditorTooltipWrap\\}">\n    <div class="\\{classNames.LiteEditorTooltipOuter\\}">\n        <div class="\\{classNames.LiteEditorTooltipInner\\}">\n            <div class="\\{classNames.LiteEditorTooltip\\}">\n                <span class="\\{classNames.LiteEditorBtnCloseWrap\\}">\n                    <span class="\\{classNames.LiteEditorBtnCloseLabel\\}">\\{message.closeLabel\\}</span>\n                    <button type="button" data-action-click="closeTooltip()" class="\\{classNames.LiteEditorBtn\\} \\{classNames.LiteEditorBtnClose\\}">\n                        <i class="\\{classNames.LiteEditorFontClose\\}"></i>\n                    </button>\n                </span>\n                <!-- BEGIN linkNew:exist -->\n                <h2 class="\\{classNames.LiteEditorTooltipTitle\\}"><i class="\\{classNames.LiteEditorFontLink\\}"></i>\\{message.addLinkTitle\\}</h2>\n                <!-- END linkNew:exist -->\n                <!-- BEGIN linkNew:empty -->\n                <h2 class="\\{classNames.LiteEditorTooltipTitle\\}"><i class="\\{classNames.LiteEditorFontLink\\}"></i>\\{message.updateLinkTitle\\}</h2>\n                <!-- END linkNew:empty -->\n                <div class="\\{classNames.LiteEditorTooltipBody\\}">\n                    <table class="\\{classNames.LiteEditorTooltipTable\\}">\n                        <tr>\n                            <th>\\{message.linkLabel\\}</th>\n                            <td><input type="text" data-bind="tooltipLabel" class="\\{classNames.LiteEditorTooltipInput\\}" data-action-keydown="preventSubmit()"></td>\n                        </tr>\n                        <tr>\n                            <th>\\{message.linkUrl\\}</th>\n                            <td><input type="text" data-bind="tooltipUrl" class="\\{classNames.LiteEditorTooltipInput\\}" data-action-keydown="preventSubmit()"></td>\n                        </tr>\n                        <tr>\n                            <td></td>\n                            <td>\n                                <!-- BEGIN linkNew:exist -->\n                                <button type="button" data-action-click="insertAtag()" class="\\{classNames.LiteEditorBtn\\}">\n                                    <i class="\\{classNames.LiteEditorFontLink\\}"></i>\n                                    \\{message.addLink\\}\n                                </button> \n                                <!-- END linkNew:exist -->\n\n                                <!-- BEGIN linkNew:empty -->\n                                <button type="button" data-action-click="updateLink()" class="\\{classNames.LiteEditorBtn\\}">\n                                    <i class="\\{classNames.LiteEditorFontUpdate\\}"></i>\n                                    \\{message.updateLink\\}\n                                </button>\n                                <button type="button" data-action-click="removeLink()" class="\\{classNames.LiteEditorBtn\\}">\n                                    <i class="\\{classNames.LiteEditorFontRemove\\}"></i>\n                                    \\{message.removeLink\\}\n                                </button>\n                                <!-- END linkNew:empty -->\n                            </td>\n                        </tr>\n                    </table>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>\n<!-- END tooltipLabel:exist -->\n</div>';
 
 
 var Entities = require('html-entities').XmlEntities;
@@ -14800,37 +14800,33 @@ var converter = new Showdown.Converter();
 var und = new Upndown({ decodeEntities: false });
 
 var defaultbtnOptions = [{
-  label: '<i class="fa fa-code"></i>',
-  action: 'preview',
-  group: 'action'
-}, {
-  label: '<i class="fa fa-rotate-left"></i>',
+  label: '<i class="lite-editor-font-back"></i>',
   action: 'undo',
   group: 'action'
 }, {
-  label: '<i class="fa fa-rotate-right"></i>',
+  label: '<i class="lite-editor-font-go"></i>',
   action: 'redo',
   group: 'action'
 }, {
-  label: '<i class="fa fa-link"></i>',
+  label: '<i class="lite-editor-font-link"></i>',
   tag: 'a',
   className: '',
-  group: 'mark',
+  group: 'link',
   sampleText: 'link text'
 }, {
-  label: '<i class="fa fa-bold"></i>',
+  label: '<i class="lite-editor-font-bold"></i>',
   tag: 'strong',
   className: '',
   group: 'mark',
   sampleText: 'strong text'
 }, {
-  label: '<i class="fa fa-italic"></i>',
+  label: '<i class="lite-editor-font-italic"></i>',
   tag: 'i',
   className: '',
   group: 'mark',
   sampleText: 'italic text'
 }, {
-  label: '<i class="fa fa-underline"></i>',
+  label: '<i class="lite-editor-font-underline"></i>',
   tag: 'u',
   className: '',
   group: 'mark',
@@ -14847,6 +14843,9 @@ var defaults = {
     LiteEditorBtnActive: 'lite-editor-btn-active',
     LiteEditorBtnGroup: 'lite-editor-btn-group',
     LiteEditorBtnGroupWrap: 'lite-editor-btn-group-wrap',
+    LiteEditorBtnGroupWrapRight: 'lite-editor-btn-group-wrap-right',
+    LiteEditorBtnCloseWrap: 'lite-editor-btn-close-wrap',
+    LiteEditorBtnCloseLabel: 'lite-editor-btn-close-label',
     LiteEditorSelect: 'lite-editor-select',
     LiteEditorSelectWrap: 'lite-editor-select-wrap',
     LiteEditorToolBox: 'lite-editor-toolbox',
@@ -14858,20 +14857,30 @@ var defaults = {
     LiteEditorTooltipTitle: 'lite-editor-tooltip-title',
     LiteEditorTooltipBody: 'lite-editor-tooltip-body',
     LiteEditorTooltipInput: 'lite-editor-tooltip-input',
-    LiteEditorExtendInput: 'lite-editor-extend-input'
+    LiteEditorExtendInput: 'lite-editor-extend-input',
+    LiteEditorFontLink: 'lite-editor-font-link',
+    LiteEditorFontRemove: 'lite-editor-font-remove',
+    LiteEditorFontUpdate: 'lite-editor-font-update',
+    LiteEditorFontClose: 'lite-editor-font-close',
+    LiteEditorFontSource: 'lite-editor-font-source',
+    LiteEditorFontAbc: 'lite-editor-font-abc'
   },
   message: {
-    addLinkTitle: 'Add Link',
-    updateLinkTitle: 'Update Link',
+    addLinkTitle: 'link',
+    updateLinkTitle: 'link',
     addLink: 'add',
     updateLink: 'update',
     removeLink: 'remove',
     linkUrl: 'URL',
-    linkLabel: 'label'
+    linkLabel: 'label',
+    closeLabel: 'close'
   },
-  maxHeight: null,
-  minHeight: null,
-  escapeNotRegisteredTags: false,
+  minHeight: 50,
+  maxHeight: 650,
+  nl2br: true,
+  escapeNotRegisteredTags: true,
+  preserveSpace: false,
+  source: true,
   selectOptions: [],
   selectedOption: '',
   btnOptions: defaultbtnOptions,
@@ -14905,7 +14914,16 @@ var LiteEditor = function (_aTemplate) {
       insertExtend: _this.insertExtend
     };
     if (selector.value) {
-      _this.data.value = selector.value.replace(/\r\n|\r|\n/g, '<br>');
+      var value = selector.value;
+
+      if (_this.data.preserveSpace) {
+        var dom = document.createElement('div');
+        dom.innerHTML = value;
+        util.replaceWhiteSpaceWithNbsp(dom);
+        value = dom.innerHTML;
+      }
+
+      _this.data.value = value.replace(/\r\n|\r|\n/g, '<br>');
       if (_this.data.escapeNotRegisteredTags) {
         _this.escapeNotRegisteredTags();
       }
@@ -15478,6 +15496,9 @@ var LiteEditor = function (_aTemplate) {
       if (replaced.slice(-1) === '\n') {
         replaced = replaced.slice(0, -1);
       }
+      if (this.data.nl2br) {
+        replaced = replaced.replace(/\n/g, '<br>\n');
+      }
       return entities.decode(replaced);
     }
   }, {
@@ -15711,6 +15732,18 @@ var setCaretPos = exports.setCaretPos = function setCaretPos(el, pos) {
     }
   }
   return pos; // needed because of recursion stuff
+};
+
+var replaceWhiteSpaceWithNbsp = exports.replaceWhiteSpaceWithNbsp = function replaceWhiteSpaceWithNbsp(el) {
+  // Loop through all child nodes
+  var nodes = [].slice.call(el.childNodes);
+  for (var i = 0, n = nodes.length; i < n; i++) {
+    var node = nodes[i];
+    if (node.nodeType === 3) {
+      // we have a text node
+      node.textContent = node.textContent.replace(/ /g, '\xA0');
+    }
+  }
 };
 
 var getCaretPos = exports.getCaretPos = function getCaretPos(element) {

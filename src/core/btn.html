@@ -1,4 +1,18 @@
 <div class="\{classNames.LiteEditorToolBox\}" data-selector="lite-editor-toolbox">
+
+    <!-- BEGIN source:exist -->
+    <div class="\{classNames.LiteEditorBtnGroupWrapRight\}">
+        <div class="\{classNames.LiteEditorBtnGroup\}">
+            <button class="\{classNames.LiteEditorBtn\}<!-- BEGIN showSource:empty --> \{classNames.LiteEditorBtnActive\}<!-- END showSource:empty -->" data-action-click="toggleSource" type="button" <!-- BEGIN showSource:empty --> disabled<!-- END showSource:empty -->>
+                <i class="\{classNames.LiteEditorFontAbc\}"></i>
+            </button>
+            <button class="\{classNames.LiteEditorBtn\}<!-- BEGIN showSource:exist --> \{classNames.LiteEditorBtnActive\}<!-- END showSource:exist -->" data-action-click="toggleSource" type="button" <!-- BEGIN showSource:exist --> disabled<!-- END showSource:exist -->>
+                <i class="\{classNames.LiteEditorFontSource\}"></i>
+            </button>
+        </div>
+    </div>
+    <!-- END source:exist -->
+
     <!-- BEGIN selectOptions.0:exist -->
     <div class="\{classNames.LiteEditorSelectWrap\}">
         <select class="\{classNames.LiteEditorSelect\}"<!-- BEGIN selectName:exist --> name="{selectName}"<!-- END selectName:exist --> data-action-change="changeOption" data-bind="selectedOption">
@@ -13,14 +27,11 @@
     </div>
     <!-- END selectOptions.0:exist -->
 
-    <div class="\{classNames.LiteEditorBtnGroupWrap\}" <!-- BEGIN hideBtns:exist --> style="display:none;"<!-- END hideBtns:exist -->>        
+    <div class="\{classNames.LiteEditorBtnGroupWrap\}" <!-- BEGIN hideBtns:exist --> style="display:none;"<!-- END hideBtns:exist -->>
+        
         <!-- BEGIN groups:loop -->
         <div class="\\{classNames.LiteEditorBtnGroup\\}">
             <!-- \BEGIN groups.{i}.items:loop -->
-
-            <!-- \BEGIN action:touch#preview -->
-            <button class="\\\{classNames.LiteEditorBtn\\\}<!-- \\BEGIN showSource:exist --> \\\{classNames.LiteEditorBtnActive\\\}<!-- \\END showSource:exist -->" data-action-click="toggleSource" type="button">\{label\}</button>
-            <!-- \END action:touch#preview -->
 
             <!-- \BEGIN action:touch#redo -->
             <button class="\\\{classNames.LiteEditorBtn\\\}" data-action-click="redo"<!-- \\BEGIN canRedo:empty --> disabled<!-- \\END canRedo:empty --> type="button">\{label\}</button>
