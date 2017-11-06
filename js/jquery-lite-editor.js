@@ -15222,7 +15222,7 @@ var LiteEditor = function (_aTemplate) {
       data.canRedo = this.canRedo();
       data.formatedValue = this.format(data.value);
       if (data.value) {
-        data.value = data.value.replace(/{(.*?)}/g, '&lcub;$1&rcub;');
+        data.value = data.value.replace(/{/g, '&lcub;').replace(/}/g, '&rcub;');
       }
     }
   }, {
