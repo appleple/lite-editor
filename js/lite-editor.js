@@ -6,7 +6,7 @@
  *   license: MIT (http://opensource.org/licenses/MIT)
  *   author: appleple
  *   homepage: http://developer.a-blogcms.jp
- *   version: 1.0.2
+ *   version: 1.0.3
  *
  * a-template:
  *   license: MIT (http://opensource.org/licenses/MIT)
@@ -14946,7 +14946,6 @@ var LiteEditor = function (_aTemplate) {
   _createClass(LiteEditor, [{
     key: 'makeEditableHtml',
     value: function makeEditableHtml(value) {
-
       // value = value.replace(/\n/g, '');
 
       if (this.data.preserveSpace) {

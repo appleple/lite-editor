@@ -170,7 +170,6 @@ export default class LiteEditor extends aTemplate {
   }
 
   makeEditableHtml(value) {
-    
     // value = value.replace(/\n/g, '');
 
     if (this.data.preserveSpace) {
