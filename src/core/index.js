@@ -390,7 +390,6 @@ export default class LiteEditor extends aTemplate {
 
   beforeUpdated() {
     const data = this.data;
-    const editor = this._getElementByQuery('[data-selector="lite-editor"]');
     data.canUndo = this.canUndo();
     data.canRedo = this.canRedo();
     data.formatedValue = this.format(data.value);
