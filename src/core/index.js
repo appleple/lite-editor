@@ -347,7 +347,6 @@ export default class LiteEditor extends aTemplate {
       const source = this._getElementByQuery('[data-selector="lite-editor-source"]');
       util.replaceSelectionWithText(source, insertHtml);
       this.data.value = this.makeEditableHtml(source.value);
-      
     } else if (this.data.mode === 'markdown') {
       und.convert(insertHtml, (err, markdown) => {
         this.insertHtml(markdown.replace(/\r\n|\r|\n/g, '<br>'));
