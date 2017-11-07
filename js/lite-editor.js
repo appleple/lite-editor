@@ -15148,10 +15148,11 @@ var LiteEditor = function (_aTemplate) {
         und.convert(insertHtml, function (err, markdown) {
           _this3.insertHtml(markdown.replace(/\r\n|\r|\n/g, '<br>'));
         });
+        this.updateToolBox();
       } else {
         this.insertHtml(insertHtml.replace(/\r\n|\r|\n/g, '<br>'));
+        this.updateToolBox();
       }
-      this.updateToolBox();
     }
   }, {
     key: 'showLinkDialog',
@@ -15183,10 +15184,11 @@ var LiteEditor = function (_aTemplate) {
         und.convert(insertHtml, function (err, markdown) {
           _this4.insertHtml(markdown.replace(/\r\n|\r|\n/g, '<br>'));
         });
+        this.updateToolBox();
       } else {
         this.insertHtml(insertHtml.replace(/\r\n|\r|\n/g, '<br>'));
+        this.updateToolBox();
       }
-      this.updateToolBox();
       this.closeTooltip();
     }
   }, {
