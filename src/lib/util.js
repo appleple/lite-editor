@@ -137,6 +137,13 @@ export const replaceSelectionWithHtml = (html) => {
   }
 }
 
+export const replaceSelectionWithText = (ele, text) => {
+  const selectionStart = ele.selectionStart;
+  ele.value = `${ele.value.substring(0, selectionStart)}${text}${ele.value.substring(ele.selectionEnd)}`;
+  ele.focus();
+  ele.setSelectionRange(selectionStart, selectionStart + text.length);
+}
+
 export const unwrapTag = (element) => {
   const parent = element.parentNode;
   while (element.firstChild) {

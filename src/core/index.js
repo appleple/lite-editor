@@ -343,7 +343,11 @@ export default class LiteEditor extends aTemplate {
       classAttr = ` class="${className}"`;
     }
     const insertHtml = `<${tag}${classAttr}>${selection}</${tag}>`;
-    if (this.data.mode === 'markdown') {
+    if (this.data.showSource) {
+      const source = this._getElementByQuery('[data-selector="lite-editor-source"]');
+      util.replaceSelectionWithText(source, insertHtml);
+      this.data.value = this.makeEditableHtml(source.value);
+    } else if (this.data.mode === 'markdown') {
       und.convert(insertHtml, (err, markdown) => {
         this.insertHtml(markdown.replace(/\r\n|\r|\n/g, '<br>'));
       });
@@ -370,7 +374,11 @@ export default class LiteEditor extends aTemplate {
       classAttr = ` class="${className}"`;
     }
     const insertHtml = `<a href="${link}"${classAttr}>${label}</a>`;
-    if (this.data.mode === 'markdown') {
+    if (this.data.showSource) {
+      const source = this._getElementByQuery('[data-selector="lite-editor-source"]');
+      util.replaceSelectionWithText(source, insertHtml);
+      this.data.value = this.makeEditableHtml(source.value);
+    } else if (this.data.mode === 'markdown') {
       und.convert(insertHtml, (err, markdown) => {
         this.insertHtml(markdown.replace(/\r\n|\r|\n/g, '<br>'));
       });
@@ -657,10 +665,21 @@ export default class LiteEditor extends aTemplate {
       return '';
     }
     let replaced = txt
-    .replace(/<p[^<]*?>(([\n\r\t]|.)*?)<\/p>/g, '$1\n')
     .replace(/<br>(\s*)/g, '\n')
     .replace(/<br>/g, '\n')
-    .replace(/&nbsp;/g, ' ');
+    .replace(/&nbsp;/g, ' ')
+    .replace(/( +)/g, (a) => {
+      const length = a.length;
+      let ret = '';
+      for (let i = 0; i < length; i++) {
+        if (i % 2 === 0) {
+          ret += ' ';
+        } else {
+          ret += '&nbsp;';
+        }
+      }
+      return ret;
+    });
     if (replaced.slice(-1) === '\n') {
       replaced = replaced.slice(0, -1);
     }
