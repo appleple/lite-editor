@@ -671,7 +671,7 @@ export default class LiteEditor extends aTemplate {
     .replace(/( +)/g, (a) => {
       const length = a.length;
       let ret = '';
-      for (let i = 0; i < length; i++) {
+      for (let i = 0; i < length; i += 1) {
         if (i % 2 === 0) {
           ret += ' ';
         } else {
