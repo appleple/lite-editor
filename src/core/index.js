@@ -119,6 +119,7 @@ export default class LiteEditor extends aTemplate {
     const html = `<div data-id='${this.id}'></div>`;
     this.data = extend({}, defaults, settings);
     this.data.showSource = this.data.sourceFirst;
+    this.data.disableEditorMode = false;
     this.data.hideEditor = false;
     this.data.tooltipLabel = '';
     this.data.tooltipUrl = '';
@@ -178,6 +179,16 @@ export default class LiteEditor extends aTemplate {
     }
 
     this._fireEvent('init');
+  }
+
+  activateEditorMode() {
+    this.data.disableEditorMode = false;
+    this.update('html', '[data-selector="lite-editor-toolbox"]');
+  }
+
+  deactivateEditorMode() {
+    this.data.disableEditorMode = true;
+    this.update('html', '[data-selector="lite-editor-toolbox"]');
   }
 
   makeEditableHtml(value) {

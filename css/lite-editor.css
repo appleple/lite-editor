@@ -121,7 +121,7 @@
   width: 44px;
 }
 
-.lite-editor-btn-group-wrap-right .lite-editor-btn[disabled] {
+.lite-editor-btn-group-wrap-right .lite-editor-btn-active {
   background: #65B9FF;
   opacity: 1;
   border: 1px solid #A2ADB9;
@@ -129,7 +129,7 @@
   color: #FFF;
 }
 
-.lite-editor-btn-group-wrap-right .lite-editor-btn[disabled] [class^=lite-editor-font] {
+.lite-editor-btn-group-wrap-right .lite-editor-btn-active [class^=lite-editor-font] {
   color: #FFF;
 }
 
