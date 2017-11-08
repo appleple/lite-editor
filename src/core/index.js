@@ -99,6 +99,7 @@ const defaults = {
   minHeight: 50,
   maxHeight: 400,
   decodeSource: false,
+  sourceFirst: false,
   escapeNotRegisteredTags: false,
   preserveSpace: false,
   nl2br: true,
@@ -113,50 +114,57 @@ export default class LiteEditor extends aTemplate {
 
   constructor(ele, settings) {
     super();
-    this.data = extend({}, defaults, settings);
-    this.data.showSource = false;
-    this.data.hideEditor = false;
-    this.data.groups = this.makeBtnGroups();
     this.id = this._getUniqId();
-    let template = '';
-    if (this.data.btnPosition === 'bottom') {
-      template = `${editorHtml}${btnHtml}`;
-    } else {
-      template = `${btnHtml}${editorHtml}`;
-    }
-    template += `${tooltipHtml}`;
-    this.addTemplate(this.id, template);
     const selector = typeof ele === 'string' ? document.querySelector(ele) : ele;
+    const html = `<div data-id='${this.id}'></div>`;
+    this.data = extend({}, defaults, settings);
+    this.data.showSource = this.data.sourceFirst;
+    this.data.hideEditor = false;
+    this.data.tooltipLabel = '';
+    this.data.tooltipUrl = '';
+    this.data.tooltipClassName = '';
+    this.data.attr = '';
+    this.data.linkNew = true;
+    this.data.groups = this.makeBtnGroups();
+    this.stack = [];
+    this.stackPosition = 0;
+    let template = '';
+    let attrStr = '';
+
     this.convert = {
       format: this.format,
       insertExtend: this.insertExtend
     };
+    
+    if (this.data.btnPosition === 'bottom') {
+      template = `${editorHtml}${btnHtml}${tooltipHtml}`;
+    } else {
+      template = `${btnHtml}${editorHtml}${tooltipHtml}`;
+    }
+
+    this.addTemplate(this.id, template);
+
     if (selector.value) {
       let value = selector.value;
       value = this.makeEditableHtml(value);
       if (this.data.escapeNotRegisteredTags) {
         value = this.escapeNotRegisteredTags(value);
       }
+      this.data.firstValue = selector.value;
       this.data.value = value;
     }
-    let attrStr = '';
+    
     if (selector.attributes) {
       [].forEach.call(selector.attributes, (attr) => {
         attrStr += ` ${attr.nodeName}="${attr.nodeValue}"`;
       });
+      this.data.attr = attrStr;
     }
+
     if (!this.data.selectedOption && this.data.selectOptions && this.data.selectOptions[0] && this.data.selectOptions[0].value) {
       this.data.selectedOption = this.data.selectOptions[0].value;
     }
-    this.data.attr = attrStr;
-    this.data.tooltipLabel = '';
-    this.data.tooltipUrl = '';
-    this.data.tooltipClassName = '';
-    this.data.linkNew = true;
-    this.stack = [];
-    this.stackPosition = 0;
-    const html = `<div data-id='${this.id}'></div>`;
-    selector.style.display = 'none';
+    
     util.before(selector, html);
     util.removeElement(selector);
     this.update();
@@ -168,9 +176,8 @@ export default class LiteEditor extends aTemplate {
         item.onSelect(this);
       }
     }
-    if (this.data.afterInit) {
-      this.data.afterInit(this);
-    }
+
+    this._fireEvent('init');
   }
 
   makeEditableHtml(value) {
@@ -223,6 +230,18 @@ export default class LiteEditor extends aTemplate {
 
   _getElementByQuery(query) {
     return document.querySelector(`[data-id='${this.id}'] ${query}`);
+  }
+
+  _fireEvent(eventName) {
+    const source = this._getElementByQuery('[data-selector="lite-editor-source"]');
+    util.triggerEvent(source, eventName);
+  }
+
+  on(event, fn) {
+    const source = this._getElementByQuery('[data-selector="lite-editor-source"]');
+    source.addEventListener(event, (e) => {
+      fn.call(this, e);
+    });
   }
 
   escapeNotRegisteredTags(value) {
@@ -402,7 +421,12 @@ export default class LiteEditor extends aTemplate {
     const data = this.data;
     data.canUndo = this.canUndo();
     data.canRedo = this.canRedo();
-    data.formatedValue = this.format(data.value);
+    if (data.firstValue) {
+      data.formatedValue = this.data.firstValue;
+      data.firstValue = '';
+    } else {
+      data.formatedValue = this.format(data.value);
+    }
     if (data.value) {
       data.value = data.value.replace(/{/g, '&lcub;').replace(/}/g, '&rcub;');
     }
@@ -413,12 +437,13 @@ export default class LiteEditor extends aTemplate {
     const source = this._getElementByQuery('[data-selector="lite-editor-source"]');
     if (this.data.showSource === true) {
       source.style.height = `${source.scrollHeight}px`;
+    } else {
+      this.data.value = editor.innerHTML;
     }
     if (!editor) {
       return;
     }
     this.saveSelection();
-    this.data.value = editor.innerHTML;
     if (this.stopStack) {
       this.stopStack = false;
     } else if (`${this.stack[this.stackPosition - 1]}` !== `${this.data.value}`) {

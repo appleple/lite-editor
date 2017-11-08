@@ -14866,6 +14866,7 @@ var defaults = {
   minHeight: 50,
   maxHeight: 400,
   decodeSource: false,
+  sourceFirst: false,
   escapeNotRegisteredTags: false,
   preserveSpace: false,
   nl2br: true,
@@ -14884,50 +14885,57 @@ var LiteEditor = function (_aTemplate) {
 
     var _this = _possibleConstructorReturn(this, (LiteEditor.__proto__ || Object.getPrototypeOf(LiteEditor)).call(this));
 
-    _this.data = (0, _deepExtend2.default)({}, defaults, settings);
-    _this.data.showSource = false;
-    _this.data.hideEditor = false;
-    _this.data.groups = _this.makeBtnGroups();
     _this.id = _this._getUniqId();
-    var template = '';
-    if (_this.data.btnPosition === 'bottom') {
-      template = '' + editorHtml + btnHtml;
-    } else {
-      template = '' + btnHtml + editorHtml;
-    }
-    template += '' + tooltipHtml;
-    _this.addTemplate(_this.id, template);
     var selector = typeof ele === 'string' ? document.querySelector(ele) : ele;
+    var html = '<div data-id=\'' + _this.id + '\'></div>';
+    _this.data = (0, _deepExtend2.default)({}, defaults, settings);
+    _this.data.showSource = _this.data.sourceFirst;
+    _this.data.hideEditor = false;
+    _this.data.tooltipLabel = '';
+    _this.data.tooltipUrl = '';
+    _this.data.tooltipClassName = '';
+    _this.data.attr = '';
+    _this.data.linkNew = true;
+    _this.data.groups = _this.makeBtnGroups();
+    _this.stack = [];
+    _this.stackPosition = 0;
+    var template = '';
+    var attrStr = '';
+
     _this.convert = {
       format: _this.format,
       insertExtend: _this.insertExtend
     };
+
+    if (_this.data.btnPosition === 'bottom') {
+      template = '' + editorHtml + btnHtml + tooltipHtml;
+    } else {
+      template = '' + btnHtml + editorHtml + tooltipHtml;
+    }
+
+    _this.addTemplate(_this.id, template);
+
     if (selector.value) {
       var value = selector.value;
       value = _this.makeEditableHtml(value);
       if (_this.data.escapeNotRegisteredTags) {
         value = _this.escapeNotRegisteredTags(value);
       }
+      _this.data.firstValue = selector.value;
       _this.data.value = value;
     }
-    var attrStr = '';
+
     if (selector.attributes) {
       [].forEach.call(selector.attributes, function (attr) {
         attrStr += ' ' + attr.nodeName + '="' + attr.nodeValue + '"';
       });
+      _this.data.attr = attrStr;
     }
+
     if (!_this.data.selectedOption && _this.data.selectOptions && _this.data.selectOptions[0] && _this.data.selectOptions[0].value) {
       _this.data.selectedOption = _this.data.selectOptions[0].value;
     }
-    _this.data.attr = attrStr;
-    _this.data.tooltipLabel = '';
-    _this.data.tooltipUrl = '';
-    _this.data.tooltipClassName = '';
-    _this.data.linkNew = true;
-    _this.stack = [];
-    _this.stackPosition = 0;
-    var html = '<div data-id=\'' + _this.id + '\'></div>';
-    selector.style.display = 'none';
+
     util.before(selector, html);
     util.removeElement(selector);
     _this.update();
@@ -14941,9 +14949,8 @@ var LiteEditor = function (_aTemplate) {
         item.onSelect(_this);
       }
     }
-    if (_this.data.afterInit) {
-      _this.data.afterInit(_this);
-    }
+
+    _this._fireEvent('init');
     return _this;
   }
 
@@ -15005,9 +15012,25 @@ var LiteEditor = function (_aTemplate) {
       return document.querySelector('[data-id=\'' + this.id + '\'] ' + query);
     }
   }, {
+    key: '_fireEvent',
+    value: function _fireEvent(eventName) {
+      var source = this._getElementByQuery('[data-selector="lite-editor-source"]');
+      util.triggerEvent(source, eventName);
+    }
+  }, {
+    key: 'on',
+    value: function on(event, fn) {
+      var _this2 = this;
+
+      var source = this._getElementByQuery('[data-selector="lite-editor-source"]');
+      source.addEventListener(event, function (e) {
+        fn.call(_this2, e);
+      });
+    }
+  }, {
     key: 'escapeNotRegisteredTags',
     value: function escapeNotRegisteredTags(value) {
-      var _this2 = this;
+      var _this3 = this;
 
       var btns = this.data.btnOptions;
       value = value.replace(/<([a-zA-Z0-9._-]+)\s?(.*?)>(([\n\r\t]|.)*?)<\/\1>/g, function (component, tag, attr, content) {
@@ -15025,7 +15048,7 @@ var LiteEditor = function (_aTemplate) {
           return component;
         }
         if (/<([a-zA-Z0-9._-]+)\s?(.*?)>(([\n\r\t]|.)*?)<\/\1>/.exec(content)) {
-          content = _this2.escapeNotRegisteredTags(content);
+          content = _this3.escapeNotRegisteredTags(content);
         }
         return '&lt;' + tag + attr + '&gt;' + content + '&lt;/' + tag + '&gt;';
       });
@@ -15123,7 +15146,7 @@ var LiteEditor = function (_aTemplate) {
   }, {
     key: 'insertTag',
     value: function insertTag(tag, className, sampleText) {
-      var _this3 = this;
+      var _this4 = this;
 
       var selection = util.getSelection();
       if (!selection) {
@@ -15146,7 +15169,7 @@ var LiteEditor = function (_aTemplate) {
         this.data.value = this.makeEditableHtml(source.value);
       } else if (this.data.mode === 'markdown') {
         und.convert(insertHtml, function (err, markdown) {
-          _this3.insertHtml(markdown.replace(/\r\n|\r|\n/g, '<br>'));
+          _this4.insertHtml(markdown.replace(/\r\n|\r|\n/g, '<br>'));
         });
         this.updateToolBox();
       } else {
@@ -15165,7 +15188,7 @@ var LiteEditor = function (_aTemplate) {
   }, {
     key: 'insertAtag',
     value: function insertAtag() {
-      var _this4 = this;
+      var _this5 = this;
 
       this.restoreSelection();
       var label = this.data.tooltipLabel;
@@ -15182,7 +15205,7 @@ var LiteEditor = function (_aTemplate) {
         this.data.value = this.makeEditableHtml(source.value);
       } else if (this.data.mode === 'markdown') {
         und.convert(insertHtml, function (err, markdown) {
-          _this4.insertHtml(markdown.replace(/\r\n|\r|\n/g, '<br>'));
+          _this5.insertHtml(markdown.replace(/\r\n|\r|\n/g, '<br>'));
         });
         this.updateToolBox();
       } else {
@@ -15205,7 +15228,12 @@ var LiteEditor = function (_aTemplate) {
       var data = this.data;
       data.canUndo = this.canUndo();
       data.canRedo = this.canRedo();
-      data.formatedValue = this.format(data.value);
+      if (data.firstValue) {
+        data.formatedValue = this.data.firstValue;
+        data.firstValue = '';
+      } else {
+        data.formatedValue = this.format(data.value);
+      }
       if (data.value) {
         data.value = data.value.replace(/{/g, '&lcub;').replace(/}/g, '&rcub;');
       }
@@ -15217,12 +15245,13 @@ var LiteEditor = function (_aTemplate) {
       var source = this._getElementByQuery('[data-selector="lite-editor-source"]');
       if (this.data.showSource === true) {
         source.style.height = source.scrollHeight + 'px';
+      } else {
+        this.data.value = editor.innerHTML;
       }
       if (!editor) {
         return;
       }
       this.saveSelection();
-      this.data.value = editor.innerHTML;
       if (this.stopStack) {
         this.stopStack = false;
       } else if ('' + this.stack[this.stackPosition - 1] !== '' + this.data.value) {
@@ -15344,12 +15373,12 @@ var LiteEditor = function (_aTemplate) {
   }, {
     key: 'onPutCaret',
     value: function onPutCaret() {
-      var _this5 = this;
+      var _this6 = this;
 
       setTimeout(function () {
-        var target = _this5.getSelectionNode();
+        var target = _this6.getSelectionNode();
         var tags = [];
-        var editor = _this5._getElementByQuery('[data-selector="lite-editor"]');
+        var editor = _this6._getElementByQuery('[data-selector="lite-editor"]');
         if (target && target !== editor) {
           tags.push({ tagName: target.tagName.toLowerCase(), className: target.getAttribute('class') || '' });
           var parent = target.parentElement;
@@ -15362,7 +15391,7 @@ var LiteEditor = function (_aTemplate) {
             parent = parent.parentElement;
           }
         }
-        _this5.updateToolBox(tags);
+        _this6.updateToolBox(tags);
       }, 1);
     }
   }, {
@@ -15521,13 +15550,13 @@ var LiteEditor = function (_aTemplate) {
   }, {
     key: 'toMarkdown',
     value: function toMarkdown() {
-      var _this6 = this;
+      var _this7 = this;
 
       this.data.mode = 'markdown';
       und.convert(this.data.value, function (err, markdown) {
-        _this6.data.value = markdown;
-        _this6.data.value = _this6.data.value.replace(/\n/g, '<br>');
-        _this6.update();
+        _this7.data.value = markdown;
+        _this7.data.value = _this7.data.value.replace(/\n/g, '<br>');
+        _this7.update();
       });
     }
   }, {
