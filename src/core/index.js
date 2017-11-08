@@ -136,7 +136,7 @@ export default class LiteEditor extends aTemplate {
       format: this.format,
       insertExtend: this.insertExtend
     };
-    
+
     if (this.data.btnPosition === 'bottom') {
       template = `${editorHtml}${btnHtml}${tooltipHtml}`;
     } else {
@@ -154,7 +154,7 @@ export default class LiteEditor extends aTemplate {
       this.data.firstValue = selector.value;
       this.data.value = value;
     }
-    
+
     if (selector.attributes) {
       [].forEach.call(selector.attributes, (attr) => {
         attrStr += ` ${attr.nodeName}="${attr.nodeValue}"`;
@@ -165,7 +165,7 @@ export default class LiteEditor extends aTemplate {
     if (!this.data.selectedOption && this.data.selectOptions && this.data.selectOptions[0] && this.data.selectOptions[0].value) {
       this.data.selectedOption = this.data.selectOptions[0].value;
     }
-    
+
     util.before(selector, html);
     util.removeElement(selector);
     this.update();
