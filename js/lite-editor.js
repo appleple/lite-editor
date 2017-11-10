@@ -15178,13 +15178,15 @@ var LiteEditor = function (_aTemplate) {
       var insertHtml = '<' + tag + classAttr + '>' + selection + '</' + tag + '>';
       if (this.data.showSource) {
         var source = this._getElementByQuery('[data-selector="lite-editor-source"]');
-        util.replaceSelectionWithText(source, insertHtml);
-        this.data.value = this.makeEditableHtml(source.value);
-      } else if (this.data.mode === 'markdown') {
-        und.convert(insertHtml, function (err, markdown) {
-          _this4.insertHtml(markdown.replace(/\r\n|\r|\n/g, '<br>'));
-        });
-        this.updateToolBox();
+        if (this.data.mode === 'markdown') {
+          und.convert(insertHtml, function (err, markdown) {
+            util.replaceSelectionWithText(source, markdown);
+            _this4.data.value = _this4.makeEditableHtml(source.value);
+          });
+        } else {
+          util.replaceSelectionWithText(source, insertHtml);
+          this.data.value = this.makeEditableHtml(source.value);
+        }
       } else {
         this.insertHtml(insertHtml.replace(/\r\n|\r|\n/g, '<br>'));
         this.updateToolBox();
@@ -15214,13 +15216,15 @@ var LiteEditor = function (_aTemplate) {
       var insertHtml = '<a href="' + link + '"' + classAttr + '>' + label + '</a>';
       if (this.data.showSource) {
         var source = this._getElementByQuery('[data-selector="lite-editor-source"]');
-        util.replaceSelectionWithText(source, insertHtml);
-        this.data.value = this.makeEditableHtml(source.value);
-      } else if (this.data.mode === 'markdown') {
-        und.convert(insertHtml, function (err, markdown) {
-          _this5.insertHtml(markdown.replace(/\r\n|\r|\n/g, '<br>'));
-        });
-        this.updateToolBox();
+        if (this.data.mode === 'markdown') {
+          und.convert(insertHtml, function (err, markdown) {
+            util.replaceSelectionWithText(source, markdown);
+            _this5.data.value = _this5.makeEditableHtml(source.value);
+          });
+        } else {
+          util.replaceSelectionWithText(source, insertHtml);
+          this.data.value = this.makeEditableHtml(source.value);
+        }
       } else {
         this.insertHtml(insertHtml.replace(/\r\n|\r|\n/g, '<br>'));
         this.updateToolBox();
