@@ -15060,7 +15060,9 @@ var LiteEditor = function (_aTemplate) {
     key: '_fireEvent',
     value: function _fireEvent(eventName) {
       var source = this._getElementByQuery('[data-selector="lite-editor-source"]');
-      util.triggerEvent(source, eventName);
+      if (source) {
+        util.triggerEvent(source, eventName);
+      }
     }
   }, {
     key: 'on',
@@ -15223,6 +15225,7 @@ var LiteEditor = function (_aTemplate) {
         this.insertHtml(insertHtml.replace(/\r\n|\r|\n/g, '<br>'));
         this.updateToolBox();
       }
+      this._fireEvent('insertTag');
     }
   }, {
     key: 'showLinkDialog',
@@ -15286,6 +15289,7 @@ var LiteEditor = function (_aTemplate) {
       if (data.value) {
         data.value = data.value.replace(/{/g, '&lcub;').replace(/}/g, '&rcub;');
       }
+      this._fireEvent('prerender');
     }
   }, {
     key: 'onUpdated',
@@ -15311,6 +15315,7 @@ var LiteEditor = function (_aTemplate) {
           this.selector.value = this.format(this.data.value);
         }
       }
+      this._fireEvent('render');
     }
   }, {
     key: 'redo',
@@ -15322,6 +15327,7 @@ var LiteEditor = function (_aTemplate) {
       this.data.value = this.stack[this.stackPosition];
       this.stopStack = true;
       this.update();
+      this._fireEvent('redo');
     }
   }, {
     key: 'canRedo',
@@ -15341,6 +15347,7 @@ var LiteEditor = function (_aTemplate) {
       this.data.value = this.stack[this.stackPosition];
       this.stopStack = true;
       this.update();
+      this._fireEvent('undo');
     }
   }, {
     key: 'canUndo',
@@ -15373,6 +15380,7 @@ var LiteEditor = function (_aTemplate) {
         this.data.formatedValue = this.format(this.data.value);
         textarea.value = this.data.formatedValue;
       }
+      this._fireEvent('paste');
     }
   }, {
     key: 'onKeyDown',
@@ -15549,6 +15557,7 @@ var LiteEditor = function (_aTemplate) {
       editor.focus();
       util.setCaretPos(editor, pos);
       this.onPutCaret();
+      this._fireEvent('unwrapTag');
     }
   }, {
     key: 'changeMode',

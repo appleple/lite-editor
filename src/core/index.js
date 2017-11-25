@@ -251,7 +251,9 @@ export default class LiteEditor extends aTemplate {
 
   _fireEvent(eventName) {
     const source = this._getElementByQuery('[data-selector="lite-editor-source"]');
-    util.triggerEvent(source, eventName);
+    if (source) {
+      util.triggerEvent(source, eventName);
+    }
   }
 
   on(event, fn) {
@@ -394,6 +396,7 @@ export default class LiteEditor extends aTemplate {
       this.insertHtml(insertHtml.replace(/\r\n|\r|\n/g, '<br>'));
       this.updateToolBox();
     }
+    this._fireEvent('insertTag');
   }
 
   showLinkDialog(text, className) {
@@ -451,6 +454,7 @@ export default class LiteEditor extends aTemplate {
     if (data.value) {
       data.value = data.value.replace(/{/g, '&lcub;').replace(/}/g, '&rcub;');
     }
+    this._fireEvent('prerender');
   }
 
   onUpdated() {
@@ -475,6 +479,7 @@ export default class LiteEditor extends aTemplate {
         this.selector.value = this.format(this.data.value);
       }
     }
+    this._fireEvent('render');
   }
 
   redo() {
@@ -485,6 +490,7 @@ export default class LiteEditor extends aTemplate {
     this.data.value = this.stack[this.stackPosition];
     this.stopStack = true;
     this.update();
+    this._fireEvent('redo');
   }
 
   canRedo() {
@@ -502,6 +508,7 @@ export default class LiteEditor extends aTemplate {
     this.data.value = this.stack[this.stackPosition];
     this.stopStack = true;
     this.update();
+    this._fireEvent('undo');
   }
 
   canUndo() {
@@ -531,6 +538,7 @@ export default class LiteEditor extends aTemplate {
       this.data.formatedValue = this.format(this.data.value);
       textarea.value = this.data.formatedValue;
     }
+    this._fireEvent('paste');
   }
 
   onKeyDown() {
@@ -692,6 +700,7 @@ export default class LiteEditor extends aTemplate {
     editor.focus();
     util.setCaretPos(editor, pos);
     this.onPutCaret();
+    this._fireEvent('unwrapTag');
   }
 
   changeMode(mode) {
