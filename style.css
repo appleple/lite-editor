@@ -1,0 +1,74 @@
+.fa {
+    margin-right: .25em;
+}
+.button.is-icon .fa,
+.button.is-round .fa {
+    margin-right: 0;
+}
+.button {
+    background-color: #2196F3;
+    border-color: #2196F3;
+}
+.tree ol>li.is-current>a, 
+.tree ul>li.is-current>a {
+    background-color: #2196F3;
+}
+a {
+    color: #2196F3;
+}
+.header .menu {
+    margin-left: auto;
+    margin-right: 2.5rem;
+}
+.lite-editor-toolbox {
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+    color: #000;
+}
+.lite-editor-tooltip-table th, 
+.lite-editor-tooltip-table td{
+    border: none;
+    color: #000;
+}
+.lite-editor-tooltip-title {
+    margin-top: 0 !important;
+    color: #000 !important;
+    padding: 8px 15px;
+}
+.lite-editor-btn-close-wrap {
+    margin-top: 6px;
+}
+.lite-editor,
+.lite-editor-source {
+    color: #000;
+    font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    padding: 1em;
+}
+.right {
+    text-align: right;
+}
+.left {
+    text-align: left;
+}
+.center {
+    text-align: center;
+}
+.lite-editor-source {
+    display: block;
+    margin-bottom: 0;
+}
+.lite-editor-tooltip-table td {
+    background-color: transparent !important;
+}
+@media screen and (min-width: 768px) {
+    .uny-logo:before {
+    font-size: 12.5rem;
+    }
+}
+.firstview {
+    background-color: #f9f9f9;
+}
+.demo {
+    box-shadow: 0 2px 8px rgba(0,0,0,.14);
+}
