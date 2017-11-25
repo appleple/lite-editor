@@ -14956,6 +14956,13 @@ var LiteEditor = function (_aTemplate) {
   }
 
   _createClass(LiteEditor, [{
+    key: 'registerButton',
+    value: function registerButton(btn) {
+      this.data.btnOptions.push(btn);
+      this.data.groups = this.makeBtnGroups();
+      this.update('html', '[data-selector="lite-editor-toolbox"]');
+    }
+  }, {
     key: 'activateEditorMode',
     value: function activateEditorMode() {
       this.data.disableEditorMode = false;

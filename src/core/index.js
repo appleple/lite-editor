@@ -181,6 +181,12 @@ export default class LiteEditor extends aTemplate {
     this._fireEvent('init');
   }
 
+  registerButton(btn) {
+    this.data.btnOptions.push(btn);
+    this.data.groups = this.makeBtnGroups();
+    this.update('html', '[data-selector="lite-editor-toolbox"]');
+  }
+
   activateEditorMode() {
     this.data.disableEditorMode = false;
     this.update('html', '[data-selector="lite-editor-toolbox"]');
