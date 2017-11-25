@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Lite Editor</title>
+    <meta name="description" content="This is the document of Lite Editor.">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/uny@latest/dist/css/uny.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/uny@latest/dist/css/uny-docs.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github-gist.min.css">
+  </head>
+  <body>
+    <header class="header is-small">
+      <div class="logo is-small">
+        <a href="./">Lite Editor</a>
+      </div>
+      <button class="button is-burger hide-on-medium hide-on-large offcanvas-open">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </header>
+    <main class="main">
+      <div class="sidebar hide-on-small">
+        <div class="sidebar-inner">
+          <div style="margin-bottom: 2rem;">
+          
+            <div class="type-h3">
+              <span>Getting Started</span>
+            </div>
+            <div class="tree">
+              <ul>
+              
+                
+                <li>
+                  <a href="about.html">About</a>
+                </li>
+                
+              
+              </ul>
+            </div>
+          
+            <div class="type-h3">
+              <span>API</span>
+            </div>
+            <div class="tree">
+              <ul>
+              
+                
+                <li>
+                  <a href="options.html">Options</a>
+                </li>
+                
+              
+                
+                <li>
+                  <a href="custombuttons.html">Custom Buttons</a>
+                </li>
+                
+              
+                
+                <li class="is-current">
+                  <a href="events.html">Events</a>
+                </li>
+                
+              
+                
+                <li>
+                  <a href="methods.html">Methods</a>
+                </li>
+                
+              
+              </ul>
+            </div>
+          
+          </div>
+        </div>
+      </div>
+      <div class="content">
+        <section class="section">
+          <div class="inner is-small">
+            <h1 id="events">Events</h1>
+<p>If you have to customize the editor, you may want to hook some actions and add  original functions</p>
+<p>You can easily hook events like below.</p>
+<pre><code class="js language-js">editor.on('render', () =&gt; {
+    /* write some codes here */
+});
+</code></pre>
+<p>This is the list of the event you can hook.</p>
+<ul>
+<li><code>render</code> after updating the editor</li>
+<li><code>prerender</code> before updating the editor</li>
+<li><code>insertTag</code> after inserting a tag</li>
+<li><code>unwrapTag</code> after unwrapping a tag</li>
+<li><code>redo</code> after redo</li>
+<li><code>undo</code> after undo</li>
+<li><code>paste</code> after pasting</li>
+</ul>
+          </div>
+        </section>
+      </div>
+    </main>
+    <div class="offcanvas">
+    <div class="offcanvas-overlay offcanvas-close"></div>
+      <div class="offcanvas-content">
+        <button class="button is-close offcanvas-close">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <div class="inner">
+        
+          <div class="type-h3">
+            <span>Getting Started</span>
+          </div>
+          <div class="tree">
+            <ul>
+            
+              
+              <li>
+                <a href="about.html">About</a>
+              </li>
+              
+            
+            </ul>
+          </div>
+        
+          <div class="type-h3">
+            <span>API</span>
+          </div>
+          <div class="tree">
+            <ul>
+            
+              
+              <li>
+                <a href="options.html">Options</a>
+              </li>
+              
+            
+              
+              <li>
+                <a href="custombuttons.html">Custom Buttons</a>
+              </li>
+              
+            
+              
+              <li class="is-current">
+                <a href="events.html">Events</a>
+              </li>
+              
+            
+              
+              <li>
+                <a href="methods.html">Methods</a>
+              </li>
+              
+            
+            </ul>
+          </div>
+        
+        </div>
+      </div>
+    </div>
+    <script src="https://unpkg.com/uny@latest/dist/js/uny.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+  </body>
+</html>

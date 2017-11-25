@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Lite Editor</title>
+    <meta name="description" content="This is the document of Lite Editor.">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/uny@latest/dist/css/uny.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/uny@latest/dist/css/uny-docs.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github-gist.min.css">
+  </head>
+  <body>
+    <header class="header is-small">
+      <div class="logo is-small">
+        <a href="./">Lite Editor</a>
+      </div>
+      <button class="button is-burger hide-on-medium hide-on-large offcanvas-open">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </header>
+    <main class="main">
+      <div class="sidebar hide-on-small">
+        <div class="sidebar-inner">
+          <div style="margin-bottom: 2rem;">
+          
+            <div class="type-h3">
+              <span>Getting Started</span>
+            </div>
+            <div class="tree">
+              <ul>
+              
+                
+                <li>
+                  <a href="about.html">About</a>
+                </li>
+                
+              
+              </ul>
+            </div>
+          
+            <div class="type-h3">
+              <span>API</span>
+            </div>
+            <div class="tree">
+              <ul>
+              
+                
+                <li class="is-current">
+                  <a href="options.html">Options</a>
+                </li>
+                
+              
+                
+                <li>
+                  <a href="custombuttons.html">Custom Buttons</a>
+                </li>
+                
+              
+                
+                <li>
+                  <a href="events.html">Events</a>
+                </li>
+                
+              
+                
+                <li>
+                  <a href="methods.html">Methods</a>
+                </li>
+                
+              
+              </ul>
+            </div>
+          
+          </div>
+        </div>
+      </div>
+      <div class="content">
+        <section class="section">
+          <div class="inner is-small">
+            <h1 id="options">Options</h1>
+<p>Some options are available when making new instances like below.</p>
+<pre><code class="js language-js">const editor = new LiteEditor('js-editor', {
+    nl2br: false
+});
+</code></pre>
+<p>These are the option.</p>
+<pre><code class="js language-js">const editor = new LiteEditor('js-editor', {
+  classNames: {
+    LiteEditor: 'lite-editor',
+    LiteEditorSource: 'lite-editor-source',
+    LiteEditorBtn: 'lite-editor-btn',
+    LiteEditorBtnClose: 'lite-editor-btn-close',
+    LiteEditorBtnActive: 'lite-editor-btn-active',
+    LiteEditorBtnGroup: 'lite-editor-btn-group',
+    LiteEditorBtnGroupWrap: 'lite-editor-btn-group-wrap',
+    LiteEditorBtnGroupWrapRight: 'lite-editor-btn-group-wrap-right',
+    LiteEditorBtnCloseWrap: 'lite-editor-btn-close-wrap',
+    LiteEditorBtnCloseLabel: 'lite-editor-btn-close-label',
+    LiteEditorSelect: 'lite-editor-select',
+    LiteEditorSelectWrap: 'lite-editor-select-wrap',
+    LiteEditorToolBox: 'lite-editor-toolbox',
+    LiteEditorTooltip: 'lite-editor-tooltip',
+    LiteEditorTooltipWrap: 'lite-editor-tooltip-wrap',
+    LiteEditorTooltipOuter: 'lite-editor-tooltip-outer',
+    LiteEditorTooltipInner: 'lite-editor-tooltip-inner',
+    LiteEditorTooltipTable: 'lite-editor-tooltip-table',
+    LiteEditorTooltipTitle: 'lite-editor-tooltip-title',
+    LiteEditorTooltipBody: 'lite-editor-tooltip-body',
+    LiteEditorTooltipInput: 'lite-editor-tooltip-input',
+    LiteEditorExtendInput: 'lite-editor-extend-input',
+    LiteEditorFontLink: 'lite-editor-font-link',
+    LiteEditorFontRemove: 'lite-editor-font-remove',
+    LiteEditorFontUpdate: 'lite-editor-font-update',
+    LiteEditorFontClose: 'lite-editor-font-close',
+    LiteEditorFontSource: 'lite-editor-font-source',
+    LiteEditorFontAbc: 'lite-editor-font-abc'
+  },
+  message: {
+    addLinkTitle: 'link',
+    updateLinkTitle: 'link',
+    addLink: 'add',
+    updateLink: 'update',
+    removeLink: 'remove',
+    linkUrl: 'URL',
+    linkLabel: 'label',
+    closeLabel: 'close'
+  },
+  minHeight: 50,
+  maxHeight: 400,
+  sourceFirst: false,
+  escapeNotRegisteredTags: false,
+  preserveSpace: false,
+  nl2br: true,
+  source: true,
+  btnOptions: defaultbtnOptions,
+  btnPosition: 'top'
+});
+</code></pre>
+<h3 id="minheight">minHeight</h3>
+<p>minheight of the editor</p>
+<h3 id="maxheight">maxHeight</h3>
+<p>maxheight of the editor</p>
+<h3 id="sourcefirst">sourceFirst</h3>
+<p>Show source first when the editor is created</p>
+<h3 id="escapenotregisteredtags">escapeNotRegisteredTags</h3>
+<p>When inserting the html and the tag is not registered as a button, it will be escaped.</p>
+<h3 id="nl2br">nl2br</h3>
+<p>Convert linebreaks to <br> tags</p>
+<h3 id="source">source</h3>
+<p>If you want to show the original textarea source, set it true.</p>
+<h3 id="btnoptions">btnOptions</h3>
+<p>You can make the original buttons for the editor with this option.</p>
+<h3 id="btnposition">btnPosition</h3>
+<p>You can change the place of buttons.
+<code>top</code> or <code>bottom</code></p>
+<h3 id="classnames">classNames</h3>
+<p>From here, you can change the classnames of the editor.</p>
+<h3 id="message">message</h3>
+<p>Sometimes, you may want to change some labels of the editor, Suppose that the user of the editor is Japanese, You can make editor  Japanese from here.</p>
+          </div>
+        </section>
+      </div>
+    </main>
+    <div class="offcanvas">
+    <div class="offcanvas-overlay offcanvas-close"></div>
+      <div class="offcanvas-content">
+        <button class="button is-close offcanvas-close">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <div class="inner">
+        
+          <div class="type-h3">
+            <span>Getting Started</span>
+          </div>
+          <div class="tree">
+            <ul>
+            
+              
+              <li>
+                <a href="about.html">About</a>
+              </li>
+              
+            
+            </ul>
+          </div>
+        
+          <div class="type-h3">
+            <span>API</span>
+          </div>
+          <div class="tree">
+            <ul>
+            
+              
+              <li class="is-current">
+                <a href="options.html">Options</a>
+              </li>
+              
+            
+              
+              <li>
+                <a href="custombuttons.html">Custom Buttons</a>
+              </li>
+              
+            
+              
+              <li>
+                <a href="events.html">Events</a>
+              </li>
+              
+            
+              
+              <li>
+                <a href="methods.html">Methods</a>
+              </li>
+              
+            
+            </ul>
+          </div>
+        
+        </div>
+      </div>
+    </div>
+    <script src="https://unpkg.com/uny@latest/dist/js/uny.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+  </body>
+</html>
