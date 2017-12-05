@@ -8,6 +8,11 @@ A Modern WYSIWYG Editor especially for inline elements
 
 ## Feature
 
+- focuses on inline elements such as b, a, i, strong
+- Prevent unnecessary tags insertion
+- Control how to make newlines
+- You can register custom button easily 
+
 ## Installation
 
 - [npm](https://www.npmjs.com/package/lite-editor)
