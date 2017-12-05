@@ -28,7 +28,7 @@ yarn add lite-editor
 
 require
 ```js
-const LiteEditor = require('lite-eidot');
+const LiteEditor = require('lite-editor');
 ```
 
 ```js
