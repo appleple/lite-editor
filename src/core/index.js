@@ -6,12 +6,8 @@ import tooltipHtml from './tooltip.html';
 import * as util from '../lib/util';
 
 const Entities = require('html-entities').XmlEntities;
-const Upndown = require('upndown');
-const Showdown = require('showdown');
 
 const entities = new Entities();
-const converter = new Showdown.Converter();
-const und = new Upndown({ decodeEntities: false });
 
 const defaultbtnOptions = [
   {
@@ -747,22 +743,6 @@ export default class LiteEditor extends aTemplate {
       return entities.decode(replaced);
     }
     return replaced;
-  }
-
-  toMarkdown() {
-    this.data.mode = 'markdown';
-    und.convert(this.data.value, (err, markdown) => {
-      this.data.value = markdown;
-      this.data.value = this.data.value.replace(/\n/g, '<br>');
-      this.update();
-    });
-  }
-
-  toHtml() {
-    this.data.mode = 'html';
-    this.data.value = converter.makeHtml(this.data.value);
-    this.data.value = this.data.value.replace(/^<p>|<\/p>$/g, '');
-    this.update();
   }
 
   changeOption() {
