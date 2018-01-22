@@ -1,5 +1,6 @@
 import aTemplate from 'a-template';
 import extend from 'deep-extend';
+import Upndown from 'upndown';
 import editorHtml from './editor.html';
 import btnHtml from './btn.html';
 import tooltipHtml from './tooltip.html';
