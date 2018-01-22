@@ -8,6 +8,7 @@ import * as util from '../lib/util';
 const Entities = require('html-entities').XmlEntities;
 
 const entities = new Entities();
+const und = new Upndown({ decodeEntities: false });
 
 const defaultbtnOptions = [
   {
