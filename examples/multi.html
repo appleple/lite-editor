@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<link rel="stylesheet" href="../css/lite-editor.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="./style.css">
+	<title>SimpleWysiwyg</title>
+</head>
+<body>
+  <textarea class='js-lite-editor' name="hoge">  {test} Lite <span class="red">Editor</span> is a modern wysiwyg editor focuses on editing inline elements
+And super easy to customize to add original tags and actions on it. <br>
+You can find the tons of examples from <a href="https://github.com/appleple/simple-wysiwyg">here</a> <br>
+and Compatible with <strong>IE9+</strong><br>
+Amazing!!</textarea>
+<textarea class='js-lite-editor2' name="hoge">  {test} Lite <span class="red">Editor</span> is a modern wysiwyg editor focuses on editing inline elements
+And super easy to customize to add original tags and actions on it. <br>
+You can find the tons of examples from <a href="https://github.com/appleple/simple-wysiwyg">here</a> <br>
+and Compatible with <strong>IE9+</strong><br>
+Amazing!!</textarea>
+    <script src="../js/lite-editor.js"></script>
+    <script>
+	window.addEventListener('DOMContentLoaded',function(){
+        new LiteEditor('.js-lite-editor', {
+            disableEditorMode: true
+        });
+        new LiteEditor('.js-lite-editor2', {
+            disableEditorMode: true
+        });
+    });
+	</script>
+</body>
+</html>
