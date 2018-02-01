@@ -48,6 +48,9 @@ window.addEventListener('DOMContentLoaded',function(){
 ## Download
 [Download ZIP](https://github.com/appleple/lite-editor/archive/master.zip)
 
+## Plugins
+- [lite-editor-emoji-picker-plugin](https://github.com/appleple/lite-editor-emoji-picker-plugin)
+
 ## Github
 [https://github.com/appleple/lite-editor](https://github.com/appleple/lite-editor)
 
