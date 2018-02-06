@@ -489,6 +489,15 @@ export default class LiteEditor extends aTemplate {
     }
   }
 
+  onRender(i) {
+    const number = parseInt(i, 10);
+    const btn = this.data.btnOptions[number];
+    const btnElement = this._getElementByQuery(`[data-selector="btn-group"] [data-index="${i}"]`);
+    if (btn.onRender) {
+      btn.onRender(this, btnElement);
+    }
+  }
+
   beforeUpdated() {
     const data = this.data;
     data.canUndo = this.canUndo();
@@ -510,6 +519,7 @@ export default class LiteEditor extends aTemplate {
     const source = this._getElementByQuery('[data-selector="lite-editor-source"]');
     this.data.btnOptions.forEach((btn, index) => {
       this.onInit(index);
+      this.onRender(index);
     });
     if (this.data.showSource === true) {
       source.style.height = `${source.scrollHeight}px`;
