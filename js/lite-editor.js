@@ -12885,7 +12885,7 @@ var LiteEditor = function (_aTemplate) {
 
     if (selector.value) {
       var value = selector.value;
-      if (_this.data.sourceFirst) {
+      if (!_this.data.sourceFirst) {
         value = _this.makeEditableHtml(value);
       }
       if (_this.data.escapeNotRegisteredTags) {
@@ -13239,8 +13239,8 @@ var LiteEditor = function (_aTemplate) {
       data.canRedo = this.canRedo();
       if (data.firstValue) {
         data.formatedValue = this.data.firstValue;
-        data.firstValue = '';
-      } else {
+        data.firstValue = null;
+      } else if (!data.showSource) {
         data.formatedValue = this.format(data.value);
       }
       if (data.value) {
@@ -13526,6 +13526,9 @@ var LiteEditor = function (_aTemplate) {
     value: function toggleSource() {
       var source = this.data.showSource;
       this.data.showSource = !source;
+      if (this.data.showSource) {
+        this.data.formatedValue = this.format(this.data.value);
+      }
       this.update();
     }
   }, {

@@ -170,7 +170,7 @@ export default class LiteEditor extends aTemplate {
 
     if (selector.value) {
       let value = selector.value;
-      if (this.data.sourceFirst) {
+      if (!this.data.sourceFirst) {
         value = this.makeEditableHtml(value);
       }
       if (this.data.escapeNotRegisteredTags) {
@@ -484,8 +484,8 @@ export default class LiteEditor extends aTemplate {
     data.canRedo = this.canRedo();
     if (data.firstValue) {
       data.formatedValue = this.data.firstValue;
-      data.firstValue = '';
-    } else {
+      data.firstValue = null;
+    } else if (!data.showSource) {
       data.formatedValue = this.format(data.value);
     }
     if (data.value) {
@@ -747,6 +747,9 @@ export default class LiteEditor extends aTemplate {
   toggleSource() {
     const source = this.data.showSource;
     this.data.showSource = !source;
+    if (this.data.showSource) {
+      this.data.formatedValue = this.format(this.data.value);
+    }
     this.update();
   }
 
