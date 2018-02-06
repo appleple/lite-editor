@@ -473,8 +473,19 @@ export default class LiteEditor extends aTemplate {
 
   onClick(i) {
     const number = parseInt(i, 10);
-    if (this.data.btnOptions[number].onClick) {
-      this.data.btnOptions[number].onClick(this);
+    const btn = this.data.btnOptions[number];
+    if (btn.onClick) {
+      btn.onClick(this);
+    }
+  }
+
+  onInit(i) {
+    const number = parseInt(i, 10);
+    const btn = this.data.btnOptions[number];
+    const btnElement = this._getElementByQuery(`[data-selector="btn-group"] [data-index="${i}"]`);
+    if (btn.onInit && !btn.init) {
+      btn.onInit(this, btnElement);
+      btn.init = true;
     }
   }
 
@@ -497,6 +508,9 @@ export default class LiteEditor extends aTemplate {
   onUpdated() {
     const editor = this._getElementByQuery('[data-selector="lite-editor"]');
     const source = this._getElementByQuery('[data-selector="lite-editor-source"]');
+    this.data.btnOptions.forEach((btn, index) => {
+      this.onInit(index);
+    });
     if (this.data.showSource === true) {
       source.style.height = `${source.scrollHeight}px`;
     } else {
