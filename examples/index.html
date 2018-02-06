@@ -18,9 +18,11 @@ Amazing!!</textarea>
     <script src="../js/lite-editor.js"></script>
     <script>
 	window.addEventListener('DOMContentLoaded',function(){
-        window.editor = new LiteEditor('.js-lite-editor', {
-            sourceFirst: true,
-            disableEditorMode: true
+        var editor = new LiteEditor('.js-lite-editor');
+        editor.registerButton({
+            tag: 'br',
+            className: '',
+            group: 'mark'
         });
     });
 	</script>

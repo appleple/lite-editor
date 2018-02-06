@@ -94,6 +94,31 @@ const defaults = {
     linkLabel: 'label',
     closeLabel: 'close'
   },
+  voidElements: [
+    'area',
+    'base',
+    'basefont',
+    'bgsound',
+    'br',
+    'col',
+    'command',
+    'embed',
+    'frame',
+    'hr',
+    'image',
+    'img',
+    'input',
+    'isindex',
+    'keygen',
+    'link',
+    'menuitem',
+    'meta',
+    'nextid',
+    'param',
+    'source',
+    'track',
+    'wbr'
+  ],
   minHeight: 50,
   maxHeight: 400,
   decodeSource: false,
@@ -145,7 +170,9 @@ export default class LiteEditor extends aTemplate {
 
     if (selector.value) {
       let value = selector.value;
-      value = this.makeEditableHtml(value);
+      if (this.data.sourceFirst) {
+        value = this.makeEditableHtml(value);
+      }
       if (this.data.escapeNotRegisteredTags) {
         value = this.escapeNotRegisteredTags(value);
       }
@@ -363,6 +390,14 @@ export default class LiteEditor extends aTemplate {
     return selector === document.activeElement;
   }
 
+  _isVoidElement(tag) {
+    return this.data.voidElements.find((item) => {
+      if (item === tag) {
+        return true;
+      }
+    })
+  }
+
   insertTag(tag, className, sampleText) {
     let selection = util.getSelection();
     if (!selection) {
@@ -378,7 +413,10 @@ export default class LiteEditor extends aTemplate {
     if (className) {
       classAttr = ` class="${className}"`;
     }
-    const insertHtml = `<${tag}${classAttr}>${selection}</${tag}>`;
+    let insertHtml = `<${tag}${classAttr}>${selection}</${tag}>`;
+    if (this._isVoidElement(tag)) {
+      insertHtml = `${selection}<${tag}>`;
+    }
     if (this.data.showSource) {
       const source = this._getElementByQuery('[data-selector="lite-editor-source"]');
       if (this.data.mode === 'markdown') {
