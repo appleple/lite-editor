@@ -395,7 +395,8 @@ export default class LiteEditor extends aTemplate {
       if (item === tag) {
         return true;
       }
-    })
+      return false;
+    });
   }
 
   insertTag(tag, className, sampleText) {

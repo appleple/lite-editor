@@ -13141,6 +13141,7 @@ var LiteEditor = function (_aTemplate) {
         if (item === tag) {
           return true;
         }
+        return false;
       });
     }
   }, {
