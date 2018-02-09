@@ -206,6 +206,15 @@ export default class LiteEditor extends aTemplate {
     this._fireEvent('init');
   }
 
+  focus() {
+    const { showSource } = this.data;
+    if (showSource === true) {
+      this._getElementByQuery('[data-selector="lite-editor-source"]').focus();
+    }  else {
+      this._getElementByQuery('[data-selector="lite-editor"]').focus();
+    }
+  }
+
   registerButton(btn) {
     this.data.btnOptions.push(btn);
     this.data.groups = this.makeBtnGroups();

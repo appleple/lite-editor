@@ -12950,6 +12950,17 @@ var LiteEditor = function (_aTemplate) {
   }
 
   _createClass(LiteEditor, [{
+    key: 'focus',
+    value: function focus() {
+      var showSource = this.data.showSource;
+
+      if (showSource === true) {
+        this._getElementByQuery('[data-selector="lite-editor-source"]').focus();
+      } else {
+        this._getElementByQuery('[data-selector="lite-editor"]').focus();
+      }
+    }
+  }, {
     key: 'registerButton',
     value: function registerButton(btn) {
       this.data.btnOptions.push(btn);
