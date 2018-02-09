@@ -210,7 +210,7 @@ export default class LiteEditor extends aTemplate {
     const { showSource } = this.data;
     if (showSource === true) {
       this._getElementByQuery('[data-selector="lite-editor-source"]').focus();
-    }  else {
+    } else {
       this._getElementByQuery('[data-selector="lite-editor"]').focus();
     }
   }
