@@ -412,7 +412,7 @@ export default class LiteEditor extends aTemplate {
     let selection = util.getSelection();
     const editor = this._getElementByQuery('[data-selector="lite-editor"]');
     const element = util.getElementBySelection();
-    
+
     if (!this.data.showSource && !editor.contains(element)) {
       return;
     }
