@@ -13186,6 +13186,12 @@ var LiteEditor = function (_aTemplate) {
       var _this4 = this;
 
       var selection = util.getSelection();
+      var editor = this._getElementByQuery('[data-selector="lite-editor"]');
+      var element = util.getElementBySelection();
+
+      if (!this.data.showSource && !editor.contains(element)) {
+        return;
+      }
       if (!selection) {
         selection = sampleText;
       }
@@ -13787,6 +13793,7 @@ var restoreSelection = exports.restoreSelection = function restoreSelection(rang
 };
 
 var replaceSelectionWithHtml = exports.replaceSelectionWithHtml = function replaceSelectionWithHtml(html) {
+  getElementBySelection();
   var range = void 0;
   if (window.getSelection && window.getSelection().getRangeAt) {
     range = window.getSelection().getRangeAt(0);
@@ -13803,6 +13810,11 @@ var replaceSelectionWithHtml = exports.replaceSelectionWithHtml = function repla
     range = document.selection.createRange();
     range.pasteHTML(html);
   }
+};
+
+var getElementBySelection = exports.getElementBySelection = function getElementBySelection() {
+  var sel = window.getSelection ? window.getSelection() : document.selection;
+  return sel.anchorNode;
 };
 
 var replaceSelectionWithText = exports.replaceSelectionWithText = function replaceSelectionWithText(ele, text) {
