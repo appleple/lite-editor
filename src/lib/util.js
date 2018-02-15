@@ -120,7 +120,6 @@ export const restoreSelection = (range) => {
 }
 
 export const replaceSelectionWithHtml = (html) => {
-  getElementBySelection();
   let range;
   if (window.getSelection && window.getSelection().getRangeAt) {
     range = window.getSelection().getRangeAt(0);

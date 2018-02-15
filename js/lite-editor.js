@@ -13768,7 +13768,6 @@ var restoreSelection = exports.restoreSelection = function restoreSelection(rang
 };
 
 var replaceSelectionWithHtml = exports.replaceSelectionWithHtml = function replaceSelectionWithHtml(html) {
-  getElementBySelection();
   var range = void 0;
   if (window.getSelection && window.getSelection().getRangeAt) {
     range = window.getSelection().getRangeAt(0);
