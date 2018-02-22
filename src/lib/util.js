@@ -137,6 +137,18 @@ export const replaceSelectionWithHtml = (html) => {
   }
 }
 
+export const clearSelection = () => {
+  if (window.getSelection) {
+    if (window.getSelection().empty) {  // Chrome
+      window.getSelection().empty();
+    } else if (window.getSelection().removeAllRanges) {  // Firefox
+      window.getSelection().removeAllRanges();
+    }
+  } else if (document.selection) {  // IE?
+    document.selection.empty();
+  }
+}
+
 export const getElementBySelection = () => {
   const sel = window.getSelection ? window.getSelection() : document.selection;
   return sel.anchorNode;

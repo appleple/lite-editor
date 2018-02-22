@@ -456,6 +456,8 @@ export default class LiteEditor extends aTemplate {
     this.data.tooltipClassName = className;
     this.data.linkNew = true;
     this.update('html', '[data-selector="lite-editor-tooltip"]');
+    const urlInput = this._getElementByQuery('[data-bind="tooltipUrl"]');
+    urlInput.focus();
   }
 
   insertAtag() {
@@ -613,6 +615,10 @@ export default class LiteEditor extends aTemplate {
       this.data.value = editor.innerHTML;
       this.data.formatedValue = this.format(this.data.value);
       textarea.value = this.data.formatedValue;
+      // ⌘VVVVVVV
+      const pos = util.getCaretPos(editor);
+      util.clearSelection();
+      util.setCaretPos(editor, pos);
     }
     this._fireEvent('paste');
   }
