@@ -541,7 +541,6 @@ export default class LiteEditor extends aTemplate {
     if (this.data.showSource === true) {
       source.style.height = `${source.scrollHeight}px`;
     } else {
-      editor.innerHTML 
       this.data.value = editor.innerHTML;
     }
     if (!editor) {
