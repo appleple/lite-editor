@@ -541,6 +541,7 @@ export default class LiteEditor extends aTemplate {
     if (this.data.showSource === true) {
       source.style.height = `${source.scrollHeight}px`;
     } else {
+      editor.innerHTML 
       this.data.value = editor.innerHTML;
     }
     if (!editor) {
@@ -638,6 +639,11 @@ export default class LiteEditor extends aTemplate {
         }
       }
       return;
+    }
+
+    // append br if the editor doesn't have br at the last
+    if (!util.hasLastBr(editor)) {
+      editor.appendChild(document.createElement('br'));
     }
 
     if (e.keyCode !== 13) {

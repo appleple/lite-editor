@@ -225,3 +225,16 @@ export const getCaretPos = (element) => {
   }
   return caretOffset;
 }
+
+export const hasLastBr = (element) => {
+  const childNodes = element.childNodes;
+  const length = childNodes.length;
+  let offset = 1;
+  if (childNodes[length - offset].textContent === " ") {
+    offset = 2;
+  }
+  if (!childNodes[offset]) {
+    return false;
+  }
+  return childNodes[length - offset].tagName === 'BR';
+}

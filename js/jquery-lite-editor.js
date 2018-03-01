@@ -13355,6 +13355,7 @@ var LiteEditor = function (_aTemplate) {
       if (this.data.showSource === true) {
         source.style.height = source.scrollHeight + 'px';
       } else {
+        editor.innerHTML;
         this.data.value = editor.innerHTML;
       }
       if (!editor) {
@@ -13459,6 +13460,11 @@ var LiteEditor = function (_aTemplate) {
           }
         }
         return;
+      }
+
+      // append br if the editor doesn't have br at the last
+      if (!util.hasLastBr(editor)) {
+        editor.appendChild(document.createElement('br'));
       }
 
       if (e.keyCode !== 13) {
@@ -13936,6 +13942,19 @@ var getCaretPos = exports.getCaretPos = function getCaretPos(element) {
     caretOffset = preCaretTextRange.text.length;
   }
   return caretOffset;
+};
+
+var hasLastBr = exports.hasLastBr = function hasLastBr(element) {
+  var childNodes = element.childNodes;
+  var length = childNodes.length;
+  var offset = 1;
+  if (childNodes[length - offset].textContent === " ") {
+    offset = 2;
+  }
+  if (!childNodes[offset]) {
+    return false;
+  }
+  return childNodes[length - offset].tagName === 'BR';
 };
 
 },{}]},{},[95]);
