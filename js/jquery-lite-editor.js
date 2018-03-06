@@ -6,7 +6,7 @@
  *   license: MIT (http://opensource.org/licenses/MIT)
  *   author: appleple
  *   homepage: http://developer.a-blogcms.jp
- *   version: 1.6.5
+ *   version: 1.6.6
  *
  * a-template:
  *   license: MIT (http://opensource.org/licenses/MIT)
@@ -13947,10 +13947,13 @@ var hasLastBr = exports.hasLastBr = function hasLastBr(element) {
   var childNodes = element.childNodes;
   var length = childNodes.length;
   var offset = 1;
+  if (!childNodes[length - offset]) {
+    return false;
+  }
   if (childNodes[length - offset].textContent === " ") {
     offset = 2;
   }
-  if (!childNodes[offset]) {
+  if (!childNodes[length - offset]) {
     return false;
   }
   return childNodes[length - offset].tagName === 'BR';
