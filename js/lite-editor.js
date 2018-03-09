@@ -13612,11 +13612,35 @@ var LiteEditor = function (_aTemplate) {
   }, {
     key: 'toggleSource',
     value: function toggleSource() {
-      var source = this.data.showSource;
-      this.data.showSource = !source;
+      this.data.showSource = !this.data.showSource;
       if (this.data.showSource) {
         this.data.formatedValue = this.format(this.data.value);
+        this.data.groups.forEach(function (group) {
+          group.items.forEach(function (btn) {
+            btn.selected = false;
+          });
+        });
       }
+      this.update();
+    }
+  }, {
+    key: 'showSource',
+    value: function showSource() {
+      this.data.showSource = true;
+      if (this.data.showSource) {
+        this.data.formatedValue = this.format(this.data.value);
+        this.data.groups.forEach(function (group) {
+          group.items.forEach(function (btn) {
+            btn.selected = false;
+          });
+        });
+      }
+      this.update();
+    }
+  }, {
+    key: 'hideSource',
+    value: function hideSource() {
+      this.data.showSource = false;
       this.update();
     }
   }, {

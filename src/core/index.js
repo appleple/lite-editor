@@ -799,11 +799,33 @@ export default class LiteEditor extends aTemplate {
   }
 
   toggleSource() {
-    const source = this.data.showSource;
-    this.data.showSource = !source;
+    this.data.showSource = !this.data.showSource;
     if (this.data.showSource) {
       this.data.formatedValue = this.format(this.data.value);
+      this.data.groups.forEach((group) => {
+        group.items.forEach((btn) => {
+          btn.selected = false;
+        });
+      });
     }
+    this.update();
+  }
+
+  showSource() {
+    this.data.showSource = true;
+    if (this.data.showSource) {
+      this.data.formatedValue = this.format(this.data.value);
+      this.data.groups.forEach((group) => {
+        group.items.forEach((btn) => {
+          btn.selected = false;
+        });
+      });
+    }
+    this.update();
+  }
+
+  hideSource() {
+    this.data.showSource = false;
     this.update();
   }
 
