@@ -408,6 +408,10 @@ export default class LiteEditor extends aTemplate {
     });
   }
 
+  preventDefault() {
+    this.e.preventDefault();
+  }
+
   insertTag(tag, className, sampleText) {
     let selection = util.getSelection();
     const editor = this._getElementByQuery('[data-selector="lite-editor"]');

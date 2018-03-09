@@ -85,7 +85,6 @@ export const getSelection = () => {
     return text;
   } else {
     const selection = document.selection && document.selection.createRange();
-
     if (!(typeof selection === "undefined")
       && selection.text
       && selection.text.toString()) {
@@ -93,7 +92,7 @@ export const getSelection = () => {
       return text;
     }
   }
-  return false;
+  return text;
 }
 
 
