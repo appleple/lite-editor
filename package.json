@@ -1,6 +1,6 @@
 {
   "name": "lite-editor",
-  "version": "1.6.8",
+  "version": "1.6.9",
   "description": "lite-editor",
   "homepage": "http://developer.a-blogcms.jp",
   "main": "lib/index.js",
