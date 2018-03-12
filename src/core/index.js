@@ -408,14 +408,11 @@ export default class LiteEditor extends aTemplate {
     });
   }
 
-  preventDefault() {
-    this.e.preventDefault();
-  }
-
   insertTag(tag, className, sampleText) {
-    let selection = util.getSelection();
     const editor = this._getElementByQuery('[data-selector="lite-editor"]');
+    const source = this._getElementByQuery('[data-selector="lite-editor-source"]');
     const element = util.getElementBySelection();
+    let selection = util.getSelection(source);
 
     if (!this.data.showSource && !editor.contains(element)) {
       return;
@@ -438,7 +435,6 @@ export default class LiteEditor extends aTemplate {
       insertHtml = `${selection}<${tag}>`;
     }
     if (this.data.showSource) {
-      const source = this._getElementByQuery('[data-selector="lite-editor-source"]');
       if (this.data.mode === 'markdown') {
         und.convert(insertHtml, (err, markdown) => {
           util.replaceSelectionWithText(source, markdown);

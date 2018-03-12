@@ -42,11 +42,11 @@
             <!-- \END action:touch#undo -->
 
             <!-- \BEGIN action:touch#extra -->
-            <button data-index="\{index\}" class="\\\{classNames.LiteEditorBtn\\\}<!-- \BEGIN selfClassName:exist --> \{selfClassName\}<!-- \END selfClassName:exist -->" data-action-click="onClick(\{index\})" data-action-mousedown="preventDefault" type="button">\{label\}</button>
+            <button data-index="\{index\}" class="\\\{classNames.LiteEditorBtn\\\}<!-- \BEGIN selfClassName:exist --> \{selfClassName\}<!-- \END selfClassName:exist -->" data-action-click="onClick(\{index\})" type="button">\{label\}</button>
             <!-- \END action:touch#extra -->
 
             <!-- \BEGIN action:empty -->
-            <button data-index="\{index\}" class="\\\{classNames.LiteEditorBtn\\\}<!-- \BEGIN selfClassName:exist --> \{selfClassName\}<!-- \END selfClassName:exist --><!-- \BEGIN selected:exist --> \\\{classNames.LiteEditorBtnActive\\\}<!-- \END selected:exist -->" data-action-mousedown="preventDefault"
+            <button data-index="\{index\}" class="\\\{classNames.LiteEditorBtn\\\}<!-- \BEGIN selfClassName:exist --> \{selfClassName\}<!-- \END selfClassName:exist --><!-- \BEGIN selected:exist --> \\\{classNames.LiteEditorBtnActive\\\}<!-- \END selected:exist -->"
             <!-- \BEGIN tag:exist -->
             <!-- \BEGIN selected:empty --> data-action-click="insertTag(\{tag\},\{className\},\{sampleText\})"<!-- \END selected:empty -->
             <!-- \BEGIN selected:exist --> data-action-click="unwrapTag(\{tag\},\{className\},\{sampleText\})"<!-- \END selected:exist -->

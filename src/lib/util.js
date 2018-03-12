@@ -75,24 +75,15 @@ export const before = (el, html) => {
   el.insertAdjacentHTML('beforebegin', html);
 }
 
-export const getSelection = () => {
-  let text = "";
+export const getSelection = (ele) => {
   if (window.getSelection && window.getSelection().toString()) {
-    text = window.getSelection();
-    return text;
+    return window.getSelection();
   } else if (document.getSelection && document.getSelection().toString()) {
-    text = document.getSelection();
-    return text;
+    return document.getSelection();
   } else {
-    const selection = document.selection && document.selection.createRange();
-    if (!(typeof selection === "undefined")
-      && selection.text
-      && selection.text.toString()) {
-      text = selection.text;
-      return text;
-    }
+    return ele.value.substr(ele.selectionStart, ele.selectionEnd - ele.selectionStart);
   }
-  return text;
+  return '';
 }
 
 
