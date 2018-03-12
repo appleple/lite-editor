@@ -1,61 +1,78 @@
 <div class="\{classNames.LiteEditorToolBox\}" data-selector="lite-editor-toolbox">
 
-    <!-- BEGIN source:exist -->
-    <div class="\{classNames.LiteEditorBtnGroupWrapRight\}">
-        <div class="\{classNames.LiteEditorBtnGroup\}">
-            <button class="\{classNames.LiteEditorBtn\}<!-- BEGIN showSource:empty --> \{classNames.LiteEditorBtnActive\}<!-- END showSource:empty -->" data-action-click="toggleSource" type="button" <!-- BEGIN showSource:empty --> disabled<!-- END showSource:empty --><!-- BEGIN disableEditorMode:exist --> disabled<!-- END disableEditorMode:exist -->>
-                <i class="\{classNames.LiteEditorFontAbc\}"></i>
-            </button>
-            <button class="\{classNames.LiteEditorBtn\}<!-- BEGIN showSource:exist --> \{classNames.LiteEditorBtnActive\}<!-- END showSource:exist -->" data-action-click="toggleSource" type="button" <!-- BEGIN showSource:exist --> disabled<!-- END showSource:exist -->>
-                <i class="\{classNames.LiteEditorFontSource\}"></i>
-            </button>
-        </div>
-    </div>
-    <!-- END source:exist -->
+	<!-- BEGIN source:exist -->
+	<div class="\{classNames.LiteEditorBtnGroupWrapRight\}">
+		<div class="\{classNames.LiteEditorBtnGroup\}">
+			<button class="\{classNames.LiteEditorBtn\}<!-- BEGIN showSource:empty --> \{classNames.LiteEditorBtnActive\}<!-- END showSource:empty -->"
+			 data-action-click="toggleSource" type="button" <!-- BEGIN showSource:empty --> disabled
+				<!-- END showSource:empty -->
+				<!-- BEGIN disableEditorMode:exist -->disabled
+				<!-- END disableEditorMode:exist -->>
+				<i class="\{classNames.LiteEditorFontAbc\}"></i>
+			</button>
+			<button class="\{classNames.LiteEditorBtn\}<!-- BEGIN showSource:exist --> \{classNames.LiteEditorBtnActive\}<!-- END showSource:exist -->"
+			 data-action-click="toggleSource" type="button" <!-- BEGIN showSource:exist --> disabled
+				<!-- END showSource:exist -->>
+				<i class="\{classNames.LiteEditorFontSource\}"></i>
+			</button>
+		</div>
+	</div>
+	<!-- END source:exist -->
 
-    <!-- BEGIN selectOptions.0:exist -->
-    <div class="\{classNames.LiteEditorSelectWrap\}">
-        <select class="\{classNames.LiteEditorSelect\}"<!-- BEGIN selectName:exist --> name="{selectName}"<!-- END selectName:exist --> data-action-change="changeOption" data-bind="selectedOption">
-        <!-- BEGIN selectOptions:loop -->
-        <option value="{value}">{label}</option>
-        <!-- END selectOptions:loop -->
-        </select>
-        <!-- BEGIN extendLabel:exist -->
-        <label>{extendLabel}</label>
-        <input type="text" name="{selectName}[insertExtend]" class="\{classNames.LiteEditorExtendInput\}" data-bind="extendValue"/>
-        <!-- END extendLabel:exist -->
-    </div>
-    <!-- END selectOptions.0:exist -->
+	<!-- BEGIN selectOptions.0:exist -->
+	<div class="\{classNames.LiteEditorSelectWrap\}">
+		<select class="\{classNames.LiteEditorSelect\}" <!-- BEGIN selectName:exist --> name="{selectName}"
+			<!-- END selectName:exist -->data-action-change="changeOption" data-bind="selectedOption">
+			<!-- BEGIN selectOptions:loop -->
+			<option value="{value}">{label}</option>
+			<!-- END selectOptions:loop -->
+		</select>
+		<!-- BEGIN extendLabel:exist -->
+		<label>{extendLabel}</label>
+		<input type="text" name="{selectName}[insertExtend]" class="\{classNames.LiteEditorExtendInput\}" data-bind="extendValue"
+		/>
+		<!-- END extendLabel:exist -->
+	</div>
+	<!-- END selectOptions.0:exist -->
 
-    <div class="\{classNames.LiteEditorBtnGroupWrap\}" <!-- BEGIN hideBtns:exist --> style="display:none;"<!-- END hideBtns:exist -->>
-        
-        <!-- BEGIN groups:loop -->
-        <div class="\\{classNames.LiteEditorBtnGroup\\}" data-selector="btn-group">
-            <!-- \BEGIN groups.{i}.items:loop -->
+	<div class="\{classNames.LiteEditorBtnGroupWrap\}" <!-- BEGIN hideBtns:exist --> style="display:none;"
+		<!-- END hideBtns:exist -->>
 
-            <!-- \BEGIN action:touch#redo -->
-            <button data-index="\{index\}" class="\\\{classNames.LiteEditorBtn\\\}" data-action-click="redo"<!-- \\BEGIN canRedo:empty --> disabled<!-- \\END canRedo:empty --> type="button">\{label\}</button>
-            <!-- \END action:touch#redo -->
+		<!-- BEGIN groups:loop -->
+		<div class="\\{classNames.LiteEditorBtnGroup\\}" data-selector="btn-group">
+			<!-- \BEGIN groups.{i}.items:loop -->
 
-            <!-- \BEGIN action:touch#undo -->
-            <button data-index="\{index\}" class="\\\{classNames.LiteEditorBtn\\\}" data-action-click="undo"<!-- \\BEGIN canUndo:empty --> disabled<!-- \\END canUndo:empty --> type="button">\{label\}</button>
-            <!-- \END action:touch#undo -->
+			<!-- \BEGIN action:touch#redo -->
+			<button data-index="\{index\}" class="\\\{classNames.LiteEditorBtn\\\}" data-action-click="redo" <!-- \\BEGIN canRedo:empty
+			 --> disabled
+				<!-- \\END canRedo:empty -->type="button">\{label\}</button>
+			<!-- \END action:touch#redo -->
 
-            <!-- \BEGIN action:touch#extra -->
-            <button data-index="\{index\}" class="\\\{classNames.LiteEditorBtn\\\}<!-- \BEGIN selfClassName:exist --> \{selfClassName\}<!-- \END selfClassName:exist -->" data-action-click="onClick(\{index\})" type="button">\{label\}</button>
-            <!-- \END action:touch#extra -->
+			<!-- \BEGIN action:touch#undo -->
+			<button data-index="\{index\}" class="\\\{classNames.LiteEditorBtn\\\}" data-action-click="undo" <!-- \\BEGIN canUndo:empty
+			 --> disabled
+				<!-- \\END canUndo:empty -->type="button">\{label\}</button>
+			<!-- \END action:touch#undo -->
 
-            <!-- \BEGIN action:empty -->
-            <button data-index="\{index\}" class="\\\{classNames.LiteEditorBtn\\\}<!-- \BEGIN selfClassName:exist --> \{selfClassName\}<!-- \END selfClassName:exist --><!-- \BEGIN selected:exist --> \\\{classNames.LiteEditorBtnActive\\\}<!-- \END selected:exist -->"
-            <!-- \BEGIN tag:exist -->
-            <!-- \BEGIN selected:empty --> data-action-click="insertTag(\{tag\},\{className\},\{sampleText\})"<!-- \END selected:empty -->
-            <!-- \BEGIN selected:exist --> data-action-click="unwrapTag(\{tag\},\{className\},\{sampleText\})"<!-- \END selected:exist -->
-            <!-- \END tag:exist -->
-            <!-- \BEGIN tag:empty --> data-action-click="insertTag(span,\{className\},\{sampleText\})"<!-- \END tag:empty -->
-            type="button">\{label\}</button>
-            <!-- \END action:empty -->
-            <!-- \END groups.{i}.items:loop -->
-        </div>
-        <!-- END groups:loop -->
-    </div>
+			<!-- \BEGIN action:touch#extra -->
+			<button data-index="\{index\}" class="\\\{classNames.LiteEditorBtn\\\}<!-- \BEGIN selfClassName:exist --> \{selfClassName\}<!-- \END selfClassName:exist -->"
+			 data-action-click="onClick(\{index\})" type="button">\{label\}</button>
+			<!-- \END action:touch#extra -->
+
+			<!-- \BEGIN action:empty -->
+			<button data-index="\{index\}" class="\\\{classNames.LiteEditorBtn\\\}<!-- \BEGIN selfClassName:exist --> \{selfClassName\}<!-- \END selfClassName:exist --><!-- \BEGIN selected:exist --> \\\{classNames.LiteEditorBtnActive\\\}<!-- \END selected:exist -->"
+			 <!-- \BEGIN tag:exist -->
+				<!-- \BEGIN selected:empty -->data-action-click="insertTag(\{tag\},\{className\},\{sampleText\})"
+				<!-- \END selected:empty -->
+				<!-- \BEGIN selected:exist -->data-action-click="unwrapTag(\{tag\},\{className\},\{sampleText\})"
+				<!-- \END selected:exist -->
+				<!-- \END tag:exist -->
+				<!-- \BEGIN tag:empty -->data-action-click="insertTag(span,\{className\},\{sampleText\})"
+				<!-- \END tag:empty -->
+				type="button">\{label\}</button>
+			<!-- \END action:empty -->
+			<!-- \END groups.{i}.items:loop -->
+		</div>
+		<!-- END groups:loop -->
+	</div>
 </div>

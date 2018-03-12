@@ -161,9 +161,9 @@ export default class LiteEditor extends aTemplate {
     };
 
     if (this.data.btnPosition === 'bottom') {
-      template = `${editorHtml}${btnHtml}${tooltipHtml}`;
+      template = util.removeIndentNewline(`${editorHtml}${btnHtml}${tooltipHtml}`);
     } else {
-      template = `${btnHtml}${editorHtml}${tooltipHtml}`;
+      template = util.removeIndentNewline(`${btnHtml}${editorHtml}${tooltipHtml}`);
     }
 
     this.addTemplate(this.id, template);

@@ -1,58 +1,64 @@
 <div data-selector="lite-editor-tooltip">
-<!-- BEGIN tooltipLabel:exist -->
-<div class="\{classNames.LiteEditorTooltipWrap\}">
-    <div class="\{classNames.LiteEditorTooltipOuter\}">
-        <div class="\{classNames.LiteEditorTooltipInner\}">
-            <div class="\{classNames.LiteEditorTooltip\}">
-                <span class="\{classNames.LiteEditorBtnCloseWrap\}">
-                    <span class="\{classNames.LiteEditorBtnCloseLabel\}">\{message.closeLabel\}</span>
-                    <button type="button" data-action-click="closeTooltip()" class="\{classNames.LiteEditorBtn\} \{classNames.LiteEditorBtnClose\}">
-                        <i class="\{classNames.LiteEditorFontClose\}"></i>
-                    </button>
-                </span>
-                <!-- BEGIN linkNew:exist -->
-                <h2 class="\{classNames.LiteEditorTooltipTitle\}"><i class="\{classNames.LiteEditorFontLink\}"></i>\{message.addLinkTitle\}</h2>
-                <!-- END linkNew:exist -->
-                <!-- BEGIN linkNew:empty -->
-                <h2 class="\{classNames.LiteEditorTooltipTitle\}"><i class="\{classNames.LiteEditorFontLink\}"></i>\{message.updateLinkTitle\}</h2>
-                <!-- END linkNew:empty -->
-                <div class="\{classNames.LiteEditorTooltipBody\}">
-                    <table class="\{classNames.LiteEditorTooltipTable\}">
-                        <tr>
-                            <th>\{message.linkLabel\}</th>
-                            <td><input type="text" data-bind="tooltipLabel" class="\{classNames.LiteEditorTooltipInput\}" data-action-keydown="preventSubmit()"></td>
-                        </tr>
-                        <tr>
-                            <th>\{message.linkUrl\}</th>
-                            <td><input type="text" data-bind="tooltipUrl" class="\{classNames.LiteEditorTooltipInput\}" data-action-keydown="preventSubmit()"></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td>
-                                <!-- BEGIN linkNew:exist -->
-                                <button type="button" data-action-click="insertAtag()" class="\{classNames.LiteEditorBtn\}">
-                                    <i class="\{classNames.LiteEditorFontLink\}"></i>
-                                    \{message.addLink\}
-                                </button> 
-                                <!-- END linkNew:exist -->
+	<!-- BEGIN tooltipLabel:exist -->
+	<div class="\{classNames.LiteEditorTooltipWrap\}">
+		<div class="\{classNames.LiteEditorTooltipOuter\}">
+			<div class="\{classNames.LiteEditorTooltipInner\}">
+				<div class="\{classNames.LiteEditorTooltip\}">
+					<span class="\{classNames.LiteEditorBtnCloseWrap\}">
+						<span class="\{classNames.LiteEditorBtnCloseLabel\}">\{message.closeLabel\}</span>
+						<button type="button" data-action-click="closeTooltip()" class="\{classNames.LiteEditorBtn\} \{classNames.LiteEditorBtnClose\}">
+							<i class="\{classNames.LiteEditorFontClose\}"></i>
+						</button>
+					</span>
+					<!-- BEGIN linkNew:exist -->
+					<h2 class="\{classNames.LiteEditorTooltipTitle\}">
+						<i class="\{classNames.LiteEditorFontLink\}"></i>\{message.addLinkTitle\}</h2>
+					<!-- END linkNew:exist -->
+					<!-- BEGIN linkNew:empty -->
+					<h2 class="\{classNames.LiteEditorTooltipTitle\}">
+						<i class="\{classNames.LiteEditorFontLink\}"></i>\{message.updateLinkTitle\}</h2>
+					<!-- END linkNew:empty -->
+					<div class="\{classNames.LiteEditorTooltipBody\}">
+						<table class="\{classNames.LiteEditorTooltipTable\}">
+							<tr>
+								<th>\{message.linkLabel\}</th>
+								<td>
+									<input type="text" data-bind="tooltipLabel" class="\{classNames.LiteEditorTooltipInput\}" data-action-keydown="preventSubmit()">
+								</td>
+							</tr>
+							<tr>
+								<th>\{message.linkUrl\}</th>
+								<td>
+									<input type="text" data-bind="tooltipUrl" class="\{classNames.LiteEditorTooltipInput\}" data-action-keydown="preventSubmit()">
+								</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td>
+									<!-- BEGIN linkNew:exist -->
+									<button type="button" data-action-click="insertAtag()" class="\{classNames.LiteEditorBtn\}">
+										<i class="\{classNames.LiteEditorFontLink\}"></i>
+										\{message.addLink\}
+									</button>
+									<!-- END linkNew:exist -->
 
-                                <!-- BEGIN linkNew:empty -->
-                                <button type="button" data-action-click="updateLink()" class="\{classNames.LiteEditorBtn\}">
-                                    <i class="\{classNames.LiteEditorFontUpdate\}"></i>
-                                    \{message.updateLink\}
-                                </button>
-                                <button type="button" data-action-click="removeLink()" class="\{classNames.LiteEditorBtn\}">
-                                    <i class="\{classNames.LiteEditorFontRemove\}"></i>
-                                    \{message.removeLink\}
-                                </button>
-                                <!-- END linkNew:empty -->
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- END tooltipLabel:exist -->
+									<!-- BEGIN linkNew:empty -->
+									<button type="button" data-action-click="updateLink()" class="\{classNames.LiteEditorBtn\}">
+										<i class="\{classNames.LiteEditorFontUpdate\}"></i>
+										\{message.updateLink\}
+									</button>
+									<button type="button" data-action-click="removeLink()" class="\{classNames.LiteEditorBtn\}">
+										<i class="\{classNames.LiteEditorFontRemove\}"></i>
+										\{message.removeLink\}
+									</button>
+									<!-- END linkNew:empty -->
+								</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- END tooltipLabel:exist -->
 </div>

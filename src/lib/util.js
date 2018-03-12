@@ -231,3 +231,7 @@ export const hasLastBr = (element) => {
   }
   return childNodes[length - offset].tagName === 'BR';
 }
+
+export const removeIndentNewline = (str) => {
+  return str.replace(/(\n|\t)/g, '');
+}
