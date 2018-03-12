@@ -80,7 +80,7 @@ export const getSelection = (ele) => {
     return window.getSelection();
   } else if (document.getSelection && document.getSelection().toString()) {
     return document.getSelection();
-  } else {
+  } else if (ele && ele.selectionStart) {
     return ele.value.substr(ele.selectionStart, ele.selectionEnd - ele.selectionStart);
   }
   return '';
