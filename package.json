@@ -62,6 +62,7 @@
   },
   "dependencies": {
     "a-template": "^0.5.1",
+    "custom-event-polyfill": "^0.3.0",
     "deep-extend": "^0.5.0",
     "es6-promise-polyfill": "^1.2.0",
     "field-selection": "^0.2.2",
