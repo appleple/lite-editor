@@ -13848,7 +13848,7 @@ var getSelection = exports.getSelection = function getSelection(ele) {
     return window.getSelection();
   } else if (document.getSelection && document.getSelection().toString()) {
     return document.getSelection();
-  } else if (ele && ele.selectionStart) {
+  } else if (ele && typeof ele.selectionStart === 'number') {
     return ele.value.substr(ele.selectionStart, ele.selectionEnd - ele.selectionStart);
   }
   return '';
