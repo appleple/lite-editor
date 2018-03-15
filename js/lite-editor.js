@@ -12,7 +12,7 @@
  *   license: MIT (http://opensource.org/licenses/MIT)
  *   author: steelydylan
  *   maintainers: appleple <info@appleple.com>, steelydylan <ess_president@me.com>
- *   version: 0.5.1
+ *   version: 0.5.2
  *
  * array.prototype.find:
  *   license: MIT (http://opensource.org/licenses/MIT)
@@ -303,7 +303,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 var morphdom = require('morphdom');
 var find = require('array.prototype.find');
 
-var eventType = 'input paste copy click change keydown keyup contextmenu mouseup mousedown mousemove touchstart touchend touchmove compositionstart compositionend focus';
+var eventType = 'input paste copy click change keydown keyup keypress contextmenu mouseup mousedown mousemove touchstart touchend touchmove compositionstart compositionend focus';
 var bindType = 'input change click';
 var dataAction = eventType.replace(/([a-z]+)/g, '[data-action-$1],') + '[data-action]';
 
@@ -12867,7 +12867,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var editorHtml = '<div class="\\{classNames.LiteEditor\\}" data-action-mouseup="onPutCaret" data-action-keydown="onKeyDown" data-selector="lite-editor" contenteditable data-action-input="onInput" data-action-paste="onPaste" style="<!-- BEGIN showSource:exist -->display:none;<!-- END showSource:exist --><!-- BEGIN hideEditor:exist -->display:none;"<!-- END hideEditor:exist --><!-- BEGIN minHeight:exist -->min-height: {minHeight}px;<!-- END minHeight:exist --><!-- BEGIN maxHeight:exist -->max-height:{maxHeight}px;<!-- END maxHeight:exist -->">{value}</div>\n<textarea class="\\{classNames.LiteEditorSource\\}" data-selector="lite-editor-source" style="<!-- BEGIN showSource:empty -->display:none;<!-- END showSource:empty --><!-- BEGIN minHeight:exist -->min-height: {minHeight}px;<!-- END minHeight:exist --><!-- BEGIN maxHeight:exist -->max-height:{maxHeight}px;<!-- END maxHeight:exist -->" {attr} data-bind-oneway="formatedValue" data-action-input="onDirectInput"></textarea>';
+var editorHtml = '<div class="\\{classNames.LiteEditor\\}" data-action-mouseup="onPutCaret" data-action-keydown="onKeyDown" data-action-input="onInput" data-selector="lite-editor" contenteditable data-action-paste="onPaste" style="<!-- BEGIN showSource:exist -->display:none;<!-- END showSource:exist --><!-- BEGIN hideEditor:exist -->display:none;"<!-- END hideEditor:exist --><!-- BEGIN minHeight:exist -->min-height: {minHeight}px;<!-- END minHeight:exist --><!-- BEGIN maxHeight:exist -->max-height:{maxHeight}px;<!-- END maxHeight:exist -->">{value}</div>\n<textarea class="\\{classNames.LiteEditorSource\\}" data-selector="lite-editor-source" style="<!-- BEGIN showSource:empty -->display:none;<!-- END showSource:empty --><!-- BEGIN minHeight:exist -->min-height: {minHeight}px;<!-- END minHeight:exist --><!-- BEGIN maxHeight:exist -->max-height:{maxHeight}px;<!-- END maxHeight:exist -->" {attr} data-bind-oneway="formatedValue" data-action-input="onDirectInput"></textarea>';
 var btnHtml = '<div class="\\{classNames.LiteEditorToolBox\\}" data-selector="lite-editor-toolbox">\n\n\t<!-- BEGIN source:exist -->\n\t<div class="\\{classNames.LiteEditorBtnGroupWrapRight\\}">\n\t\t<div class="\\{classNames.LiteEditorBtnGroup\\}">\n\t\t\t<button class="\\{classNames.LiteEditorBtn\\}<!-- BEGIN showSource:empty --> \\{classNames.LiteEditorBtnActive\\}<!-- END showSource:empty -->"\n\t\t\t data-action-click="toggleSource" type="button" <!-- BEGIN showSource:empty --> disabled\n\t\t\t\t<!-- END showSource:empty -->\n\t\t\t\t<!-- BEGIN disableEditorMode:exist -->disabled\n\t\t\t\t<!-- END disableEditorMode:exist -->>\n\t\t\t\t<i class="\\{classNames.LiteEditorFontAbc\\}"></i>\n\t\t\t</button>\n\t\t\t<button class="\\{classNames.LiteEditorBtn\\}<!-- BEGIN showSource:exist --> \\{classNames.LiteEditorBtnActive\\}<!-- END showSource:exist -->"\n\t\t\t data-action-click="toggleSource" type="button" <!-- BEGIN showSource:exist --> disabled\n\t\t\t\t<!-- END showSource:exist -->>\n\t\t\t\t<i class="\\{classNames.LiteEditorFontSource\\}"></i>\n\t\t\t</button>\n\t\t</div>\n\t</div>\n\t<!-- END source:exist -->\n\n\t<!-- BEGIN selectOptions.0:exist -->\n\t<div class="\\{classNames.LiteEditorSelectWrap\\}">\n\t\t<select class="\\{classNames.LiteEditorSelect\\}" <!-- BEGIN selectName:exist --> name="{selectName}"\n\t\t\t<!-- END selectName:exist -->data-action-change="changeOption" data-bind="selectedOption">\n\t\t\t<!-- BEGIN selectOptions:loop -->\n\t\t\t<option value="{value}">{label}</option>\n\t\t\t<!-- END selectOptions:loop -->\n\t\t</select>\n\t\t<!-- BEGIN extendLabel:exist -->\n\t\t<label>{extendLabel}</label>\n\t\t<input type="text" name="{selectName}[insertExtend]" class="\\{classNames.LiteEditorExtendInput\\}" data-bind="extendValue"\n\t\t/>\n\t\t<!-- END extendLabel:exist -->\n\t</div>\n\t<!-- END selectOptions.0:exist -->\n\n\t<div class="\\{classNames.LiteEditorBtnGroupWrap\\}" <!-- BEGIN hideBtns:exist --> style="display:none;"\n\t\t<!-- END hideBtns:exist -->>\n\n\t\t<!-- BEGIN groups:loop -->\n\t\t<div class="\\\\{classNames.LiteEditorBtnGroup\\\\}" data-selector="btn-group">\n\t\t\t<!-- \\BEGIN groups.{i}.items:loop -->\n\n\t\t\t<!-- \\BEGIN action:touch#redo -->\n\t\t\t<button data-index="\\{index\\}" class="\\\\\\{classNames.LiteEditorBtn\\\\\\}" data-action-click="redo" <!-- \\\\BEGIN canRedo:empty\n\t\t\t --> disabled <!-- \\\\END canRedo:empty -->type="button">\\{label\\}</button>\n\t\t\t<!-- \\END action:touch#redo -->\n\n\t\t\t<!-- \\BEGIN action:touch#undo -->\n\t\t\t<button data-index="\\{index\\}" class="\\\\\\{classNames.LiteEditorBtn\\\\\\}" data-action-click="undo" <!-- \\\\BEGIN canUndo:empty\n\t\t\t --> disabled <!-- \\\\END canUndo:empty -->type="button">\\{label\\}</button>\n\t\t\t<!-- \\END action:touch#undo -->\n\n\t\t\t<!-- \\BEGIN action:touch#extra -->\n\t\t\t<button data-index="\\{index\\}" class="\\\\\\{classNames.LiteEditorBtn\\\\\\}<!-- \\BEGIN selfClassName:exist --> \\{selfClassName\\}<!-- \\END selfClassName:exist -->"\n\t\t\t data-action-click="onClick(\\{index\\})" type="button">\\{label\\}</button>\n\t\t\t<!-- \\END action:touch#extra -->\n\n\t\t\t<!-- \\BEGIN action:empty -->\n\t\t\t<button data-index="\\{index\\}" class="\\\\\\{classNames.LiteEditorBtn\\\\\\}<!-- \\BEGIN selfClassName:exist --> \\{selfClassName\\}<!-- \\END selfClassName:exist --><!-- \\BEGIN selected:exist --> \\\\\\{classNames.LiteEditorBtnActive\\\\\\}<!-- \\END selected:exist -->"\n\t\t\t <!-- \\BEGIN tag:exist -->\n\t\t\t\t<!-- \\BEGIN selected:empty -->data-action-click="insertTag(\\{tag\\},\\{className\\},\\{sampleText\\})"\n\t\t\t\t<!-- \\END selected:empty -->\n\t\t\t\t<!-- \\BEGIN selected:exist -->data-action-click="unwrapTag(\\{tag\\},\\{className\\},\\{sampleText\\})"\n\t\t\t\t<!-- \\END selected:exist -->\n\t\t\t\t<!-- \\END tag:exist -->\n\t\t\t\t<!-- \\BEGIN tag:empty -->data-action-click="insertTag(span,\\{className\\},\\{sampleText\\})"\n\t\t\t\t<!-- \\END tag:empty -->\n\t\t\t\ttype="button">\\{label\\}</button>\n\t\t\t<!-- \\END action:empty -->\n\t\t\t<!-- \\END groups.{i}.items:loop -->\n\t\t</div>\n\t\t<!-- END groups:loop -->\n\t</div>\n</div>';
 var tooltipHtml = '<div data-selector="lite-editor-tooltip">\n\t<!-- BEGIN tooltipLabel:exist -->\n\t<div class="\\{classNames.LiteEditorTooltipWrap\\}">\n\t\t<div class="\\{classNames.LiteEditorTooltipOuter\\}">\n\t\t\t<div class="\\{classNames.LiteEditorTooltipInner\\}">\n\t\t\t\t<div class="\\{classNames.LiteEditorTooltip\\}">\n\t\t\t\t\t<span class="\\{classNames.LiteEditorBtnCloseWrap\\}">\n\t\t\t\t\t\t<span class="\\{classNames.LiteEditorBtnCloseLabel\\}">\\{message.closeLabel\\}</span>\n\t\t\t\t\t\t<button type="button" data-action-click="closeTooltip()" class="\\{classNames.LiteEditorBtn\\} \\{classNames.LiteEditorBtnClose\\}">\n\t\t\t\t\t\t\t<i class="\\{classNames.LiteEditorFontClose\\}"></i>\n\t\t\t\t\t\t</button>\n\t\t\t\t\t</span>\n\t\t\t\t\t<!-- BEGIN linkNew:exist -->\n\t\t\t\t\t<h2 class="\\{classNames.LiteEditorTooltipTitle\\}">\n\t\t\t\t\t\t<i class="\\{classNames.LiteEditorFontLink\\}"></i>\\{message.addLinkTitle\\}</h2>\n\t\t\t\t\t<!-- END linkNew:exist -->\n\t\t\t\t\t<!-- BEGIN linkNew:empty -->\n\t\t\t\t\t<h2 class="\\{classNames.LiteEditorTooltipTitle\\}">\n\t\t\t\t\t\t<i class="\\{classNames.LiteEditorFontLink\\}"></i>\\{message.updateLinkTitle\\}</h2>\n\t\t\t\t\t<!-- END linkNew:empty -->\n\t\t\t\t\t<div class="\\{classNames.LiteEditorTooltipBody\\}">\n\t\t\t\t\t\t<table class="\\{classNames.LiteEditorTooltipTable\\}">\n\t\t\t\t\t\t\t<tr>\n\t\t\t\t\t\t\t\t<th>\\{message.linkLabel\\}</th>\n\t\t\t\t\t\t\t\t<td>\n\t\t\t\t\t\t\t\t\t<input type="text" data-bind="tooltipLabel" class="\\{classNames.LiteEditorTooltipInput\\}" data-action-keydown="preventSubmit()">\n\t\t\t\t\t\t\t\t</td>\n\t\t\t\t\t\t\t</tr>\n\t\t\t\t\t\t\t<tr>\n\t\t\t\t\t\t\t\t<th>\\{message.linkUrl\\}</th>\n\t\t\t\t\t\t\t\t<td>\n\t\t\t\t\t\t\t\t\t<input type="text" data-bind="tooltipUrl" class="\\{classNames.LiteEditorTooltipInput\\}" data-action-keydown="preventSubmit()">\n\t\t\t\t\t\t\t\t</td>\n\t\t\t\t\t\t\t</tr>\n\t\t\t\t\t\t\t<tr>\n\t\t\t\t\t\t\t\t<td></td>\n\t\t\t\t\t\t\t\t<td>\n\t\t\t\t\t\t\t\t\t<!-- BEGIN linkNew:exist -->\n\t\t\t\t\t\t\t\t\t<button type="button" data-action-click="insertAtag()" class="\\{classNames.LiteEditorBtn\\}">\n\t\t\t\t\t\t\t\t\t\t<i class="\\{classNames.LiteEditorFontLink\\}"></i>\n\t\t\t\t\t\t\t\t\t\t\\{message.addLink\\}\n\t\t\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t\t\t\t<!-- END linkNew:exist -->\n\n\t\t\t\t\t\t\t\t\t<!-- BEGIN linkNew:empty -->\n\t\t\t\t\t\t\t\t\t<button type="button" data-action-click="updateLink()" class="\\{classNames.LiteEditorBtn\\}">\n\t\t\t\t\t\t\t\t\t\t<i class="\\{classNames.LiteEditorFontUpdate\\}"></i>\n\t\t\t\t\t\t\t\t\t\t\\{message.updateLink\\}\n\t\t\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t\t\t\t<button type="button" data-action-click="removeLink()" class="\\{classNames.LiteEditorBtn\\}">\n\t\t\t\t\t\t\t\t\t\t<i class="\\{classNames.LiteEditorFontRemove\\}"></i>\n\t\t\t\t\t\t\t\t\t\t\\{message.removeLink\\}\n\t\t\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t\t\t\t<!-- END linkNew:empty -->\n\t\t\t\t\t\t\t\t</td>\n\t\t\t\t\t\t\t</tr>\n\t\t\t\t\t\t</table>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n\t<!-- END tooltipLabel:exist -->\n</div>';
 
@@ -13486,15 +13486,6 @@ var LiteEditor = function (_aTemplate) {
       return false;
     }
   }, {
-    key: 'onInput',
-    value: function onInput() {
-      var editor = this._getElementByQuery('[data-selector="lite-editor"]');
-      var textarea = this._getElementByQuery('[data-selector="lite-editor-source"]');
-      this.data.value = editor.innerHTML;
-      this.data.formatedValue = this.format(this.data.value);
-      textarea.value = this.data.formatedValue;
-    }
-  }, {
     key: 'onPaste',
     value: function onPaste() {
       var e = this.e;
@@ -13520,6 +13511,7 @@ var LiteEditor = function (_aTemplate) {
       var editor = this._getElementByQuery('[data-selector="lite-editor"]');
       var textarea = this._getElementByQuery('[data-selector="lite-editor-source"]');
       var e = this.e;
+      var pos = util.getCaretPos(editor);
 
       if (e.ctrlKey || e.metaKey) {
         if (e.which === 90 || e.keyCode === 90) {
@@ -13533,28 +13525,37 @@ var LiteEditor = function (_aTemplate) {
         return;
       }
 
-      // append br if the editor doesn't have br at the last
-      if (!util.hasLastBr(editor)) {
-        editor.appendChild(document.createElement('br'));
-      }
-
       if (e.keyCode !== 13) {
         this.data.value = editor.innerHTML;
         this.onPutCaret();
         return;
       }
-
-      var pos = util.getCaretPos(editor);
       // on purpose
       this.insertHtml('<br> ');
-      editor.innerHTML = editor.innerHTML.replace(/<br> <\/(.*?)>/g, '</$1><br> ');
-      this.data.value = editor.innerHTML;
+      var innerHTML = editor.innerHTML.replace(/<br> <\/(.*?)>/g, '</$1><br> ');
+      if (!util.hasLastBr(editor)) {
+        innerHTML += '<br>';
+      }
+      editor.innerHTML = innerHTML;
+      this.data.value = innerHTML;
       this.data.formatedValue = this.format(this.data.value);
       editor.scrollTop = editor.scrollHeight;
       textarea.value = this.data.formatedValue;
       editor.focus();
       util.setCaretPos(editor, pos + 1);
       e.preventDefault();
+    }
+  }, {
+    key: 'onInput',
+    value: function onInput() {
+      var editor = this._getElementByQuery('[data-selector="lite-editor"]');
+      if (!util.hasLastBr(editor)) {
+        editor.appendChild(document.createElement("br"));
+      }
+      var textarea = this._getElementByQuery('[data-selector="lite-editor-source"]');
+      this.data.value = editor.innerHTML;
+      this.data.formatedValue = this.format(this.data.value);
+      textarea.value = this.data.formatedValue;
     }
   }, {
     key: 'preventSubmit',
@@ -14039,12 +14040,6 @@ var hasLastBr = exports.hasLastBr = function hasLastBr(element) {
   var childNodes = element.childNodes;
   var length = childNodes.length;
   var offset = 1;
-  if (!childNodes[length - offset]) {
-    return false;
-  }
-  if (childNodes[length - offset].textContent === " ") {
-    offset = 2;
-  }
   if (!childNodes[length - offset]) {
     return false;
   }

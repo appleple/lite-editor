@@ -598,14 +598,6 @@ export default class LiteEditor extends aTemplate {
     return false;
   }
 
-  onInput() {
-    const editor = this._getElementByQuery('[data-selector="lite-editor"]');
-    const textarea = this._getElementByQuery('[data-selector="lite-editor-source"]');
-    this.data.value = editor.innerHTML;
-    this.data.formatedValue = this.format(this.data.value);
-    textarea.value = this.data.formatedValue;
-  }
-
   onPaste() {
     const e = this.e;
     const editor = this._getElementByQuery('[data-selector="lite-editor"]');
@@ -629,6 +621,7 @@ export default class LiteEditor extends aTemplate {
     const editor = this._getElementByQuery('[data-selector="lite-editor"]');
     const textarea = this._getElementByQuery('[data-selector="lite-editor-source"]');
     const e = this.e;
+    const pos = util.getCaretPos(editor);
 
     if (e.ctrlKey || e.metaKey) {
       if (e.which === 90 || e.keyCode === 90) {
@@ -642,28 +635,36 @@ export default class LiteEditor extends aTemplate {
       return;
     }
 
-    // append br if the editor doesn't have br at the last
-    if (!util.hasLastBr(editor)) {
-      editor.appendChild(document.createElement('br'));
-    }
-
     if (e.keyCode !== 13) {
       this.data.value = editor.innerHTML;
       this.onPutCaret();
       return;
     }
-
-    const pos = util.getCaretPos(editor);
     // on purpose
     this.insertHtml('<br> ');
-    editor.innerHTML = editor.innerHTML.replace(/<br> <\/(.*?)>/g, '</$1><br> ');
-    this.data.value = editor.innerHTML;
+    let innerHTML = editor.innerHTML.replace(/<br> <\/(.*?)>/g, '</$1><br> ')
+    if (!util.hasLastBr(editor)) {
+      innerHTML += '<br>';
+    }
+    editor.innerHTML = innerHTML;
+    this.data.value = innerHTML;
     this.data.formatedValue = this.format(this.data.value);
     editor.scrollTop = editor.scrollHeight;
     textarea.value = this.data.formatedValue;
     editor.focus();
     util.setCaretPos(editor, pos + 1);
     e.preventDefault();
+  }
+
+  onInput() {
+    const editor = this._getElementByQuery('[data-selector="lite-editor"]');
+    if (!util.hasLastBr(editor)) {
+      editor.appendChild(document.createElement("br"))
+    }
+    const textarea = this._getElementByQuery('[data-selector="lite-editor-source"]');
+    this.data.value = editor.innerHTML;
+    this.data.formatedValue = this.format(this.data.value);
+    textarea.value = this.data.formatedValue;
   }
 
   preventSubmit() {

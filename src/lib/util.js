@@ -228,12 +228,6 @@ export const hasLastBr = (element) => {
   if (!childNodes[length - offset]) {
     return false;
   }
-  if (childNodes[length - offset].textContent === " ") {
-    offset = 2;
-  }
-  if (!childNodes[length - offset]) {
-    return false;
-  }
   return childNodes[length - offset].tagName === 'BR';
 }
 
