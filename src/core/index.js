@@ -2,6 +2,7 @@ import aTemplate from 'a-template';
 import extend from 'deep-extend';
 import Upndown from 'upndown';
 import 'custom-event-polyfill';
+import 'ie-array-find-polyfill';
 import editorHtml from './editor.html';
 import btnHtml from './btn.html';
 import tooltipHtml from './tooltip.html';

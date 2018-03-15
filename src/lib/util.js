@@ -140,8 +140,13 @@ export const clearSelection = () => {
 }
 
 export const getElementBySelection = () => {
-  const sel = window.getSelection ? window.getSelection() : document.selection;
-  return sel.anchorNode;
+  if (document.selection) {
+    return document.selection.createRange().parentElement();
+  } else {
+  const selection = window.getSelection();
+  if (selection.rangeCount > 0)
+    return selection.getRangeAt(0).startContainer.parentNode;
+  }
 }
 
 export const replaceSelectionWithText = (ele, text) => {
