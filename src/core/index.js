@@ -603,7 +603,12 @@ export default class LiteEditor extends aTemplate {
     const editor = this._getElementByQuery('[data-selector="lite-editor"]');
     const textarea = this._getElementByQuery('[data-selector="lite-editor-source"]');
     e.preventDefault();
-    const insertText = e.clipboardData.getData('text/plain');
+    let insertText = '';
+    if (e.clipboardData) {
+      insertText = e.clipboardData.getData('text/plain');
+    } else if (window.clipboardData) {
+      insertText = window.clipboardData.getData('Text');
+    }
     if (this._isFocused() && insertText) {
       this.insertHtml(insertText.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br>').replace(/\s/g, '&nbsp;'));
       this.data.value = editor.innerHTML;

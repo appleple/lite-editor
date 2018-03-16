@@ -12,7 +12,7 @@
  *   license: MIT (http://opensource.org/licenses/MIT)
  *   author: steelydylan
  *   maintainers: appleple <info@appleple.com>, steelydylan <ess_president@me.com>
- *   version: 0.5.2
+ *   version: 0.5.3
  *
  * array.prototype.find:
  *   license: MIT (http://opensource.org/licenses/MIT)
@@ -757,8 +757,8 @@ var aTemplate = function () {
         } else if (renderWay === 'text') {
           target.innerText = html;
         } else if (part) {
-          var parser = new DOMParser();
-          var doc = parser.parseFromString(html, 'text/html');
+          var doc = document.createElement('div');
+          doc.innerHTML = html;
           var partHtml = doc.querySelector(part).outerHTML;
           morphdom(target.querySelector(part), partHtml);
         } else {
@@ -13492,7 +13492,12 @@ var LiteEditor = function (_aTemplate) {
       var editor = this._getElementByQuery('[data-selector="lite-editor"]');
       var textarea = this._getElementByQuery('[data-selector="lite-editor-source"]');
       e.preventDefault();
-      var insertText = e.clipboardData.getData('text/plain');
+      var insertText = '';
+      if (e.clipboardData) {
+        insertText = e.clipboardData.getData('text/plain');
+      } else if (window.clipboardData) {
+        insertText = window.clipboardData.getData('Text');
+      }
       if (this._isFocused() && insertText) {
         this.insertHtml(insertText.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br>').replace(/\s/g, '&nbsp;'));
         this.data.value = editor.innerHTML;
