@@ -411,6 +411,7 @@ export default class LiteEditor extends aTemplate {
   }
 
   insertTag(tag, className, sampleText) {
+    const groups = this.data.groups;
     const editor = this._getElementByQuery('[data-selector="lite-editor"]');
     const source = this._getElementByQuery('[data-selector="lite-editor-source"]');
     const element = util.getElementBySelection();
@@ -448,7 +449,14 @@ export default class LiteEditor extends aTemplate {
       }
     } else {
       this.insertHtml(insertHtml.replace(/\r\n|\r|\n/g, '<br>'));
-      this.updateToolBox();
+      groups.forEach((group) => {
+        group.items.forEach((btn) => {
+          if (btn.tag === tag && btn.className === className) {
+            btn.selected = true;
+          }
+        });
+      });
+      this.update('html', '[data-selector="lite-editor-toolbox"]');
     }
     this._fireEvent('insertTag');
   }
@@ -778,7 +786,11 @@ export default class LiteEditor extends aTemplate {
   unwrapTag(tag, className) {
     const editor = this._getElementByQuery('[data-selector="lite-editor"]');
     const pos = util.getCaretPos(editor);
-    let node = this.getSelectionNode();
+    let node = util.getElementBySelection();
+    if (node === editor) {
+      util.setCaretPos(editor, pos);
+      node = util.getElementBySelection();
+    }
     while (true) {
       const nodeClassName = node.getAttribute('class') || '';
       if (node.tagName.toLowerCase() === tag && nodeClassName === className) {

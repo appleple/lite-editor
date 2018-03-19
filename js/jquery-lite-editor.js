@@ -13309,6 +13309,7 @@ var LiteEditor = function (_aTemplate) {
     value: function insertTag(tag, className, sampleText) {
       var _this4 = this;
 
+      var groups = this.data.groups;
       var editor = this._getElementByQuery('[data-selector="lite-editor"]');
       var source = this._getElementByQuery('[data-selector="lite-editor-source"]');
       var element = util.getElementBySelection();
@@ -13346,7 +13347,14 @@ var LiteEditor = function (_aTemplate) {
         }
       } else {
         this.insertHtml(insertHtml.replace(/\r\n|\r|\n/g, '<br>'));
-        this.updateToolBox();
+        groups.forEach(function (group) {
+          group.items.forEach(function (btn) {
+            if (btn.tag === tag && btn.className === className) {
+              btn.selected = true;
+            }
+          });
+        });
+        this.update('html', '[data-selector="lite-editor-toolbox"]');
       }
       this._fireEvent('insertTag');
     }
@@ -13708,7 +13716,11 @@ var LiteEditor = function (_aTemplate) {
     value: function unwrapTag(tag, className) {
       var editor = this._getElementByQuery('[data-selector="lite-editor"]');
       var pos = util.getCaretPos(editor);
-      var node = this.getSelectionNode();
+      var node = util.getElementBySelection();
+      if (node === editor) {
+        util.setCaretPos(editor, pos);
+        node = util.getElementBySelection();
+      }
       while (true) {
         var nodeClassName = node.getAttribute('class') || '';
         if (node.tagName.toLowerCase() === tag && nodeClassName === className) {
