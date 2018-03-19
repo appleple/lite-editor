@@ -13692,10 +13692,7 @@ var LiteEditor = function (_aTemplate) {
       var editor = this._getElementByQuery('[data-selector="lite-editor"]');
       var pos = util.getCaretPos(editor);
       var node = util.getElementBySelection();
-      if (node === editor) {
-        util.setCaretPos(editor, pos);
-        node = util.getElementBySelection();
-      }
+      var length = node.innerText.length;
       while (true) {
         var nodeClassName = node.getAttribute('class') || '';
         if (node.tagName.toLowerCase() === tag && nodeClassName === className) {
@@ -13710,7 +13707,7 @@ var LiteEditor = function (_aTemplate) {
       }
       this.data.value = editor.innerHTML;
       editor.focus();
-      util.setCaretPos(editor, pos);
+      util.setCaretPos(editor, pos, length);
       this.onPutCaret();
       this._fireEvent('unwrapTag');
     }
@@ -13939,7 +13936,8 @@ var restoreSelection = exports.restoreSelection = function restoreSelection(rang
 var replaceSelectionWithHtml = exports.replaceSelectionWithHtml = function replaceSelectionWithHtml(html) {
   var range = void 0;
   if (window.getSelection && window.getSelection().getRangeAt) {
-    range = window.getSelection().getRangeAt(0);
+    var selection = window.getSelection();
+    range = selection.getRangeAt(0);
     range.deleteContents();
     var div = document.createElement("div");
     div.innerHTML = html;
@@ -13948,10 +13946,26 @@ var replaceSelectionWithHtml = exports.replaceSelectionWithHtml = function repla
     while (child = div.firstChild) {
       frag.appendChild(child);
     }
-    range.insertNode(frag);
+    var temp = frag.firstElementChild;
+    var end = range.endContainer;
+    var newrange = document.createRange();
+    range.insertNode(frag.firstElementChild);
+    newrange.setStart(temp.firstChild, 0);
+    newrange.setEnd(temp.firstChild, temp.innerText.length);
+    clearSelection();
+    selection.addRange(newrange);
   } else if (document.selection && document.selection.createRange) {
     range = document.selection.createRange();
     range.pasteHTML(html);
+  }
+};
+
+var getElementBySelection = exports.getElementBySelection = function getElementBySelection() {
+  if (document.selection) {
+    return document.selection.createRange().parentElement();
+  } else {
+    var selection = window.getSelection();
+    if (selection.rangeCount > 0) return selection.getRangeAt(0).startContainer.parentNode;
   }
 };
 
@@ -13970,15 +13984,6 @@ var clearSelection = exports.clearSelection = function clearSelection() {
   }
 };
 
-var getElementBySelection = exports.getElementBySelection = function getElementBySelection() {
-  if (document.selection) {
-    return document.selection.createRange().parentElement();
-  } else {
-    var selection = window.getSelection();
-    if (selection.rangeCount > 0) return selection.getRangeAt(0).startContainer.parentNode;
-  }
-};
-
 var replaceSelectionWithText = exports.replaceSelectionWithText = function replaceSelectionWithText(ele, text) {
   var selectionStart = ele.selectionStart;
   ele.value = '' + ele.value.substring(0, selectionStart) + text + ele.value.substring(ele.selectionEnd);
@@ -13994,7 +13999,7 @@ var unwrapTag = exports.unwrapTag = function unwrapTag(element) {
   parent.removeChild(element);
 };
 
-var setCaretPos = exports.setCaretPos = function setCaretPos(el, pos) {
+var setCaretPos = exports.setCaretPos = function setCaretPos(el, pos, length) {
   // Loop through all child nodes
   var nodes = [].slice.call(el.childNodes);
   for (var i = 0, n = nodes.length; i < n; i++) {
@@ -14005,7 +14010,13 @@ var setCaretPos = exports.setCaretPos = function setCaretPos(el, pos) {
         // finally add our range
         var range = document.createRange();
         var sel = window.getSelection();
-        range.setStart(node, pos);
+
+        if (length) {
+          range.setStart(node, 0);
+          range.setEnd(node, length - 1);
+        } else {
+          range.setStart(node, pos);
+        }
         range.collapse(true);
         sel.removeAllRanges();
         sel.addRange(range);

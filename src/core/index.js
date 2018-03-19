@@ -787,10 +787,7 @@ export default class LiteEditor extends aTemplate {
     const editor = this._getElementByQuery('[data-selector="lite-editor"]');
     const pos = util.getCaretPos(editor);
     let node = util.getElementBySelection();
-    if (node === editor) {
-      util.setCaretPos(editor, pos);
-      node = util.getElementBySelection();
-    }
+    const length = node.innerText.length;
     while (true) {
       const nodeClassName = node.getAttribute('class') || '';
       if (node.tagName.toLowerCase() === tag && nodeClassName === className) {
@@ -805,7 +802,7 @@ export default class LiteEditor extends aTemplate {
     }
     this.data.value = editor.innerHTML;
     editor.focus();
-    util.setCaretPos(editor, pos);
+    util.setCaretPos(editor, pos, length);
     this.onPutCaret();
     this._fireEvent('unwrapTag');
   }

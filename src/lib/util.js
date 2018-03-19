@@ -86,7 +86,6 @@ export const getSelection = (ele) => {
   return '';
 }
 
-
 export const saveSelection = () => {
   if (window.getSelection) {
     const sel = window.getSelection();
@@ -112,7 +111,8 @@ export const restoreSelection = (range) => {
 export const replaceSelectionWithHtml = (html) => {
   let range;
   if (window.getSelection && window.getSelection().getRangeAt) {
-    range = window.getSelection().getRangeAt(0);
+    const selection = window.getSelection();
+    range = selection.getRangeAt(0);
     range.deleteContents();
     const div = document.createElement("div");
     div.innerHTML = html;
@@ -120,10 +120,27 @@ export const replaceSelectionWithHtml = (html) => {
     while ((child = div.firstChild)) {
       frag.appendChild(child);
     }
-    range.insertNode(frag);
+    const temp = frag.firstElementChild;
+    const end = range.endContainer;
+    const newrange = document.createRange();
+    range.insertNode(frag.firstElementChild);
+    newrange.setStart(temp.firstChild, 0);
+    newrange.setEnd(temp.firstChild, temp.innerText.length);
+    clearSelection();
+    selection.addRange(newrange);
   } else if (document.selection && document.selection.createRange) {
     range = document.selection.createRange();
     range.pasteHTML(html);
+  }
+}
+
+export const getElementBySelection = () => {
+  if (document.selection) {
+    return document.selection.createRange().parentElement();
+  } else {
+  const selection = window.getSelection();
+  if (selection.rangeCount > 0)
+    return selection.getRangeAt(0).startContainer.parentNode;
   }
 }
 
@@ -136,16 +153,6 @@ export const clearSelection = () => {
     }
   } else if (document.selection) {  // IE?
     document.selection.empty();
-  }
-}
-
-export const getElementBySelection = () => {
-  if (document.selection) {
-    return document.selection.createRange().parentElement();
-  } else {
-  const selection = window.getSelection();
-  if (selection.rangeCount > 0)
-    return selection.getRangeAt(0).startContainer.parentNode;
   }
 }
 
@@ -164,7 +171,7 @@ export const unwrapTag = (element) => {
   parent.removeChild(element);
 }
 
-export const setCaretPos = (el, pos) => {
+export const setCaretPos = (el, pos, length) => {
   // Loop through all child nodes
   const nodes = [].slice.call(el.childNodes);
   for (let i = 0, n = nodes.length; i < n; i++) {
@@ -174,7 +181,13 @@ export const setCaretPos = (el, pos) => {
         // finally add our range
         const range = document.createRange();
         const sel = window.getSelection();
-        range.setStart(node, pos);
+
+        if (length) {
+          range.setStart(node, 0);
+          range.setEnd(node, length - 1);
+        } else {
+          range.setStart(node, pos);
+        }
         range.collapse(true);
         sel.removeAllRanges();
         sel.addRange(range);
@@ -200,8 +213,8 @@ export const replaceWhiteSpaceWithNbsp = (el) => {
     if (node.nodeType === 3) { // we have a text node
       node.textContent = node.textContent.replace(/ /g, '\u00A0');
     }
-  }  
-} 
+  }
+}
 
 export const getCaretPos = (element) => {
   let caretOffset = 0;
