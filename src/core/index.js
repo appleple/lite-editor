@@ -37,21 +37,21 @@ const defaultbtnOptions = [
     tag: 'strong',
     className: '',
     group: 'mark',
-    sampleText: 'strong text'
+    sampleText: ' '
   },
   {
     label: '<i class="lite-editor-font-italic"></i>',
     tag: 'i',
     className: '',
     group: 'mark',
-    sampleText: 'italic text'
+    sampleText: ' '
   },
   {
     label: '<i class="lite-editor-font-underline"></i>',
     tag: 'u',
     className: '',
     group: 'mark',
-    sampleText: 'underline'
+    sampleText: ' '
   }
 ];
 
@@ -797,22 +797,27 @@ export default class LiteEditor extends aTemplate {
     const pos = util.getCaretPos(editor);
     let node = util.getElementBySelection();
     const length = util.getSelectionLength();
-    while (true) {
-      const nodeClassName = node.getAttribute('class') || '';
-      if (node.tagName.toLowerCase() === tag && nodeClassName === className) {
-        if (tag === 'a') {
-          this.updateTooltip(node);
-        } else {
-          util.unwrapTag(node);
+    const nodePos = util.getCaretPos(node);
+    if (node.parentElement === editor && 
+      node.textContent && nodePos === node.textContent.length && length === 0) {
+      util.moveCaretAfter(node);
+    } else {
+      while (true) {
+        const nodeClassName = node.getAttribute('class') || '';
+        if (node.tagName.toLowerCase() === tag && nodeClassName === className) {
+          if (tag === 'a') {
+            this.updateTooltip(node);
+          } else {
+            util.unwrapTag(node);
+          }
+          break;
         }
-        break;
+        node = node.parentElement;
       }
-      node = node.parentElement;
+      this.data.value = editor.innerHTML;
+      editor.focus();
+      util.setCaretPos(editor, pos, length);
     }
-    this.data.value = editor.innerHTML;
-
-    editor.focus();
-    util.setCaretPos(editor, pos, length);
     this.onPutCaret();
     this._fireEvent('unwrapTag');
   }

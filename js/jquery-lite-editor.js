@@ -12923,19 +12923,19 @@ var defaultbtnOptions = [{
   tag: 'strong',
   className: '',
   group: 'mark',
-  sampleText: 'strong text'
+  sampleText: ' '
 }, {
   label: '<i class="lite-editor-font-italic"></i>',
   tag: 'i',
   className: '',
   group: 'mark',
-  sampleText: 'italic text'
+  sampleText: ' '
 }, {
   label: '<i class="lite-editor-font-underline"></i>',
   tag: 'u',
   className: '',
   group: 'mark',
-  sampleText: 'underline'
+  sampleText: ' '
 }];
 
 var defaults = {
@@ -13729,22 +13729,26 @@ var LiteEditor = function (_aTemplate) {
       var pos = util.getCaretPos(editor);
       var node = util.getElementBySelection();
       var length = util.getSelectionLength();
-      while (true) {
-        var nodeClassName = node.getAttribute('class') || '';
-        if (node.tagName.toLowerCase() === tag && nodeClassName === className) {
-          if (tag === 'a') {
-            this.updateTooltip(node);
-          } else {
-            util.unwrapTag(node);
+      var nodePos = util.getCaretPos(node);
+      if (node.parentElement === editor && node.textContent && nodePos === node.textContent.length && length === 0) {
+        util.moveCaretAfter(node);
+      } else {
+        while (true) {
+          var nodeClassName = node.getAttribute('class') || '';
+          if (node.tagName.toLowerCase() === tag && nodeClassName === className) {
+            if (tag === 'a') {
+              this.updateTooltip(node);
+            } else {
+              util.unwrapTag(node);
+            }
+            break;
           }
-          break;
+          node = node.parentElement;
         }
-        node = node.parentElement;
+        this.data.value = editor.innerHTML;
+        editor.focus();
+        util.setCaretPos(editor, pos, length);
       }
-      this.data.value = editor.innerHTML;
-
-      editor.focus();
-      util.setCaretPos(editor, pos, length);
       this.onPutCaret();
       this._fireEvent('unwrapTag');
     }
@@ -14037,6 +14041,24 @@ var replaceSelectionWithHtml = exports.replaceSelectionWithHtml = function repla
   } else if (document.selection && document.selection.createRange) {
     range = document.selection.createRange();
     range.pasteHTML(html);
+  }
+};
+
+var moveCaretAfter = exports.moveCaretAfter = function moveCaretAfter(node) {
+  if (window.getSelection && window.getSelection().getRangeAt) {
+    var selection = window.getSelection();
+    var range = selection.getRangeAt(0);
+    var newnode = node.cloneNode(true);
+    var frag = document.createDocumentFragment();
+    node.remove();
+    frag.appendChild(newnode);
+    var lastChild = frag.appendChild(document.createTextNode('\u200B'));
+    var newrange = document.createRange();
+    range.insertNode(frag);
+    newrange.setStartAfter(lastChild);
+    newrange.setEndAfter(lastChild);
+    selection.removeAllRanges();
+    selection.addRange(newrange);
   }
 };
 

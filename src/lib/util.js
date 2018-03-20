@@ -152,6 +152,24 @@ export const replaceSelectionWithHtml = (html) => {
   }
 }
 
+export const moveCaretAfter = (node) => {
+  if (window.getSelection && window.getSelection().getRangeAt) {
+    const selection = window.getSelection();
+    const range = selection.getRangeAt(0);
+    const newnode = node.cloneNode(true);
+    let frag = document.createDocumentFragment();
+    node.remove();
+    frag.appendChild(newnode);
+    const lastChild = frag.appendChild(document.createTextNode("\u200B"));
+    const newrange = document.createRange();
+    range.insertNode(frag);
+    newrange.setStartAfter(lastChild);
+    newrange.setEndAfter(lastChild);
+    selection.removeAllRanges();
+    selection.addRange(newrange);
+  }
+}
+
 export const unwrapTag = (element) => {
   const parent = element.parentNode;
   while (element.firstChild) {
