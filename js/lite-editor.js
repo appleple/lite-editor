@@ -13250,7 +13250,7 @@ var LiteEditor = function (_aTemplate) {
   }, {
     key: 'insertHtml',
     value: function insertHtml(html) {
-      util.replaceSelectionWithHtml(html);
+      util.insertHtmlAtCursor(html);
       var editor = this._getElementByQuery('[data-selector="lite-editor"]');
       this.data.value = editor.innerHTML;
     }
@@ -13420,9 +13420,9 @@ var LiteEditor = function (_aTemplate) {
       } else if (!data.showSource) {
         data.formatedValue = this.format(data.value);
       }
-      if (data.value) {
-        data.value = data.value.replace(/{/g, '&lcub;').replace(/}/g, '&rcub;');
-      }
+      // if (data.value) {
+      //   data.value = data.value.replace(/{/g, '&lcub;').replace(/}/g, '&rcub;');
+      // }
       this._fireEvent('prerender');
     }
   }, {
@@ -13959,6 +13959,25 @@ var restoreSelection = exports.restoreSelection = function restoreSelection(rang
     sel.addRange(range);
   } else if (document.selection && range.select) {
     range.select();
+  }
+};
+
+var insertHtmlAtCursor = exports.insertHtmlAtCursor = function insertHtmlAtCursor(html) {
+  var range = void 0;
+  if (window.getSelection && window.getSelection().getRangeAt) {
+    range = window.getSelection().getRangeAt(0);
+    range.deleteContents();
+    var div = document.createElement("div");
+    div.innerHTML = html;
+    var frag = document.createDocumentFragment(),
+        child = void 0;
+    while (child = div.firstChild) {
+      frag.appendChild(child);
+    }
+    range.insertNode(frag);
+  } else if (document.selection && document.selection.createRange) {
+    range = document.selection.createRange();
+    range.pasteHTML(html);
   }
 };
 

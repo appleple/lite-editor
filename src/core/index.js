@@ -383,7 +383,7 @@ export default class LiteEditor extends aTemplate {
   }
 
   insertHtml(html) {
-    util.replaceSelectionWithHtml(html);
+    util.insertHtmlAtCursor(html);
     const editor = this._getElementByQuery('[data-selector="lite-editor"]');
     this.data.value = editor.innerHTML;
   }
@@ -538,9 +538,9 @@ export default class LiteEditor extends aTemplate {
     } else if (!data.showSource) {
       data.formatedValue = this.format(data.value);
     }
-    if (data.value) {
-      data.value = data.value.replace(/{/g, '&lcub;').replace(/}/g, '&rcub;');
-    }
+    // if (data.value) {
+    //   data.value = data.value.replace(/{/g, '&lcub;').replace(/}/g, '&rcub;');
+    // }
     this._fireEvent('prerender');
   }
 
