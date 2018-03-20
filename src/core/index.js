@@ -544,9 +544,9 @@ export default class LiteEditor extends aTemplate {
     } else if (!data.showSource) {
       data.formatedValue = this.format(data.value);
     }
-    // if (data.value) {
-    //   data.value = data.value.replace(/{/g, '&lcub;').replace(/}/g, '&rcub;');
-    // }
+    if (data.value) {
+      data.value = data.value.replace(/{/g, '&lcub;').replace(/}/g, '&rcub;');
+    }
     this._fireEvent('prerender');
   }
 
