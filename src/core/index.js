@@ -383,6 +383,12 @@ export default class LiteEditor extends aTemplate {
   }
 
   insertHtml(html) {
+    util.replaceSelectionWithHtml(html);
+    const editor = this._getElementByQuery('[data-selector="lite-editor"]');
+    this.data.value = editor.innerHTML;
+  }
+
+  insertHtmlAtCursor(html) {
     util.insertHtmlAtCursor(html);
     const editor = this._getElementByQuery('[data-selector="lite-editor"]');
     this.data.value = editor.innerHTML;
@@ -621,7 +627,7 @@ export default class LiteEditor extends aTemplate {
       insertText = window.clipboardData.getData('Text');
     }
     if (this._isFocused() && insertText) {
-      this.insertHtml(insertText.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br>').replace(/\s/g, '&nbsp;'));
+      this.insertHtmlAtCursor(insertText.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br>').replace(/\s/g, '&nbsp;'));
       this.data.value = editor.innerHTML;
       this.data.formatedValue = this.format(this.data.value);
       textarea.value = this.data.formatedValue;
@@ -657,7 +663,7 @@ export default class LiteEditor extends aTemplate {
       return;
     }
     // on purpose
-    this.insertHtml('<br> ');
+    this.insertHtmlAtCursor('<br> ');
     let innerHTML = editor.innerHTML.replace(/<br> <\/(.*?)>/g, '</$1><br> ')
     if (!util.hasLastBr(editor)) {
       innerHTML += '<br>';
