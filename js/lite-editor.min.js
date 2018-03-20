@@ -6,7 +6,7 @@
  *   license: MIT (http://opensource.org/licenses/MIT)
  *   author: appleple
  *   homepage: http://developer.a-blogcms.jp
- *   version: 1.6.22
+ *   version: 1.6.23
  *
  * a-template:
  *   license: MIT (http://opensource.org/licenses/MIT)
