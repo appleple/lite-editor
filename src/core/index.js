@@ -172,7 +172,7 @@ export default class LiteEditor extends aTemplate {
     this.addTemplate(this.id, template);
 
     if (selector.value) {
-      let value = selector.innerHTML;
+      let value = selector.value;
       if (!this.data.sourceFirst) {
         value = this.makeEditableHtml(value);
       }

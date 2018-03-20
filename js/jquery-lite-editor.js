@@ -13035,7 +13035,7 @@ var LiteEditor = function (_aTemplate) {
     _this.addTemplate(_this.id, template);
 
     if (selector.value) {
-      var value = selector.innerHTML;
+      var value = selector.value;
       if (!_this.data.sourceFirst) {
         value = _this.makeEditableHtml(value);
       }
