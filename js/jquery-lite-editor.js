@@ -13038,6 +13038,8 @@ var LiteEditor = function (_aTemplate) {
       var value = selector.value;
       if (!_this.data.sourceFirst) {
         value = _this.makeEditableHtml(value);
+      } else {
+        value = selector.innerHTML;
       }
       if (_this.data.escapeNotRegisteredTags) {
         value = _this.escapeNotRegisteredTags(value);

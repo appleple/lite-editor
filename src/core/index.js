@@ -175,6 +175,8 @@ export default class LiteEditor extends aTemplate {
       let value = selector.value;
       if (!this.data.sourceFirst) {
         value = this.makeEditableHtml(value);
+      } else {
+        value = selector.innerHTML;
       }
       if (this.data.escapeNotRegisteredTags) {
         value = this.escapeNotRegisteredTags(value);
