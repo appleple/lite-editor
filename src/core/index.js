@@ -6,6 +6,7 @@ import 'ie-array-find-polyfill';
 import editorHtml from './editor.html';
 import btnHtml from './btn.html';
 import tooltipHtml from './tooltip.html';
+import '../lib/first-element-child';
 import * as util from '../lib/util';
 
 const Entities = require('html-entities').XmlEntities;
@@ -171,7 +172,7 @@ export default class LiteEditor extends aTemplate {
     this.addTemplate(this.id, template);
 
     if (selector.value) {
-      let value = selector.value;
+      let value = selector.innerHTML;
       if (!this.data.sourceFirst) {
         value = this.makeEditableHtml(value);
       }
@@ -787,7 +788,7 @@ export default class LiteEditor extends aTemplate {
     const editor = this._getElementByQuery('[data-selector="lite-editor"]');
     const pos = util.getCaretPos(editor);
     let node = util.getElementBySelection();
-    const length = node.innerText.length;
+    const length = util.getSelectionLength();
     while (true) {
       const nodeClassName = node.getAttribute('class') || '';
       if (node.tagName.toLowerCase() === tag && nodeClassName === className) {
@@ -801,6 +802,7 @@ export default class LiteEditor extends aTemplate {
       node = node.parentElement;
     }
     this.data.value = editor.innerHTML;
+
     editor.focus();
     util.setCaretPos(editor, pos, length);
     this.onPutCaret();

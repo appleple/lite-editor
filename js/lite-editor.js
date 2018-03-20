@@ -12853,6 +12853,8 @@ require('custom-event-polyfill');
 
 require('ie-array-find-polyfill');
 
+require('../lib/first-element-child');
+
 var _util = require('../lib/util');
 
 var util = _interopRequireWildcard(_util);
@@ -13008,7 +13010,7 @@ var LiteEditor = function (_aTemplate) {
     _this.addTemplate(_this.id, template);
 
     if (selector.value) {
-      var value = selector.value;
+      var value = selector.innerHTML;
       if (!_this.data.sourceFirst) {
         value = _this.makeEditableHtml(value);
       }
@@ -13692,7 +13694,7 @@ var LiteEditor = function (_aTemplate) {
       var editor = this._getElementByQuery('[data-selector="lite-editor"]');
       var pos = util.getCaretPos(editor);
       var node = util.getElementBySelection();
-      var length = node.innerText.length;
+      var length = util.getSelectionLength();
       while (true) {
         var nodeClassName = node.getAttribute('class') || '';
         if (node.tagName.toLowerCase() === tag && nodeClassName === className) {
@@ -13706,6 +13708,7 @@ var LiteEditor = function (_aTemplate) {
         node = node.parentElement;
       }
       this.data.value = editor.innerHTML;
+
       editor.focus();
       util.setCaretPos(editor, pos, length);
       this.onPutCaret();
@@ -13811,12 +13814,36 @@ var LiteEditor = function (_aTemplate) {
 exports.default = LiteEditor;
 module.exports = exports['default'];
 
-},{"../lib/util":99,"a-template":1,"custom-event-polyfill":12,"deep-extend":13,"html-entities":53,"ie-array-find-polyfill":65,"upndown":95}],98:[function(require,module,exports){
+},{"../lib/first-element-child":99,"../lib/util":100,"a-template":1,"custom-event-polyfill":12,"deep-extend":13,"html-entities":53,"ie-array-find-polyfill":65,"upndown":95}],98:[function(require,module,exports){
 'use strict';
 
 module.exports = require('./core/');
 
 },{"./core/":97}],99:[function(require,module,exports){
+'use strict';
+
+// Overwrites native 'firstElementChild' prototype.
+// Adds Document & DocumentFragment support for IE9 & Safari.
+// Returns array instead of HTMLCollection.
+;(function (constructor) {
+  if (constructor && constructor.prototype && constructor.prototype.firstElementChild == null) {
+    Object.defineProperty(constructor.prototype, 'firstElementChild', {
+      get: function get() {
+        var node,
+            nodes = this.childNodes,
+            i = 0;
+        while (node = nodes[i++]) {
+          if (node.nodeType === 1) {
+            return node;
+          }
+        }
+        return null;
+      }
+    });
+  }
+})(window.Node || window.Element);
+
+},{}],100:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -13960,6 +13987,14 @@ var replaceSelectionWithHtml = exports.replaceSelectionWithHtml = function repla
   }
 };
 
+var unwrapTag = exports.unwrapTag = function unwrapTag(element) {
+  var parent = element.parentNode;
+  while (element.firstChild) {
+    parent.insertBefore(element.firstChild, element);
+  }
+  parent.removeChild(element);
+};
+
 var getElementBySelection = exports.getElementBySelection = function getElementBySelection() {
   if (document.selection) {
     return document.selection.createRange().parentElement();
@@ -13991,12 +14026,12 @@ var replaceSelectionWithText = exports.replaceSelectionWithText = function repla
   ele.setSelectionRange(selectionStart, selectionStart + text.length);
 };
 
-var unwrapTag = exports.unwrapTag = function unwrapTag(element) {
-  var parent = element.parentNode;
-  while (element.firstChild) {
-    parent.insertBefore(element.firstChild, element);
+var getSelectionLength = exports.getSelectionLength = function getSelectionLength() {
+  if (window.getSelection) {
+    return window.getSelection().toString().length;
+  } else if (document.selection) {
+    return document.selection().toString().length;
   }
-  parent.removeChild(element);
 };
 
 var setCaretPos = exports.setCaretPos = function setCaretPos(el, pos, length) {
@@ -14013,11 +14048,11 @@ var setCaretPos = exports.setCaretPos = function setCaretPos(el, pos, length) {
 
         if (length) {
           range.setStart(node, 0);
-          range.setEnd(node, length - 1);
+          range.setEnd(node, length);
         } else {
           range.setStart(node, pos);
+          range.collapse(true);
         }
-        range.collapse(true);
         sel.removeAllRanges();
         sel.addRange(range);
         return -1; // we are done

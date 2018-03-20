@@ -134,6 +134,14 @@ export const replaceSelectionWithHtml = (html) => {
   }
 }
 
+export const unwrapTag = (element) => {
+  const parent = element.parentNode;
+  while (element.firstChild) {
+    parent.insertBefore(element.firstChild, element);
+  }
+  parent.removeChild(element);
+}
+
 export const getElementBySelection = () => {
   if (document.selection) {
     return document.selection.createRange().parentElement();
@@ -163,12 +171,12 @@ export const replaceSelectionWithText = (ele, text) => {
   ele.setSelectionRange(selectionStart, selectionStart + text.length);
 }
 
-export const unwrapTag = (element) => {
-  const parent = element.parentNode;
-  while (element.firstChild) {
-    parent.insertBefore(element.firstChild, element);
+export const getSelectionLength = () => {
+  if (window.getSelection) {
+    return window.getSelection().toString().length;
+  } else if (document.selection) { 
+    return document.selection().toString().length;
   }
-  parent.removeChild(element);
 }
 
 export const setCaretPos = (el, pos, length) => {
@@ -184,11 +192,11 @@ export const setCaretPos = (el, pos, length) => {
 
         if (length) {
           range.setStart(node, 0);
-          range.setEnd(node, length - 1);
+          range.setEnd(node, length);
         } else {
           range.setStart(node, pos);
+          range.collapse(true);
         }
-        range.collapse(true);
         sel.removeAllRanges();
         sel.addRange(range);
         return -1; // we are done
