@@ -856,6 +856,8 @@ export default class LiteEditor extends aTemplate {
     .replace(/<br>(\s*)/g, '\n')
     .replace(/<br>/g, '\n')
     .replace(/&nbsp;/g, ' ')
+    .replace(/<script/g, '&lt;script')
+    .replace(/script>/g, 'script&gt;')
     .replace(/( +)/g, (a) => {
       const length = a.length;
       let ret = '';
