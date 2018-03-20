@@ -796,6 +796,7 @@ export default class LiteEditor extends aTemplate {
     const editor = this._getElementByQuery('[data-selector="lite-editor"]');
     const pos = util.getCaretPos(editor);
     let node = util.getElementBySelection();
+    console.log(node);
     const length = util.getSelectionLength();
     const nodePos = util.getCaretPos(node);
     if (node.parentElement === editor && 

@@ -179,12 +179,13 @@ export const unwrapTag = (element) => {
 }
 
 export const getElementBySelection = () => {
-  if (document.selection) {
+  if (window.getSelection) {
+    const selection = window.getSelection();
+    if (selection.rangeCount > 0) {
+      return selection.getRangeAt(0).startContainer.parentNode;
+    }
+  } else if (document.selection) {
     return document.selection.createRange().parentElement();
-  } else {
-  const selection = window.getSelection();
-  if (selection.rangeCount > 0)
-    return selection.getRangeAt(0).startContainer.parentNode;
   }
 }
 

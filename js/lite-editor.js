@@ -13703,6 +13703,7 @@ var LiteEditor = function (_aTemplate) {
       var editor = this._getElementByQuery('[data-selector="lite-editor"]');
       var pos = util.getCaretPos(editor);
       var node = util.getElementBySelection();
+      console.log(node);
       var length = util.getSelectionLength();
       var nodePos = util.getCaretPos(node);
       if (node.parentElement === editor && node.textContent && nodePos === node.textContent.length && length === 0) {
@@ -14046,11 +14047,13 @@ var unwrapTag = exports.unwrapTag = function unwrapTag(element) {
 };
 
 var getElementBySelection = exports.getElementBySelection = function getElementBySelection() {
-  if (document.selection) {
-    return document.selection.createRange().parentElement();
-  } else {
+  if (window.getSelection) {
     var selection = window.getSelection();
-    if (selection.rangeCount > 0) return selection.getRangeAt(0).startContainer.parentNode;
+    if (selection.rangeCount > 0) {
+      return selection.getRangeAt(0).startContainer.parentNode;
+    }
+  } else if (document.selection) {
+    return document.selection.createRange().parentElement();
   }
 };
 
