@@ -664,7 +664,7 @@ export default class LiteEditor extends aTemplate {
     }
     // on purpose
     this.insertHtmlAtCursor('<br> ');
-    let innerHTML = editor.innerHTML.replace(/<br> <\/(.*?)>/g, '</$1><br> ')
+    let innerHTML = editor.innerHTML.replace(/<br> <\/(.*?)>/g, '</$1><br> ');
     if (!util.hasLastBr(editor)) {
       innerHTML += '<br>';
     }
@@ -681,7 +681,7 @@ export default class LiteEditor extends aTemplate {
   onInput() {
     const editor = this._getElementByQuery('[data-selector="lite-editor"]');
     if (!util.hasLastBr(editor)) {
-      editor.appendChild(document.createElement("br"))
+      editor.appendChild(document.createElement('br'));
     }
     const textarea = this._getElementByQuery('[data-selector="lite-editor-source"]');
     this.data.value = editor.innerHTML;

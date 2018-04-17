@@ -67,6 +67,7 @@
     "es6-promise-polyfill": "^1.2.0",
     "field-selection": "^0.2.2",
     "html-entities": "^1.2.1",
+    "ie-array-find-polyfill": "^1.1.0",
     "np": "^2.16.0",
     "to-markdown": "^3.1.0",
     "upndown": "^2.1.0"
