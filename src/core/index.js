@@ -705,6 +705,9 @@ export default class LiteEditor extends aTemplate {
         tags.push({ tagName: target.tagName.toLowerCase(), className: target.getAttribute('class') || '' });
         let parent = target.parentElement;
         while (parent !== editor) {
+          if (!parent) {
+            break;
+          }
           const tagName = parent.tagName.toLowerCase();
           tags.push({
             tagName,
@@ -798,7 +801,7 @@ export default class LiteEditor extends aTemplate {
     let node = util.getElementBySelection();
     const length = util.getSelectionLength();
     const nodePos = util.getCaretPos(node);
-    if (node.parentElement === editor && 
+    if (node.parentElement === editor &&
       node.textContent && nodePos === node.textContent.length && length === 0) {
       util.moveCaretAfter(node);
     } else {
