@@ -389,9 +389,15 @@ export default class LiteEditor extends aTemplate {
   }
 
   insertHtmlAtCursor(html) {
-    util.insertHtmlAtCursor(html);
-    const editor = this._getElementByQuery('[data-selector="lite-editor"]');
-    this.data.value = editor.innerHTML;
+    if (this.data.showSource) {
+      const source = this._getElementByQuery('[data-selector="lite-editor-source"]');
+      util.replaceSelectionWithText(source, html);
+      this.data.value = this.makeEditableHtml(source.value);
+    } else {
+      util.insertHtmlAtCursor(html);
+      const editor = this._getElementByQuery('[data-selector="lite-editor"]');
+      this.data.value = editor.innerHTML;
+    }
   }
 
   saveSelection() {
