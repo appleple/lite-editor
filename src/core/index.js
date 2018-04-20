@@ -686,9 +686,9 @@ export default class LiteEditor extends aTemplate {
 
   onInput() {
     const editor = this._getElementByQuery('[data-selector="lite-editor"]');
-    if (!util.hasLastBr(editor)) {
-      editor.appendChild(document.createElement('br'));
-    }
+    // if (!util.hasLastBr(editor)) {
+    //   editor.appendChild(document.createElement('br'));
+    // }
     const textarea = this._getElementByQuery('[data-selector="lite-editor-source"]');
     this.data.value = editor.innerHTML;
     this.data.formatedValue = this.format(this.data.value);
@@ -894,6 +894,7 @@ export default class LiteEditor extends aTemplate {
     });
     if (replaced.slice(-1) === '\n') {
       replaced = replaced.slice(0, -1);
+      replaced += '<br>';
     }
     if (this.data.nl2br) {
       replaced = replaced.replace(/\n/g, '<br>\n');
