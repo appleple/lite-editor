@@ -6,7 +6,7 @@
  *   license: MIT (http://opensource.org/licenses/MIT)
  *   author: appleple
  *   homepage: http://developer.a-blogcms.jp
- *   version: 1.6.27
+ *   version: 1.6.28
  *
  * a-template:
  *   license: MIT (http://opensource.org/licenses/MIT)
@@ -13227,6 +13227,10 @@ var LiteEditor = function (_aTemplate) {
         value = dom.innerHTML;
       }
 
+      if (this.data.nl2br === false && value.slice(-1) === '\n') {
+        value += '<br>';
+      }
+
       value = value.replace(/<br>(\r\n|\r|\n)/g, '<br>');
       value = value.replace(/\r\n|\r|\n/g, '<br>');
 
@@ -13939,6 +13943,9 @@ var LiteEditor = function (_aTemplate) {
       }
       if (this.data.nl2br) {
         replaced = replaced.replace(/\n/g, '<br>\n');
+      }
+      if (replaced.slice(-8) !== '<br><br>' && replaced.slice(-4) === '<br>') {
+        replaced = replaced.slice(0, -4);
       }
       if (this.data.decodeSource) {
         return entities.decode(replaced);
