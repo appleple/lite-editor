@@ -3803,7 +3803,7 @@ DomHandler.prototype.onerror = function(error){
 
 DomHandler.prototype.onclosetag = function(){
 	//if(this._tagStack.pop().name !== name) this._handleCallback(Error("Tagname didn't match!"));
-
+	
 	var elem = this._tagStack.pop();
 
 	if(this._options.withEndIndices && elem){
@@ -4348,7 +4348,7 @@ exports.prepend = function(elem, prev){
 	if(elem.prev){
 		elem.prev.next = prev;
 	}
-
+	
 	prev.parent = parent;
 	prev.prev = elem.prev;
 	prev.next = elem;
@@ -13191,7 +13191,7 @@ var LiteEditor = function (_aTemplate) {
     _this.data.tooltipClassName = '';
     _this.data.attr = '';
     _this.data.linkNew = true;
-    if (settings.btnOptions) {
+    if (settings && settings.btnOptions) {
       _this.data.btnOptions = settings.btnOptions;
     }
     _this.data.groups = _this.makeBtnGroups();
