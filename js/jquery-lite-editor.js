@@ -6,7 +6,7 @@
  *   license: MIT (http://opensource.org/licenses/MIT)
  *   author: appleple
  *   homepage: http://developer.a-blogcms.jp
- *   version: 1.6.28
+ *   version: 1.6.29
  *
  * a-template:
  *   license: MIT (http://opensource.org/licenses/MIT)
@@ -27,7 +27,7 @@
  *   author: T. Jameson Little <t.jameson.little@gmail.com>
  *   maintainers: beatgammit <t.jameson.little@gmail.com>, feross <feross@feross.org>
  *   homepage: https://github.com/beatgammit/base64-js
- *   version: 1.2.3
+ *   version: 1.3.0
  *
  * buffer:
  *   license: MIT (http://opensource.org/licenses/MIT)
@@ -56,9 +56,9 @@
  *   licenses: MIT (http://opensource.org/licenses/MIT)
  *   author: Viacheslav Lotsmanov <lotsmanov89@gmail.com>
  *   maintainers: unclechu <lotsmanov89@gmail.com>
- *   contributors: Romain Prieto, Max Maximov, Marshall Bowers
+ *   contributors: Romain Prieto, Max Maximov, Marshall Bowers, Misha Wakerman
  *   homepage: https://github.com/unclechu/node-deep-extend
- *   version: 0.5.0
+ *   version: 0.5.1
  *
  * define-properties:
  *   license: MIT (http://opensource.org/licenses/MIT)
@@ -85,7 +85,7 @@
  *   author: Felix Boehm <me@feedic.com>
  *   maintainers: feedic <me@feedic.com>
  *   homepage: https://github.com/fb55/DomHandler#readme
- *   version: 2.4.1
+ *   version: 2.4.2
  *
  * domutils:
  *   license: BSD-2-Clause (http://opensource.org/licenses/BSD-2-Clause)
@@ -256,7 +256,7 @@
  *   author: Feross Aboukhadijeh <feross@feross.org>
  *   maintainers: feross <feross@feross.org>, mafintosh <mathiasbuus@gmail.com>
  *   homepage: https://github.com/feross/safe-buffer
- *   version: 5.1.1
+ *   version: 5.1.2
  *
  * stream-browserify:
  *   license: MIT (http://opensource.org/licenses/MIT)
@@ -1013,65 +1013,97 @@ for (var i = 0, len = code.length; i < len; ++i) {
 revLookup['-'.charCodeAt(0)] = 62
 revLookup['_'.charCodeAt(0)] = 63
 
-function placeHoldersCount (b64) {
+function getLens (b64) {
   var len = b64.length
+
   if (len % 4 > 0) {
     throw new Error('Invalid string. Length must be a multiple of 4')
   }
 
-  // the number of equal signs (place holders)
-  // if there are two placeholders, than the two characters before it
-  // represent one byte
-  // if there is only one, then the three characters before it represent 2 bytes
-  // this is just a cheap hack to not do indexOf twice
-  return b64[len - 2] === '=' ? 2 : b64[len - 1] === '=' ? 1 : 0
+  // Trim off extra bytes after placeholder bytes are found
+  // See: https://github.com/beatgammit/base64-js/issues/42
+  var validLen = b64.indexOf('=')
+  if (validLen === -1) validLen = len
+
+  var placeHoldersLen = validLen === len
+    ? 0
+    : 4 - (validLen % 4)
+
+  return [validLen, placeHoldersLen]
 }
 
+// base64 is 4/3 + up to two characters of the original data
 function byteLength (b64) {
-  // base64 is 4/3 + up to two characters of the original data
-  return (b64.length * 3 / 4) - placeHoldersCount(b64)
+  var lens = getLens(b64)
+  var validLen = lens[0]
+  var placeHoldersLen = lens[1]
+  return ((validLen + placeHoldersLen) * 3 / 4) - placeHoldersLen
+}
+
+function _byteLength (b64, validLen, placeHoldersLen) {
+  return ((validLen + placeHoldersLen) * 3 / 4) - placeHoldersLen
 }
 
 function toByteArray (b64) {
-  var i, l, tmp, placeHolders, arr
-  var len = b64.length
-  placeHolders = placeHoldersCount(b64)
+  var tmp
+  var lens = getLens(b64)
+  var validLen = lens[0]
+  var placeHoldersLen = lens[1]
 
-  arr = new Arr((len * 3 / 4) - placeHolders)
+  var arr = new Arr(_byteLength(b64, validLen, placeHoldersLen))
+
+  var curByte = 0
 
   // if there are placeholders, only get up to the last complete 4 chars
-  l = placeHolders > 0 ? len - 4 : len
+  var len = placeHoldersLen > 0
+    ? validLen - 4
+    : validLen
 
-  var L = 0
-
-  for (i = 0; i < l; i += 4) {
-    tmp = (revLookup[b64.charCodeAt(i)] << 18) | (revLookup[b64.charCodeAt(i + 1)] << 12) | (revLookup[b64.charCodeAt(i + 2)] << 6) | revLookup[b64.charCodeAt(i + 3)]
-    arr[L++] = (tmp >> 16) & 0xFF
-    arr[L++] = (tmp >> 8) & 0xFF
-    arr[L++] = tmp & 0xFF
+  for (var i = 0; i < len; i += 4) {
+    tmp =
+      (revLookup[b64.charCodeAt(i)] << 18) |
+      (revLookup[b64.charCodeAt(i + 1)] << 12) |
+      (revLookup[b64.charCodeAt(i + 2)] << 6) |
+      revLookup[b64.charCodeAt(i + 3)]
+    arr[curByte++] = (tmp >> 16) & 0xFF
+    arr[curByte++] = (tmp >> 8) & 0xFF
+    arr[curByte++] = tmp & 0xFF
   }
 
-  if (placeHolders === 2) {
-    tmp = (revLookup[b64.charCodeAt(i)] << 2) | (revLookup[b64.charCodeAt(i + 1)] >> 4)
-    arr[L++] = tmp & 0xFF
-  } else if (placeHolders === 1) {
-    tmp = (revLookup[b64.charCodeAt(i)] << 10) | (revLookup[b64.charCodeAt(i + 1)] << 4) | (revLookup[b64.charCodeAt(i + 2)] >> 2)
-    arr[L++] = (tmp >> 8) & 0xFF
-    arr[L++] = tmp & 0xFF
+  if (placeHoldersLen === 2) {
+    tmp =
+      (revLookup[b64.charCodeAt(i)] << 2) |
+      (revLookup[b64.charCodeAt(i + 1)] >> 4)
+    arr[curByte++] = tmp & 0xFF
+  }
+
+  if (placeHoldersLen === 1) {
+    tmp =
+      (revLookup[b64.charCodeAt(i)] << 10) |
+      (revLookup[b64.charCodeAt(i + 1)] << 4) |
+      (revLookup[b64.charCodeAt(i + 2)] >> 2)
+    arr[curByte++] = (tmp >> 8) & 0xFF
+    arr[curByte++] = tmp & 0xFF
   }
 
   return arr
 }
 
 function tripletToBase64 (num) {
-  return lookup[num >> 18 & 0x3F] + lookup[num >> 12 & 0x3F] + lookup[num >> 6 & 0x3F] + lookup[num & 0x3F]
+  return lookup[num >> 18 & 0x3F] +
+    lookup[num >> 12 & 0x3F] +
+    lookup[num >> 6 & 0x3F] +
+    lookup[num & 0x3F]
 }
 
 function encodeChunk (uint8, start, end) {
   var tmp
   var output = []
   for (var i = start; i < end; i += 3) {
-    tmp = ((uint8[i] << 16) & 0xFF0000) + ((uint8[i + 1] << 8) & 0xFF00) + (uint8[i + 2] & 0xFF)
+    tmp =
+      ((uint8[i] << 16) & 0xFF0000) +
+      ((uint8[i + 1] << 8) & 0xFF00) +
+      (uint8[i + 2] & 0xFF)
     output.push(tripletToBase64(tmp))
   }
   return output.join('')
@@ -1081,30 +1113,33 @@ function fromByteArray (uint8) {
   var tmp
   var len = uint8.length
   var extraBytes = len % 3 // if we have 1 byte left, pad 2 bytes
-  var output = ''
   var parts = []
   var maxChunkLength = 16383 // must be multiple of 3
 
   // go through the array every three bytes, we'll deal with trailing stuff later
   for (var i = 0, len2 = len - extraBytes; i < len2; i += maxChunkLength) {
-    parts.push(encodeChunk(uint8, i, (i + maxChunkLength) > len2 ? len2 : (i + maxChunkLength)))
+    parts.push(encodeChunk(
+      uint8, i, (i + maxChunkLength) > len2 ? len2 : (i + maxChunkLength)
+    ))
   }
 
   // pad the end with zeros, but make sure to not forget the extra bytes
   if (extraBytes === 1) {
     tmp = uint8[len - 1]
-    output += lookup[tmp >> 2]
-    output += lookup[(tmp << 4) & 0x3F]
-    output += '=='
+    parts.push(
+      lookup[tmp >> 2] +
+      lookup[(tmp << 4) & 0x3F] +
+      '=='
+    )
   } else if (extraBytes === 2) {
-    tmp = (uint8[len - 2] << 8) + (uint8[len - 1])
-    output += lookup[tmp >> 10]
-    output += lookup[(tmp >> 4) & 0x3F]
-    output += lookup[(tmp << 2) & 0x3F]
-    output += '='
+    tmp = (uint8[len - 2] << 8) + uint8[len - 1]
+    parts.push(
+      lookup[tmp >> 10] +
+      lookup[(tmp >> 4) & 0x3F] +
+      lookup[(tmp << 2) & 0x3F] +
+      '='
+    )
   }
-
-  parts.push(output)
 
   return parts.join('')
 }
@@ -3293,7 +3328,7 @@ try {
  *
  * The MIT License (MIT)
  *
- * Copyright (c) 2013-2015 Viacheslav Lotsmanov
+ * Copyright (c) 2013-2018 Viacheslav Lotsmanov
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -3325,7 +3360,9 @@ function isSpecificValue(val) {
 
 function cloneSpecificValue(val) {
 	if (val instanceof Buffer) {
-		var x = new Buffer(val.length);
+		var x = Buffer.alloc
+			? Buffer.alloc(val.length)
+			: new Buffer(val.length);
 		val.copy(x);
 		return x;
 	} else if (val instanceof Date) {
@@ -3356,6 +3393,10 @@ function deepCloneArray(arr) {
 		}
 	});
 	return clone;
+}
+
+function safeGetProperty(object, property) {
+	return property === '__proto__' ? undefined : object[property];
 }
 
 /**
@@ -3390,8 +3431,8 @@ var deepExtend = module.exports = function (/*obj_1, [obj_2], [obj_N]*/) {
 		}
 
 		Object.keys(obj).forEach(function (key) {
-			src = target[key]; // source value
-			val = obj[key]; // new value
+			src = safeGetProperty(target, key); // source value
+			val = safeGetProperty(obj, key); // new value
 
 			// recursion prevention
 			if (val === target) {
@@ -3429,7 +3470,7 @@ var deepExtend = module.exports = function (/*obj_1, [obj_2], [obj_N]*/) {
 	});
 
 	return target;
-}
+};
 
 }).call(this,require("buffer").Buffer)
 },{"buffer":10}],14:[function(require,module,exports){
@@ -3765,7 +3806,7 @@ DomHandler.prototype.onclosetag = function(){
 	
 	var elem = this._tagStack.pop();
 
-	if(this._options.withEndIndices){
+	if(this._options.withEndIndices && elem){
 		elem.endIndex = this._parser.endIndex;
 	}
 
@@ -13150,12 +13191,14 @@ var LiteEditor = function (_aTemplate) {
     _this.data.tooltipClassName = '';
     _this.data.attr = '';
     _this.data.linkNew = true;
+    if (settings.btnOptions) {
+      _this.data.btnOptions = settings.btnOptions;
+    }
     _this.data.groups = _this.makeBtnGroups();
     _this.stack = [];
     _this.stackPosition = 0;
     var template = '';
     var attrStr = '';
-
     _this.convert = {
       format: _this.format,
       insertExtend: _this.insertExtend

@@ -152,12 +152,14 @@ export default class LiteEditor extends aTemplate {
     this.data.tooltipClassName = '';
     this.data.attr = '';
     this.data.linkNew = true;
+    if (settings.btnOptions) {
+      this.data.btnOptions = settings.btnOptions;
+    }
     this.data.groups = this.makeBtnGroups();
     this.stack = [];
     this.stackPosition = 0;
     let template = '';
     let attrStr = '';
-
     this.convert = {
       format: this.format,
       insertExtend: this.insertExtend
