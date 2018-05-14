@@ -881,7 +881,7 @@ export default class LiteEditor extends aTemplate {
       return '';
     }
     let replaced = txt
-    .replace(/<br>(\s*)/g, '\n')
+    .replace(/<br>( *)/g, '\n')
     .replace(/<br>/g, '\n')
     .replace(/&nbsp;/g, ' ')
     .replace(/<script/g, '&lt;script')

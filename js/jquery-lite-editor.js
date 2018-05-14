@@ -6,7 +6,7 @@
  *   license: MIT (http://opensource.org/licenses/MIT)
  *   author: appleple
  *   homepage: http://developer.a-blogcms.jp
- *   version: 1.6.31
+ *   version: 1.6.32
  *
  * a-template:
  *   license: MIT (http://opensource.org/licenses/MIT)
@@ -13993,7 +13993,7 @@ var LiteEditor = function (_aTemplate) {
       if (!txt) {
         return '';
       }
-      var replaced = txt.replace(/<br>(\s*)/g, '\n').replace(/<br>/g, '\n').replace(/&nbsp;/g, ' ').replace(/<script/g, '&lt;script').replace(/script>/g, 'script&gt;').replace(/( +)/g, function (a) {
+      var replaced = txt.replace(/<br>( *)/g, '\n').replace(/<br>/g, '\n').replace(/&nbsp;/g, ' ').replace(/<script/g, '&lt;script').replace(/script>/g, 'script&gt;').replace(/( +)/g, function (a) {
         var length = a.length;
         var ret = '';
         for (var i = 0; i < length; i += 1) {
