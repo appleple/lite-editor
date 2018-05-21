@@ -777,6 +777,7 @@ export default class LiteEditor extends aTemplate {
   }
 
   updateLink() {
+    this.restoreSelection();
     const editor = this._getElementByQuery('[data-selector="lite-editor"]');
     const pos = util.getCaretPos(editor);
     const label = this.data.tooltipLabel;
@@ -792,6 +793,7 @@ export default class LiteEditor extends aTemplate {
   }
 
   removeLink() {
+    this.restoreSelection();
     const editor = this._getElementByQuery('[data-selector="lite-editor"]');
     const pos = util.getCaretPos(editor);
     const node = this.savedLinkNode;

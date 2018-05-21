@@ -13882,6 +13882,7 @@ var LiteEditor = function (_aTemplate) {
   }, {
     key: 'updateLink',
     value: function updateLink() {
+      this.restoreSelection();
       var editor = this._getElementByQuery('[data-selector="lite-editor"]');
       var pos = util.getCaretPos(editor);
       var label = this.data.tooltipLabel;
@@ -13898,6 +13899,7 @@ var LiteEditor = function (_aTemplate) {
   }, {
     key: 'removeLink',
     value: function removeLink() {
+      this.restoreSelection();
       var editor = this._getElementByQuery('[data-selector="lite-editor"]');
       var pos = util.getCaretPos(editor);
       var node = this.savedLinkNode;
