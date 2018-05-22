@@ -702,7 +702,12 @@ export default class LiteEditor extends aTemplate {
     const id = this._getUniqId();
     this.insertHtmlAtCursor(`<span id="${id}" style="display:inline-block;"></span>`);
     const span = this._getElementByQuery(`#${id}`);
-    const coordinate = span.getBoundingClientRect();
+    const rect = span.getBoundingClientRect();
+    const editorRect = editor.getBoundingClientRect();
+    const coordinate = {
+      x: rect.x - editorRect.x,
+      y: rect.y - editorRect.y
+    };
     util.removeElement(span);
     this.data.value = editor.innerHTML;
     return coordinate;

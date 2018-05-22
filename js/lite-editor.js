@@ -6,7 +6,7 @@
  *   license: MIT (http://opensource.org/licenses/MIT)
  *   author: appleple
  *   homepage: http://developer.a-blogcms.jp
- *   version: 1.6.35
+ *   version: 1.6.36
  *
  * a-template:
  *   license: MIT (http://opensource.org/licenses/MIT)
@@ -13771,7 +13771,12 @@ var LiteEditor = function (_aTemplate) {
       var id = this._getUniqId();
       this.insertHtmlAtCursor('<span id="' + id + '" style="display:inline-block;"></span>');
       var span = this._getElementByQuery('#' + id);
-      var coordinate = span.getBoundingClientRect();
+      var rect = span.getBoundingClientRect();
+      var editorRect = editor.getBoundingClientRect();
+      var coordinate = {
+        x: rect.x - editorRect.x,
+        y: rect.y - editorRect.y
+      };
       util.removeElement(span);
       this.data.value = editor.innerHTML;
       return coordinate;
