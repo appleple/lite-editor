@@ -6,7 +6,7 @@
  *   license: MIT (http://opensource.org/licenses/MIT)
  *   author: appleple
  *   homepage: http://developer.a-blogcms.jp
- *   version: 1.6.33
+ *   version: 1.6.34
  *
  * a-template:
  *   license: MIT (http://opensource.org/licenses/MIT)
@@ -13768,6 +13768,7 @@ var LiteEditor = function (_aTemplate) {
         return;
       }
       // on purpose
+      var oldCoordinate = this.checkCaretCoordinate();
       this.insertHtmlAtCursor('<br> ');
       var innerHTML = editor.innerHTML.replace(/<br> <\/(.*?)>/g, '</$1><br> ');
       if (!util.hasLastBr(editor)) {
@@ -13776,11 +13777,27 @@ var LiteEditor = function (_aTemplate) {
       editor.innerHTML = innerHTML;
       this.data.value = innerHTML;
       this.data.formatedValue = this.format(this.data.value);
-      editor.scrollTop = editor.scrollHeight;
       textarea.value = this.data.formatedValue;
+      var coordinate = this.checkCaretCoordinate();
       editor.focus();
       util.setCaretPos(editor, pos + 1);
+      if (util.getBrowser().indexOf('ie') === -1) {
+        coordinate = this.checkCaretCoordinate();
+      }
+      if (coordinate.y > this.data.maxHeight) {
+        editor.scrollTop += coordinate.y - oldCoordinate.y;
+      }
       e.preventDefault();
+    }
+  }, {
+    key: 'checkCaretCoordinate',
+    value: function checkCaretCoordinate() {
+      var id = this._getUniqId();
+      this.insertHtmlAtCursor('<span id="' + id + '" style="display:inline-block;"></span>');
+      var span = this._getElementByQuery('#' + id);
+      var coordinate = span.getBoundingClientRect();
+      util.removeElement(span);
+      return coordinate;
     }
   }, {
     key: 'onInput',
@@ -14385,6 +14402,39 @@ var hasLastBr = exports.hasLastBr = function hasLastBr(element) {
 
 var removeIndentNewline = exports.removeIndentNewline = function removeIndentNewline(str) {
   return str.replace(/(\n|\t)/g, '');
+};
+
+var getBrowser = exports.getBrowser = function getBrowser() {
+  var ua = window.navigator.userAgent.toLowerCase();
+  var ver = window.navigator.appVersion.toLowerCase();
+  var name = 'unknown';
+
+  if (ua.indexOf('msie') != -1) {
+    if (ver.indexOf('msie 6.') != -1) {
+      name = 'ie6';
+    } else if (ver.indexOf('msie 7.') != -1) {
+      name = 'ie7';
+    } else if (ver.indexOf('msie 8.') != -1) {
+      name = 'ie8';
+    } else if (ver.indexOf('msie 9.') != -1) {
+      name = 'ie9';
+    } else if (ver.indexOf('msie 10.') != -1) {
+      name = 'ie10';
+    } else {
+      name = 'ie';
+    }
+  } else if (ua.indexOf('trident/7') != -1) {
+    name = 'ie11';
+  } else if (ua.indexOf('chrome') != -1) {
+    name = 'chrome';
+  } else if (ua.indexOf('safari') != -1) {
+    name = 'safari';
+  } else if (ua.indexOf('opera') != -1) {
+    name = 'opera';
+  } else if (ua.indexOf('firefox') != -1) {
+    name = 'firefox';
+  }
+  return name;
 };
 
 },{}]},{},[97]);

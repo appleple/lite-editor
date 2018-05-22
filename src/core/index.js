@@ -675,6 +675,7 @@ export default class LiteEditor extends aTemplate {
       return;
     }
     // on purpose
+    const oldCoordinate = this.checkCaretCoordinate();
     this.insertHtmlAtCursor('<br> ');
     let innerHTML = editor.innerHTML.replace(/<br> <\/(.*?)>/g, '</$1><br> ');
     if (!util.hasLastBr(editor)) {
@@ -683,11 +684,26 @@ export default class LiteEditor extends aTemplate {
     editor.innerHTML = innerHTML;
     this.data.value = innerHTML;
     this.data.formatedValue = this.format(this.data.value);
-    editor.scrollTop = editor.scrollHeight;
     textarea.value = this.data.formatedValue;
+    let coordinate = this.checkCaretCoordinate();
     editor.focus();
     util.setCaretPos(editor, pos + 1);
+    if (util.getBrowser().indexOf('ie') === -1) {
+      coordinate = this.checkCaretCoordinate();
+    }
+    if (coordinate.y > this.data.maxHeight) {
+      editor.scrollTop += coordinate.y - oldCoordinate.y;
+    }
     e.preventDefault();
+  }
+
+  checkCaretCoordinate() {
+    const id = this._getUniqId();
+    this.insertHtmlAtCursor(`<span id="${id}" style="display:inline-block;"></span>`);
+    const span = this._getElementByQuery(`#${id}`);
+    const coordinate = span.getBoundingClientRect();
+    util.removeElement(span);
+    return coordinate;
   }
 
   onInput() {
@@ -883,23 +899,23 @@ export default class LiteEditor extends aTemplate {
       return '';
     }
     let replaced = txt
-    .replace(/<br>( *)/g, '\n')
-    .replace(/<br>/g, '\n')
-    .replace(/&nbsp;/g, ' ')
-    .replace(/<script/g, '&lt;script')
-    .replace(/script>/g, 'script&gt;')
-    .replace(/( +)/g, (a) => {
-      const length = a.length;
-      let ret = '';
-      for (let i = 0; i < length; i += 1) {
-        if (i % 2 === 0) {
-          ret += ' ';
-        } else {
-          ret += '&nbsp;';
+      .replace(/<br>( *)/g, '\n')
+      .replace(/<br>/g, '\n')
+      .replace(/&nbsp;/g, ' ')
+      .replace(/<script/g, '&lt;script')
+      .replace(/script>/g, 'script&gt;')
+      .replace(/( +)/g, (a) => {
+        const length = a.length;
+        let ret = '';
+        for (let i = 0; i < length; i += 1) {
+          if (i % 2 === 0) {
+            ret += ' ';
+          } else {
+            ret += '&nbsp;';
+          }
         }
-      }
-      return ret;
-    });
+        return ret;
+      });
     if (replaced.slice(-1) === '\n') {
       replaced = replaced.slice(0, -1);
       replaced += '<br>';
