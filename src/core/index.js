@@ -698,11 +698,13 @@ export default class LiteEditor extends aTemplate {
   }
 
   checkCaretCoordinate() {
+    const editor = this._getElementByQuery('[data-selector="lite-editor"]');
     const id = this._getUniqId();
     this.insertHtmlAtCursor(`<span id="${id}" style="display:inline-block;"></span>`);
     const span = this._getElementByQuery(`#${id}`);
     const coordinate = span.getBoundingClientRect();
     util.removeElement(span);
+    this.data.value = editor.innerHTML;
     return coordinate;
   }
 

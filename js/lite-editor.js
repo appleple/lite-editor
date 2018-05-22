@@ -6,7 +6,7 @@
  *   license: MIT (http://opensource.org/licenses/MIT)
  *   author: appleple
  *   homepage: http://developer.a-blogcms.jp
- *   version: 1.6.34
+ *   version: 1.6.35
  *
  * a-template:
  *   license: MIT (http://opensource.org/licenses/MIT)
@@ -13767,11 +13767,13 @@ var LiteEditor = function (_aTemplate) {
   }, {
     key: 'checkCaretCoordinate',
     value: function checkCaretCoordinate() {
+      var editor = this._getElementByQuery('[data-selector="lite-editor"]');
       var id = this._getUniqId();
       this.insertHtmlAtCursor('<span id="' + id + '" style="display:inline-block;"></span>');
       var span = this._getElementByQuery('#' + id);
       var coordinate = span.getBoundingClientRect();
       util.removeElement(span);
+      this.data.value = editor.innerHTML;
       return coordinate;
     }
   }, {
