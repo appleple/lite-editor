@@ -336,6 +336,10 @@
   margin-right: 20px;
 }
 
+.lite-editor-tooltip-table input[type=checkbox] {
+  margin-right: 5px;
+}
+
 .lite-editor-tooltip-table [class^=lite-editor-font] {
   vertical-align: middle;
   margin-right: 5px;

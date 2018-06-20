@@ -136,7 +136,7 @@
 		border-top-left-radius: 3px;
 		border-bottom-left-radius: 3px;
 	}
-	
+
 	.lite-editor-btn:last-child {
 		border-top-right-radius: 3px;
 		border-bottom-right-radius: 3px;
@@ -261,6 +261,9 @@
 		text-align: center;
 		font-size: 14px;
 		margin-right: 20px;
+	}
+	input[type=checkbox] {
+		margin-right: 5px;
 	}
 	[class^=lite-editor-font] {
 		vertical-align: middle;
