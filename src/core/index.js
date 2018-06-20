@@ -95,7 +95,9 @@ const defaults = {
     removeLink: 'remove',
     linkUrl: 'URL',
     linkLabel: 'label',
-    closeLabel: 'close'
+    closeLabel: 'close',
+    targetBlank: 'target',
+    targetBlankLabel: 'Opens the linked page in a new window or tab'
   },
   voidElements: [
     'area',
@@ -133,7 +135,8 @@ const defaults = {
   selectOptions: [],
   selectedOption: '',
   btnOptions: defaultbtnOptions,
-  btnPosition: 'top'
+  btnPosition: 'top',
+  relAttrForTargetBlank: 'noopener noreferrer'
 };
 
 export default class LiteEditor extends aTemplate {
@@ -151,6 +154,7 @@ export default class LiteEditor extends aTemplate {
     this.data.tooltipUrl = '';
     this.data.tooltipClassName = '';
     this.data.attr = '';
+    this.data.targetBlank = 'false';
     this.data.linkNew = true;
     if (settings && settings.btnOptions) {
       this.data.btnOptions = settings.btnOptions;
@@ -491,16 +495,27 @@ export default class LiteEditor extends aTemplate {
     urlInput.focus();
   }
 
+  updateTargetBlank() {
+    const target = this.e.target;
+    if (target.checked) {
+      this.data.targetBlank = 'true';
+    } else {
+      this.data.targetBlank = 'false';
+    }
+  }
+
   insertAtag() {
     this.restoreSelection();
     const label = this.data.tooltipLabel;
     const link = this.data.tooltipUrl;
     const className = this.data.tooltipClassName;
+    const targetBlank = this.data.targetBlank;
+    const relAttrForTargetBlank = this.data.relAttrForTargetBlank;
     let classAttr = '';
     if (className) {
       classAttr = ` class="${className}"`;
     }
-    const insertHtml = `<a href="${link}"${classAttr}>${label}</a>`;
+    const insertHtml = `<a href="${link}"${classAttr}${targetBlank === 'true' ? `target="_blank" rel="${relAttrForTargetBlank}"` : ''}>${label}</a>`;
     if (this.data.showSource) {
       const source = this._getElementByQuery('[data-selector="lite-editor-source"]');
       if (this.data.mode === 'markdown') {
@@ -784,11 +799,17 @@ export default class LiteEditor extends aTemplate {
       this.data.linkNew = true;
       this.data.tooltipLabel = '';
       this.data.tooltipUrl = '';
+      this.data.targetBlank = 'false';
     } else {
       this.data.linkNew = false;
       this.data.tooltipLabel = item.innerHTML;
       this.data.tooltipUrl = item.getAttribute('href');
       this.savedLinkNode = item;
+      if (item.getAttribute('target') === '_blank') {
+        this.data.targetBlank = 'true';
+      } else {
+        this.data.targetBlank = 'false';
+      }
     }
     this.update('html', '[data-selector="lite-editor-tooltip"]');
   }
@@ -797,6 +818,7 @@ export default class LiteEditor extends aTemplate {
     this.data.tooltipLabel = '';
     this.data.tooltipUrl = '';
     this.data.tooltipClassName = '';
+    this.data.targetBlank = 'false';
     this.update('html', '[data-selector="lite-editor-tooltip"]');
   }
 
@@ -805,10 +827,19 @@ export default class LiteEditor extends aTemplate {
     const editor = this._getElementByQuery('[data-selector="lite-editor"]');
     const pos = util.getCaretPos(editor);
     const label = this.data.tooltipLabel;
+    const targetBlank = this.data.targetBlank;
     const url = this.data.tooltipUrl;
     const node = this.savedLinkNode;
+    const relAttrForTargetBlank = this.data.relAttrForTargetBlank;
     node.setAttribute('href', url);
     node.innerHTML = label;
+    if (targetBlank === 'true') {
+      node.setAttribute('target', '_blank');
+      node.setAttribute('rel', relAttrForTargetBlank);
+    } else {
+      node.removeAttribute('target');
+      node.removeAttribute('rel');
+    }
     this.data.value = editor.innerHTML;
     editor.focus();
     util.setCaretPos(editor, pos);
