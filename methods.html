@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>About | Lite Editor</title>
+    <title>Methods | Lite Editor</title>
     <meta name="description" content="This is the document of Lite Editor.">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://unpkg.com/uny@latest/dist/css/uny.min.css">
@@ -45,7 +45,7 @@
               <ul>
 
 
-                <li class="is-current">
+                <li>
                   <a href="about.html">About</a>
                 </li>
 
@@ -72,7 +72,7 @@
 
 
 
-                <li>
+                <li class="is-current">
                   <a href="events.html">Events</a>
                 </li>
 
@@ -92,27 +92,140 @@
       <div class="content">
         <section class="section">
           <div class="inner is-small">
-            <h1 id="about">About</h1>
-<p>Lite Editor is a free to use and customizable WYSIWYG Editor.
-A vanillaJS plugin you can easily use like below</p>
-<pre><code class="js language-js">const editor = new LiteEditor('.js-editor');
+            <h1 id="methods">Methods</h1>
+<p>Some methods can be called from the LiteEditor instances like below</p>
+<pre><code class="js language-js">editor.on('render', () =&gt; {
+    /* write some codes here */
+});
 </code></pre>
-<h2 id="installation">Installation</h2>
-<p>via cdn</p>
-<pre><code class="html language-html">&lt;script src="https://unpkg.com/lite-editor@1.6.39/js/lite-editor.min.js"&gt;&lt;/script&gt;
-&lt;link rel="stylesheet" href="https://unpkg.com/lite-editor@1.6.39/css/lite-editor.css"&gt;
-</code></pre>
-<p>via npm</p>
-<pre><code class="sh language-sh">npm install lite-editor --save
-</code></pre>
-<p>or yarn</p>
-<pre><code class="sh language-sh">yarn add lite-editor
-</code></pre>
-<p>After installing it via npm,  You can import it easily with webpack or browserify</p>
-<pre><code class="js language-js">import LiteEditor from 'lite-editor';
-
-const editor = new LiteEditor('.js-editor');
-</code></pre>
+<p>This is the list of the methods you can call.</p>
+<table>
+	<tr>
+		<th>name</th>
+		<th>parameters</th>
+		<th>description</th>
+	</tr>
+	<tr>
+		<td>focus</td>
+		<td></td>
+		<td>focus to the editor area</td>
+	</tr>
+	<tr>
+		<td>registerButton</td>
+		<td>btn object</td>
+		<td>add new button to the editor</td>
+	</tr>
+	<tr>
+		<td>activateEditorMode</td>
+		<td></td>
+		<td>activate the wysiwyg mode</td>
+	</tr>
+	<tr>
+		<td>diactivateEditorMode</td>
+		<td></td>
+		<td>disable the wysiwyg mode</td>
+	</tr>
+	<tr>
+		<td>on</td>
+		<td></td>
+		<td>listen to the some events fired from the editor</td>
+	</tr>
+	<tr>
+		<td>hideEditor</td>
+		<td></td>
+		<td>hide the editor area</td>
+	</tr>
+	<tr>
+		<td>showEditor</td>
+		<td></td>
+		<td>show the editor area</td>
+	</tr>
+	<tr>
+		<td>hideBtns</td>
+		<td></td>
+		<td>hide the btns</td>
+	</tr>
+	<tr>
+		<td>resetStyle</td>
+		<td></td>
+		<td>reset the styles of the selected area</td>
+	</tr>
+	<tr>
+		<td>insertHtml</td>
+		<td>html</td>
+		<td>replace the html of the selected area</td>
+	</tr>
+	<tr>
+		<td>insertHtmlAtCursor</td>
+		<td>html</td>
+		<td>insert the html at the caret position</td>
+	</tr>
+	<tr>
+		<td>saveSelection</td>
+		<td></td>
+		<td>save the selection</td>
+	</tr>
+	<tr>
+		<td>restoreSelection</td>
+		<td></td>
+		<td>restore the selection</td>
+	</tr>
+	<tr>
+		<td>restoreSelection</td>
+		<td></td>
+		<td>restore the selection</td>
+	</tr>
+	<tr>
+		<td>insertTag</td>
+		<td>tag, className, sampleText</td>
+		<td>wrap the selected area with the tag with the specified classname. when no area is selected sampleText will be inserted</td>
+	</tr>
+	<tr>
+		<td>canRedo</td>
+		<td></td>
+		<td>check if you can redo the editor status. when you can redo return true else return false</td>
+	</tr>
+	<tr>
+		<td>canUndo</td>
+		<td></td>
+		<td>check if you can undo the editor status. when you can undo return true else return false</td>
+	</tr>
+	<tr>
+		<td>redo</td>
+		<td></td>
+		<td>redo the editor status</td>
+	</tr>
+	<tr>
+		<td>undo</td>
+		<td></td>
+		<td>undo the editor status</td>
+	</tr>
+	<tr>
+		<td>checkCaretCoordinate</td>
+		<td></td>
+		<td>return the caret position</td>
+	</tr>
+	<tr>
+		<td>getSelectionNode</td>
+		<td></td>
+		<td>get the selected area's node</td>
+	</tr>
+	<tr>
+		<td>unwrapTag</td>
+		<td></td>
+		<td>unwrap the tag of the selected area</td>
+	</tr>
+	<tr>
+		<td>showSource</td>
+		<td></td>
+		<td>show the real html source code of the editor</td>
+	</tr>
+	<tr>
+		<td>hideSource</td>
+		<td></td>
+		<td>show the wysiwyg and hide the source code</td>
+	</tr>
+</table>
           </div>
         </section>
       </div>
@@ -134,7 +247,7 @@ const editor = new LiteEditor('.js-editor');
             <ul>
 
 
-              <li class="is-current">
+              <li>
                 <a href="about.html">About</a>
               </li>
 
@@ -167,7 +280,7 @@ const editor = new LiteEditor('.js-editor');
 
 
 
-              <li>
+              <li class="is-current">
                 <a href="methods.html">Methods</a>
               </li>
 
