@@ -599,7 +599,7 @@ export default class LiteEditor extends aTemplate {
       this.stack = this.stack.slice(0, this.stackPosition + 1);
       this.stack.push(this.data.value);
       this.stackPosition += 1;
-      if (this.selector) {
+      if (this.data.showSource === false && this.selector) {
         this.selector.value = this.format(this.data.value);
       }
     }

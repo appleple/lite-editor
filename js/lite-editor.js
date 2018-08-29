@@ -6,7 +6,7 @@
  *   license: MIT (http://opensource.org/licenses/MIT)
  *   author: appleple
  *   homepage: http://developer.a-blogcms.jp
- *   version: 1.6.38
+ *   version: 1.6.40
  *
  * a-template:
  *   license: MIT (http://opensource.org/licenses/MIT)
@@ -13981,7 +13981,7 @@ var LiteEditor = function (_aTemplate) {
         this.stack = this.stack.slice(0, this.stackPosition + 1);
         this.stack.push(this.data.value);
         this.stackPosition += 1;
-        if (this.selector) {
+        if (this.data.showSource === false && this.selector) {
           this.selector.value = this.format(this.data.value);
         }
       }
