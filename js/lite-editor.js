@@ -6,7 +6,7 @@
  *   license: MIT (http://opensource.org/licenses/MIT)
  *   author: appleple
  *   homepage: http://developer.a-blogcms.jp
- *   version: 1.6.41
+ *   version: 1.6.42
  *
  * a-template:
  *   license: MIT (http://opensource.org/licenses/MIT)
@@ -12671,17 +12671,16 @@ var replaceSelectionWithHtml = exports.replaceSelectionWithHtml = function repla
     range.deleteContents();
     var div = document.createElement("div");
     div.innerHTML = html;
-    var frag = document.createDocumentFragment(),
-        child = void 0;
+    var frag = document.createDocumentFragment();
+    var child = void 0;
     while (child = div.firstChild) {
       frag.appendChild(child);
     }
     var temp = frag.firstElementChild;
-    var end = range.endContainer;
     var newrange = document.createRange();
-    range.insertNode(frag.firstElementChild);
+    range.insertNode(temp);
     newrange.setStart(temp.firstChild, 0);
-    newrange.setEnd(temp.firstChild, temp.innerText.length);
+    newrange.setEnd(temp.lastChild, temp.lastChild.textContent.length);
     clearSelection();
     selection.addRange(newrange);
   } else if (document.selection && document.selection.createRange) {

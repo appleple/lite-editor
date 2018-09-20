@@ -134,16 +134,16 @@ export const replaceSelectionWithHtml = (html) => {
     range.deleteContents();
     const div = document.createElement("div");
     div.innerHTML = html;
-    let frag = document.createDocumentFragment(), child;
+    const frag = document.createDocumentFragment();
+    let child;
     while ((child = div.firstChild)) {
       frag.appendChild(child);
     }
     const temp = frag.firstElementChild;
-    const end = range.endContainer;
     const newrange = document.createRange();
-    range.insertNode(frag.firstElementChild);
+    range.insertNode(temp);
     newrange.setStart(temp.firstChild, 0);
-    newrange.setEnd(temp.firstChild, temp.innerText.length);
+    newrange.setEnd(temp.lastChild, temp.lastChild.textContent.length);
     clearSelection();
     selection.addRange(newrange);
   } else if (document.selection && document.selection.createRange) {
