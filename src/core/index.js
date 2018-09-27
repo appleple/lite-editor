@@ -6,7 +6,6 @@ import 'ie-array-find-polyfill';
 import editorHtml from './editor.html';
 import btnHtml from './btn.html';
 import tooltipHtml from './tooltip.html';
-import '../lib/first-element-child';
 import * as util from '../lib/util';
 
 const Entities = require('html-entities').XmlEntities;

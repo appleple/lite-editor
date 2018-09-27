@@ -6,7 +6,7 @@
  *   license: MIT (http://opensource.org/licenses/MIT)
  *   author: appleple
  *   homepage: http://developer.a-blogcms.jp
- *   version: 1.6.42
+ *   version: 1.6.43
  *
  * a-template:
  *   license: MIT (http://opensource.org/licenses/MIT)
@@ -11471,8 +11471,6 @@ require('custom-event-polyfill');
 
 require('ie-array-find-polyfill');
 
-require('../lib/first-element-child');
-
 var _util = require('../lib/util');
 
 var util = _interopRequireWildcard(_util);
@@ -12523,36 +12521,12 @@ var LiteEditor = function (_aTemplate) {
 exports.default = LiteEditor;
 module.exports = exports['default'];
 
-},{"../lib/first-element-child":74,"../lib/util":75,"a-template":1,"custom-event-polyfill":8,"deep-extend":9,"html-entities":32,"ie-array-find-polyfill":44,"upndown":69}],73:[function(require,module,exports){
+},{"../lib/util":74,"a-template":1,"custom-event-polyfill":8,"deep-extend":9,"html-entities":32,"ie-array-find-polyfill":44,"upndown":69}],73:[function(require,module,exports){
 'use strict';
 
 module.exports = require('./core/');
 
 },{"./core/":72}],74:[function(require,module,exports){
-'use strict';
-
-// Overwrites native 'firstElementChild' prototype.
-// Adds Document & DocumentFragment support for IE9 & Safari.
-// Returns array instead of HTMLCollection.
-;(function (constructor) {
-  if (constructor && constructor.prototype && constructor.prototype.firstElementChild == null) {
-    Object.defineProperty(constructor.prototype, 'firstElementChild', {
-      get: function get() {
-        var node,
-            nodes = this.childNodes,
-            i = 0;
-        while (node = nodes[i++]) {
-          if (node.nodeType === 1) {
-            return node;
-          }
-        }
-        return null;
-      }
-    });
-  }
-})(window.Node || window.Element);
-
-},{}],75:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -12701,7 +12675,7 @@ var replaceSelectionWithHtml = exports.replaceSelectionWithHtml = function repla
     while (child = div.firstChild) {
       frag.appendChild(child);
     }
-    var temp = frag.firstElementChild;
+    var temp = getFirstfirstElementChild(frag);
     var newrange = document.createRange();
     range.insertNode(temp);
     newrange.setStart(temp.firstChild, 0);
@@ -12891,6 +12865,20 @@ var getBrowser = exports.getBrowser = function getBrowser() {
     name = 'firefox';
   }
   return name;
+};
+
+var getFirstfirstElementChild = exports.getFirstfirstElementChild = function getFirstfirstElementChild(ele) {
+  var node = void 0;
+  var nodes = ele.childNodes;
+  var i = 0;
+  if (nodes && nodes.length) {
+    while (node = nodes[i++]) {
+      if (node.nodeType === 1) {
+        return node;
+      }
+    }
+  }
+  return null;
 };
 
 },{}]},{},[71]);

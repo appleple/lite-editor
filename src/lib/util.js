@@ -139,7 +139,7 @@ export const replaceSelectionWithHtml = (html) => {
     while ((child = div.firstChild)) {
       frag.appendChild(child);
     }
-    const temp = frag.firstElementChild;
+    const temp = getFirstfirstElementChild(frag);
     const newrange = document.createRange();
     range.insertNode(temp);
     newrange.setStart(temp.firstChild, 0);
@@ -324,4 +324,18 @@ export const getBrowser = () => {
     name = 'firefox';
   }
   return name;
+}
+
+export const getFirstfirstElementChild = (ele) => {
+  let node;
+  const nodes = ele.childNodes;
+  let i = 0;
+  if (nodes && nodes.length) {
+    while (node = nodes[i++]) {
+      if (node.nodeType === 1) {
+        return node;
+      }
+    }
+  }
+  return null;
 }
