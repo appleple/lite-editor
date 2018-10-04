@@ -6,7 +6,7 @@
  *   license: MIT (http://opensource.org/licenses/MIT)
  *   author: appleple
  *   homepage: http://developer.a-blogcms.jp
- *   version: 1.6.44
+ *   version: 1.6.45
  *
  * a-template:
  *   license: MIT (http://opensource.org/licenses/MIT)
@@ -12111,7 +12111,7 @@ var LiteEditor = function (_aTemplate) {
         insertText = window.clipboardData.getData('Text');
       }
       if (this._isFocused() && insertText) {
-        this.insertHtmlAtCursor(insertText.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\r\n|\r|\n/g, '<br>').replace(/ /g, '&nbsp;'));
+        this.insertHtmlAtCursor(insertText.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/(\r\n|\n\r|\n|\r)/g, '<br>').replace(/ /g, '&nbsp;').replace(/\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;'));
         this.data.value = editor.innerHTML;
         this.data.formatedValue = this.format(this.data.value);
         textarea.value = this.data.formatedValue;
