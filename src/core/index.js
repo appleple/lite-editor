@@ -653,7 +653,7 @@ export default class LiteEditor extends aTemplate {
       insertText = window.clipboardData.getData('Text');
     }
     if (this._isFocused() && insertText) {
-      this.insertHtmlAtCursor(insertText.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br>').replace(/\s/g, '&nbsp;'));
+      this.insertHtmlAtCursor(insertText.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\r\n|\r|\n/g, '<br>').replace(/ /g, '&nbsp;'));
       this.data.value = editor.innerHTML;
       this.data.formatedValue = this.format(this.data.value);
       textarea.value = this.data.formatedValue;

@@ -6,7 +6,7 @@
  *   license: MIT (http://opensource.org/licenses/MIT)
  *   author: appleple
  *   homepage: http://developer.a-blogcms.jp
- *   version: 1.6.43
+ *   version: 1.6.44
  *
  * a-template:
  *   license: MIT (http://opensource.org/licenses/MIT)
@@ -16,14 +16,12 @@
  * base64-js:
  *   license: MIT (http://opensource.org/licenses/MIT)
  *   author: T. Jameson Little <t.jameson.little@gmail.com>
- *   maintainers: beatgammit <t.jameson.little@gmail.com>, feross <feross@feross.org>
  *   homepage: https://github.com/beatgammit/base64-js
  *   version: 1.3.0
  *
  * buffer:
  *   license: MIT (http://opensource.org/licenses/MIT)
  *   author: Feross Aboukhadijeh <feross@feross.org>
- *   maintainers: feross <feross@feross.org>
  *   contributors: Romain Beauxis <toots@rastageeks.org>, James Halliday <mail@substack.net>
  *   homepage: https://github.com/feross/buffer
  *   version: 4.9.1
@@ -31,13 +29,11 @@
  * core-util-is:
  *   license: MIT (http://opensource.org/licenses/MIT)
  *   author: Isaac Z. Schlueter <i@izs.me>
- *   maintainers: isaacs <i@izs.me>
  *   homepage: https://github.com/isaacs/core-util-is#readme
  *   version: 1.0.2
  *
  * custom-event-polyfill:
  *   license: MIT (http://opensource.org/licenses/MIT)
- *   maintainers: krambuhl <evan.krambuhl@gmail.com>
  *   contributors: Frank Panetta, Mikhail Reenko <reenko@yandex.ru>, Joscha Feth <joscha@feth.com>
  *   homepage: https://github.com/krambuhl/custom-event-polyfill#readme
  *   version: 0.3.0
@@ -46,7 +42,6 @@
  *   license: MIT (http://opensource.org/licenses/MIT)
  *   licenses: MIT (http://opensource.org/licenses/MIT)
  *   author: Viacheslav Lotsmanov <lotsmanov89@gmail.com>
- *   maintainers: unclechu <lotsmanov89@gmail.com>
  *   contributors: Romain Prieto, Max Maximov, Marshall Bowers, Misha Wakerman
  *   homepage: https://github.com/unclechu/node-deep-extend
  *   version: 0.5.1
@@ -54,149 +49,128 @@
  * dom-serializer:
  *   license: MIT (http://opensource.org/licenses/MIT)
  *   author: Felix Boehm <me@feedic.com>
- *   maintainers: feedic <me@feedic.com>, davidchambers <dc@davidchambers.me>, mattmueller <mattmuelle@gmail.com>
- *   homepage: https://github.com/cheeriojs/dom-renderer
+ *   homepage: https://github.com/cheeriojs/dom-renderer#readme
  *   version: 0.1.0
  *
  * domelementtype:
  *   author: Felix Boehm <me@feedic.com>
- *   maintainers: feedic <me@feedic.com>
- *   homepage: https://github.com/FB55/domelementtype
+ *   homepage: https://github.com/FB55/domelementtype#readme
  *   version: 1.3.0
  *
  * domhandler:
  *   license: BSD-2-Clause (http://opensource.org/licenses/BSD-2-Clause)
  *   author: Felix Boehm <me@feedic.com>
- *   maintainers: feedic <me@feedic.com>
  *   homepage: https://github.com/fb55/DomHandler#readme
  *   version: 2.4.2
  *
  * domutils:
  *   license: BSD-2-Clause (http://opensource.org/licenses/BSD-2-Clause)
  *   author: Felix Boehm <me@feedic.com>
- *   maintainers: feedic <me@feedic.com>
  *   homepage: https://github.com/FB55/domutils#readme
  *   version: 1.7.0
  *
  * entities:
  *   license: BSD-like
  *   author: Felix Boehm <me@feedic.com>
- *   maintainers: feedic <me@feedic.com>
- *   homepage: https://github.com/fb55/node-entities
+ *   homepage: https://github.com/fb55/node-entities#readme
  *   version: 1.1.1
  *
  * events:
  *   license: MIT (http://opensource.org/licenses/MIT)
  *   author: Irakli Gozalishvili <rfobic@gmail.com>
- *   maintainers: gozala <rfobic@gmail.com>, defunctzombie <shtylman@gmail.com>
  *   homepage: https://github.com/Gozala/events#readme
  *   version: 1.1.1
  *
  * html-entities:
  *   license: MIT (http://opensource.org/licenses/MIT)
  *   author: Marat Dulin <mdevils@yandex.ru>
- *   maintainers: mdevils <mdevils@yandex.ru>
  *   homepage: https://github.com/mdevils/node-html-entities#readme
  *   version: 1.2.1
  *
  * htmlparser2:
  *   license: MIT (http://opensource.org/licenses/MIT)
  *   author: Felix Boehm <me@feedic.com>
- *   maintainers: feedic <me@feedic.com>
  *   homepage: https://github.com/fb55/htmlparser2#readme
  *   version: 3.9.2
  *
  * ie-array-find-polyfill:
  *   license: MIT (http://opensource.org/licenses/MIT)
  *   author: Carlos Abdalla
- *   maintainers: abdalla <carlos.abdalla@msdev.com.br>
  *   homepage: https://github.com/abdalla/ie-array-find-polyfill#readme
  *   version: 1.1.0
  *
  * ieee754:
  *   license: BSD-3-Clause (http://opensource.org/licenses/BSD-3-Clause)
  *   author: Feross Aboukhadijeh <feross@feross.org>
- *   maintainers: feross <feross@feross.org>
  *   contributors: Romain Beauxis <toots@rastageeks.org>
  *   homepage: https://github.com/feross/ieee754#readme
  *   version: 1.1.11
  *
  * inherits:
  *   license: ISC (http://opensource.org/licenses/ISC)
- *   maintainers: isaacs <i@izs.me>
  *   homepage: https://github.com/isaacs/inherits#readme
  *   version: 2.0.3
  *
  * isarray:
  *   license: MIT (http://opensource.org/licenses/MIT)
  *   author: Julian Gruber <mail@juliangruber.com>
- *   maintainers: juliangruber <julian@juliangruber.com>
  *   homepage: https://github.com/juliangruber/isarray
  *   version: 1.0.0
  *
  * morphdom:
  *   license: MIT (http://opensource.org/licenses/MIT)
  *   author: Patrick Steele-Idem <pnidem@gmail.com>
- *   maintainers: mlrawlings <ml.rawlings@gmail.com>, pnidem <pnidem@gmail.com>
  *   homepage: https://github.com/patrick-steele-idem/morphdom#readme
  *   version: 2.3.3
  *
  * process:
  *   license: MIT (http://opensource.org/licenses/MIT)
  *   author: Roman Shtylman <shtylman@gmail.com>
- *   maintainers: coolaj86 <coolaj86@gmail.com>, cwmma <calvin.metcalf@gmail.com>, defunctzombie <shtylman@gmail.com>
  *   homepage: https://github.com/shtylman/node-process#readme
  *   version: 0.11.10
  *
  * process-nextick-args:
  *   license: MIT (http://opensource.org/licenses/MIT)
- *   maintainers: cwmma <calvin.metcalf@gmail.com>
  *   homepage: https://github.com/calvinmetcalf/process-nextick-args
  *   version: 2.0.0
  *
  * readable-stream:
  *   license: MIT (http://opensource.org/licenses/MIT)
- *   maintainers: cwmma <calvin.metcalf@gmail.com>, isaacs <i@izs.me>, matteo.collina <hello@matteocollina.com>, nodejs-foundation <build@iojs.org>, rvagg <r@va.gg>, tootallnate <nathan@tootallnate.net>
  *   homepage: https://github.com/nodejs/readable-stream#readme
  *   version: 2.3.6
  *
  * safe-buffer:
  *   license: MIT (http://opensource.org/licenses/MIT)
  *   author: Feross Aboukhadijeh <feross@feross.org>
- *   maintainers: feross <feross@feross.org>, mafintosh <mathiasbuus@gmail.com>
  *   homepage: https://github.com/feross/safe-buffer
  *   version: 5.1.2
  *
  * stream-browserify:
  *   license: MIT (http://opensource.org/licenses/MIT)
  *   author: James Halliday <mail@substack.net>
- *   maintainers: substack <substack@gmail.com>, feross <feross@feross.org>, stevemao <steve.mao@healthinteract.com.au>
  *   homepage: https://github.com/substack/stream-browserify
  *   version: 2.0.1
  *
  * string_decoder:
  *   license: MIT (http://opensource.org/licenses/MIT)
- *   maintainers: substack <mail@substack.net>, rvagg <rod@vagg.org>
  *   homepage: https://github.com/rvagg/string_decoder
  *   version: 0.10.31
  *
  * timers-browserify:
  *   licenses: MIT (http://opensource.org/licenses/MIT)
  *   author: J. Ryan Stinnett <jryans@gmail.com>
- *   maintainers: jryans <jryans@gmail.com>
  *   contributors: Guy Bedford <guybedford@gmail.com>, Ionut-Cristian Florescu <ionut.florescu@gmail.com>, James Halliday <mail@substack.net>, Jan Schär <jscissr@gmail.com>, Johannes Ewald <johannes.ewald@peerigon.com>, Jonathan Prins <jon@blip.tv>, Matt Esch <matt@mattesch.info>
  *   homepage: https://github.com/jryans/timers-browserify
  *   version: 1.4.2
  *
  * upndown:
  *   license: MIT (http://opensource.org/licenses/MIT)
- *   maintainers: netgusto <contact@netgusto.com>
+ *   maintainers: Net Gusto <contact@netgusto.com>
  *   version: 2.1.0
  *
  * util-deprecate:
  *   license: MIT (http://opensource.org/licenses/MIT)
  *   author: Nathan Rajlich <nathan@tootallnate.net>
- *   maintainers: tootallnate <nathan@tootallnate.net>
  *   homepage: https://github.com/TooTallNate/util-deprecate
  *   version: 1.0.2
  *
@@ -12137,7 +12111,7 @@ var LiteEditor = function (_aTemplate) {
         insertText = window.clipboardData.getData('Text');
       }
       if (this._isFocused() && insertText) {
-        this.insertHtmlAtCursor(insertText.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br>').replace(/\s/g, '&nbsp;'));
+        this.insertHtmlAtCursor(insertText.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\r\n|\r|\n/g, '<br>').replace(/ /g, '&nbsp;'));
         this.data.value = editor.innerHTML;
         this.data.formatedValue = this.format(this.data.value);
         textarea.value = this.data.formatedValue;
