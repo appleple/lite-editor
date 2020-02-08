@@ -60,14 +60,14 @@
     "watchify": "^3.9.0"
   },
   "dependencies": {
-    "a-template": "^0.5.4",
+    "a-template": "^0.5.5",
     "custom-event-polyfill": "^0.3.0",
     "deep-extend": "^0.5.0",
     "es6-promise-polyfill": "^1.2.0",
     "field-selection": "^0.2.2",
     "html-entities": "^1.2.1",
     "ie-array-find-polyfill": "^1.1.0",
-    "np": "^2.16.0",
+    "np": "^6.0.0",
     "to-markdown": "^3.1.1",
     "upndown": "^2.1.0"
   }
