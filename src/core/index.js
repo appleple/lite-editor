@@ -779,7 +779,7 @@ export default class LiteEditor extends aTemplate {
     const source = this._getElementByQuery('[data-selector="lite-editor-source"]');
     const value = this.e.target.value;
     this.data.value = this.makeEditableHtml(value);
-    source.style.height = 'auto';
+    // source.style.height = 'auto';
     source.style.height = `${source.scrollHeight}px`;
   }
 
