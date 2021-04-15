@@ -6,7 +6,7 @@
  *   license: MIT (http://opensource.org/licenses/MIT)
  *   author: appleple
  *   homepage: http://developer.a-blogcms.jp
- *   version: 1.6.46
+ *   version: 1.6.47
  *
  * a-template:
  *   license: MIT (http://opensource.org/licenses/MIT)
@@ -11618,6 +11618,7 @@ var LiteEditor = function (_aTemplate) {
       _this.data.firstValue = selector.value;
       _this.data.value = value;
     }
+    _this.data.value = _this.data.value.replace(/([\\]+)/g, '$1\\'); // CMS-5637 バックスラッシュが消えてしまう問題に対処
 
     if (selector.attributes) {
       [].forEach.call(selector.attributes, function (attr) {
@@ -11782,6 +11783,7 @@ var LiteEditor = function (_aTemplate) {
         }
         return '&lt;' + tag + attr + '&gt;' + content + '&lt;/' + tag + '&gt;';
       });
+
       return value.replace(/<([a-zA-Z0-9._-]+)\s?([^>]*?)\/?>/g, function (component, tag, attr) {
         var className = (attr.match(/class=["|'](.*?)["|']/i) || [null, ''])[1];
         var flag = false;
@@ -12407,6 +12409,8 @@ var LiteEditor = function (_aTemplate) {
             btn.selected = false;
           });
         });
+      } else {
+        this.data.value = this.data.value.replace(/([\\]+)/g, '$1\\'); // CMS-5637 バックスラッシュが消えてしまう問題に対処
       }
       this.update();
     }

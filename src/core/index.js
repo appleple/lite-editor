@@ -189,6 +189,7 @@ export default class LiteEditor extends aTemplate {
       this.data.firstValue = selector.value;
       this.data.value = value;
     }
+    this.data.value = this.data.value.replace(/([\\]+)/g, '$1\\'); // CMS-5637 バックスラッシュが消えてしまう問題に対処
 
     if (selector.attributes) {
       [].forEach.call(selector.attributes, (attr) => {
@@ -332,6 +333,7 @@ export default class LiteEditor extends aTemplate {
       }
       return `&lt;${tag}${attr}&gt;${content}&lt;/${tag}&gt;`;
     });
+
     return value.replace(/<([a-zA-Z0-9._-]+)\s?([^>]*?)\/?>/g, (component, tag, attr) => {
       const className = (attr.match(/class=["|'](.*?)["|']/i) || [null, ''])[1];
       let flag = false;
@@ -912,6 +914,8 @@ export default class LiteEditor extends aTemplate {
           btn.selected = false;
         });
       });
+    } else {
+      this.data.value = this.data.value.replace(/([\\]+)/g, '$1\\'); // CMS-5637 バックスラッシュが消えてしまう問題に対処
     }
     this.update();
   }
