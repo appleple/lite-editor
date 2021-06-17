@@ -190,7 +190,7 @@ export default class LiteEditor extends aTemplate {
       this.data.value = value;
     }
     if (this.data.value) {
-      this.data.value = this.data.value.replace(/([\\]+)/g, '$1\\'); // CMS-5637 バックスラッシュが消えてしまう問題に対処
+      this.data.value = this.data.value.replace(/([\\]+)/g, '$1\\\\'); // CMS-5637 バックスラッシュが消えてしまう問題に対処
     }
 
     if (selector.attributes) {
