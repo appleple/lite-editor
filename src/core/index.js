@@ -204,9 +204,11 @@ export default class LiteEditor extends aTemplate {
       this.data.selectedOption = this.data.selectOptions[0].value;
     }
 
-    util.before(selector, html);
-    util.removeElement(selector);
-    this.update();
+    if (selector && selector.parentNode) {
+      util.before(selector, html);
+      util.removeElement(selector);
+      this.update();
+    }
     this.selector = this._getElementByQuery('[data-selector="lite-editor-source"]');
     const item = this.data.selectOptions.find((option => option.value === this.data.selectedOption));
     if (item) {
