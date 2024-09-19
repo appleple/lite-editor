@@ -6,7 +6,7 @@
  *   license: MIT (http://opensource.org/licenses/MIT)
  *   author: appleple
  *   homepage: http://developer.a-blogcms.jp
- *   version: 1.6.50
+ *   version: 1.6.51
  *
  * a-template:
  *   license: MIT (http://opensource.org/licenses/MIT)
@@ -11608,7 +11608,6 @@ var LiteEditor = function (_aTemplate) {
       _this.data.selectedOption = _this.data.selectOptions[0].value;
     }
 
-    console.log(selector);
     if (selector && selector.parentNode) {
       util.before(selector, html);
       util.removeElement(selector);
