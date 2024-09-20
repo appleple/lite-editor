@@ -11633,11 +11633,9 @@ var LiteEditor = function (_aTemplate) {
       _this.data.selectedOption = _this.data.selectOptions[0].value;
     }
 
-    if (selector && selector.parentNode) {
-      util.before(selector, html);
-      util.removeElement(selector);
-      _this.update();
-    }
+    util.before(selector, html);
+    util.removeElement(selector);
+    _this.update();
     _this.selector = _this._getElementByQuery('[data-selector="lite-editor-source"]');
     var item = _this.data.selectOptions.find(function (option) {
       return option.value === _this.data.selectedOption;
