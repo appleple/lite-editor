@@ -28,14 +28,13 @@
  *
  * core-util-is:
  *   license: MIT (http://opensource.org/licenses/MIT)
- *   author: Isaac Z. Schlueter <i@izs.me>
- *   homepage: https://github.com/isaacs/core-util-is#readme
+ *   author: Isaac Z. Schlueter <i@izs.me> (http://blog.izs.me/)
  *   version: 1.0.2
  *
  * custom-event-polyfill:
  *   license: MIT (http://opensource.org/licenses/MIT)
- *   contributors: Frank Panetta, Mikhail Reenko <reenko@yandex.ru>, Joscha Feth <joscha@feth.com>
- *   homepage: https://github.com/krambuhl/custom-event-polyfill#readme
+ *   author: NO AUTHOR!
+ *   contributors: Frank Panetta (http://www.savvi.io), Mikhail Reenko <reenko@yandex.ru>, Joscha Feth <joscha@feth.com> (http://www.feth.com)
  *   version: 0.3.0
  *
  * deep-extend:
@@ -49,48 +48,40 @@
  * dom-serializer:
  *   license: MIT (http://opensource.org/licenses/MIT)
  *   author: Felix Boehm <me@feedic.com>
- *   homepage: https://github.com/cheeriojs/dom-renderer#readme
  *   version: 0.1.0
  *
  * domelementtype:
  *   author: Felix Boehm <me@feedic.com>
- *   homepage: https://github.com/FB55/domelementtype#readme
  *   version: 1.3.0
  *
  * domhandler:
  *   license: BSD-2-Clause (http://opensource.org/licenses/BSD-2-Clause)
  *   author: Felix Boehm <me@feedic.com>
- *   homepage: https://github.com/fb55/DomHandler#readme
  *   version: 2.4.2
  *
  * domutils:
  *   license: BSD-2-Clause (http://opensource.org/licenses/BSD-2-Clause)
  *   author: Felix Boehm <me@feedic.com>
- *   homepage: https://github.com/FB55/domutils#readme
  *   version: 1.7.0
  *
  * entities:
  *   license: BSD-like
  *   author: Felix Boehm <me@feedic.com>
- *   homepage: https://github.com/fb55/node-entities#readme
  *   version: 1.1.1
  *
  * events:
  *   license: MIT (http://opensource.org/licenses/MIT)
- *   author: Irakli Gozalishvili <rfobic@gmail.com>
- *   homepage: https://github.com/Gozala/events#readme
+ *   author: Irakli Gozalishvili <rfobic@gmail.com> (http://jeditoolkit.com)
  *   version: 1.1.1
  *
  * html-entities:
  *   license: MIT (http://opensource.org/licenses/MIT)
  *   author: Marat Dulin <mdevils@yandex.ru>
- *   homepage: https://github.com/mdevils/node-html-entities#readme
  *   version: 1.2.1
  *
  * htmlparser2:
  *   license: MIT (http://opensource.org/licenses/MIT)
  *   author: Felix Boehm <me@feedic.com>
- *   homepage: https://github.com/fb55/htmlparser2#readme
  *   version: 3.9.2
  *
  * ie-array-find-polyfill:
@@ -103,12 +94,10 @@
  *   license: BSD-3-Clause (http://opensource.org/licenses/BSD-3-Clause)
  *   author: Feross Aboukhadijeh <feross@feross.org>
  *   contributors: Romain Beauxis <toots@rastageeks.org>
- *   homepage: https://github.com/feross/ieee754#readme
  *   version: 1.1.11
  *
  * inherits:
  *   license: ISC (http://opensource.org/licenses/ISC)
- *   homepage: https://github.com/isaacs/inherits#readme
  *   version: 2.0.3
  *
  * isarray:
@@ -120,13 +109,11 @@
  * morphdom:
  *   license: MIT (http://opensource.org/licenses/MIT)
  *   author: Patrick Steele-Idem <pnidem@gmail.com>
- *   homepage: https://github.com/patrick-steele-idem/morphdom#readme
  *   version: 2.3.3
  *
  * process:
  *   license: MIT (http://opensource.org/licenses/MIT)
  *   author: Roman Shtylman <shtylman@gmail.com>
- *   homepage: https://github.com/shtylman/node-process#readme
  *   version: 0.11.10
  *
  * process-nextick-args:
@@ -136,7 +123,6 @@
  *
  * readable-stream:
  *   license: MIT (http://opensource.org/licenses/MIT)
- *   homepage: https://github.com/nodejs/readable-stream#readme
  *   version: 2.3.6
  *
  * safe-buffer:
@@ -158,7 +144,7 @@
  *
  * timers-browserify:
  *   licenses: MIT (http://opensource.org/licenses/MIT)
- *   author: J. Ryan Stinnett <jryans@gmail.com>
+ *   author: J. Ryan Stinnett <jryans@gmail.com> (http://convolv.es/)
  *   contributors: Guy Bedford <guybedford@gmail.com>, Ionut-Cristian Florescu <ionut.florescu@gmail.com>, James Halliday <mail@substack.net>, Jan Schär <jscissr@gmail.com>, Johannes Ewald <johannes.ewald@peerigon.com>, Jonathan Prins <jon@blip.tv>, Matt Esch <matt@mattesch.info>
  *   homepage: https://github.com/jryans/timers-browserify
  *   version: 1.4.2
@@ -170,7 +156,7 @@
  *
  * util-deprecate:
  *   license: MIT (http://opensource.org/licenses/MIT)
- *   author: Nathan Rajlich <nathan@tootallnate.net>
+ *   author: Nathan Rajlich <nathan@tootallnate.net> (http://n8.io/)
  *   homepage: https://github.com/TooTallNate/util-deprecate
  *   version: 1.0.2
  *
