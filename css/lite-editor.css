@@ -1,15 +1,14 @@
 @charset "UTF-8";
 @font-face {
-  font-family: 'lite-editor-fonts-20161209';
+  font-family: "lite-editor-fonts-20161209";
   src: url("../fonts/lite-editor-fonts-20161209.eot?d39wrm");
   src: url("../fonts/lite-editor-fonts-20161209.eot?d39wrm#iefix") format("embedded-opentype"), url("../fonts/lite-editor-fonts-20161209.ttf?d39wrm") format("truetype"), url("../fonts/lite-editor-fonts-20161209.woff?d39wrm") format("woff"), url("../fonts/lite-editor-fonts-20161209.svg?d39wrm#lite-editor-fonts-20161209") format("svg");
   font-weight: normal;
   font-style: normal;
 }
-
-[class^="lite-editor-font"], [class*=" lite-editor-font"] {
+[class^=lite-editor-font], [class*=" lite-editor-font"] {
   /* use !important to prevent issues with browser extensions that change fonts */
-  font-family: 'lite-editor-fonts-20161209' !important;
+  font-family: "lite-editor-fonts-20161209" !important;
   speak: none;
   font-style: normal;
   font-weight: normal;
@@ -27,43 +26,43 @@
 }
 
 .lite-editor-font-go:before {
-  content: "";
+  content: "\e901";
 }
 
 .lite-editor-font-bold:before {
-  content: "";
+  content: "\e902";
 }
 
 .lite-editor-font-italic:before {
-  content: "";
+  content: "\e903";
 }
 
 .lite-editor-font-underline:before {
-  content: "";
+  content: "\e904";
 }
 
 .lite-editor-font-link:before {
-  content: "";
+  content: "\e905";
 }
 
 .lite-editor-font-source:before {
-  content: "";
+  content: "\e906";
 }
 
 .lite-editor-font-remove:before {
-  content: "";
+  content: "\e907";
 }
 
 .lite-editor-font-update:before {
-  content: "";
+  content: "\e908";
 }
 
 .lite-editor-font-close:before {
-  content: "";
+  content: "\e909";
 }
 
 .lite-editor-font-abc:before {
-  content: "";
+  content: "\e90a";
 }
 
 .lite-editor,
@@ -83,7 +82,6 @@
   box-sizing: border-box;
   overflow-y: scroll;
 }
-
 .lite-editor:focus,
 .lite-editor-source:focus {
   outline: none;
@@ -118,11 +116,9 @@
   display: block;
   float: right;
 }
-
 .lite-editor-btn-group-wrap-right .lite-editor-btn {
   width: 44px;
 }
-
 .lite-editor-btn-group-wrap-right .lite-editor-btn-active {
   background: #65B9FF;
   opacity: 1;
@@ -130,11 +126,9 @@
   box-shadow: inset 1px 1px 6px 0 rgba(0, 0, 0, 0.3);
   color: #FFF;
 }
-
 .lite-editor-btn-group-wrap-right .lite-editor-btn-active [class^=lite-editor-font] {
   color: #FFF;
 }
-
 .lite-editor-btn-group-wrap-right .lite-editor-font-abc:before {
   font-size: 10px;
 }
@@ -183,7 +177,7 @@
 
 .lite-editor-btn:disabled {
   pointer-events: none;
-  opacity: .65;
+  opacity: 0.65;
   filter: alpha(opacity=65);
   box-shadow: none;
 }
@@ -200,12 +194,10 @@
   border-right: none;
   border-radius: 0;
 }
-
 .lite-editor-btn-group .lite-editor-btn:first-child {
   border-top-left-radius: 3px;
   border-bottom-left-radius: 3px;
 }
-
 .lite-editor-btn-group .lite-editor-btn:last-child {
   border-top-right-radius: 3px;
   border-bottom-right-radius: 3px;
@@ -223,7 +215,7 @@
   text-align: center;
   background-repeat: no-repeat;
   color: #333;
-  padding-right: 20px\9;
+  padding-right: 20px\9 ;
   background-color: #f0f0f0;
   text-align: left;
   min-height: 27px;
@@ -306,7 +298,6 @@
 .lite-editor-tooltip-body {
   padding: 10px 10px 5px 10px;
 }
-
 .lite-editor-tooltip-body * {
   box-sizing: border-box;
 }
@@ -315,11 +306,9 @@
   width: 100%;
   font-size: 14px;
 }
-
 .lite-editor-tooltip-table th {
   width: 80px;
 }
-
 .lite-editor-tooltip-table th,
 .lite-editor-tooltip-table td {
   font-weight: normal;
@@ -328,18 +317,15 @@
   font-size: 13px;
   color: #7A7676;
 }
-
 .lite-editor-tooltip-table .lite-editor-btn {
   width: 90px;
   text-align: center;
   font-size: 14px;
   margin-right: 20px;
 }
-
 .lite-editor-tooltip-table input[type=checkbox] {
   margin-right: 5px;
 }
-
 .lite-editor-tooltip-table [class^=lite-editor-font] {
   vertical-align: middle;
   margin-right: 5px;
@@ -372,3 +358,5 @@
 .lite-editor-btn[disabled] .lite-editor-font-go {
   color: #7A7676;
 }
+
+/*# sourceMappingURL=lite-editor.css.map */

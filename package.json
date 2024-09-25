@@ -7,6 +7,7 @@
   "scripts": {
     "test": "npm run lint",
     "lint": "eslint ./src/core/index.js --fix",
+    "build": "npm run build:js && npm run build:sass",
     "build:js": "npm-run-all -p build:lib build:jquery build:global",
     "build:lib": "npm run babel",
     "build:jquery": "browserify ./src/adaptor/jquery.js -t babelify -p licensify -o ./js/jquery-lite-editor.js && npm run build:jquery:min",
@@ -15,15 +16,15 @@
     "build:global:min": "uglifyjs ./js/lite-editor.js -m -c --comments -o ./js/lite-editor.min.js",
     "build:sass": "npm-run-all -p sass sass:min",
     "babel": "babel src --out-dir lib",
-    "sass": "node-sass ./scss/lite-editor.scss ./css/lite-editor.css --output-style expanded",
-    "sass:min": "node-sass ./scss/lite-editor.scss ./css/lite-editor.min.css --output-style compressed",
+    "sass": "sass ./scss/lite-editor.scss ./css/lite-editor.css --style expanded",
+    "sass:min": "sass ./scss/lite-editor.scss ./css/lite-editor.min.css --style compressed",
     "watch:js": "onchange \"src/\" -- npm run build:js",
     "watch:sass": "onchange \"scss\" -- npm run build:sass",
     "sync": "browser-sync start --server './' --files './js/*.js' './css/*.css' --startPath '/examples/'",
     "start": "npm-run-all -p watch:js watch:sass sync",
-    "patch": "npm version patch && npm run build:js && node ./tools/index.js",
-    "minor": "npm version minor && npm run build:js && node ./tools/index.js",
-    "major": "npm version major && npm run build:js && node ./tools/index.js",
+    "patch": "npm version patch && npm run build && node ./tools/index.js",
+    "minor": "npm version minor && npm run build && node ./tools/index.js",
+    "major": "npm version major && npm run build && node ./tools/index.js",
     "deploy": "np --no-cleanup"
   },
   "repository": {
