@@ -1,57 +1,52 @@
 import aTemplate from 'a-template';
-import extend from 'deep-extend';
+import { encode, decode } from 'html-entities';
 import Upndown from 'upndown';
-import 'custom-event-polyfill';
-import 'ie-array-find-polyfill';
-import editorHtml from './editor.html';
-import btnHtml from './btn.html';
-import tooltipHtml from './tooltip.html';
+import editorHtml from './editor.html?raw';
+import btnHtml from './btn.html?raw';
+import tooltipHtml from './tooltip.html?raw';
 import * as util from '../lib/util';
 
-const Entities = require('html-entities').XmlEntities;
-
-const entities = new Entities();
 const und = new Upndown({ decodeEntities: false });
 
 const defaultbtnOptions = [
   {
     label: '<i class="lite-editor-font-back"></i>',
     action: 'undo',
-    group: 'action'
+    group: 'action',
   },
   {
     label: '<i class="lite-editor-font-go"></i>',
     action: 'redo',
-    group: 'action'
+    group: 'action',
   },
   {
     label: '<i class="lite-editor-font-link"></i>',
     tag: 'a',
     className: '',
     group: 'link',
-    sampleText: 'link text'
+    sampleText: 'link text',
   },
   {
     label: '<i class="lite-editor-font-bold"></i>',
     tag: 'strong',
     className: '',
     group: 'mark',
-    sampleText: ' '
+    sampleText: ' ',
   },
   {
     label: '<i class="lite-editor-font-italic"></i>',
     tag: 'i',
     className: '',
     group: 'mark',
-    sampleText: ' '
+    sampleText: ' ',
   },
   {
     label: '<i class="lite-editor-font-underline"></i>',
     tag: 'u',
     className: '',
     group: 'mark',
-    sampleText: ' '
-  }
+    sampleText: ' ',
+  },
 ];
 
 const defaults = {
@@ -84,7 +79,7 @@ const defaults = {
     LiteEditorFontUpdate: 'lite-editor-font-update',
     LiteEditorFontClose: 'lite-editor-font-close',
     LiteEditorFontSource: 'lite-editor-font-source',
-    LiteEditorFontAbc: 'lite-editor-font-abc'
+    LiteEditorFontAbc: 'lite-editor-font-abc',
   },
   message: {
     addLinkTitle: 'link',
@@ -96,7 +91,7 @@ const defaults = {
     linkLabel: 'label',
     closeLabel: 'close',
     targetBlank: 'target',
-    targetBlankLabel: 'Opens the linked page in a new window or tab'
+    targetBlankLabel: 'Opens the linked page in a new window or tab',
   },
   voidElements: [
     'area',
@@ -121,7 +116,7 @@ const defaults = {
     'param',
     'source',
     'track',
-    'wbr'
+    'wbr',
   ],
   minHeight: 50,
   maxHeight: 400,
@@ -135,17 +130,16 @@ const defaults = {
   selectedOption: '',
   btnOptions: defaultbtnOptions,
   btnPosition: 'top',
-  relAttrForTargetBlank: 'noopener noreferrer'
+  relAttrForTargetBlank: 'noopener noreferrer',
 };
 
 export default class LiteEditor extends aTemplate {
-
   constructor(ele, settings) {
     super();
     this.id = this._getUniqId();
     const selector = typeof ele === 'string' ? document.querySelector(ele) : ele;
     const html = `<div data-id='${this.id}'></div>`;
-    this.data = extend({}, defaults, settings);
+    this.data = util.deepMerge({}, defaults, settings);
     this.data.showSource = this.data.sourceFirst;
     this.data.disableEditorMode = false;
     this.data.hideEditor = false;
@@ -165,7 +159,7 @@ export default class LiteEditor extends aTemplate {
     let attrStr = '';
     this.convert = {
       format: this.format,
-      insertExtend: this.insertExtend
+      insertExtend: this.insertExtend,
     };
 
     if (this.data.btnPosition === 'bottom') {
@@ -200,7 +194,12 @@ export default class LiteEditor extends aTemplate {
       this.data.attr = attrStr;
     }
 
-    if (!this.data.selectedOption && this.data.selectOptions && this.data.selectOptions[0] && this.data.selectOptions[0].value) {
+    if (
+      !this.data.selectedOption &&
+      this.data.selectOptions &&
+      this.data.selectOptions[0] &&
+      this.data.selectOptions[0].value
+    ) {
       this.data.selectedOption = this.data.selectOptions[0].value;
     }
 
@@ -208,7 +207,7 @@ export default class LiteEditor extends aTemplate {
     util.removeElement(selector);
     this.update();
     this.selector = this._getElementByQuery('[data-selector="lite-editor-source"]');
-    const item = this.data.selectOptions.find((option => option.value === this.data.selectedOption));
+    const item = this.data.selectOptions.find((option) => option.value === this.data.selectedOption);
     if (item) {
       this.data.extendLabel = item.extendLabel;
       if (item.onSelect) {
@@ -280,7 +279,7 @@ export default class LiteEditor extends aTemplate {
       if (flag) {
         const group = {
           name: btn.group,
-          items: [btn]
+          items: [btn],
         };
         groups.push(group);
       }
@@ -358,12 +357,12 @@ export default class LiteEditor extends aTemplate {
   }
 
   encodeValue() {
-    this.data.value = entities.encode(this.data.value);
+    this.data.value = encode(this.data.value);
     this.update();
   }
 
   decodeValue() {
-    this.data.value = entities.decode(this.data.value);
+    this.data.value = decode(this.data.value);
     this.update();
   }
 
@@ -657,12 +656,13 @@ export default class LiteEditor extends aTemplate {
       insertText = window.clipboardData.getData('Text');
     }
     if (this._isFocused() && insertText) {
-      this.insertHtmlAtCursor(insertText
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/(\r\n|\n\r|\n|\r)/g, '<br>')
-        .replace(/ /g, '&nbsp;')
-        .replace(/\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;')
+      this.insertHtmlAtCursor(
+        insertText
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/(\r\n|\n\r|\n|\r)/g, '<br>')
+          .replace(/ /g, '&nbsp;')
+          .replace(/\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;')
       );
       this.data.value = editor.innerHTML;
       this.data.formatedValue = this.format(this.data.value);
@@ -730,7 +730,7 @@ export default class LiteEditor extends aTemplate {
     const editorRect = editor.getBoundingClientRect();
     const coordinate = {
       x: rect.x - editorRect.x,
-      y: rect.y - editorRect.y
+      y: rect.y - editorRect.y,
     };
     util.removeElement(span);
     this.data.value = editor.innerHTML;
@@ -770,7 +770,7 @@ export default class LiteEditor extends aTemplate {
           const tagName = parent.tagName.toLowerCase();
           tags.push({
             tagName,
-            className: parent.getAttribute('class') || ''
+            className: parent.getAttribute('class') || '',
           });
           parent = parent.parentElement;
         }
@@ -870,7 +870,7 @@ export default class LiteEditor extends aTemplate {
 
   getSelectionNode() {
     const node = document.getSelection().anchorNode;
-    return (node.nodeType === 3 ? node.parentNode : node);
+    return node.nodeType === 3 ? node.parentNode : node;
   }
 
   unwrapTag(tag, className) {
@@ -879,8 +879,7 @@ export default class LiteEditor extends aTemplate {
     let node = util.getElementBySelection();
     const length = util.getSelectionLength();
     const nodePos = util.getCaretPos(node);
-    if (node.parentElement === editor &&
-      node.textContent && nodePos === node.textContent.length && length === 0) {
+    if (node.parentElement === editor && node.textContent && nodePos === node.textContent.length && length === 0) {
       util.moveCaretAfter(node);
     } else {
       while (true) {
@@ -977,7 +976,7 @@ export default class LiteEditor extends aTemplate {
       replaced = replaced.slice(0, -4);
     }
     if (this.data.decodeSource) {
-      return entities.decode(replaced);
+      return decode(replaced);
     }
     return replaced;
   }
@@ -987,7 +986,7 @@ export default class LiteEditor extends aTemplate {
     if (!value) {
       return;
     }
-    const item = this.data.selectOptions.find((option => option.value === value));
+    const item = this.data.selectOptions.find((option) => option.value === value);
     if (item) {
       this.data.extendLabel = item.extendLabel;
       this.update('html', '[data-selector="lite-editor-toolbox"]');

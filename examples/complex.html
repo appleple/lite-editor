@@ -4,7 +4,6 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<link rel="stylesheet" href="../css/lite-editor.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="./style.css">
 	<title>SimpleWysiwyg</title>
@@ -93,20 +92,25 @@ please visit!!</textarea>
 
   }
 ];
-	window.addEventListener('DOMContentLoaded',function(){
-		const editor = new LiteEditor('.js-lite-editor',{
-      minHeight: 200,
-      maxHeight: 500,
-      selectName: 'text_tag_9554e6aef2487270c334ce8c41bf990a',
-      escapeNotRegisteredTags: true,
-      message: {
-        addLinkTitle: 'リンク先URLを入力してください。',
-        addLinkBtn: 'リンクの挿入',
-      },
-      selectOptions: selectOptions
-		});
-	});
 	</script>
+
+  <script type="module">
+    import LiteEditor from '/src/index.js';
+    window.addEventListener('DOMContentLoaded',function(){
+      const editor = new LiteEditor('.js-lite-editor',{
+        minHeight: 200,
+        maxHeight: 500,
+        selectName: 'text_tag_9554e6aef2487270c334ce8c41bf990a',
+        escapeNotRegisteredTags: true,
+        message: {
+          addLinkTitle: 'リンク先URLを入力してください。',
+          addLinkBtn: 'リンクの挿入',
+        },
+        selectOptions: selectOptions
+      });
+    });
+  </script>
+
   <style>
     .right{
       text-align: right

@@ -11,12 +11,12 @@ A Modern WYSIWYG Editor especially for inline elements
 - focuses on inline elements such as b, a, i, strong
 - Prevent unnecessary tags insertion
 - Control how to make newlines
-- You can register custom button easily 
+- You can register custom button easily
 
 ## Installation
 
 - [npm](https://www.npmjs.com/package/lite-editor)
-- [standalone](https://unpkg.com/lite-editor@1.4.0/js/lite-editor.min.js)
+- [standalone](https://unpkg.com/lite-editor@2.0.0/js/lite-editor.es.js)
 
 via npm
 ```shell
@@ -33,7 +33,7 @@ yarn add lite-editor
 
 require
 ```js
-const LiteEditor = require('lite-editor');
+import LiteEditor from 'lite-editor';
 ```
 
 ```js

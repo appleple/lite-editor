@@ -1,9 +1,10 @@
-@import "variables";
+@use 'variables' as *;
 
 @font-face {
   font-family: 'lite-editor-fonts-20161209';
-  src:  url('#{$icomoon-font-path}/lite-editor-fonts-20161209.eot?d39wrm');
-  src:  url('#{$icomoon-font-path}/lite-editor-fonts-20161209.eot?d39wrm#iefix') format('embedded-opentype'),
+  src: url('#{$icomoon-font-path}/lite-editor-fonts-20161209.eot?d39wrm');
+  src:
+    url('#{$icomoon-font-path}/lite-editor-fonts-20161209.eot?d39wrm#iefix') format('embedded-opentype'),
     url('#{$icomoon-font-path}/lite-editor-fonts-20161209.ttf?d39wrm') format('truetype'),
     url('#{$icomoon-font-path}/lite-editor-fonts-20161209.woff?d39wrm') format('woff'),
     url('#{$icomoon-font-path}/lite-editor-fonts-20161209.svg?d39wrm#lite-editor-fonts-20161209') format('svg');
@@ -11,7 +12,8 @@
   font-style: normal;
 }
 
-[class^="lite-editor-font"], [class*=" lite-editor-font"] {
+[class^='lite-editor-font'],
+[class*=' lite-editor-font'] {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'lite-editor-fonts-20161209' !important;
   speak: none;
@@ -24,12 +26,12 @@
   /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: #7A7676;
+  color: #7a7676;
 }
 
 .lite-editor-font-back {
   &:before {
-    content: "\e900";
+    content: '\e900';
   }
 }
 .lite-editor-font-go {

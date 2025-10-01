@@ -291,7 +291,7 @@ export const hasLastBr = (element) => {
 
 export const removeIndentNewline = (str) => {
   return str.replace(/(\n|\t)/g, '');
-}
+};
 
 export const getBrowser = () => {
   const ua = window.navigator.userAgent.toLowerCase();
@@ -324,18 +324,36 @@ export const getBrowser = () => {
     name = 'firefox';
   }
   return name;
-}
+};
 
 export const getFirstfirstElementChild = (ele) => {
   let node;
   const nodes = ele.childNodes;
   let i = 0;
   if (nodes && nodes.length) {
-    while (node = nodes[i++]) {
+    while ((node = nodes[i++])) {
       if (node.nodeType === 1) {
         return node;
       }
     }
   }
   return null;
-}
+};
+
+export const deepMerge = (target, ...sources) => {
+  for (const source of sources) {
+    if (!source) continue;
+    for (const key of Object.keys(source)) {
+      const value = source[key];
+      if (value && typeof value === 'object' && !Array.isArray(value)) {
+        if (!target[key] || typeof target[key] !== 'object') {
+          target[key] = {};
+        }
+        deepMerge(target[key], value);
+      } else {
+        target[key] = value;
+      }
+    }
+  }
+  return target;
+};

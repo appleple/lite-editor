@@ -1,3 +1,4 @@
-'use strict';
+import LiteEditor from './core';
+import './scss/lite-editor.scss';
 
-module.exports = require('./core/');
+export default LiteEditor;
