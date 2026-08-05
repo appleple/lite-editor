@@ -13,11 +13,15 @@
   ],
   "scripts": {
     "test": "vitest",
+    "test:ci": "vitest run",
     "test:coverage": "vitest run --coverage",
     "dev": "vite",
     "build": "vite build && vite build --mode minify && npm run move-css",
     "move-css": "mkdir -p css && mv js/lite-editor.css css/lite-editor.css && mv js/lite-editor.min.css css/lite-editor.min.css",
-    "prepack": "npm run build"
+    "prepack": "npm run test:ci && npm run build",
+    "release:patch": "npm version patch && git push --follow-tags",
+    "release:minor": "npm version minor && git push --follow-tags",
+    "release:major": "npm version major && git push --follow-tags"
   },
   "repository": {
     "type": "git",
