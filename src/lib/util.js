@@ -141,11 +141,22 @@ export const replaceSelectionWithHtml = (html) => {
     }
     const temp = getFirstfirstElementChild(frag);
     const newrange = document.createRange();
-    range.insertNode(temp);
-    newrange.setStart(temp.firstChild, 0);
-    newrange.setEnd(temp.lastChild, temp.lastChild.textContent.length);
-    clearSelection();
-    selection.addRange(newrange);
+    // Insert the whole fragment (not just `temp`) so any sibling text nodes
+    // (e.g. the selected text preceding a void element like <br>) are kept.
+    range.insertNode(frag);
+    if (temp && temp.firstChild) {
+      newrange.setStart(temp.firstChild, 0);
+      newrange.setEnd(temp.lastChild, temp.lastChild.textContent.length);
+    } else if (temp) {
+      // `temp` is a void element (e.g. <br>) with no children to select into,
+      // so just place the caret right after it.
+      newrange.setStartAfter(temp);
+      newrange.setEndAfter(temp);
+    }
+    if (temp) {
+      clearSelection();
+      selection.addRange(newrange);
+    }
   } else if (document.selection && document.selection.createRange) {
     range = document.selection.createRange();
     range.pasteHTML(html);

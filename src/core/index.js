@@ -870,6 +870,9 @@ export default class LiteEditor extends aTemplate {
 
   getSelectionNode() {
     const node = document.getSelection().anchorNode;
+    if (!node) {
+      return null;
+    }
     return node.nodeType === 3 ? node.parentNode : node;
   }
 
