@@ -189,40 +189,26 @@
   border-bottom-left-radius: 3px;
 }
 
-.lite-editor-tooltip-wrap {
-  position: fixed;
-  z-index: 1;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.3);
-}
-
-.lite-editor-tooltip-outer {
-  display: table;
-  width: 100%;
-  height: 100%;
-}
-
-.lite-editor-tooltip-inner {
-  display: table-cell;
-  width: 100%;
-  height: 100%;
-  vertical-align: middle;
-}
-
-.lite-editor-tooltip {
+// <dialog> は showModal() で開くとブラウザが自動でトップレイヤー
+// （z-indexの影響を受けない最前面）に描画し、中央寄せもUAデフォルトで行うため
+// 従来の position:fixed のオーバーレイ + table レイアウトによる中央寄せは不要。
+// 旧クラス名 .lite-editor-tooltip* はマークアップ上に残しているが
+// （lite-editor-link-dialog* と併記）、スタイルは新クラス名にのみ定義する。
+.lite-editor-link-dialog {
+  box-sizing: border-box;
+  width: 90vw;
   max-width: 500px;
-  margin: auto;
-  top: 30%;
+  padding: 0;
   border: 1px solid $lite-editor-border-color;
   background-color: #fff;
   border-radius: 5px;
-  z-index: 1;
+
+  &::backdrop {
+    background-color: rgba(0, 0, 0, 0.3);
+  }
 }
 
-.lite-editor-tooltip-title {
+.lite-editor-link-dialog-title {
   font-weight: normal;
   font-size: 18px;
   margin: 0;
@@ -231,18 +217,18 @@
   color: $lite-editor-font-color;
 }
 
-.lite-editor-tooltip-title [class^='lite-editor-font'] {
+.lite-editor-link-dialog-title [class^='lite-editor-font'] {
   margin-right: 12px;
 }
 
-.lite-editor-tooltip-body {
+.lite-editor-link-dialog-body {
   padding: 10px 10px 5px 10px;
   * {
     box-sizing: border-box;
   }
 }
 
-.lite-editor-tooltip-table {
+.lite-editor-link-dialog-table {
   width: 100%;
   font-size: 14px;
   th {
@@ -271,7 +257,7 @@
   }
 }
 
-.lite-editor-tooltip-input {
+.lite-editor-link-dialog-input {
   border-radius: 3px;
   padding: 5px;
   border: 1px solid $lite-editor-border-color;

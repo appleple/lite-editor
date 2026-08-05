@@ -35,11 +35,6 @@ export default defineConfig(({ mode }) => {
         include: ['**/*.html'], // .html を文字列としてインポート
       }),
     ],
-    resolve: {
-      alias: {
-        buffer: 'buffer',
-      },
-    },
     test: {
       environment: 'jsdom',
       coverage: {

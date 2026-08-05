@@ -1,12 +1,23 @@
 import aTemplate from 'a-template';
 import { encode, decode } from 'html-entities';
-import Upndown from 'upndown';
+import TurndownService from 'turndown';
 import editorHtml from './editor.html?raw';
 import btnHtml from './btn.html?raw';
-import tooltipHtml from './tooltip.html?raw';
+import linkDialogHtml from './link-dialog.html?raw';
 import * as util from '../lib/util';
 
-const und = new Upndown({ decodeEntities: false });
+const turndownService = new TurndownService();
+
+// classNames keys were renamed from "Tooltip" to "LinkDialog" (it's a link-editing
+// dialog, not a tooltip). If a consumer's settings still use an old key, it wins
+// over both the new default and any new key they may have also passed.
+const legacyLinkDialogClassNameKeys = {
+  LiteEditorTooltip: 'LiteEditorLinkDialog',
+  LiteEditorTooltipTable: 'LiteEditorLinkDialogTable',
+  LiteEditorTooltipTitle: 'LiteEditorLinkDialogTitle',
+  LiteEditorTooltipBody: 'LiteEditorLinkDialogBody',
+  LiteEditorTooltipInput: 'LiteEditorLinkDialogInput',
+};
 
 const defaultbtnOptions = [
   {
@@ -65,14 +76,11 @@ const defaults = {
     LiteEditorSelect: 'lite-editor-select',
     LiteEditorSelectWrap: 'lite-editor-select-wrap',
     LiteEditorToolBox: 'lite-editor-toolbox',
-    LiteEditorTooltip: 'lite-editor-tooltip',
-    LiteEditorTooltipWrap: 'lite-editor-tooltip-wrap',
-    LiteEditorTooltipOuter: 'lite-editor-tooltip-outer',
-    LiteEditorTooltipInner: 'lite-editor-tooltip-inner',
-    LiteEditorTooltipTable: 'lite-editor-tooltip-table',
-    LiteEditorTooltipTitle: 'lite-editor-tooltip-title',
-    LiteEditorTooltipBody: 'lite-editor-tooltip-body',
-    LiteEditorTooltipInput: 'lite-editor-tooltip-input',
+    LiteEditorLinkDialog: 'lite-editor-link-dialog lite-editor-tooltip',
+    LiteEditorLinkDialogTable: 'lite-editor-link-dialog-table lite-editor-tooltip-table',
+    LiteEditorLinkDialogTitle: 'lite-editor-link-dialog-title lite-editor-tooltip-title',
+    LiteEditorLinkDialogBody: 'lite-editor-link-dialog-body lite-editor-tooltip-body',
+    LiteEditorLinkDialogInput: 'lite-editor-link-dialog-input lite-editor-tooltip-input',
     LiteEditorExtendInput: 'lite-editor-extend-input',
     LiteEditorFontLink: 'lite-editor-font-link',
     LiteEditorFontRemove: 'lite-editor-font-remove',
@@ -143,12 +151,24 @@ export default class LiteEditor extends aTemplate {
     this.data.showSource = this.data.sourceFirst;
     this.data.disableEditorMode = false;
     this.data.hideEditor = false;
-    this.data.tooltipLabel = '';
-    this.data.tooltipUrl = '';
-    this.data.tooltipClassName = '';
+    this.data.linkLabel = '';
+    this.data.linkUrl = '';
+    this.data.linkClassName = '';
     this.data.attr = '';
     this.data.targetBlank = 'false';
     this.data.linkNew = true;
+    this._defineLegacyLinkDialogDataAliases();
+    this.linkDialogOpen = false;
+    if (settings && settings.classNames) {
+      Object.keys(legacyLinkDialogClassNameKeys).forEach((oldKey) => {
+        if (settings.classNames[oldKey] !== undefined) {
+          this.data.classNames[legacyLinkDialogClassNameKeys[oldKey]] = settings.classNames[oldKey];
+        }
+      });
+    }
+    Object.keys(legacyLinkDialogClassNameKeys).forEach((oldKey) => {
+      this.data.classNames[oldKey] = this.data.classNames[legacyLinkDialogClassNameKeys[oldKey]];
+    });
     if (settings && settings.btnOptions) {
       this.data.btnOptions = settings.btnOptions;
     }
@@ -163,9 +183,9 @@ export default class LiteEditor extends aTemplate {
     };
 
     if (this.data.btnPosition === 'bottom') {
-      template = util.removeIndentNewline(`${editorHtml}${btnHtml}${tooltipHtml}`);
+      template = util.removeIndentNewline(`${editorHtml}${btnHtml}${linkDialogHtml}`);
     } else {
-      template = util.removeIndentNewline(`${btnHtml}${editorHtml}${tooltipHtml}`);
+      template = util.removeIndentNewline(`${btnHtml}${editorHtml}${linkDialogHtml}`);
     }
 
     this.addTemplate(this.id, template);
@@ -207,6 +227,7 @@ export default class LiteEditor extends aTemplate {
     util.removeElement(selector);
     this.update();
     this.selector = this._getElementByQuery('[data-selector="lite-editor-source"]');
+    this._setupLinkDialog();
     const item = this.data.selectOptions.find((option) => option.value === this.data.selectedOption);
     if (item) {
       this.data.extendLabel = item.extendLabel;
@@ -311,6 +332,86 @@ export default class LiteEditor extends aTemplate {
     source.addEventListener(event, (e) => {
       fn.call(this, e);
     });
+  }
+
+  // Keeps the old data.tooltipLabel/tooltipUrl/tooltipClassName names working
+  // as read/write aliases for data.linkLabel/linkUrl/linkClassName.
+  _defineLegacyLinkDialogDataAliases() {
+    const data = this.data;
+    [
+      ['tooltipLabel', 'linkLabel'],
+      ['tooltipUrl', 'linkUrl'],
+      ['tooltipClassName', 'linkClassName'],
+    ].forEach(([oldKey, newKey]) => {
+      Object.defineProperty(data, oldKey, {
+        enumerable: true,
+        configurable: true,
+        get() {
+          return data[newKey];
+        },
+        set(value) {
+          data[newKey] = value;
+        },
+      });
+    });
+  }
+
+  _setupLinkDialog() {
+    const dialog = this._getElementByQuery('[data-selector="lite-editor-link-dialog"]');
+    if (!dialog) {
+      return;
+    }
+    // Clicking the ::backdrop fires a click event whose target is the <dialog>
+    // itself (never a descendant), so this only closes on backdrop clicks.
+    dialog.addEventListener('click', (e) => {
+      if (e.target === dialog) {
+        this.closeLinkDialog();
+      }
+    });
+    // Keeps data.linkLabel in sync when the browser closes the dialog on its
+    // own (e.g. the Escape key), bypassing closeLinkDialog().
+    dialog.addEventListener('close', () => {
+      this.linkDialogOpen = false;
+      if (this.data.linkLabel) {
+        this.closeLinkDialog();
+      }
+    });
+  }
+
+  // Must be called BEFORE this.update() re-renders the dialog's part of the
+  // template. If showModal()/close() ran only after a reactive re-render (in
+  // onUpdated), morphdom would already have stripped the `open` attribute via
+  // a plain removeAttribute() first (it's never part of the rendered markup),
+  // since nothing in the template reflects it. Directly removing `open` like
+  // that does not properly exit the dialog's modal/top-layer state, leaving
+  // an invisible, still-inert page that swallows every click. Calling the
+  // real close()/showModal() methods first keeps the browser's own dialog
+  // bookkeeping consistent, so the later morphdom diff (which never touches
+  // `open` itself) has nothing left to conflict with.
+  _openLinkDialogElement() {
+    const dialog = this._getElementByQuery('[data-selector="lite-editor-link-dialog"]');
+    if (!dialog || this.linkDialogOpen) {
+      return;
+    }
+    this.linkDialogOpen = true;
+    if (dialog.showModal) {
+      dialog.showModal();
+    } else {
+      dialog.open = true;
+    }
+  }
+
+  _closeLinkDialogElement() {
+    const dialog = this._getElementByQuery('[data-selector="lite-editor-link-dialog"]');
+    if (!dialog || !this.linkDialogOpen) {
+      return;
+    }
+    this.linkDialogOpen = false;
+    if (dialog.close) {
+      dialog.close();
+    } else {
+      dialog.open = false;
+    }
   }
 
   escapeNotRegisteredTags(value) {
@@ -466,10 +567,9 @@ export default class LiteEditor extends aTemplate {
     }
     if (this.data.showSource) {
       if (this.data.mode === 'markdown') {
-        und.convert(insertHtml, (err, markdown) => {
-          util.replaceSelectionWithText(source, markdown);
-          this.data.value = this.makeEditableHtml(source.value);
-        });
+        const markdown = turndownService.turndown(insertHtml);
+        util.replaceSelectionWithText(source, markdown);
+        this.data.value = this.makeEditableHtml(source.value);
       } else {
         util.replaceSelectionWithText(source, insertHtml);
         this.data.value = this.makeEditableHtml(source.value);
@@ -489,11 +589,17 @@ export default class LiteEditor extends aTemplate {
   }
 
   showLinkDialog(text, className) {
-    this.data.tooltipLabel = text;
-    this.data.tooltipClassName = className;
+    this.data.linkLabel = text;
+    this.data.linkClassName = className;
     this.data.linkNew = true;
-    this.update('html', '[data-selector="lite-editor-tooltip"]');
-    const urlInput = this._getElementByQuery('[data-bind="tooltipUrl"]');
+    // Opening must happen AFTER update(): the dialog starts closed (no `open`
+    // attribute anywhere), so morphdom's diff against the freshly rendered
+    // (also attribute-less) markup is a no-op here — unlike closing, there's
+    // nothing for it to strip. Calling showModal() beforehand would just get
+    // undone by that same diff a moment later.
+    this.update('html', '[data-selector="lite-editor-link-dialog"]');
+    this._openLinkDialogElement();
+    const urlInput = this._getElementByQuery('[data-bind="linkUrl"]');
     urlInput.focus();
   }
 
@@ -508,9 +614,9 @@ export default class LiteEditor extends aTemplate {
 
   insertAtag() {
     this.restoreSelection();
-    const label = this.data.tooltipLabel;
-    const link = this.data.tooltipUrl;
-    const className = this.data.tooltipClassName;
+    const label = this.data.linkLabel;
+    const link = this.data.linkUrl;
+    const className = this.data.linkClassName;
     const targetBlank = this.data.targetBlank;
     const relAttrForTargetBlank = this.data.relAttrForTargetBlank;
     let classAttr = '';
@@ -521,10 +627,9 @@ export default class LiteEditor extends aTemplate {
     if (this.data.showSource) {
       const source = this._getElementByQuery('[data-selector="lite-editor-source"]');
       if (this.data.mode === 'markdown') {
-        und.convert(insertHtml, (err, markdown) => {
-          util.replaceSelectionWithText(source, markdown);
-          this.data.value = this.makeEditableHtml(source.value);
-        });
+        const markdown = turndownService.turndown(insertHtml);
+        util.replaceSelectionWithText(source, markdown);
+        this.data.value = this.makeEditableHtml(source.value);
       } else {
         util.replaceSelectionWithText(source, insertHtml);
         this.data.value = this.makeEditableHtml(source.value);
@@ -533,7 +638,7 @@ export default class LiteEditor extends aTemplate {
       this.insertHtml(insertHtml.replace(/\r\n|\r|\n/g, '<br>'));
       this.updateToolBox();
     }
-    this.closeTooltip();
+    this.closeLinkDialog();
   }
 
   onClick(i) {
@@ -803,41 +908,60 @@ export default class LiteEditor extends aTemplate {
     this.update('html', '[data-selector="lite-editor-toolbox"]');
   }
 
-  updateTooltip(item) {
+  updateLinkDialog(item) {
+    // Closing must happen BEFORE update() (so the real close() runs while
+    // `open` is still consistent, before morphdom's diff strips it) and
+    // opening must happen AFTER update() (the dialog starts closed, so
+    // showModal() beforehand would just get undone by that same diff) — see
+    // _openLinkDialogElement()/_closeLinkDialogElement() for the full reason.
     if (item === null) {
       this.data.linkNew = true;
-      this.data.tooltipLabel = '';
-      this.data.tooltipUrl = '';
+      this.data.linkLabel = '';
+      this.data.linkUrl = '';
       this.data.targetBlank = 'false';
+      this._closeLinkDialogElement();
+      this.update('html', '[data-selector="lite-editor-link-dialog"]');
     } else {
       this.data.linkNew = false;
-      this.data.tooltipLabel = item.innerHTML;
-      this.data.tooltipUrl = item.getAttribute('href');
+      this.data.linkLabel = item.innerHTML;
+      this.data.linkUrl = item.getAttribute('href');
       this.savedLinkNode = item;
       if (item.getAttribute('target') === '_blank') {
         this.data.targetBlank = 'true';
       } else {
         this.data.targetBlank = 'false';
       }
+      this.update('html', '[data-selector="lite-editor-link-dialog"]');
+      this._openLinkDialogElement();
     }
-    this.update('html', '[data-selector="lite-editor-tooltip"]');
   }
 
-  closeTooltip() {
-    this.data.tooltipLabel = '';
-    this.data.tooltipUrl = '';
-    this.data.tooltipClassName = '';
+  // Deprecated alias — use updateLinkDialog().
+  updateTooltip(item) {
+    return this.updateLinkDialog(item);
+  }
+
+  closeLinkDialog() {
+    this._closeLinkDialogElement();
+    this.data.linkLabel = '';
+    this.data.linkUrl = '';
+    this.data.linkClassName = '';
     this.data.targetBlank = 'false';
-    this.update('html', '[data-selector="lite-editor-tooltip"]');
+    this.update('html', '[data-selector="lite-editor-link-dialog"]');
+  }
+
+  // Deprecated alias — use closeLinkDialog().
+  closeTooltip() {
+    return this.closeLinkDialog();
   }
 
   updateLink() {
     this.restoreSelection();
     const editor = this._getElementByQuery('[data-selector="lite-editor"]');
     const pos = util.getCaretPos(editor);
-    const label = this.data.tooltipLabel;
+    const label = this.data.linkLabel;
     const targetBlank = this.data.targetBlank;
-    const url = this.data.tooltipUrl;
+    const url = this.data.linkUrl;
     const node = this.savedLinkNode;
     const relAttrForTargetBlank = this.data.relAttrForTargetBlank;
     node.setAttribute('href', url);
@@ -853,7 +977,7 @@ export default class LiteEditor extends aTemplate {
     editor.focus();
     util.setCaretPos(editor, pos);
     this.onPutCaret();
-    this.closeTooltip();
+    this.closeLinkDialog();
   }
 
   removeLink() {
@@ -865,7 +989,7 @@ export default class LiteEditor extends aTemplate {
     editor.focus();
     util.setCaretPos(editor, pos);
     this.onPutCaret();
-    this.closeTooltip();
+    this.closeLinkDialog();
   }
 
   getSelectionNode() {
@@ -889,7 +1013,7 @@ export default class LiteEditor extends aTemplate {
         const nodeClassName = node.getAttribute('class') || '';
         if (node.tagName.toLowerCase() === tag && nodeClassName === className) {
           if (tag === 'a') {
-            this.updateTooltip(node);
+            this.updateLinkDialog(node);
           } else {
             util.unwrapTag(node);
           }

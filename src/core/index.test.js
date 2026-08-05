@@ -431,7 +431,7 @@ describe('insertTag', () => {
     const editorEl = getEditorEl(editor);
     selectRange(editorEl.firstChild, 0, editorEl.firstChild, 5);
     editor.insertTag('a', '', 'link text');
-    expect(editor.data.tooltipLabel).toBe('hello');
+    expect(editor.data.linkLabel).toBe('hello');
     expect(editor.data.linkNew).toBe(true);
   });
 
@@ -443,24 +443,23 @@ describe('insertTag', () => {
     expect(editor.data.value).toContain('<strong>hello</strong>');
   });
 
-  it('converts to markdown before inserting when showSource is true and mode is markdown', async () => {
+  it('converts to markdown before inserting when showSource is true and mode is markdown', () => {
     const editor = createEditor({ sourceFirst: true }, 'hello');
     editor.changeMode('markdown');
     const source = getSourceEl(editor);
     source.setSelectionRange(0, 5);
     editor.insertTag('strong', '', ' ');
-    await flushMacrotask();
     expect(editor.data.value).toContain('**hello**');
   });
 });
 
 describe('showLinkDialog / updateTargetBlank', () => {
-  it('renders the tooltip and focuses the url input', () => {
+  it('renders the link dialog and focuses the url input', () => {
     const editor = createEditor({}, 'hello');
     editor.showLinkDialog('label text', 'my-class');
-    expect(editor.data.tooltipLabel).toBe('label text');
-    expect(editor.data.tooltipClassName).toBe('my-class');
-    expect(document.activeElement).toBe(editor._getElementByQuery('[data-bind="tooltipUrl"]'));
+    expect(editor.data.linkLabel).toBe('label text');
+    expect(editor.data.linkClassName).toBe('my-class');
+    expect(document.activeElement).toBe(editor._getElementByQuery('[data-bind="linkUrl"]'));
   });
 
   it('sets targetBlank to true when the checkbox is checked', () => {
@@ -478,21 +477,134 @@ describe('showLinkDialog / updateTargetBlank', () => {
   });
 });
 
+describe('link dialog <dialog>', () => {
+  function getDialog(editor) {
+    return editor._getElementByQuery('[data-selector="lite-editor-link-dialog"]');
+  }
+
+  it('renders as a <dialog> element that opens when a link dialog is shown', () => {
+    const editor = createEditor({}, 'hello');
+    const dialog = getDialog(editor);
+    expect(dialog.tagName).toBe('DIALOG');
+    expect(dialog.open).toBe(false);
+    editor.showLinkDialog('label text', '');
+    expect(dialog.open).toBe(true);
+  });
+
+  it('closes the dialog when closeLinkDialog is called', () => {
+    const editor = createEditor({}, 'hello');
+    editor.showLinkDialog('label text', '');
+    const dialog = getDialog(editor);
+    expect(dialog.open).toBe(true);
+    editor.closeLinkDialog();
+    expect(dialog.open).toBe(false);
+  });
+
+  it('closes on a backdrop click (a click whose target is the dialog itself)', () => {
+    const editor = createEditor({}, 'hello');
+    editor.showLinkDialog('label text', '');
+    const dialog = getDialog(editor);
+    expect(dialog.open).toBe(true);
+    dialog.dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
+    expect(dialog.open).toBe(false);
+    expect(editor.data.linkLabel).toBe('');
+  });
+
+  it('does not close when a click inside the dialog content bubbles up', () => {
+    const editor = createEditor({}, 'hello');
+    editor.showLinkDialog('label text', '');
+    const dialog = getDialog(editor);
+    const input = editor._getElementByQuery('[data-bind="linkUrl"]');
+    input.dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
+    expect(dialog.open).toBe(true);
+  });
+
+  it('resets link dialog state when the browser fires a native close event (e.g. Escape)', () => {
+    const editor = createEditor({}, 'hello');
+    editor.showLinkDialog('label text', '');
+    const dialog = getDialog(editor);
+    dialog.dispatchEvent(new window.Event('close'));
+    expect(editor.data.linkLabel).toBe('');
+  });
+
+  it('ignores a native close event when the link dialog was already closed', () => {
+    const editor = createEditor({}, 'hello');
+    const dialog = getDialog(editor);
+    expect(() => dialog.dispatchEvent(new window.Event('close'))).not.toThrow();
+    expect(editor.data.linkLabel).toBe('');
+  });
+
+  it('prefers the native showModal()/close() methods when the environment provides them', () => {
+    const editor = createEditor({}, 'hello');
+    const dialog = getDialog(editor);
+    dialog.showModal = vi.fn(() => {
+      dialog.open = true;
+    });
+    dialog.close = vi.fn(() => {
+      dialog.open = false;
+    });
+    editor.showLinkDialog('label text', '');
+    expect(dialog.showModal).toHaveBeenCalled();
+    editor.closeLinkDialog();
+    expect(dialog.close).toHaveBeenCalled();
+  });
+
+  it('calls the real close() before re-rendering, so morphdom never has to strip `open` out from under an active modal', () => {
+    // Regression test: closing used to reset data.linkLabel and re-render
+    // FIRST, then call dialog.close() from onUpdated(). That let morphdom's
+    // attribute diff strip the `open` attribute via a plain removeAttribute()
+    // before the real close() ran, which does not properly exit the dialog's
+    // modal/top-layer state in a real browser — leaving an invisible dialog
+    // that still swallows every click on the page.
+    const editor = createEditor({}, 'hello');
+    editor.showLinkDialog('label text', '');
+    const dialog = getDialog(editor);
+    dialog.open = true;
+    let openAtCloseTime = null;
+    dialog.close = vi.fn(() => {
+      openAtCloseTime = dialog.open;
+      dialog.open = false;
+    });
+    editor.closeLinkDialog();
+    expect(dialog.close).toHaveBeenCalled();
+    expect(openAtCloseTime).toBe(true);
+  });
+
+  it('does nothing when the link dialog element cannot be found', () => {
+    const editor = createEditor({}, 'hello');
+    vi.spyOn(editor, '_getElementByQuery').mockReturnValue(null);
+    expect(() => editor._setupLinkDialog()).not.toThrow();
+    expect(() => editor._openLinkDialogElement()).not.toThrow();
+    expect(() => editor._closeLinkDialogElement()).not.toThrow();
+    editor._getElementByQuery.mockRestore();
+  });
+
+  it('does nothing when already in the desired open/closed state', () => {
+    const editor = createEditor({}, 'hello');
+    const dialog = getDialog(editor);
+    expect(() => editor._closeLinkDialogElement()).not.toThrow();
+    expect(dialog.open).toBe(false);
+    editor.showLinkDialog('label text', '');
+    expect(() => editor._openLinkDialogElement()).not.toThrow();
+    expect(dialog.open).toBe(true);
+  });
+});
+
 describe('insertAtag', () => {
   it('inserts a link at the saved selection with a class and target blank', () => {
     const editor = createEditor({}, 'hello');
     const editorEl = getEditorEl(editor);
     selectRange(editorEl.firstChild, 0, editorEl.firstChild, 5);
     editor.saveSelection();
-    editor.data.tooltipLabel = 'hello';
-    editor.data.tooltipUrl = 'https://example.com';
-    editor.data.tooltipClassName = 'my-link';
+    editor.data.linkLabel = 'hello';
+    editor.data.linkUrl = 'https://example.com';
+    editor.data.linkClassName = 'my-link';
     editor.data.targetBlank = 'true';
     editor.insertAtag();
     expect(editor.data.value).toBe(
       '<a href="https://example.com" class="my-link" target="_blank" rel="noopener noreferrer">hello</a>'
     );
-    expect(editor.data.tooltipLabel).toBe('');
+    expect(editor.data.linkLabel).toBe('');
   });
 
   it('inserts a plain link without class or target blank', () => {
@@ -500,8 +612,8 @@ describe('insertAtag', () => {
     const editorEl = getEditorEl(editor);
     selectRange(editorEl.firstChild, 0, editorEl.firstChild, 5);
     editor.saveSelection();
-    editor.data.tooltipLabel = 'hello';
-    editor.data.tooltipUrl = 'https://example.com';
+    editor.data.linkLabel = 'hello';
+    editor.data.linkUrl = 'https://example.com';
     editor.insertAtag();
     expect(editor.data.value).toBe('<a href="https://example.com">hello</a>');
   });
@@ -511,22 +623,21 @@ describe('insertAtag', () => {
     const source = getSourceEl(editor);
     source.setSelectionRange(0, 5);
     editor.saveSelection();
-    editor.data.tooltipLabel = 'hello';
-    editor.data.tooltipUrl = 'https://example.com';
+    editor.data.linkLabel = 'hello';
+    editor.data.linkUrl = 'https://example.com';
     editor.insertAtag();
     expect(editor.data.value).toContain('<a href="https://example.com">hello</a>');
   });
 
-  it('converts to markdown before inserting when showSource is true and mode is markdown', async () => {
+  it('converts to markdown before inserting when showSource is true and mode is markdown', () => {
     const editor = createEditor({ sourceFirst: true }, 'hello');
     editor.changeMode('markdown');
     const source = getSourceEl(editor);
     source.setSelectionRange(0, 5);
     editor.saveSelection();
-    editor.data.tooltipLabel = 'hello';
-    editor.data.tooltipUrl = 'https://example.com';
+    editor.data.linkLabel = 'hello';
+    editor.data.linkUrl = 'https://example.com';
     editor.insertAtag();
-    await flushMacrotask();
     expect(editor.data.value).toContain('[hello](https://example.com)');
   });
 });
@@ -871,23 +982,23 @@ describe('updateToolBox', () => {
   });
 });
 
-describe('updateTooltip / closeTooltip', () => {
-  it('resets tooltip state when passed null', () => {
+describe('updateLinkDialog / closeLinkDialog', () => {
+  it('resets link dialog state when passed null', () => {
     const editor = createEditor({}, 'hello');
-    editor.data.tooltipLabel = 'x';
-    editor.updateTooltip(null);
+    editor.data.linkLabel = 'x';
+    editor.updateLinkDialog(null);
     expect(editor.data.linkNew).toBe(true);
-    expect(editor.data.tooltipLabel).toBe('');
+    expect(editor.data.linkLabel).toBe('');
   });
 
-  it('populates tooltip state from an existing link with target _blank', () => {
+  it('populates link dialog state from an existing link with target _blank', () => {
     const editor = createEditor({}, 'hello');
     const editorEl = getEditorEl(editor);
     editorEl.innerHTML = '<a href="https://example.com" target="_blank">link</a>';
     const a = editorEl.querySelector('a');
-    editor.updateTooltip(a);
+    editor.updateLinkDialog(a);
     expect(editor.data.linkNew).toBe(false);
-    expect(editor.data.tooltipUrl).toBe('https://example.com');
+    expect(editor.data.linkUrl).toBe('https://example.com');
     expect(editor.data.targetBlank).toBe('true');
   });
 
@@ -896,17 +1007,17 @@ describe('updateTooltip / closeTooltip', () => {
     const editorEl = getEditorEl(editor);
     editorEl.innerHTML = '<a href="https://example.com">link</a>';
     const a = editorEl.querySelector('a');
-    editor.updateTooltip(a);
+    editor.updateLinkDialog(a);
     expect(editor.data.targetBlank).toBe('false');
   });
 
-  it('clears tooltip state', () => {
+  it('clears link dialog state', () => {
     const editor = createEditor({}, 'hello');
-    editor.data.tooltipLabel = 'x';
-    editor.data.tooltipUrl = 'y';
-    editor.closeTooltip();
-    expect(editor.data.tooltipLabel).toBe('');
-    expect(editor.data.tooltipUrl).toBe('');
+    editor.data.linkLabel = 'x';
+    editor.data.linkUrl = 'y';
+    editor.closeLinkDialog();
+    expect(editor.data.linkLabel).toBe('');
+    expect(editor.data.linkUrl).toBe('');
   });
 });
 
@@ -919,14 +1030,14 @@ describe('updateLink / removeLink', () => {
     collapseIn(a.firstChild, 0);
     editor.saveSelection();
     editor.savedLinkNode = a;
-    editor.data.tooltipLabel = 'new label';
-    editor.data.tooltipUrl = 'https://new.example.com';
+    editor.data.linkLabel = 'new label';
+    editor.data.linkUrl = 'https://new.example.com';
     editor.data.targetBlank = 'true';
     editor.updateLink();
     expect(a.getAttribute('href')).toBe('https://new.example.com');
     expect(a.innerHTML).toBe('new label');
     expect(a.getAttribute('target')).toBe('_blank');
-    expect(editor.data.tooltipLabel).toBe('');
+    expect(editor.data.linkLabel).toBe('');
     await flushMacrotask();
   });
 
@@ -938,8 +1049,8 @@ describe('updateLink / removeLink', () => {
     collapseIn(a.firstChild, 0);
     editor.saveSelection();
     editor.savedLinkNode = a;
-    editor.data.tooltipLabel = 'new label';
-    editor.data.tooltipUrl = 'https://new.example.com';
+    editor.data.linkLabel = 'new label';
+    editor.data.linkUrl = 'https://new.example.com';
     editor.data.targetBlank = 'false';
     editor.updateLink();
     expect(a.hasAttribute('target')).toBe(false);
@@ -986,14 +1097,14 @@ describe('unwrapTag', () => {
     await flushMacrotask();
   });
 
-  it('opens the tooltip instead of unwrapping when the matching ancestor is a link', async () => {
+  it('opens the link dialog instead of unwrapping when the matching ancestor is a link', async () => {
     const editor = createEditor({}, 'hello');
     const editorEl = getEditorEl(editor);
     editorEl.innerHTML = '<a href="https://example.com" class="x">hello</a>';
     const a = editorEl.querySelector('a');
     selectRange(a.firstChild, 1, a.firstChild, 3);
     editor.unwrapTag('a', 'x');
-    expect(editor.data.tooltipUrl).toBe('https://example.com');
+    expect(editor.data.linkUrl).toBe('https://example.com');
     expect(editorEl.querySelector('a')).not.toBeNull();
     await flushMacrotask();
   });
@@ -1122,5 +1233,61 @@ describe('changeOption', () => {
     expect(editor.data.extendLabel).toBe('ext-b');
     expect(editor.data.selectedOption).toBe('b');
     expect(onSelect).toHaveBeenCalledWith(editor);
+  });
+});
+
+describe('legacy "tooltip"-named API (deprecated aliases)', () => {
+  it('reads data.tooltipLabel/tooltipUrl/tooltipClassName from the new linkLabel/linkUrl/linkClassName fields', () => {
+    const editor = createEditor({}, 'hello');
+    editor.data.linkLabel = 'a';
+    editor.data.linkUrl = 'b';
+    editor.data.linkClassName = 'c';
+    expect(editor.data.tooltipLabel).toBe('a');
+    expect(editor.data.tooltipUrl).toBe('b');
+    expect(editor.data.tooltipClassName).toBe('c');
+  });
+
+  it('writes through data.tooltipLabel/tooltipUrl/tooltipClassName to the new fields', () => {
+    const editor = createEditor({}, 'hello');
+    editor.data.tooltipLabel = 'x';
+    editor.data.tooltipUrl = 'y';
+    editor.data.tooltipClassName = 'z';
+    expect(editor.data.linkLabel).toBe('x');
+    expect(editor.data.linkUrl).toBe('y');
+    expect(editor.data.linkClassName).toBe('z');
+  });
+
+  it('updateTooltip() and closeTooltip() delegate to updateLinkDialog()/closeLinkDialog()', () => {
+    const editor = createEditor({}, 'hello');
+    const editorEl = getEditorEl(editor);
+    editorEl.innerHTML = '<a href="https://example.com">link</a>';
+    const a = editorEl.querySelector('a');
+    editor.updateTooltip(a);
+    expect(editor.data.linkUrl).toBe('https://example.com');
+    expect(editor.linkDialogOpen).toBe(true);
+    editor.closeTooltip();
+    expect(editor.data.linkLabel).toBe('');
+    expect(editor.linkDialogOpen).toBe(false);
+  });
+
+  it('prioritizes an old classNames key over the new key and the default', () => {
+    const editor = createEditor({
+      classNames: { LiteEditorTooltip: 'my-custom-tooltip', LiteEditorLinkDialog: 'should-be-ignored' },
+    });
+    expect(editor.data.classNames.LiteEditorLinkDialog).toBe('my-custom-tooltip');
+    const dialog = editor._getElementByQuery('[data-selector="lite-editor-link-dialog"]');
+    expect(dialog.className).toBe('my-custom-tooltip');
+  });
+
+  it('mirrors the resolved class onto the old classNames key for read-back compatibility', () => {
+    const editor = createEditor({ classNames: { LiteEditorLinkDialog: 'only-new-key' } });
+    expect(editor.data.classNames.LiteEditorTooltip).toBe('only-new-key');
+  });
+
+  it('keeps the default dual class names (new and legacy) when nothing is customized', () => {
+    const editor = createEditor({}, 'hello');
+    const dialog = editor._getElementByQuery('[data-selector="lite-editor-link-dialog"]');
+    expect(dialog.classList.contains('lite-editor-link-dialog')).toBe(true);
+    expect(dialog.classList.contains('lite-editor-tooltip')).toBe(true);
   });
 });

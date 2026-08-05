@@ -38,6 +38,6 @@
     "deep-extend": "^0.6.0",
     "field-selection": "^0.2.2",
     "html-entities": "^2.6.0",
-    "upndown": "^2.1.0"
+    "turndown": "^7.2.4"
   }
 }
