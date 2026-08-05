@@ -1,6 +1,5 @@
 # LiteEditor
 [![npm version](https://badge.fury.io/js/lite-editor.svg)](https://badge.fury.io/js/lite-editor)
-[![CircleCI](https://circleci.com/gh/appleple/lite-editor/tree/master.svg?style=shield)](https://circleci.com/gh/appleple/lite-editor/tree/master)
 [![npm download](http://img.shields.io/npm/dm/lite-editor.svg)](https://www.npmjs.com/package/lite-editor)
 [![GitHub license](https://img.shields.io/badge/license-MIT-brightgreen.svg)](https://raw.githubusercontent.com/appleple/lite-editor/master/LICENSE)
 
@@ -53,9 +52,6 @@ window.addEventListener('DOMContentLoaded',function(){
 
 ## Github
 [https://github.com/appleple/lite-editor](https://github.com/appleple/lite-editor)
-
-## Contributor
-[@steelydylan](https://github.com/steelydylan)
 
 ## License
 Code and documentation copyright 2017 by appleple, Inc. Code released under the [MIT License](https://github.com/appleple/lite-editor/blob/master/LICENSE).
