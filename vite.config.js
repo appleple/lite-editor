@@ -15,7 +15,7 @@ export default defineConfig(({ mode }) => {
       outDir: 'js', // JS 出力先
       emptyOutDir: false, // js/ を消さない
       lib: {
-        entry: path.resolve(__dirname, 'src/index.js'),
+        entry: path.resolve(import.meta.dirname, 'src/index.js'),
         name: 'LiteEditor',
         fileName: (format) => `lite-editor.${format}${suffix}.js`,
         formats: ['es', 'iife'],
