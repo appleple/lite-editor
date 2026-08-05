@@ -1,1 +1,9 @@
 node_modules/
+
+# ビルド生成物（publish時のprepack / CIのbuildで再生成される）
+/js/*.js
+/css/*.css
+
+# テストカバレッジレポート
+/coverage/
+
