@@ -34,7 +34,7 @@
     "vitest": "^4.1.10"
   },
   "dependencies": {
-    "a-template": "^0.5.4",
+    "a-template": "^0.7.0",
     "deep-extend": "^0.6.0",
     "field-selection": "^0.2.2",
     "html-entities": "^2.6.0",
