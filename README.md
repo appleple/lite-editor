@@ -15,7 +15,7 @@ A Modern WYSIWYG Editor especially for inline elements
 ## Installation
 
 - [npm](https://www.npmjs.com/package/lite-editor)
-- [standalone](https://unpkg.com/lite-editor@2.0.0/js/lite-editor.es.js)
+- [standalone](https://unpkg.com/lite-editor@2/js/lite-editor.es.js)
 
 via npm
 ```shell
