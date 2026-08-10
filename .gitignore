@@ -1,4 +1,5 @@
 node_modules/
+.DS_Store
 
 # ビルド生成物（publish時のprepack / CIのbuildで再生成される）
 /js/*.js
