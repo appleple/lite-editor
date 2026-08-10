@@ -175,6 +175,9 @@ export default class LiteEditor extends aTemplate {
     this.data.groups = this.makeBtnGroups();
     this.stack = [];
     this.stackPosition = 0;
+    // aTemplate の this.events はテンプレートへ委譲したイベントしか追跡しないため、
+    // 直接 addEventListener するものは destroy() 用に別途記録する
+    this.handlers = [];
     let template = '';
     let attrStr = '';
     this.convert = {
@@ -225,6 +228,10 @@ export default class LiteEditor extends aTemplate {
 
     util.before(selector, html);
     util.removeElement(selector);
+    // destroy() でページを元に戻せるよう、差し替えた元要素をノードごと保持しておく。
+    // data.attr から作り直すのではなく同じノードを再挿入するので、
+    // ホスト側が元要素に付けていた属性やリスナーもそのまま復帰する
+    this.originalElement = selector;
     this.update();
     this.selector = this._getElementByQuery('[data-selector="lite-editor-source"]');
     this._setupLinkDialog();
@@ -237,6 +244,45 @@ export default class LiteEditor extends aTemplate {
     }
 
     this._fireEvent('init');
+  }
+
+  destroy() {
+    // open のまま撤去すると top-layer に取り残され、ページ全体が inert なまま
+    // クリックを吸い続けるため、DOM から外す前に閉じる。
+    // ブラウザ (Escape キー) 由来で閉じた場合は linkDialogOpen が false のままなので、
+    // _closeLinkDialogElement() の早期 return を避けて実際の open 状態を見て判定する
+    const dialog = this._getElementByQuery('[data-selector="lite-editor-link-dialog"]');
+    if (dialog && dialog.open) {
+      this.linkDialogOpen = true;
+      this._closeLinkDialogElement();
+    }
+    this.linkDialogOpen = false;
+
+    this.handlers.forEach(({ target, event, handler }) => {
+      target.removeEventListener(event, handler);
+    });
+    this.handlers = [];
+
+    const root = this._getSelf();
+    if (this.originalElement) {
+      // 編集結果を書き戻してからエディタがあった位置へ差し戻す。
+      // showSource 中は data.value より source textarea が最新なのでそちらを優先する
+      const source = this._getElementByQuery('[data-selector="lite-editor-source"]');
+      if ('value' in this.originalElement) {
+        this.originalElement.value = source ? source.value : this.format(this.data.value);
+      }
+      if (root && root.parentNode) {
+        root.parentNode.insertBefore(this.originalElement, root);
+      }
+      this.originalElement = null;
+    }
+    // 委譲イベントの解除・ルート要素の DOM 撤去・this.e のクリアは aTemplate (0.8.0+) 側の責務
+    super.destroy();
+
+    this.stack = [];
+    this.stackPosition = 0;
+    this.selector = null;
+    return this;
   }
 
   focus() {
@@ -329,9 +375,15 @@ export default class LiteEditor extends aTemplate {
 
   on(event, fn) {
     const source = this._getElementByQuery('[data-selector="lite-editor-source"]');
-    source.addEventListener(event, (e) => {
+    const handler = (e) => {
       fn.call(this, e);
-    });
+    };
+    source.addEventListener(event, handler);
+    this._registerRemoveEvent(source, event, handler);
+  }
+
+  _registerRemoveEvent(target, event, handler) {
+    this.handlers.push({ target, event, handler });
   }
 
   // Keeps the old data.tooltipLabel/tooltipUrl/tooltipClassName names working
@@ -363,19 +415,23 @@ export default class LiteEditor extends aTemplate {
     }
     // Clicking the ::backdrop fires a click event whose target is the <dialog>
     // itself (never a descendant), so this only closes on backdrop clicks.
-    dialog.addEventListener('click', (e) => {
+    const clickHandler = (e) => {
       if (e.target === dialog) {
         this.closeLinkDialog();
       }
-    });
+    };
+    dialog.addEventListener('click', clickHandler);
+    this._registerRemoveEvent(dialog, 'click', clickHandler);
     // Keeps data.linkLabel in sync when the browser closes the dialog on its
     // own (e.g. the Escape key), bypassing closeLinkDialog().
-    dialog.addEventListener('close', () => {
+    const closeHandler = () => {
       this.linkDialogOpen = false;
       if (this.data.linkLabel) {
         this.closeLinkDialog();
       }
-    });
+    };
+    dialog.addEventListener('close', closeHandler);
+    this._registerRemoveEvent(dialog, 'close', closeHandler);
   }
 
   // Must be called BEFORE this.update() re-renders the dialog's part of the
