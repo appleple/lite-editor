@@ -8,3 +8,10 @@ node_modules/
 # テストカバレッジレポート
 /coverage/
 
+# AI
+.claude/
+!.claude/skills
+.cursor/
+*.local.md
+.codex/
+.gemini/
